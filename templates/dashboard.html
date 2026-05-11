@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Nishchay Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #050505;
+    color: #00ff88;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    background: #000;
+    padding: 20px;
+    border-right: 1px solid #00ff88;
+}
+
+.sidebar a {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.sidebar a.active,
+.sidebar a:hover {
+    background: #00ff88;
+    color: #000;
+}
+
+/* TOPBAR */
+.topbar {
+    position: fixed;
+    left: 250px;
+    right: 0;
+    top: 0;
+    height: 80px;
+    background: #000;
+    border-bottom: 1px solid #00ff88;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* MAIN */
+.main {
+    margin-left: 250px;
+    padding: 100px 20px;
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 15px;
+}
+
+.card {
+    background: #0d0d0d;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #00ff88;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.box {
+    background: #111;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #00ff88;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 8px;
+    border-bottom: 1px solid #00ff88;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+.success { background: #00ff88; color: black; }
+.pending { background: orange; color: black; }
+
+/* ACTION GRID */
+.actions {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.action-card {
+    padding: 20px;
+    border: 1px solid #00ff88;
+    text-align: center;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+.action-card:hover {
+    background: #00ff88;
+    color: #000;
+}
+
+/* FIX CHART */
+canvas {
+    width: 100% !important;
+    height: 300px !important;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>NISHCHAY</h2>
+    <a class="active"><i class="fas fa-home"></i> Dashboard</a>
+    <a><i class="fas fa-users"></i> Users</a>
+    <a><i class="fas fa-shopping-cart"></i> Ecommerce</a>
+    <a><i class="fas fa-chart-line"></i> ROI</a>
+    <a><i class="fas fa-mobile"></i> Recharge</a>
+    <a><i class="fas fa-star"></i> Astrology</a>
+    <a><i class="fas fa-briefcase"></i> Career</a>
+</div>
+
+<div class="topbar">
+    <b>Welcome Admin 👋</b>
+</div>
+
+<div class="main">
+
+<div class="cards">
+    <div class="card">Users: {{ total_users }}</div>
+    <div class="card">Revenue: ₹{{ total_revenue }}</div>
+    <div class="card">ROI: {{ total_roi }}</div>
+    <div class="card">Orders: {{ total_orders|default:0 }}</div>
+</div>
+
+<div class="grid">
+    <div class="box">
+        <h3>Revenue Overview</h3>
+        <canvas id="lineChart"></canvas>
+    </div>
+
+    <div class="box">
+        <h3>Module Summary</h3>
+        <canvas id="pieChart"></canvas>
+    </div>
+
+    <div class="box">
+        <h3>Recent Activity</h3>
+        <p>👤 New User</p>
+        <p>💰 ROI Investment</p>
+        <p>📱 Recharge</p>
+    </div>
+</div>
+
+<div class="grid">
+<div class="box">
+<h3>Latest Orders</h3>
+<table>
+<tr><th>ID</th><th>User</th><th>Status</th></tr>
+{% for order in latest_orders %}
+<tr>
+<td>#{{ order.id }}</td>
+<td>{{ order.user.email }}</td>
+<td>
+<span class="badge {% if order.status == 'delivered' %}success{% else %}pending{% endif %}">
+{{ order.status }}
+</span>
+</td>
+</tr>
+{% empty %}
+<tr><td colspan="3">No Orders Found</td></tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="box">
+<h3>Top ROI Plans</h3>
+<p>Gold Plan - 2%</p>
+<p>Silver Plan - 1.5%</p>
+<p>Starter Plan - 1%</p>
+</div>
+
+<div class="box">
+<h3>Pending Requests</h3>
+<p>KYC - 18</p>
+<p>Withdrawals - 24</p>
+<p>Refunds - 5</p>
+</div>
+</div>
+
+<div class="actions">
+<div class="action-card">➕ Add Product</div>
+<div class="action-card">📈 Add ROI</div>
+<div class="action-card">🔮 Add Astrologer</div>
+<div class="action-card">⚙ Settings</div>
+</div>
+
+</div>
+
+<!-- 🔔 Notification -->
+<div id="notification" style="position:fixed;top:20px;right:20px;background:#00ff88;color:#000;padding:15px;border-radius:8px;display:none;font-weight:bold;z-index:999;">
+New Order Received 🚀
+</div>
+
+<script>
+
+let liveChart;
+let lastOrderId = null;
+
+// INIT CHART
+document.addEventListener("DOMContentLoaded", function(){
+
+let labels = {{ chart_labels|default:"['Mon','Tue','Wed']"|safe }};
+let data = {{ chart_data|default:"[100,200,150]"|safe }};
+let moduleLabels = {{ module_labels|default:"['Ecommerce','ROI']"|safe }};
+let moduleValues = {{ module_values|default:"[10,20]"|safe }};
+
+const ctx = document.getElementById('lineChart').getContext('2d');
+
+liveChart = new Chart(ctx,{
+    type:'line',
+    data:{
+        labels: labels,
+        datasets:[{
+            label:"Revenue",
+            data:data,
+            borderColor:"#00ff88",
+            backgroundColor:"rgba(0,255,136,0.3)",
+            fill:true,
+            tension:0.4
+        }]
+    }
+});
+
+new Chart(document.getElementById('pieChart'),{
+    type:'doughnut',
+    data:{
+        labels: moduleLabels,
+        datasets:[{
+            data: moduleValues,
+            backgroundColor:['#00ff88','#00cc66','#00994d','#33ffcc','#66ffcc']
+        }]
+    }
+});
+
+});
+
+// UPDATE FUNCTION
+function updateDashboard(){
+fetch('/api/dashboard/')
+.then(res => res.json())
+.then(data => {
+
+let cards = document.querySelectorAll('.card');
+
+if(cards.length >= 4){
+cards[0].innerHTML = "Users: " + data.total_users;
+cards[1].innerHTML = "Revenue: ₹" + data.total_revenue;
+cards[2].innerHTML = "ROI: " + data.total_roi;
+cards[3].innerHTML = "Orders: " + data.total_orders;
+}
+
+// notification
+if(data.latest_orders.length > 0){
+let id = data.latest_orders[0].id;
+if(lastOrderId && id > lastOrderId){ showNotification("New Order #" + id); }
+lastOrderId = id;
+}
+
+// table update
+let table = document.querySelector(".box table");
+if(table){
+let rows = "";
+data.latest_orders.forEach(o=>{
+let cls = o.status === "delivered" ? "success" : "pending";
+rows += `<tr><td>#${o.id}</td><td>${o.user__email}</td><td><span class="badge ${cls}">${o.status}</span></td></tr>`;
+});
+table.innerHTML = "<tr><th>ID</th><th>User</th><th>Status</th></tr>" + rows;
+}
+
+// chart update
+if(liveChart){
+liveChart.data.labels = data.chart_labels;
+liveChart.data.datasets[0].data = data.chart_data;
+liveChart.update();
+}
+
+});
+}
+
+// notification popup
+function showNotification(msg){
+let n = document.getElementById("notification");
+n.innerHTML = msg;
+n.style.display = "block";
+setTimeout(()=>{ n.style.display="none"; },3000);
+}
+
+// WEBSOCKET (REAL-TIME)
+try{
+const socket = new WebSocket("ws://" + window.location.host + "/ws/dashboard/");
+
+socket.onmessage = function(e){
+showNotification("⚡ Real-time update");
+updateDashboard();
+};
+
+socket.onerror = function(){
+setInterval(updateDashboard, 5000);
+};
+
+}catch{
+setInterval(updateDashboard, 5000);
+}
+
+// initial load
+updateDashboard();
+
+</script>
+
+</body>
+</html>

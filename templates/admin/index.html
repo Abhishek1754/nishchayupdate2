@@ -1,0 +1,80 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+
+<h1>🚀 Nishchay Dashboard</h1>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+
+    <div style="flex:1; padding:20px; background:#4CAF50; color:white;">
+        <h3>Total Users</h3>
+        <h2>{{ total_users }}</h2>
+    </div>
+
+    <div style="flex:1; padding:20px; background:#2196F3; color:white;">
+        <h3>Total Wallet</h3>
+        <h2>₹{{ total_wallet }}</h2>
+    </div>
+
+    <div style="flex:1; padding:20px; background:#FF9800; color:white;">
+        <h3>ROI Plans</h3>
+        <h2>{{ total_roi }}</h2>
+    </div>
+
+</div>
+
+<hr>
+
+<h2>User Growth Chart</h2>
+
+<canvas id="userChart" width="400" height="150"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('userChart').getContext('2d');
+
+    const userChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ chart_labels|safe }},
+            datasets: [{
+                label: 'Users',
+                data: {{ chart_data|safe }},
+                borderWidth: 2,
+                fill: false
+            }]
+        }
+    });
+</script>
+
+{% endblock %}
+
+<hr>
+
+<h2>Earnings Overview</h2>
+
+<canvas id="earningsChart" width="400" height="150"></canvas>
+
+<script>
+    const earningsCtx = document.getElementById('earningsChart').getContext('2d');
+
+    const earningsChart = new Chart(earningsCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ earning_labels|safe }},
+            datasets: [
+                {
+                    label: 'Wallet',
+                    data: {{ wallet_data|safe }},
+                    borderWidth: 1
+                },
+                {
+                    label: 'ROI',
+                    data: {{ roi_data|safe }},
+                    borderWidth: 1
+                }
+            ]
+        }
+    });
+</script>

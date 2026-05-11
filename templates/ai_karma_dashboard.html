@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI KARMA Dashboard</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#020402;
+    color:#d9ffd9;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND */
+body::before{
+    content:'';
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:
+    radial-gradient(circle at top right,#00ff8820,transparent 40%),
+    radial-gradient(circle at bottom left,#00ff8815,transparent 40%);
+    z-index:-1;
+}
+
+/* HEADER */
+.header{
+    padding:20px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.header h1{
+    font-size:36px;
+    line-height:1.2;
+    color:#d9ffd9;
+    text-shadow:0 0 12px #00ff88;
+}
+
+.live{
+    display:inline-block;
+    border:2px solid #00ff88;
+    padding:6px 14px;
+    border-radius:12px;
+    margin-left:10px;
+    box-shadow:0 0 12px #00ff88;
+    font-size:18px;
+    animation:livePulse 1.5s infinite;
+}
+
+.top-info{
+    text-align:right;
+    font-size:16px;
+    color:#c9ffc9;
+    margin-top:5px;
+}
+
+/* GRID */
+.dashboard{
+    display:grid;
+    grid-template-columns:1fr 1.2fr 1fr;
+    gap:18px;
+    padding:18px;
+}
+
+/* CARD */
+.card{
+    background:rgba(0,0,0,0.55);
+    border:1px solid rgba(0,255,136,0.4);
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 0 18px rgba(0,255,136,0.12);
+    backdrop-filter:blur(6px);
+}
+
+.card h2{
+    font-size:18px;
+    margin-bottom:18px;
+    color:#c8ffc8;
+    letter-spacing:1px;
+}
+
+/* METRICS */
+.metric{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid rgba(0,255,136,0.15);
+    font-size:15px;
+}
+
+.metric:last-child{
+    border-bottom:none;
+}
+
+.green{
+    color:#7dff7d;
+    font-weight:bold;
+}
+
+.red{
+    color:#ff4d4d;
+    font-weight:bold;
+}
+
+/* CHARTS */
+.big-graph{
+    height:260px;
+    margin-top:15px;
+}
+
+.small-graph{
+    height:180px;
+}
+
+/* DONUT */
+.donut-wrap{
+    width:180px;
+    margin:auto;
+}
+
+/* SECURITY */
+.security-list{
+    margin-top:10px;
+}
+
+.security-list div{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:14px;
+    font-size:15px;
+}
+
+/* LIVE ALERT ANIMATION */
+@keyframes pulse {
+
+0%{
+    transform:scale(1);
+    box-shadow:0 0 10px red;
+}
+
+50%{
+    transform:scale(1.03);
+    box-shadow:0 0 25px red;
+}
+
+100%{
+    transform:scale(1);
+    box-shadow:0 0 10px red;
+}
+
+}
+
+@keyframes livePulse {
+
+0%{
+    opacity:0.6;
+}
+
+50%{
+    opacity:1;
+}
+
+100%{
+    opacity:0.6;
+}
+
+}
+
+/* RESPONSIVE */
+@media(max-width:1200px){
+
+.dashboard{
+    grid-template-columns:1fr;
+}
+
+.header{
+    flex-direction:column;
+    gap:15px;
+}
+
+.header h1{
+    font-size:28px;
+}
+
+.top-info{
+    text-align:left;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+
+<div>
+<h1>
+AI KARMA
+<span class="live">LIVE</span><br>
+INTELLIGENCE DASHBOARD
+</h1>
+</div>
+
+<div class="top-info">
+<div>Cloud: AWS</div>
+<div>Status: Secure</div>
+<div id="liveTime"></div>
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+<!-- LEFT -->
+<div>
+
+<div class="card">
+
+<h2>EXECUTIVE SUMMARY</h2>
+
+<div class="metric">
+<span>Decisions Simulated</span>
+<span class="green">17.5M</span>
+</div>
+
+<div class="metric">
+<span>Ethical Impact Score</span>
+<span class="green">89%</span>
+</div>
+
+<div class="metric">
+<span>Silent Risk Alerts</span>
+<span class="green">{{ total_alerts }}</span>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:18px;">
+
+<h2>FRAUD INTELLIGENCE</h2>
+
+<div class="metric">
+<span>High Risk Alerts</span>
+<span class="red">{{ high_risk }}</span>
+</div>
+
+<div class="metric">
+<span>Critical Alerts</span>
+<span class="red">{{ critical_risk }}</span>
+</div>
+
+<div class="metric">
+<span>Wallet Anomalies</span>
+<span class="green">12</span>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:18px;">
+
+<h2>LIVE RISK FLOW</h2>
+
+<div class="small-graph">
+<canvas id="smallChart"></canvas>
+</div>
+
+</div>
+
+</div>
+
+<!-- CENTER -->
+<div>
+
+<div class="card">
+
+<h2>FUTURE SIMULATION METRICS</h2>
+
+<div class="metric">
+<span>AI Simulation Engine</span>
+<span class="green">4.2K Futures</span>
+</div>
+
+<div class="metric">
+<span>Threat Analysis</span>
+<span class="green">55%</span>
+</div>
+
+<div class="big-graph">
+<canvas id="mainChart"></canvas>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:18px;">
+
+<h2>SECURITY & COMPLIANCE</h2>
+
+<div class="security-list">
+
+<div>
+<span>IAM Status</span>
+<span class="green">Secure</span>
+</div>
+
+<div>
+<span>Audit Logs</span>
+<span class="green">Running</span>
+</div>
+
+<div>
+<span>Vulnerabilities</span>
+<span class="green">Low</span>
+</div>
+
+<div>
+<span>Compliance</span>
+<span class="green">SOC ✓</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+<div>
+
+<div class="card">
+
+<h2>ETHICS & KARMA INDEX</h2>
+
+<div class="donut-wrap">
+<canvas id="donutChart"></canvas>
+</div>
+
+<div class="metric">
+<span>Ethical Score</span>
+<span class="green">89%</span>
+</div>
+
+<div class="metric">
+<span>ESG Compliance</span>
+<span class="green">95%</span>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:18px;">
+
+<h2>LIVE FRAUD ALERTS</h2>
+
+{% for alert in latest_alerts %}
+
+<div class="metric">
+<span>{{ alert.user.email }}</span>
+<span class="red">{{ alert.risk_level }}</span>
+</div>
+
+<div class="metric">
+<span>{{ alert.reason|truncatechars:35 }}</span>
+</div>
+
+{% empty %}
+
+<div class="metric">
+<span>No fraud alerts detected</span>
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* LIVE CLOCK */
+setInterval(() => {
+
+    const now = new Date();
+
+    document.getElementById('liveTime').innerHTML =
+        "Last Scan: " + now.toLocaleTimeString();
+
+},1000);
+
+/* MAIN CHART */
+new Chart(document.getElementById('mainChart'),{
+    type:'line',
+    data:{
+        labels:['10','20','30','40','50','60','70','80'],
+        datasets:[{
+            data:[5,12,18,22,40,65,72,66],
+            borderColor:'#00ff88',
+            backgroundColor:'rgba(0,255,136,0.15)',
+            fill:true,
+            tension:0.4
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{display:false}
+        },
+        scales:{
+            x:{ticks:{color:'#99ff99'}},
+            y:{ticks:{color:'#99ff99'}}
+        }
+    }
+});
+
+/* SMALL CHART */
+new Chart(document.getElementById('smallChart'),{
+    type:'line',
+    data:{
+        labels:['A','B','C','D','E'],
+        datasets:[{
+            data:[12,19,8,15,22],
+            borderColor:'#00ff88',
+            backgroundColor:'rgba(0,255,136,0.1)',
+            fill:true,
+            tension:0.4
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{display:false}
+        },
+        scales:{
+            x:{ticks:{color:'#99ff99'}},
+            y:{ticks:{color:'#99ff99'}}
+        }
+    }
+});
+
+/* DONUT */
+new Chart(document.getElementById('donutChart'),{
+    type:'doughnut',
+    data:{
+        labels:['Ethical','Risk'],
+        datasets:[{
+            data:[89,11],
+            backgroundColor:['#00ff88','#163d16'],
+            borderWidth:1
+        }]
+    },
+    options:{
+        responsive:true,
+        plugins:{
+            legend:{
+                labels:{color:'#fff'}
+            }
+        }
+    }
+});
+
+/* 🚀 AI KARMA REALTIME ALERT SYSTEM */
+const socket = new WebSocket(
+    'ws://' + window.location.host + '/ws/ai-karma/'
+);
+
+socket.onopen = function() {
+    console.log("✅ AI Karma websocket connected");
+};
+
+socket.onmessage = function(e){
+
+    const data = JSON.parse(e.data);
+
+    console.log("🚨 LIVE ALERT:", data);
+
+    const popup = document.createElement('div');
+
+    popup.innerHTML = `
+        <div style="
+            position:fixed;
+            top:20px;
+            right:20px;
+            background:#0a0a0a;
+            color:#ff4d4d;
+            border:2px solid red;
+            padding:18px;
+            border-radius:12px;
+            z-index:9999;
+            box-shadow:0 0 25px red;
+            min-width:320px;
+            font-family:'Segoe UI';
+            animation:pulse 1s infinite;
+        ">
+            <div style="font-size:18px;font-weight:bold;">
+                🚨 AI KARMA ALERT
+            </div>
+
+            <div style="margin-top:10px;">
+                ${data.message}
+            </div>
+
+            <div style="
+                margin-top:10px;
+                color:#fff;
+                font-size:13px;
+            ">
+                Risk Level: ${data.risk_level}
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    setTimeout(() => {
+        popup.remove();
+        location.reload();
+    }, 5000);
+
+};
+
+socket.onclose = function(){
+    console.log("❌ AI Karma websocket disconnected");
+};
+
+</script>
+
+</body>
+</html>
