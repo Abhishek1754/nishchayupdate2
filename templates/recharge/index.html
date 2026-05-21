@@ -1,0 +1,726 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recharge</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    font-family:'Poppins',sans-serif;
+    color:white;
+}
+
+.container{
+    width:100%;
+    min-height:100vh;
+    padding:20px;
+}
+
+/* NAVBAR */
+
+.navbar{
+    width:100%;
+    padding:18px 28px;
+    border:1px solid rgba(174,255,0,.2);
+    border-radius:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-circle{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:2px solid #b7ff00;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:24px;
+    color:#b7ff00;
+    box-shadow:0 0 15px rgba(183,255,0,.5);
+}
+
+.logo h1{
+    font-size:38px;
+    color:#b7ff00;
+}
+
+.logo span{
+    color:white;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    color:#b7ff00;
+}
+
+.right-nav{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.wallet{
+    padding:12px 20px;
+    border:1px solid rgba(183,255,0,.3);
+    border-radius:12px;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 16px;
+    border:1px solid rgba(183,255,0,.2);
+    border-radius:12px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#b7ff00;
+    color:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+/* HERO */
+
+.hero{
+    width:100%;
+    border:1px solid rgba(183,255,0,.2);
+    border-radius:25px;
+    padding:50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-left{
+    width:50%;
+}
+
+.hero-left h1{
+    font-size:82px;
+    line-height:95px;
+    margin-bottom:25px;
+}
+
+.hero-left h1 span{
+    color:#b7ff00;
+    text-shadow:0 0 20px rgba(183,255,0,.8);
+}
+
+.hero-left p{
+    font-size:26px;
+    color:#cfcfcf;
+    line-height:42px;
+    margin-bottom:40px;
+}
+
+.features{
+    display:flex;
+    gap:40px;
+}
+
+.feature{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.feature-icon{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    border:2px solid rgba(183,255,0,.5);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#b7ff00;
+    font-size:24px;
+}
+
+.feature h3{
+    color:white;
+    font-size:20px;
+}
+
+.feature p{
+    font-size:15px;
+    color:#bdbdbd;
+    margin:0;
+}
+
+/* PHONE */
+
+.hero-right{
+    width:45%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
+.phone{
+    width:320px;
+    height:640px;
+    border:3px solid #b7ff00;
+    border-radius:45px;
+    padding:25px;
+    background:#050505;
+    position:relative;
+    box-shadow:0 0 40px rgba(183,255,0,.4);
+}
+
+.notch{
+    width:120px;
+    height:22px;
+    background:black;
+    border-radius:20px;
+    margin:0 auto 25px;
+}
+
+.app-title{
+    text-align:center;
+    color:#b7ff00;
+    font-size:28px;
+    margin-bottom:30px;
+}
+
+.mobile-card{
+    background:#0b0b0b;
+    border:1px solid rgba(183,255,0,.3);
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:25px;
+}
+
+.mobile-card h2{
+    color:white;
+    margin-bottom:10px;
+}
+
+.mobile-card h1{
+    color:#b7ff00;
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.mobile-card a{
+    color:#b7ff00;
+    text-decoration:none;
+}
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.service-box{
+    height:90px;
+    border:1px solid rgba(183,255,0,.3);
+    border-radius:18px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    color:#b7ff00;
+}
+
+.wallet-box{
+    background:#b7ff00;
+    color:black;
+    border-radius:20px;
+    padding:20px;
+}
+
+.wallet-box h2{
+    font-size:18px;
+}
+
+.wallet-box h1{
+    font-size:42px;
+}
+
+/* QUICK RECHARGE */
+
+.quick-section{
+    margin-top:25px;
+    border:1px solid rgba(183,255,0,.2);
+    border-radius:25px;
+    padding:30px;
+}
+
+.quick-section h2{
+    color:#b7ff00;
+    margin-bottom:25px;
+    font-size:38px;
+}
+
+.tabs{
+    display:flex;
+    gap:30px;
+    margin-bottom:25px;
+}
+
+.tabs label{
+    font-size:18px;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr 300px;
+    gap:20px;
+}
+
+.input{
+    height:70px;
+    background:#050505;
+    border:1px solid rgba(183,255,0,.3);
+    border-radius:15px;
+    color:white;
+    padding:0 20px;
+    font-size:18px;
+}
+
+.btn{
+    background:#b7ff00;
+    border:none;
+    border-radius:15px;
+    font-size:22px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* OPERATORS */
+
+.section{
+    margin-top:25px;
+    border:1px solid rgba(183,255,0,.2);
+    border-radius:25px;
+    padding:30px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+
+.section-title h2{
+    color:#b7ff00;
+    font-size:38px;
+}
+
+.operators{
+    display:grid;
+    grid-template-columns:repeat(9,1fr);
+    gap:20px;
+}
+
+.operator{
+    text-align:center;
+}
+
+.operator-circle{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    border:2px solid rgba(183,255,0,.4);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+    color:#b7ff00;
+    font-size:28px;
+    margin-bottom:12px;
+}
+
+/* OFFERS */
+
+.offers{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.offer-card{
+    border:1px solid rgba(183,255,0,.25);
+    border-radius:20px;
+    padding:25px;
+    background:#050505;
+}
+
+.offer-card h3{
+    color:#b7ff00;
+    font-size:28px;
+    margin-bottom:12px;
+}
+
+.offer-card p{
+    color:#bdbdbd;
+    margin-bottom:15px;
+}
+
+.coupon{
+    display:inline-block;
+    padding:10px 18px;
+    background:#101010;
+    border:1px solid rgba(183,255,0,.3);
+    border-radius:10px;
+    color:#b7ff00;
+    margin-bottom:15px;
+}
+
+.valid{
+    color:#888;
+    font-size:14px;
+}
+
+@media(max-width:1200px){
+
+.hero{
+    flex-direction:column;
+    gap:50px;
+}
+
+.hero-left,
+.hero-right{
+    width:100%;
+}
+
+.hero-left h1{
+    font-size:60px;
+    line-height:70px;
+}
+
+.form-row{
+    grid-template-columns:1fr;
+}
+
+.operators{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.offers{
+    grid-template-columns:1fr;
+}
+
+.nav-links{
+    display:none;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">
+<div class="logo-circle">⚡</div>
+<h1>Re<span>Charge</span></h1>
+</div>
+
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#">Mobile</a>
+<a href="#">DTH</a>
+<a href="#">Electricity</a>
+<a href="#">Fastag</a>
+<a href="#">Offers</a>
+<a href="#">Help</a>
+</div>
+
+<div class="right-nav">
+
+<div class="wallet">
+₹250.00
+</div>
+
+<div class="profile">
+<div class="avatar">A</div>
+Hi, Ankit
+</div>
+
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<div class="hero">
+
+<div class="hero-left">
+
+<h1>
+Recharge. Pay Bills.<br>
+Stay <span>Connected.</span>
+</h1>
+
+<p>
+Fast, secure & reliable recharges for your mobile,
+DTH, bills and more.
+</p>
+
+<div class="features">
+
+<div class="feature">
+<div class="feature-icon">⚡</div>
+<div>
+<h3>Instant Recharge</h3>
+<p>Super fast payments</p>
+</div>
+</div>
+
+<div class="feature">
+<div class="feature-icon">🛡</div>
+<div>
+<h3>Secure Payment</h3>
+<p>100% safe & secure</p>
+</div>
+</div>
+
+<div class="feature">
+<div class="feature-icon">🎁</div>
+<div>
+<h3>Best Offers</h3>
+<p>Exciting cashback</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="hero-right">
+
+<div class="phone">
+
+<div class="notch"></div>
+
+<div class="app-title">⚡ ReCharge</div>
+
+<div class="mobile-card">
+<h2>Mobile Recharge</h2>
+<h1>₹199</h1>
+<a href="#">View Plans →</a>
+</div>
+
+<div class="services">
+
+<div class="service-box">
+⚡
+<span>DTH</span>
+</div>
+
+<div class="service-box">
+💡
+<span>Electricity</span>
+</div>
+
+<div class="service-box">
+🚗
+<span>Fastag</span>
+</div>
+
+</div>
+
+<div class="wallet-box">
+<h2>Wallet Balance</h2>
+<h1>₹250.00</h1>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- QUICK -->
+
+<div class="quick-section">
+
+<h2>Quick Recharge</h2>
+
+<div class="tabs">
+<label><input type="radio" checked> Mobile</label>
+<label><input type="radio"> DTH</label>
+<label><input type="radio"> Electricity</label>
+<label><input type="radio"> Fastag</label>
+</div>
+
+<div class="form-row">
+
+<input class="input" placeholder="Enter Mobile Number">
+
+<select class="input">
+<option>Select Operator</option>
+<option>Jio</option>
+<option>Airtel</option>
+<option>Vi</option>
+</select>
+
+<input class="input" placeholder="Enter Amount">
+
+<a href="/recharge/payment/" class="btn">
+    Recharge Now
+</a>
+
+</div>
+
+</div>
+
+<!-- OPERATORS -->
+
+<div class="section">
+
+<div class="section-title">
+<h2>Popular Operators</h2>
+<span>View All</span>
+</div>
+
+<div class="operators">
+
+<div class="operator">
+<div class="operator-circle">J</div>
+<p>Jio</p>
+</div>
+
+<div class="operator">
+<div class="operator-circle">A</div>
+<p>Airtel</p>
+</div>
+
+<div class="operator">
+<div class="operator-circle">V</div>
+<p>Vi</p>
+</div>
+
+<div class="operator">
+<div class="operator-circle">B</div>
+<p>BSNL</p>
+</div>
+
+<div class="operator">
+<div class="operator-circle">D</div>
+<p>Dish TV</p>
+</div>
+
+<div class="operator">
+<div class="operator-circle">T</div>
+<p>Tata Play</p>
+</div>
+
+<div class="operator">
+<div class="operator-circle">S</div>
+<p>Sun Direct</p>
+</div>
+
+<div class="operator">
+<div class="operator-circle">I</div>
+<p>Idea</p>
+</div>
+
+<div class="operator">
+<div class="operator-circle">F</div>
+<p>Fastag</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- OFFERS -->
+
+<div class="section">
+
+<div class="section-title">
+<h2>Exclusive Offers</h2>
+<span>View All</span>
+</div>
+
+<div class="offers">
+
+<div class="offer-card">
+<h3>Flat ₹20 Cashback</h3>
+<p>On Mobile Recharge</p>
+<div class="coupon">RECH20</div>
+<div class="valid">Valid till 31 May 2026</div>
+</div>
+
+<div class="offer-card">
+<h3>5% Cashback</h3>
+<p>On DTH Recharge</p>
+<div class="coupon">DTH5</div>
+<div class="valid">Valid till 31 May 2026</div>
+</div>
+
+<div class="offer-card">
+<h3>Flat ₹50 Cashback</h3>
+<p>On Electricity Bill</p>
+<div class="coupon">ELEC50</div>
+<div class="valid">Valid till 31 May 2026</div>
+</div>
+
+<div class="offer-card">
+<h3>10% Cashback</h3>
+<p>On FASTag Recharge</p>
+<div class="coupon">FASTAG10</div>
+<div class="valid">Valid till 31 May 2026</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

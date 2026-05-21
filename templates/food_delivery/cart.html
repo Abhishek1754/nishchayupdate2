@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUDDO - Cart</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#000;
+            color:white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+        }
+
+        .mobile-screen{
+            width:390px;
+            min-height:100vh;
+            background:#000;
+            border:2px solid #b6ff00;
+            border-radius:25px;
+            padding:20px;
+        }
+
+        .top-bar{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            margin-bottom:25px;
+        }
+
+        .back-btn{
+            color:#b6ff00;
+            text-decoration:none;
+            font-size:24px;
+        }
+
+        .title{
+            font-size:26px;
+            font-weight:bold;
+            color:#fff;
+        }
+
+        .cart-box{
+            background:#111;
+            border:1px solid #222;
+            border-radius:18px;
+            padding:18px;
+            margin-bottom:18px;
+            transition:0.3s;
+        }
+
+        .cart-box:hover{
+            border-color:#b6ff00;
+            box-shadow:0 0 15px #b6ff00;
+        }
+
+        .item-row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .item-name{
+            font-size:20px;
+            color:#fff;
+            font-weight:bold;
+        }
+
+        .item-price{
+            color:#b6ff00;
+            font-size:18px;
+            margin-top:8px;
+        }
+
+        .qty-box{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            background:#000;
+            padding:8px 12px;
+            border-radius:10px;
+            border:1px solid #333;
+        }
+
+        .qty-btn{
+            width:28px;
+            height:28px;
+            border:none;
+            border-radius:50%;
+            background:#b6ff00;
+            color:#000;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        .summary-box{
+            background:#111;
+            border-radius:18px;
+            padding:20px;
+            margin-top:20px;
+            border:1px solid #222;
+        }
+
+        .summary-row{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:15px;
+            font-size:16px;
+        }
+
+        .total{
+            font-size:24px;
+            color:#b6ff00;
+            font-weight:bold;
+        }
+
+        .pay-btn{
+            width:100%;
+            padding:16px;
+            background:#b6ff00;
+            color:#000;
+            border:none;
+            border-radius:14px;
+            font-size:18px;
+            font-weight:bold;
+            margin-top:25px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .pay-btn:hover{
+            transform:scale(1.02);
+            box-shadow:0 0 20px #b6ff00;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="mobile-screen">
+
+    <div class="top-bar">
+        <a href="/food/menu/" class="back-btn">←</a>
+        <div class="title">Your Cart</div>
+        <div></div>
+    </div>
+
+    <div class="cart-box">
+
+        <div class="item-row">
+
+            <div>
+                <div class="item-name">🍕 Margherita Pizza</div>
+                <div class="item-price">₹199</div>
+            </div>
+
+            <div class="qty-box">
+                <button class="qty-btn">-</button>
+                <span>1</span>
+                <button class="qty-btn">+</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="cart-box">
+
+        <div class="item-row">
+
+            <div>
+                <div class="item-name">🍕 Farm House Pizza</div>
+                <div class="item-price">₹249</div>
+            </div>
+
+            <div class="qty-box">
+                <button class="qty-btn">-</button>
+                <span>1</span>
+                <button class="qty-btn">+</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="summary-box">
+
+        <div class="summary-row">
+            <span>Item Total</span>
+            <span>₹448</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span>₹25</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Platform Fee</span>
+            <span>₹10</span>
+        </div>
+
+        <hr style="border:1px solid #222; margin:15px 0;">
+
+        <div class="summary-row total">
+            <span>Total</span>
+            <span>₹483</span>
+        </div>
+
+    </div>
+
+    <a href="/food/address/">
+        <button class="pay-btn">
+            Proceed to Pay
+        </button>
+    </a>
+
+</div>
+
+</body>
+</html>

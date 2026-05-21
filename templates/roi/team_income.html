@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Income</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020812;
+color:white;
+padding:18px;
+}
+
+.top{
+display:flex;
+align-items:center;
+gap:18px;
+margin-bottom:25px;
+}
+
+.back{
+font-size:30px;
+color:#b6ff00;
+text-decoration:none;
+}
+
+.title h1{
+font-size:34px;
+}
+
+.title p{
+color:#999;
+margin-top:5px;
+}
+
+.main{
+display:grid;
+grid-template-columns:1.3fr 1.2fr 1fr;
+gap:18px;
+}
+
+.card{
+background:#07111d;
+border:1px solid #1dff5d20;
+border-radius:16px;
+padding:18px;
+}
+
+.heading{
+color:#b6ff00;
+font-size:28px;
+margin-bottom:18px;
+}
+
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:25px;
+}
+
+.tab{
+flex:1;
+height:50px;
+border-radius:12px;
+border:1px solid #1dff5d30;
+background:#09131f;
+color:white;
+font-size:16px;
+}
+
+.active{
+background:#b6ff00;
+color:black;
+font-weight:bold;
+}
+
+.tree{
+text-align:center;
+margin-top:20px;
+}
+
+.circle{
+width:55px;
+height:55px;
+border-radius:50%;
+background:#b6ff00;
+color:black;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:22px;
+font-weight:bold;
+margin:auto;
+margin-bottom:10px;
+}
+
+.line{
+height:35px;
+width:2px;
+background:#b6ff00;
+margin:auto;
+}
+
+.row{
+display:flex;
+justify-content:space-around;
+margin-top:15px;
+}
+
+.member{
+text-align:center;
+}
+
+.small{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#b6ff00;
+color:black;
+display:flex;
+justify-content:center;
+align-items:center;
+font-weight:bold;
+margin:auto;
+margin-bottom:8px;
+}
+
+.table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+.table th{
+padding:15px;
+color:#b6ff00;
+border-bottom:1px solid #1dff5d20;
+}
+
+.table td{
+padding:16px;
+text-align:center;
+border-bottom:1px solid #1dff5d10;
+}
+
+.green{
+color:#b6ff00;
+font-weight:bold;
+}
+
+.summary-box{
+background:#050c16;
+border:1px solid #1dff5d20;
+padding:18px;
+border-radius:14px;
+margin-top:20px;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+padding:18px 0;
+border-bottom:1px solid #1dff5d10;
+font-size:18px;
+}
+
+.big{
+font-size:42px;
+color:#b6ff00;
+font-weight:bold;
+}
+
+.share-box{
+background:#050c16;
+border:1px solid #1dff5d20;
+border-radius:12px;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:20px;
+}
+
+.btn{
+width:100%;
+height:55px;
+border:none;
+border-radius:12px;
+background:#b6ff00;
+color:black;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
+.footer-nav{
+margin-top:25px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:12px;
+}
+
+.nav{
+background:#07111d;
+padding:15px;
+border-radius:12px;
+text-align:center;
+border:1px solid #1dff5d20;
+}
+
+.active-nav{
+border:1px solid #b6ff00;
+color:#b6ff00;
+}
+
+@media(max-width:1000px){
+
+.main{
+grid-template-columns:1fr;
+}
+
+.footer-nav{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="top">
+
+<a href="/roi/" class="back">←</a>
+
+<div class="title">
+<h1>REFERRAL TREE & LEVEL INCOME</h1>
+<p>View your referral network and earnings</p>
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="card">
+
+<h2 class="heading">REFERRAL TREE</h2>
+
+<div class="tabs">
+
+<button class="tab active">Binary View</button>
+
+<button class="tab">Level View</button>
+
+</div>
+
+<div class="tree">
+
+<div class="circle">U</div>
+
+<h3>You</h3>
+
+<div class="line"></div>
+
+<div class="row">
+
+<div class="member">
+<div class="small">A</div>
+<p>3 Direct</p>
+</div>
+
+<div class="member">
+<div class="small">B</div>
+<p>2 Direct</p>
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="row">
+
+<div class="member">
+<div class="small">C</div>
+<p>5 Members</p>
+</div>
+
+<div class="member">
+<div class="small">D</div>
+<p>4 Members</p>
+</div>
+
+</div>
+
+<div class="line"></div>
+
+<div class="row">
+
+<div class="member">
+<div class="small">1</div>
+<p>12 Members</p>
+</div>
+
+<div class="member">
+<div class="small">2</div>
+<p>7 Members</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="summary-box" style="text-align:center;">
+
+<h2>Total Team Members</h2>
+
+<div class="big">33</div>
+
+</div>
+
+<button class="btn">
+
+View Full Tree →
+
+</button>
+
+</div>
+
+<div>
+
+<div class="card">
+
+<h2 class="heading">LEVEL INCOME</h2>
+
+<table class="table">
+
+<tr>
+<th>Level</th>
+<th>Members</th>
+<th>Income</th>
+<th>Total</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>3</td>
+<td>10%</td>
+<td class="green">₹2500</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>9</td>
+<td>5%</td>
+<td class="green">₹2250</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>21</td>
+<td>2%</td>
+<td class="green">₹2100</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>68</td>
+<td>1%</td>
+<td class="green">₹1680</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>192</td>
+<td>0.5%</td>
+<td class="green">₹1215</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="summary-box">
+
+<h3>Total Level Income</h3>
+
+<div class="big">₹9,745</div>
+
+</div>
+
+<div class="summary-box">
+
+<h3>Total Referral Income</h3>
+
+<div class="big">₹5,680</div>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="card">
+
+<h2 class="heading">SUMMARY</h2>
+
+<div class="summary-row">
+<span>Direct Referrals</span>
+<span class="green">5</span>
+</div>
+
+<div class="summary-row">
+<span>Total Team Members</span>
+<span class="green">33</span>
+</div>
+
+<div class="summary-row">
+<span>Total Level Income</span>
+<span class="green">₹9,745</span>
+</div>
+
+<div class="summary-row">
+<span>Total Referral Income</span>
+<span class="green">₹5,680</span>
+</div>
+
+<div class="summary-row" style="border:none;">
+<span>Wallet Balance</span>
+<span class="green">₹2,150</span>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:18px;">
+
+<h2 class="heading">SHARE & EARN MORE</h2>
+
+<p style="color:#999;">
+Share your referral link and grow your team
+</p>
+
+<div class="share-box">
+
+<span>https://roisystem.com/ref/ROI12345</span>
+
+<span>📋</span>
+
+</div>
+
+<button class="btn">
+
+Share Now
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-nav">
+
+<div class="nav">Home</div>
+
+<div class="nav">Invest</div>
+
+<div class="nav active-nav">Team</div>
+
+<div class="nav">Wallet</div>
+
+<div class="nav">Profile</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,583 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Support Tickets</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#000;
+color:#fff;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:260px;
+background:#050505;
+padding:30px 20px;
+border-right:1px solid #1f1f1f;
+}
+
+.logo{
+font-size:42px;
+font-weight:700;
+color:#b7ff00;
+margin-bottom:40px;
+}
+
+.menu a{
+display:block;
+padding:15px;
+margin-bottom:10px;
+text-decoration:none;
+color:white;
+border-radius:12px;
+transition:.3s;
+}
+
+.menu a:hover,
+.active{
+background:#b7ff00;
+color:black !important;
+box-shadow:0 0 20px #b7ff00;
+}
+
+.main{
+flex:1;
+padding:25px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.wallet{
+padding:14px 25px;
+border:1px solid #b7ff00;
+border-radius:12px;
+background:#111;
+color:#b7ff00;
+font-weight:600;
+}
+
+.layout{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+.card{
+background:#050505;
+border:1px solid #1f1f1f;
+border-radius:20px;
+padding:25px;
+margin-bottom:20px;
+}
+
+.title{
+font-size:42px;
+color:#b7ff00;
+margin-bottom:10px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin:25px 0;
+}
+
+.stat{
+background:#111;
+padding:22px;
+border-radius:16px;
+text-align:center;
+}
+
+.stat h1{
+color:#b7ff00;
+margin-top:10px;
+}
+
+.tabs{
+display:flex;
+gap:12px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.tabs button{
+padding:12px 22px;
+background:#111;
+border:none;
+border-radius:10px;
+color:white;
+cursor:pointer;
+}
+
+.active-tab{
+background:#b7ff00 !important;
+color:black !important;
+font-weight:700;
+}
+
+.ticket{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#111;
+padding:22px;
+border-radius:16px;
+margin-bottom:15px;
+border:1px solid #1f1f1f;
+transition:.3s;
+}
+
+.ticket:hover{
+border:1px solid #b7ff00;
+box-shadow:0 0 20px rgba(183,255,0,.25);
+}
+
+.ticket-left{
+display:flex;
+gap:18px;
+align-items:center;
+}
+
+.icon{
+width:65px;
+height:65px;
+border-radius:50%;
+background:#0f0f0f;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+color:#b7ff00;
+border:1px solid #b7ff00;
+}
+
+.ticket h2{
+margin-bottom:10px;
+}
+
+.ticket p{
+color:#aaa;
+}
+
+.badge{
+padding:10px 18px;
+border-radius:10px;
+font-size:14px;
+font-weight:700;
+}
+
+.open{
+background:#1d3000;
+color:#b7ff00;
+}
+
+.progress{
+background:#2b0044;
+color:#c16bff;
+}
+
+.resolved{
+background:#0d2f00;
+color:#8dff57;
+}
+
+.side-box{
+background:#050505;
+border:1px solid #1f1f1f;
+padding:25px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+.side-box h2{
+color:#b7ff00;
+margin-bottom:20px;
+}
+
+.input{
+width:100%;
+padding:16px;
+background:#111;
+border:1px solid #1f1f1f;
+border-radius:12px;
+color:white;
+margin-bottom:20px;
+}
+
+.btn{
+width:100%;
+padding:16px;
+background:#b7ff00;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+}
+
+.help{
+padding:14px 0;
+border-bottom:1px solid #1f1f1f;
+display:flex;
+justify-content:space-between;
+}
+
+.support{
+text-align:center;
+padding:30px 20px;
+}
+
+.support h1{
+font-size:50px;
+color:#b7ff00;
+margin:20px 0;
+}
+
+.bottom{
+margin-top:20px;
+display:flex;
+justify-content:space-between;
+background:#111;
+padding:22px;
+border-radius:16px;
+align-items:center;
+}
+
+.chat-btn{
+padding:14px 30px;
+background:#b7ff00;
+border:none;
+border-radius:12px;
+font-weight:700;
+cursor:pointer;
+}
+
+@media(max-width:1100px){
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div class="logo">
+ReCharge
+</div>
+
+<div class="menu">
+
+<a href="/recharge/">Dashboard</a>
+<a href="/recharge/transactions/">Transactions</a>
+<a href="/recharge/withdraw/">Withdraw</a>
+<a href="/recharge/refer/">Refer & Earn</a>
+<a href="/recharge/offers/">Offers</a>
+<a href="/recharge/notifications/">Notifications</a>
+
+<a class="active" href="/recharge/support/">
+Support Tickets
+</a>
+
+<a href="/">Back Home</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<h1 class="title">
+Support Tickets
+</h1>
+
+<div class="wallet">
+Wallet ₹55
+</div>
+
+</div>
+
+<div class="layout">
+
+<div>
+
+<div class="card">
+
+<div class="stats">
+
+<div class="stat">
+<p>Total Tickets</p>
+<h1>12</h1>
+</div>
+
+<div class="stat">
+<p>Open</p>
+<h1>3</h1>
+</div>
+
+<div class="stat">
+<p>In Progress</p>
+<h1>2</h1>
+</div>
+
+<div class="stat">
+<p>Resolved</p>
+<h1>7</h1>
+</div>
+
+</div>
+
+<div class="tabs">
+
+<button class="active-tab">
+All
+</button>
+
+<button>
+Open
+</button>
+
+<button>
+In Progress
+</button>
+
+<button>
+Resolved
+</button>
+
+</div>
+
+<div class="ticket">
+
+<div class="ticket-left">
+
+<div class="icon">
+📱
+</div>
+
+<div>
+
+<h2>Recharge not successful</h2>
+
+<p>Recharge Issue • Order ID RC2405</p>
+
+</div>
+
+</div>
+
+<div class="badge open">
+Open
+</div>
+
+</div>
+
+<div class="ticket">
+
+<div class="ticket-left">
+
+<div class="icon">
+💰
+</div>
+
+<div>
+
+<h2>Cashback not received</h2>
+
+<p>Cashback Issue • Ref ID ANKIT100</p>
+
+</div>
+
+</div>
+
+<div class="badge progress">
+In Progress
+</div>
+
+</div>
+
+<div class="ticket">
+
+<div class="ticket-left">
+
+<div class="icon">
+🏦
+</div>
+
+<div>
+
+<h2>Withdrawal failed</h2>
+
+<p>Withdrawal Issue</p>
+
+</div>
+
+</div>
+
+<div class="badge progress">
+In Progress
+</div>
+
+</div>
+
+<div class="ticket">
+
+<div class="ticket-left">
+
+<div class="icon">
+🎁
+</div>
+
+<div>
+
+<h2>Offer not applicable</h2>
+
+<p>Offer Issue • SAVE30</p>
+
+</div>
+
+</div>
+
+<div class="badge resolved">
+Resolved
+</div>
+
+</div>
+
+<div class="bottom">
+
+<div>
+
+<h2>Still need help?</h2>
+
+<p style="color:#aaa;">
+Chat with support executive now
+</p>
+
+</div>
+
+<button class="chat-btn">
+Start Live Chat
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="side-box">
+
+<h2>Raise New Ticket</h2>
+
+<select class="input">
+<option>Select Issue Type</option>
+<option>Recharge</option>
+<option>Cashback</option>
+<option>Withdrawal</option>
+<option>Offer</option>
+</select>
+
+<button class="btn">
+Raise Ticket
+</button>
+
+</div>
+
+<div class="side-box">
+
+<h2>Popular Help Topics</h2>
+
+<div class="help">
+<span>Recharge failed?</span>
+<span>›</span>
+</div>
+
+<div class="help">
+<span>Cashback not received?</span>
+<span>›</span>
+</div>
+
+<div class="help">
+<span>How to withdraw money?</span>
+<span>›</span>
+</div>
+
+<div class="help">
+<span>Offers & Coupons Guide</span>
+<span>›</span>
+</div>
+
+</div>
+
+<div class="side-box support">
+
+<h2>Support Availability</h2>
+
+<h1>24/7</h1>
+
+<p>
+We are available all days of the week
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,474 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Withdraw Funds</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:black;
+color:white;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:260px;
+background:#050505;
+padding:30px 20px;
+border-right:1px solid #1f1f1f;
+}
+
+.logo{
+font-size:40px;
+font-weight:700;
+color:#b7ff00;
+margin-bottom:40px;
+}
+
+.menu a{
+display:block;
+padding:16px;
+margin-bottom:10px;
+text-decoration:none;
+color:white;
+border-radius:12px;
+transition:.3s;
+}
+
+.menu a:hover,
+.active{
+background:#b7ff00;
+color:black !important;
+box-shadow:0 0 20px #b7ff00;
+}
+
+.main{
+flex:1;
+padding:30px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.wallet{
+padding:14px 25px;
+border:1px solid #b7ff00;
+border-radius:12px;
+background:#111;
+color:#b7ff00;
+font-weight:600;
+}
+
+.layout{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+.card{
+background:#050505;
+border:1px solid #1f1f1f;
+border-radius:20px;
+padding:25px;
+margin-bottom:20px;
+}
+
+.title{
+font-size:38px;
+font-weight:700;
+color:#b7ff00;
+margin-bottom:10px;
+}
+
+.balance{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:15px;
+margin-top:20px;
+}
+
+.balance-box{
+background:#111;
+padding:25px;
+border-radius:15px;
+}
+
+.balance-box h3{
+color:#ccc;
+margin-bottom:10px;
+}
+
+.balance-box h1{
+font-size:40px;
+color:#b7ff00;
+}
+
+.methods{
+display:grid;
+grid-template-columns:1fr 1fr 1fr 1fr;
+gap:15px;
+margin-top:20px;
+}
+
+.method{
+background:#111;
+padding:20px;
+border-radius:15px;
+text-align:center;
+border:1px solid #1f1f1f;
+cursor:pointer;
+transition:.3s;
+}
+
+.method:hover{
+border:1px solid #b7ff00;
+box-shadow:0 0 20px #b7ff00;
+}
+
+.active-method{
+border:1px solid #b7ff00;
+box-shadow:0 0 20px #b7ff00;
+}
+
+.input{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+outline:none;
+background:#111;
+color:white;
+border-radius:12px;
+border:1px solid #1f1f1f;
+}
+
+.quick{
+display:flex;
+gap:10px;
+margin-top:15px;
+flex-wrap:wrap;
+}
+
+.quick button{
+padding:12px 20px;
+border:none;
+background:#111;
+color:#b7ff00;
+border-radius:10px;
+cursor:pointer;
+border:1px solid #b7ff00;
+}
+
+.summary{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:15px;
+margin-top:25px;
+}
+
+.summary-box{
+background:#111;
+padding:20px;
+border-radius:15px;
+text-align:center;
+}
+
+.summary-box h2{
+margin-top:10px;
+color:#b7ff00;
+}
+
+.withdraw-btn{
+width:100%;
+padding:18px;
+margin-top:25px;
+border:none;
+background:#b7ff00;
+color:black;
+font-size:22px;
+font-weight:700;
+border-radius:15px;
+cursor:pointer;
+}
+
+.side-box{
+background:#050505;
+border:1px solid #1f1f1f;
+padding:25px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+.side-box h2{
+color:#b7ff00;
+margin-bottom:20px;
+}
+
+.side-box p{
+margin-bottom:15px;
+color:#ccc;
+}
+
+.green{
+color:#b7ff00;
+font-weight:700;
+}
+
+.recent{
+background:#111;
+padding:15px;
+border-radius:12px;
+margin-bottom:12px;
+}
+
+@media(max-width:1100px){
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.methods{
+grid-template-columns:1fr 1fr;
+}
+
+.balance{
+grid-template-columns:1fr;
+}
+
+.summary{
+grid-template-columns:1fr;
+}
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div class="logo">
+ReCharge
+</div>
+
+<div class="menu">
+
+<a href="/recharge/">
+Dashboard
+</a>
+
+<a href="/recharge/transactions/">
+Transactions
+</a>
+
+<a class="active" href="/recharge/withdraw/">
+Withdraw
+</a>
+
+<a href="/recharge/refer/">
+Refer & Earn
+</a>
+
+<a href="/">
+Back Home
+</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<h1 class="title">
+Withdraw Funds
+</h1>
+
+<div class="wallet">
+Wallet ₹55
+</div>
+
+</div>
+
+<div class="layout">
+
+<div>
+
+<div class="card">
+
+<div class="balance">
+
+<div class="balance-box">
+<h3>Available Balance</h3>
+<h1>₹55</h1>
+</div>
+
+<div class="balance-box">
+<h3>Withdrawable</h3>
+<h1>₹55</h1>
+</div>
+
+<div class="balance-box">
+<h3>Pending</h3>
+<h1>₹0</h1>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Select Withdrawal Method</h2>
+
+<div class="methods">
+
+<div class="method active-method">
+UPI
+</div>
+
+<div class="method">
+Bank
+</div>
+
+<div class="method">
+Paytm
+</div>
+
+<div class="method">
+Google Pay
+</div>
+
+</div>
+
+<input class="input" placeholder="Enter UPI ID">
+
+<input class="input" placeholder="Enter Name">
+
+<input class="input" placeholder="Enter Amount">
+
+<div class="quick">
+
+<button>₹100</button>
+<button>₹200</button>
+<button>₹500</button>
+<button>₹1000</button>
+
+</div>
+
+<div class="summary">
+
+<div class="summary-box">
+<p>You Receive</p>
+<h2>₹55</h2>
+</div>
+
+<div class="summary-box">
+<p>Fee</p>
+<h2>₹0</h2>
+</div>
+
+<div class="summary-box">
+<p>Total</p>
+<h2>₹55</h2>
+</div>
+
+</div>
+
+<button class="withdraw-btn">
+Withdraw Now
+</button>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="side-box">
+
+<h2>Withdrawal Limits</h2>
+
+<p>Minimum : ₹10</p>
+<p>Maximum : ₹10,000</p>
+<p>Daily Limit : ₹10,000</p>
+
+<p class="green">
+Remaining : ₹10,000
+</p>
+
+</div>
+
+<div class="side-box">
+
+<h2>Withdrawal Process</h2>
+
+<p>1. Request Withdrawal</p>
+<p>2. Processing</p>
+<p>3. Transfer Initiated</p>
+<p>4. Completed</p>
+
+</div>
+
+<div class="side-box">
+
+<h2>Recent Withdrawals</h2>
+
+<div class="recent">
+₹100 → Paytm UPI
+</div>
+
+<div class="recent">
+₹250 → Bank Account
+</div>
+
+<div class="recent">
+₹50 → Google Pay
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

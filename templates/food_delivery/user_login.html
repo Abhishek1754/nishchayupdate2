@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Login - FUDDO</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background:#000;
+            font-family:'Poppins',sans-serif;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            overflow:hidden;
+        }
+
+        .mobile-screen{
+            width:100%;
+            max-width:430px;
+            min-height:100vh;
+            background:#000;
+            color:white;
+            padding:25px;
+            position:relative;
+        }
+
+        .back-btn{
+            width:55px;
+            height:55px;
+            border-radius:50%;
+            border:2px solid #c6ff00;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:24px;
+            color:#c6ff00;
+            text-decoration:none;
+            margin-bottom:35px;
+            box-shadow:0 0 15px rgba(198,255,0,.4);
+        }
+
+        .logo-box{
+            width:120px;
+            height:120px;
+            border:3px solid #c6ff00;
+            border-radius:30px;
+            margin:auto;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:#c6ff00;
+            font-size:80px;
+            font-weight:800;
+            box-shadow:0 0 25px #c6ff00;
+        }
+
+        .brand{
+            text-align:center;
+            margin-top:22px;
+        }
+
+        .brand h1{
+            color:#c6ff00;
+            font-size:62px;
+            font-weight:800;
+            line-height:1;
+        }
+
+        .brand p{
+            margin-top:10px;
+            color:#bbb;
+            font-size:20px;
+        }
+
+        .heading{
+            margin-top:45px;
+            text-align:center;
+        }
+
+        .heading h2{
+            font-size:36px;
+            margin-bottom:10px;
+        }
+
+        .heading p{
+            color:#bbb;
+            line-height:1.7;
+            font-size:16px;
+        }
+
+        .form{
+            margin-top:40px;
+        }
+
+        .input-box{
+            margin-bottom:22px;
+        }
+
+        .input-box label{
+            display:block;
+            margin-bottom:10px;
+            font-size:16px;
+            color:#c6ff00;
+        }
+
+        .input-box input{
+            width:100%;
+            height:65px;
+            background:#0c0c0c;
+            border:2px solid #1f1f1f;
+            border-radius:18px;
+            padding:0 20px;
+            color:white;
+            font-size:17px;
+            outline:none;
+            transition:.3s;
+        }
+
+        .input-box input:focus{
+            border-color:#c6ff00;
+            box-shadow:0 0 15px rgba(198,255,0,.2);
+        }
+
+        .forgot{
+            text-align:right;
+            margin-top:-5px;
+            margin-bottom:25px;
+        }
+
+        .forgot a{
+            color:#c6ff00;
+            text-decoration:none;
+            font-size:15px;
+        }
+
+        .login-btn{
+            width:100%;
+            height:68px;
+            border:none;
+            border-radius:18px;
+            background:#c6ff00;
+            color:#000;
+            font-size:24px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .login-btn:hover{
+            transform:scale(1.02);
+            box-shadow:0 0 25px #c6ff00;
+        }
+
+        .divider{
+            margin:35px 0;
+            text-align:center;
+            position:relative;
+            color:#bbb;
+            font-size:18px;
+        }
+
+        .divider::before{
+            content:'';
+            position:absolute;
+            left:0;
+            top:50%;
+            width:35%;
+            height:1px;
+            background:#333;
+        }
+
+        .divider::after{
+            content:'';
+            position:absolute;
+            right:0;
+            top:50%;
+            width:35%;
+            height:1px;
+            background:#333;
+        }
+
+        .social-login{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:18px;
+        }
+
+        .social-btn{
+            height:65px;
+            border:2px solid #1f1f1f;
+            border-radius:18px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:12px;
+            font-size:18px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .social-btn:hover{
+            border-color:#c6ff00;
+            color:#c6ff00;
+        }
+
+        .signup{
+            margin-top:40px;
+            text-align:center;
+            color:#bbb;
+            font-size:17px;
+        }
+
+        .signup a{
+            color:#c6ff00;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .bottom-glow{
+            position:absolute;
+            width:250px;
+            height:250px;
+            background:#c6ff00;
+            filter:blur(150px);
+            opacity:.08;
+            bottom:-100px;
+            left:50%;
+            transform:translateX(-50%);
+            pointer-events:none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="mobile-screen">
+
+    <a href="/food/select-role/" class="back-btn">
+        ←
+    </a>
+
+    <div class="logo-box">
+        F
+    </div>
+
+    <div class="brand">
+
+        <h1>FUDDO</h1>
+
+        <p>Eat. Earn. Enjoy.</p>
+
+    </div>
+
+    <div class="heading">
+
+        <h2>User Login</h2>
+
+        <p>
+            Login to continue ordering food,
+            shopping & earning cashback rewards.
+        </p>
+
+    </div>
+
+    <div class="form">
+
+        <div class="input-box">
+
+            <label>Phone Number / Email</label>
+
+            <input type="text" placeholder="Enter phone or email">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Password</label>
+
+            <input type="password" placeholder="Enter password">
+
+        </div>
+
+        <div class="forgot">
+
+            <a href="#">
+                Forgot Password?
+            </a>
+
+        </div>
+
+        <button class="login-btn">
+            Login →
+        </button>
+
+    </div>
+
+    <div class="divider">
+        or continue with
+    </div>
+
+    <div class="social-login">
+
+        <div class="social-btn">
+            🔴 Google
+        </div>
+
+        <div class="social-btn">
+            ⚫ Apple
+        </div>
+
+    </div>
+
+    <div class="signup">
+
+        Don't have an account?
+
+        <a href="/food/user-signup/">
+            Sign Up
+        </a>
+
+    </div>
+
+    <div class="bottom-glow"></div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FUDDO - Welcome</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background:#000;
+            font-family:'Poppins',sans-serif;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+            overflow-x:hidden;
+        }
+
+        .mobile-screen{
+            width:100%;
+            max-width:430px;
+            min-height:100vh;
+            background:#000;
+            color:white;
+            padding:25px 22px 40px;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .status-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+
+        .time{
+            font-size:20px;
+            font-weight:700;
+        }
+
+        .icons{
+            display:flex;
+            gap:8px;
+            font-size:18px;
+        }
+
+        .skip-btn{
+            position:absolute;
+            right:22px;
+            top:40px;
+            border:2px solid #c6ff00;
+            color:#fff;
+            padding:10px 22px;
+            border-radius:30px;
+            font-size:18px;
+            background:transparent;
+            cursor:pointer;
+            transition:.3s;
+            text-decoration:none;
+        }
+
+        .skip-btn:hover{
+            background:#c6ff00;
+            color:#000;
+        }
+
+        .logo-box{
+            width:120px;
+            height:120px;
+            border:3px solid #c6ff00;
+            margin:35px auto 25px;
+            border-radius:30px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            box-shadow:0 0 30px #c6ff00;
+        }
+
+        .logo-box h1{
+            color:#c6ff00;
+            font-size:80px;
+            font-weight:800;
+        }
+
+        .brand{
+            text-align:center;
+        }
+
+        .brand h2{
+            color:#c6ff00;
+            font-size:68px;
+            font-weight:800;
+            line-height:1;
+        }
+
+        .brand p{
+            margin-top:8px;
+            font-size:22px;
+            color:#ddd;
+        }
+
+        .headline{
+            text-align:center;
+            margin-top:28px;
+        }
+
+        .headline h3{
+            font-size:32px;
+            line-height:1.5;
+            font-weight:700;
+        }
+
+        .headline span{
+            color:#c6ff00;
+        }
+
+        .features{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:18px;
+            margin-top:38px;
+            text-align:center;
+        }
+
+        .feature{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+
+        .feature-icon{
+            width:82px;
+            height:82px;
+            border:2px solid #c6ff00;
+            border-radius:50%;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:34px;
+            color:#c6ff00;
+            box-shadow:0 0 20px rgba(198,255,0,.35);
+            margin-bottom:12px;
+        }
+
+        .feature p{
+            font-size:16px;
+            line-height:1.4;
+        }
+
+        .illustration{
+            margin-top:35px;
+            text-align:center;
+        }
+
+        .illustration img{
+            width:100%;
+            max-width:350px;
+            filter:drop-shadow(0 0 18px #c6ff00);
+        }
+
+        .get-started{
+            margin-top:28px;
+        }
+
+        .get-started a{
+            text-decoration:none;
+        }
+
+        .get-started button{
+            width:100%;
+            background:#c6ff00;
+            color:#000;
+            border:none;
+            height:72px;
+            border-radius:18px;
+            font-size:28px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .get-started button:hover{
+            transform:scale(1.02);
+            box-shadow:0 0 25px #c6ff00;
+        }
+
+        .divider{
+            margin:32px 0 25px;
+            text-align:center;
+            position:relative;
+            color:#ddd;
+            font-size:22px;
+        }
+
+        .divider::before{
+            content:'';
+            position:absolute;
+            left:0;
+            top:50%;
+            width:28%;
+            height:2px;
+            background:#c6ff00;
+        }
+
+        .divider::after{
+            content:'';
+            position:absolute;
+            right:0;
+            top:50%;
+            width:28%;
+            height:2px;
+            background:#c6ff00;
+        }
+
+        .login-options{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:14px;
+        }
+
+        .login-options a{
+            text-decoration:none;
+            color:white;
+        }
+
+        .login-card{
+            border:1.5px solid #2d2d2d;
+            border-radius:18px;
+            padding:22px 10px;
+            text-align:center;
+            transition:.3s;
+            min-height:150px;
+        }
+
+        .login-card:hover{
+            border-color:#c6ff00;
+            box-shadow:0 0 18px rgba(198,255,0,.3);
+        }
+
+        .login-card i{
+            font-size:34px;
+            color:#c6ff00;
+            margin-bottom:12px;
+            display:block;
+        }
+
+        .login-card h4{
+            font-size:18px;
+            margin-bottom:6px;
+        }
+
+        .login-card p{
+            font-size:14px;
+            color:#ccc;
+        }
+
+        .social-divider{
+            text-align:center;
+            margin:30px 0 25px;
+            position:relative;
+            font-size:20px;
+            color:#ccc;
+        }
+
+        .social-divider::before{
+            content:'';
+            position:absolute;
+            left:0;
+            top:50%;
+            width:35%;
+            height:1px;
+            background:#444;
+        }
+
+        .social-divider::after{
+            content:'';
+            position:absolute;
+            right:0;
+            top:50%;
+            width:35%;
+            height:1px;
+            background:#444;
+        }
+
+        .social-buttons{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:15px;
+        }
+
+        .social-btn{
+            border:1px solid #2f2f2f;
+            height:70px;
+            border-radius:16px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:10px;
+            font-size:18px;
+            font-weight:600;
+            transition:.3s;
+        }
+
+        .social-btn:hover{
+            border-color:#c6ff00;
+            color:#c6ff00;
+        }
+
+        .terms{
+            margin-top:35px;
+            text-align:center;
+            color:#bbb;
+            font-size:15px;
+            line-height:1.7;
+        }
+
+        .terms span{
+            color:#c6ff00;
+            font-weight:600;
+        }
+
+        .dots{
+            margin-top:28px;
+            display:flex;
+            justify-content:center;
+            gap:12px;
+        }
+
+        .dot{
+            width:14px;
+            height:14px;
+            border-radius:50%;
+            background:#333;
+        }
+
+        .dot.active{
+            background:#c6ff00;
+            box-shadow:0 0 12px #c6ff00;
+        }
+
+        @media(max-width:480px){
+
+            .brand h2{
+                font-size:54px;
+            }
+
+            .headline h3{
+                font-size:26px;
+            }
+
+            .feature-icon{
+                width:68px;
+                height:68px;
+                font-size:28px;
+            }
+
+            .feature p{
+                font-size:14px;
+            }
+
+            .get-started button{
+                height:62px;
+                font-size:24px;
+            }
+
+            .login-card{
+                min-height:135px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="mobile-screen">
+
+        <div class="status-bar">
+
+            <div class="time">9:41</div>
+
+            <div class="icons">
+                📶 📡 🔋
+            </div>
+
+        </div>
+
+        <a href="#" class="skip-btn">
+            Skip →
+        </a>
+
+        <div class="logo-box">
+            <h1>F</h1>
+        </div>
+
+        <div class="brand">
+            <h2>FUDDO</h2>
+            <p>Eat. Earn. Enjoy.</p>
+        </div>
+
+        <div class="headline">
+
+            <h3>
+                India’s Reward-First <br>
+                <span>Food & Local Shopping</span><br>
+                Super App
+            </h3>
+
+        </div>
+
+        <div class="features">
+
+            <div class="feature">
+                <div class="feature-icon">🍔</div>
+                <p>Food Ordering</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🛍️</div>
+                <p>Local Shopping</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <p>Recharges & Bills</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">💸</div>
+                <p>Real Cashback</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">👥</div>
+                <p>Group Ordering</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🎁</div>
+                <p>Rewards & Offers</p>
+            </div>
+
+        </div>
+
+        <div class="illustration">
+
+            <img src="https://cdn-icons-png.flaticon.com/512/2830/2830284.png">
+
+        </div>
+
+        <div class="get-started">
+
+            <a href="/food/select-role/">
+
+                <button>
+                    Get Started →
+                </button>
+
+            </a>
+
+        </div>
+
+        <div class="divider">
+            Login / Sign Up as
+        </div>
+
+        <div class="login-options">
+
+            <a href="/food/user-login/">
+
+                <div class="login-card">
+
+                    <i>👤</i>
+
+                    <h4>User</h4>
+
+                    <p>Login / Sign Up</p>
+
+                </div>
+
+            </a>
+
+            <a href="/food/delivery-login/">
+
+                <div class="login-card">
+
+                    <i>🛵</i>
+
+                    <h4>Delivery Partner</h4>
+
+                    <p>Login / Sign Up</p>
+
+                </div>
+
+            </a>
+
+            <a href="/food/store-login/">
+
+                <div class="login-card">
+
+                    <i>🏪</i>
+
+                    <h4>Store Partner</h4>
+
+                    <p>Login / Sign Up</p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <div class="social-divider">
+            or continue with
+        </div>
+
+        <div class="social-buttons">
+
+            <div class="social-btn">
+                🔴 Google
+            </div>
+
+            <div class="social-btn">
+                ⚫ Apple
+            </div>
+
+            <div class="social-btn">
+                📱 Mobile
+            </div>
+
+        </div>
+
+        <div class="terms">
+
+            By continuing, you agree to our
+
+            <span>Terms & Conditions</span>
+
+            and
+
+            <span>Privacy Policy</span>
+
+        </div>
+
+        <div class="dots">
+
+            <div class="dot active"></div>
+
+            <div class="dot"></div>
+
+            <div class="dot"></div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020202;
+color:white;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:240px;
+background:#050505;
+border-right:1px solid #1f3b00;
+padding:25px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.logo{
+font-size:34px;
+font-weight:bold;
+color:#b7ff00;
+margin-bottom:40px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.menu a{
+text-decoration:none;
+color:white;
+padding:15px;
+border-radius:14px;
+display:flex;
+align-items:center;
+gap:15px;
+font-size:20px;
+}
+
+.menu a:hover{
+background:#101700;
+border:1px solid #b7ff00;
+color:#b7ff00;
+}
+
+.refer{
+background:#101700;
+padding:20px;
+border-radius:20px;
+border:1px solid #294f00;
+text-align:center;
+}
+
+.refer button{
+margin-top:15px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#b7ff00;
+font-size:18px;
+font-weight:bold;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:25px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.steps{
+display:flex;
+gap:25px;
+background:#050505;
+padding:20px 30px;
+border-radius:20px;
+border:1px solid #1d3900;
+}
+
+.step{
+color:#777;
+}
+
+.active-step{
+color:#b7ff00;
+}
+
+.secure{
+background:#101700;
+padding:18px 25px;
+border-radius:18px;
+border:1px solid #2d5500;
+color:#b7ff00;
+font-size:20px;
+font-weight:bold;
+}
+
+/* CONTENT */
+
+.content{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:25px;
+}
+
+/* LEFT */
+
+.left-box{
+background:#050505;
+border:1px solid #193600;
+border-radius:25px;
+padding:25px;
+}
+
+.heading{
+font-size:48px;
+margin-bottom:10px;
+}
+
+.sub{
+color:#888;
+margin-bottom:35px;
+}
+
+.section{
+background:#070707;
+border:1px solid #193600;
+border-radius:22px;
+padding:25px;
+margin-bottom:25px;
+}
+
+.section-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.section-title h2{
+font-size:30px;
+color:#b7ff00;
+}
+
+.add-btn{
+background:#101700;
+border:1px solid #2d5500;
+color:#b7ff00;
+padding:12px 18px;
+border-radius:12px;
+font-size:16px;
+}
+
+.address-box{
+border:2px solid #b7ff00;
+padding:20px;
+border-radius:18px;
+margin-bottom:20px;
+}
+
+.address-box h3{
+font-size:28px;
+margin-bottom:10px;
+}
+
+.tag{
+background:#1d3900;
+padding:6px 12px;
+border-radius:8px;
+font-size:14px;
+margin-left:10px;
+color:#b7ff00;
+}
+
+.address-box p{
+margin-top:8px;
+font-size:18px;
+color:#ccc;
+}
+
+.shipping-option,
+.payment-option{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px;
+border:1px solid #1f3b00;
+border-radius:16px;
+margin-bottom:15px;
+}
+
+.selected{
+border:2px solid #b7ff00;
+background:#0c1300;
+}
+
+.payment-option i{
+font-size:24px;
+color:#b7ff00;
+}
+
+.coupon{
+display:flex;
+gap:15px;
+margin-top:20px;
+}
+
+.coupon input{
+flex:1;
+padding:18px;
+background:#020202;
+border:1px solid #294f00;
+border-radius:14px;
+color:white;
+font-size:18px;
+}
+
+.coupon button{
+padding:18px 35px;
+border:none;
+background:#b7ff00;
+border-radius:14px;
+font-size:18px;
+font-weight:bold;
+}
+
+/* RIGHT */
+
+.summary{
+background:#050505;
+border:1px solid #b7ff00;
+border-radius:25px;
+padding:25px;
+height:fit-content;
+position:sticky;
+top:20px;
+}
+
+.summary h2{
+color:#b7ff00;
+font-size:34px;
+margin-bottom:25px;
+}
+
+.order-item{
+display:flex;
+gap:15px;
+align-items:center;
+margin-bottom:20px;
+padding-bottom:15px;
+border-bottom:1px solid #1d3900;
+}
+
+.order-item img{
+width:90px;
+height:90px;
+border-radius:15px;
+object-fit:cover;
+border:1px solid #294f00;
+}
+
+.order-item h4{
+font-size:22px;
+margin-bottom:8px;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
+font-size:22px;
+}
+
+.green{
+color:#b7ff00;
+}
+
+.total{
+font-size:38px;
+font-weight:bold;
+margin-top:25px;
+}
+
+.place-order{
+margin-top:30px;
+width:100%;
+padding:22px;
+border:none;
+border-radius:18px;
+background:#b7ff00;
+font-size:24px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.secure-pay{
+text-align:center;
+margin-top:15px;
+color:#aaa;
+}
+
+/* FOOT */
+
+.footer{
+margin-top:30px;
+background:#050505;
+border:1px solid #1f3b00;
+border-radius:20px;
+padding:25px;
+display:flex;
+justify-content:space-around;
+text-align:center;
+}
+
+.footer-box{
+color:#b7ff00;
+}
+
+.footer-box p{
+margin-top:10px;
+color:white;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.sidebar{
+display:none;
+}
+
+.content{
+grid-template-columns:1fr;
+}
+
+.footer{
+flex-direction:column;
+gap:20px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div>
+
+<div class="logo">⚡ NEON SHOP</div>
+
+<div class="menu">
+
+<a href="#"><i class="fa-solid fa-house"></i> Dashboard</a>
+
+<a href="#"><i class="fa-solid fa-bag-shopping"></i> Shop</a>
+
+<a href="#"><i class="fa-solid fa-layer-group"></i> Categories</a>
+
+<a href="#"><i class="fa-solid fa-box"></i> My Orders</a>
+
+<a href="#"><i class="fa-solid fa-wallet"></i> Wallet</a>
+
+<a href="#"><i class="fa-solid fa-users"></i> Referrals</a>
+
+<a href="#"><i class="fa-solid fa-chart-line"></i> Earnings</a>
+
+<a href="#"><i class="fa-solid fa-location-dot"></i> Address</a>
+
+<a href="#"><i class="fa-solid fa-headset"></i> Support</a>
+
+<a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+
+</div>
+
+</div>
+
+<div class="refer">
+
+<h2>Invite & Earn</h2>
+
+<p>Refer friends and earn unlimited rewards</p>
+
+<button>Invite Now</button>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<div class="steps">
+
+<div class="step">Cart</div>
+<div class="step active-step">Address</div>
+<div class="step">Payment</div>
+<div class="step">Review</div>
+
+</div>
+
+<div class="secure">
+🔒 100% Secure Checkout
+</div>
+
+</div>
+
+<div class="content">
+
+<!-- LEFT -->
+
+<div class="left-box">
+
+<h1 class="heading">CHECKOUT</h1>
+
+<p class="sub">Complete your purchase</p>
+
+<!-- ADDRESS -->
+
+<div class="section">
+
+<div class="section-title">
+
+<h2>DELIVERY ADDRESS</h2>
+
+<button class="add-btn">+ Add New Address</button>
+
+</div>
+
+<div class="address-box">
+
+<h3>
+John Doe
+<span class="tag">Home</span>
+</h3>
+
+<p>123 Green Street, Bangalore</p>
+
+<p>+91 9876543210</p>
+
+</div>
+
+<div class="address-box" style="border:1px solid #1d3900;">
+
+<h3>
+John Doe
+<span class="tag">Work</span>
+</h3>
+
+<p>456 Park Avenue, Bangalore</p>
+
+<p>+91 9123456780</p>
+
+</div>
+
+</div>
+
+<!-- SHIPPING -->
+
+<div class="section">
+
+<div class="section-title">
+
+<h2>SHIPPING METHOD</h2>
+
+</div>
+
+<div class="shipping-option selected">
+
+<div>
+<h3>Standard Delivery</h3>
+<p>3 - 5 business days</p>
+</div>
+
+<div class="green">FREE</div>
+
+</div>
+
+<div class="shipping-option">
+
+<div>
+<h3>Express Delivery</h3>
+<p>1 - 2 business days</p>
+</div>
+
+<div>₹ 99</div>
+
+</div>
+
+</div>
+
+<!-- PAYMENT -->
+
+<div class="section">
+
+<div class="section-title">
+
+<h2>PAYMENT METHOD</h2>
+
+</div>
+
+<div class="payment-option selected">
+
+<div>
+<i class="fa-brands fa-google-pay"></i>
+UPI
+</div>
+
+<div class="green">Recommended</div>
+
+</div>
+
+<div class="payment-option">
+
+<div>
+💳 Credit / Debit Card
+</div>
+
+<div>VISA • RuPay</div>
+
+</div>
+
+<div class="payment-option">
+
+<div>
+🏦 Net Banking
+</div>
+
+</div>
+
+<div class="payment-option">
+
+<div>
+👛 Wallet Balance
+</div>
+
+<div>₹ 24,890</div>
+
+</div>
+
+</div>
+
+<!-- COUPON -->
+
+<div class="section">
+
+<div class="section-title">
+
+<h2>COUPON CODE</h2>
+
+</div>
+
+<div class="coupon">
+
+<input type="text" placeholder="Enter coupon code">
+
+<button>Apply</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="summary">
+
+<h2>ORDER SUMMARY</h2>
+
+<div class="order-item">
+
+<img src="https://m.media-amazon.com/images/I/61y2VVWcGBL._SL1500_.jpg">
+
+<div>
+
+<h4>Fire-Boltt Ninja Pro</h4>
+
+<p>Qty: 1</p>
+
+</div>
+
+<div style="margin-left:auto;">₹ 2,999</div>
+
+</div>
+
+<div class="order-item">
+
+<img src="https://m.media-amazon.com/images/I/61KNJav3S9L._SL1500_.jpg">
+
+<div>
+
+<h4>boAt Airdopes 141</h4>
+
+<p>Qty: 1</p>
+
+</div>
+
+<div style="margin-left:auto;">₹ 1,299</div>
+
+</div>
+
+<div class="summary-row">
+<span>Total MRP</span>
+<span>₹ 70,297</span>
+</div>
+
+<div class="summary-row">
+<span>Discount</span>
+<span class="green">- ₹ 10,300</span>
+</div>
+
+<div class="summary-row">
+<span>Coupon Discount</span>
+<span class="green">- ₹ 1,000</span>
+</div>
+
+<div class="summary-row">
+<span>Shipping</span>
+<span class="green">FREE</span>
+</div>
+
+<hr style="margin:20px 0;border-color:#1d3900;">
+
+<div class="summary-row total">
+<span>Total Amount</span>
+<span class="green">₹ 58,997</span>
+</div>
+
+<button class="place-order">
+
+⚡ PLACE ORDER
+
+</button>
+
+<div class="secure-pay">
+🔒 100% Secure Payment
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-box">
+<h2>🛡</h2>
+<p>Your data is protected</p>
+</div>
+
+<div class="footer-box">
+<h2>SSL</h2>
+<p>Secure Connection</p>
+</div>
+
+<div class="footer-box">
+<h2>✔</h2>
+<p>Verified Merchant</p>
+</div>
+
+<div class="footer-box">
+<h2>PCI</h2>
+<p>PCI DSS Compliant</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

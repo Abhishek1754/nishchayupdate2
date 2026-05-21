@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUDDO - Welcome</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#000;
+            display:flex;
+            justify-content:center;
+            min-height:100vh;
+            overflow-x:hidden;
+        }
+
+        .mobile-screen{
+            width:100%;
+            max-width:390px;
+            min-height:100vh;
+            background:#000;
+            color:#fff;
+            position:relative;
+            padding:18px;
+            overflow:hidden;
+        }
+
+        .mobile-screen::before{
+            content:'';
+            position:absolute;
+            width:350px;
+            height:350px;
+            background:radial-gradient(circle,#b6ff0010 0%,transparent 70%);
+            top:-150px;
+            left:-100px;
+        }
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px;
+            position:relative;
+            z-index:2;
+        }
+
+        .time{
+            font-size:20px;
+            font-weight:600;
+        }
+
+        .skip-btn{
+            border:2px solid #b6ff00;
+            color:#fff;
+            padding:8px 18px;
+            border-radius:30px;
+            background:transparent;
+            font-size:14px;
+            cursor:pointer;
+            box-shadow:0 0 12px #b6ff0030;
+        }
+
+        .logo-section{
+            text-align:center;
+            margin-bottom:20px;
+            position:relative;
+            z-index:2;
+        }
+
+        .logo-box{
+            width:90px;
+            height:90px;
+            margin:auto;
+            border-radius:24px;
+            border:2px solid #b6ff00;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#b6ff00;
+            font-size:50px;
+            font-weight:800;
+            box-shadow:0 0 20px #b6ff00;
+            margin-bottom:18px;
+        }
+
+        .logo-title{
+            font-size:42px;
+            color:#b6ff00;
+            font-weight:800;
+            line-height:1;
+        }
+
+        .tagline{
+            font-size:14px;
+            margin-top:8px;
+            color:#ddd;
+        }
+
+        .main-heading{
+            text-align:center;
+            font-size:22px;
+            font-weight:700;
+            line-height:1.5;
+            margin-top:20px;
+            margin-bottom:25px;
+            position:relative;
+            z-index:2;
+        }
+
+        .green{
+            color:#b6ff00;
+        }
+
+        .features{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:10px;
+            margin-bottom:25px;
+            position:relative;
+            z-index:2;
+        }
+
+        .feature-box{
+            text-align:center;
+        }
+
+        .feature-icon{
+            width:58px;
+            height:58px;
+            border-radius:50%;
+            border:2px solid #b6ff00;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:auto;
+            font-size:24px;
+            color:#b6ff00;
+            box-shadow:0 0 12px #b6ff0030;
+            margin-bottom:8px;
+        }
+
+        .feature-box p{
+            font-size:11px;
+            line-height:1.4;
+        }
+
+        .delivery-image{
+            width:100%;
+            height:220px;
+            background:
+            linear-gradient(to bottom,transparent,#000),
+            url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200');
+            background-size:cover;
+            background-position:center;
+            border-radius:22px;
+            border:2px solid #1d1d1d;
+            margin-bottom:25px;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .delivery-image::before{
+            content:'';
+            position:absolute;
+            inset:0;
+            background:rgba(0,0,0,0.55);
+        }
+
+        .delivery-content{
+            position:absolute;
+            bottom:16px;
+            left:16px;
+            z-index:2;
+        }
+
+        .delivery-content h2{
+            color:#b6ff00;
+            font-size:22px;
+            margin-bottom:8px;
+        }
+
+        .delivery-content p{
+            font-size:13px;
+            color:#eee;
+        }
+
+        .start-btn{
+            width:100%;
+            height:58px;
+            background:#b6ff00;
+            border:none;
+            border-radius:16px;
+            font-size:20px;
+            font-weight:700;
+            margin-bottom:25px;
+            cursor:pointer;
+        }
+
+        .divider{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+            margin-bottom:20px;
+        }
+
+        .line{
+            flex:1;
+            height:1px;
+            background:#293300;
+        }
+
+        .divider span{
+            font-size:13px;
+            color:#fff;
+        }
+
+        .login-options{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:10px;
+            margin-bottom:25px;
+        }
+
+        .option-box{
+            border:2px solid #1d1d1d;
+            border-radius:16px;
+            padding:18px 8px;
+            text-align:center;
+            background:#050505;
+            text-decoration:none;
+            color:white;
+        }
+
+        .option-icon{
+            font-size:26px;
+            color:#b6ff00;
+            margin-bottom:10px;
+        }
+
+        .option-box h4{
+            font-size:13px;
+            margin-bottom:5px;
+        }
+
+        .option-box p{
+            font-size:10px;
+            color:#ccc;
+            line-height:1.4;
+        }
+
+        .social-login{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:10px;
+            margin-bottom:25px;
+        }
+
+        .social-btn{
+            border:2px solid #1d1d1d;
+            border-radius:14px;
+            height:52px;
+            background:#050505;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:12px;
+            font-weight:600;
+            cursor:pointer;
+            color:white;
+        }
+
+        .terms{
+            text-align:center;
+            font-size:11px;
+            color:#ccc;
+            line-height:1.7;
+            margin-bottom:20px;
+        }
+
+        .terms span{
+            color:#b6ff00;
+        }
+
+        .dots{
+            display:flex;
+            justify-content:center;
+            gap:8px;
+        }
+
+        .dot{
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            background:#222;
+        }
+
+        .dot.active{
+            background:#b6ff00;
+            box-shadow:0 0 10px #b6ff00;
+        }
+
+        @media(max-width:480px){
+
+            .mobile-screen{
+                max-width:100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="mobile-screen">
+
+    <div class="top-bar">
+
+        <div class="time">
+            9:41
+        </div>
+
+        <a href="/food/location/">
+
+            <button class="skip-btn">
+                Skip →
+            </button>
+
+        </a>
+
+    </div>
+
+    <div class="logo-section">
+
+        <div class="logo-box">
+            F
+        </div>
+
+        <div class="logo-title">
+            FUDDO
+        </div>
+
+        <div class="tagline">
+            Eat. Earn. Enjoy.
+        </div>
+
+    </div>
+
+    <div class="main-heading">
+
+        India’s Reward-First
+
+        <br>
+
+        <span class="green">
+            Food & Shopping
+        </span>
+
+        <br>
+
+        Super App
+
+    </div>
+
+    <div class="features">
+
+        <div class="feature-box">
+            <div class="feature-icon">🍔</div>
+            <p>Food</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-icon">🛍️</div>
+            <p>Shopping</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-icon">📱</div>
+            <p>Recharge</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-icon">💰</div>
+            <p>Cashback</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-icon">👥</div>
+            <p>Group Order</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-icon">🎁</div>
+            <p>Rewards</p>
+        </div>
+
+    </div>
+
+    <div class="delivery-image">
+
+        <div class="delivery-content">
+
+            <h2>Fast Delivery</h2>
+
+            <p>
+                Food, shopping & rewards in one app
+            </p>
+
+        </div>
+
+    </div>
+
+    <a href="/food/location/">
+
+        <button class="start-btn">
+            Get Started →
+        </button>
+
+    </a>
+
+    <div class="divider">
+
+        <div class="line"></div>
+
+        <span>Login / Sign Up</span>
+
+        <div class="line"></div>
+
+    </div>
+
+    <div class="login-options">
+
+        <a href="/food/user-login/" class="option-box">
+
+            <div class="option-icon">👤</div>
+
+            <h4>User</h4>
+
+            <p>Login</p>
+
+        </a>
+
+        <a href="/food/delivery-login/" class="option-box">
+
+            <div class="option-icon">🛵</div>
+
+            <h4>Delivery</h4>
+
+            <p>Partner</p>
+
+        </a>
+
+        <a href="/food/store-login/" class="option-box">
+
+            <div class="option-icon">🏪</div>
+
+            <h4>Store</h4>
+
+            <p>Partner</p>
+
+        </a>
+
+    </div>
+
+    <div class="divider">
+
+        <div class="line"></div>
+
+        <span>Continue With</span>
+
+        <div class="line"></div>
+
+    </div>
+
+    <div class="social-login">
+
+        <button class="social-btn">
+            Google
+        </button>
+
+        <button class="social-btn">
+            Apple
+        </button>
+
+        <button class="social-btn">
+            Mobile
+        </button>
+
+    </div>
+
+    <div class="terms">
+
+        By continuing, you agree to our
+
+        <span>Terms</span>
+
+        &
+
+        <span>Privacy Policy</span>
+
+    </div>
+
+    <div class="dots">
+
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

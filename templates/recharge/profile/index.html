@@ -1,0 +1,486 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recharge Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:black;
+color:white;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:260px;
+background:#050505;
+padding:30px 20px;
+border-right:1px solid #1f1f1f;
+}
+
+.logo{
+font-size:40px;
+font-weight:700;
+color:#b7ff00;
+margin-bottom:40px;
+}
+
+.menu a{
+display:block;
+padding:16px;
+margin-bottom:10px;
+text-decoration:none;
+color:white;
+border-radius:12px;
+transition:.3s;
+}
+
+.menu a:hover,
+.active{
+background:#b7ff00;
+color:black !important;
+box-shadow:0 0 20px #b7ff00;
+}
+
+.main{
+flex:1;
+padding:30px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.wallet{
+padding:14px 25px;
+border:1px solid #b7ff00;
+border-radius:12px;
+color:#b7ff00;
+font-weight:600;
+background:#111;
+}
+
+.layout{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+.card{
+background:#050505;
+border:1px solid #1f1f1f;
+border-radius:20px;
+padding:25px;
+margin-bottom:20px;
+}
+
+.profile-top{
+display:flex;
+align-items:center;
+gap:25px;
+}
+
+.avatar{
+width:140px;
+height:140px;
+border-radius:50%;
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:70px;
+font-weight:700;
+color:#b7ff00;
+border:2px solid #b7ff00;
+box-shadow:0 0 30px #b7ff00;
+}
+
+.name{
+font-size:38px;
+font-weight:700;
+margin-bottom:10px;
+}
+
+.verify{
+display:inline-block;
+padding:6px 15px;
+background:#b7ff00;
+color:black;
+font-size:13px;
+font-weight:700;
+border-radius:30px;
+margin-bottom:15px;
+}
+
+.info p{
+margin-bottom:10px;
+color:#ccc;
+}
+
+.green{
+color:#b7ff00;
+font-weight:600;
+}
+
+.summary{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.summary-card{
+background:#111;
+padding:22px;
+border-radius:15px;
+border:1px solid #1f1f1f;
+}
+
+.summary-card h3{
+color:#b7ff00;
+margin-bottom:10px;
+}
+
+.summary-card h1{
+font-size:35px;
+}
+
+.progress-box{
+text-align:center;
+}
+
+.progress{
+width:180px;
+height:180px;
+border-radius:50%;
+border:12px solid #b7ff00;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:45px;
+font-weight:700;
+margin:20px auto;
+box-shadow:0 0 30px #b7ff00;
+}
+
+.quick{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.quick a{
+padding:18px;
+background:#111;
+border-radius:15px;
+text-decoration:none;
+color:white;
+border:1px solid #1f1f1f;
+transition:.3s;
+}
+
+.quick a:hover{
+border:1px solid #b7ff00;
+box-shadow:0 0 15px #b7ff00;
+}
+
+.section-title{
+font-size:28px;
+font-weight:700;
+color:#b7ff00;
+margin-bottom:20px;
+}
+
+.preferences{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.pref{
+background:#111;
+padding:20px;
+border-radius:15px;
+}
+
+.pref h4{
+color:#b7ff00;
+margin-bottom:10px;
+}
+
+@media(max-width:1000px){
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+.preferences{
+grid-template-columns:1fr;
+}
+
+.profile-top{
+flex-direction:column;
+text-align:center;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div class="logo">
+ReCharge
+</div>
+
+<div class="menu">
+
+<a class="active" href="/recharge/profile/">
+Profile
+</a>
+
+<a href="/recharge/transactions/">
+Transactions
+</a>
+
+<a href="/recharge/refer/">
+Refer & Earn
+</a>
+
+<a href="/">
+Back Home
+</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<h1 class="section-title">
+Profile Overview
+</h1>
+
+<div class="wallet">
+Wallet ₹55
+</div>
+
+</div>
+
+<div class="layout">
+
+<div>
+
+<div class="card">
+
+<div class="profile-top">
+
+<div class="avatar">
+A
+</div>
+
+<div class="info">
+
+<div class="name">
+Ankit Kumar
+</div>
+
+<div class="verify">
+Verified
+</div>
+
+<p>📞 +91 9876543210</p>
+<p>✉ ankitkumar@gmail.com</p>
+<p>📅 Member Since : 12 May 2024</p>
+<p>🎁 Referral Code : ANKIT100</p>
+
+<p class="green">
+● Account Active
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+Personal Information
+</h2>
+
+<div class="preferences">
+
+<div class="pref">
+<h4>Full Name</h4>
+<p>Ankit Kumar</p>
+</div>
+
+<div class="pref">
+<h4>Mobile Number</h4>
+<p>+91 9876543210</p>
+</div>
+
+<div class="pref">
+<h4>Email Address</h4>
+<p>ankitkumar@gmail.com</p>
+</div>
+
+<div class="pref">
+<h4>Referral Code</h4>
+<p>ANKIT100</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+Preferences
+</h2>
+
+<div class="preferences">
+
+<div class="pref">
+<h4>Preferred Language</h4>
+<p>English</p>
+</div>
+
+<div class="pref">
+<h4>Notifications</h4>
+<p>Email, SMS, Push</p>
+</div>
+
+<div class="pref">
+<h4>Theme</h4>
+<p>Dark</p>
+</div>
+
+<div class="pref">
+<h4>Currency</h4>
+<p>INR ₹</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="summary">
+
+<div class="summary-card">
+<h3>Wallet Balance</h3>
+<h1>₹55</h1>
+</div>
+
+<div class="summary-card">
+<h3>Cashback</h3>
+<h1>₹135</h1>
+</div>
+
+<div class="summary-card">
+<h3>Referral</h3>
+<h1>₹100</h1>
+</div>
+
+<div class="summary-card">
+<h3>Transactions</h3>
+<h1>24</h1>
+</div>
+
+</div>
+
+<div class="card progress-box">
+
+<h2 class="section-title">
+Profile Completion
+</h2>
+
+<div class="progress">
+75%
+</div>
+
+<p>
+Complete your profile and unlock features.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">
+Quick Actions
+</h2>
+
+<div class="quick">
+
+<a href="#">
+Add Bank Account
+</a>
+
+<a href="#">
+Add UPI ID
+</a>
+
+<a href="#">
+Change Password
+</a>
+
+<a href="/recharge/refer/">
+Refer & Earn
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

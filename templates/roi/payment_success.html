@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Success</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020812;
+color:white;
+padding:20px;
+}
+
+.top-bar{
+display:flex;
+align-items:center;
+gap:18px;
+margin-bottom:25px;
+}
+
+.back-btn{
+font-size:30px;
+color:#b6ff00;
+text-decoration:none;
+}
+
+.title h1{
+font-size:36px;
+}
+
+.title p{
+color:#aaa;
+margin-top:5px;
+font-size:15px;
+}
+
+.main{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+.card{
+background:#07111d;
+border:1px solid #1dff5d25;
+border-radius:18px;
+padding:20px;
+}
+
+.success{
+text-align:center;
+padding:25px 10px;
+border-bottom:1px solid #1dff5d20;
+margin-bottom:20px;
+}
+
+.success-icon{
+font-size:80px;
+color:#b6ff00;
+margin-bottom:15px;
+}
+
+.success h2{
+font-size:42px;
+color:#b6ff00;
+margin-bottom:10px;
+}
+
+.success p{
+color:#bbb;
+font-size:18px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:16px 0;
+border-bottom:1px solid #1dff5d15;
+font-size:20px;
+}
+
+.summary-title{
+font-size:28px;
+color:#b6ff00;
+margin-bottom:20px;
+}
+
+.secure-box{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+background:#081420;
+border:1px solid #1dff5d25;
+}
+
+.secure-box h3{
+color:#b6ff00;
+margin-bottom:10px;
+font-size:22px;
+}
+
+.btn{
+width:100%;
+height:65px;
+border:none;
+border-radius:14px;
+font-size:24px;
+font-weight:bold;
+cursor:pointer;
+margin-top:18px;
+}
+
+.primary-btn{
+background:#b6ff00;
+color:black;
+}
+
+.secondary-btn{
+background:transparent;
+border:1px solid #b6ff00;
+color:#b6ff00;
+}
+
+.next-box{
+margin-top:25px;
+padding:20px;
+}
+
+.next-box h2{
+color:#b6ff00;
+margin-bottom:25px;
+font-size:30px;
+}
+
+.steps{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+text-align:center;
+}
+
+.step{
+padding:15px;
+}
+
+.step-number{
+width:45px;
+height:45px;
+background:#b6ff00;
+color:black;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-weight:bold;
+font-size:22px;
+margin:auto;
+margin-bottom:15px;
+}
+
+.step h3{
+color:#b6ff00;
+margin-bottom:10px;
+font-size:22px;
+}
+
+.step p{
+font-size:15px;
+color:#aaa;
+line-height:1.5;
+}
+
+.help-box{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+background:#081420;
+border:1px solid #1dff5d20;
+}
+
+.help-box h3{
+color:#b6ff00;
+margin-bottom:10px;
+font-size:24px;
+}
+
+.support-btn{
+width:100%;
+height:60px;
+background:#b6ff00;
+border:none;
+border-radius:12px;
+font-size:22px;
+font-weight:bold;
+margin-top:15px;
+cursor:pointer;
+}
+
+@media(max-width:900px){
+
+.main{
+grid-template-columns:1fr;
+}
+
+.steps{
+grid-template-columns:1fr 1fr;
+}
+
+.success h2{
+font-size:30px;
+}
+
+.row{
+font-size:16px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+
+<a href="/roi/payment/" class="back-btn">←</a>
+
+<div class="title">
+<h1>PAYMENT SUCCESS</h1>
+<p>Your investment has been placed successfully</p>
+</div>
+
+</div>
+
+<div class="main">
+
+<div>
+
+<div class="card">
+
+<div class="success">
+
+<div class="success-icon">✔</div>
+
+<h2>Payment Successful!</h2>
+
+<p>Your investment has been placed successfully.</p>
+
+</div>
+
+<div class="row">
+<span>Transaction ID</span>
+<span>TXN12457896321</span>
+</div>
+
+<div class="row">
+<span>Plan Name</span>
+<span>Plan 1</span>
+</div>
+
+<div class="row">
+<span>Investment Amount</span>
+<span>₹2,000</span>
+</div>
+
+<div class="row">
+<span>Maturity Amount</span>
+<span>₹6,498</span>
+</div>
+
+<div class="row">
+<span>Maturity Date</span>
+<span>12 June 2024</span>
+</div>
+
+<div class="row">
+<span>Payment Method</span>
+<span>UPI / QR</span>
+</div>
+
+<div class="row">
+<span>Paid From</span>
+<span>Wallet Balance</span>
+</div>
+
+<button class="btn primary-btn"
+onclick="window.location.href='/roi/my-investment/'">
+
+View My Investment →
+
+</button>
+
+<button class="btn secondary-btn"
+onclick="window.location.href='/roi/'">
+
+Go to Dashboard →
+
+</button>
+
+</div>
+
+<div class="card next-box">
+
+<h2>What's Next?</h2>
+
+<div class="steps">
+
+<div class="step">
+
+<div class="step-number">1</div>
+
+<h3>Confirmed</h3>
+
+<p>Your investment is confirmed</p>
+
+</div>
+
+<div class="step">
+
+<div class="step-number">2</div>
+
+<h3>Daily ROI</h3>
+
+<p>Start earning ROI daily</p>
+
+</div>
+
+<div class="step">
+
+<div class="step-number">3</div>
+
+<h3>Maturity</h3>
+
+<p>Wait till maturity date</p>
+
+</div>
+
+<div class="step">
+
+<div class="step-number">4</div>
+
+<h3>Receive</h3>
+
+<p>Maturity credited to wallet</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="card">
+
+<h2 class="summary-title">INVESTMENT SUMMARY</h2>
+
+<div class="row">
+<span>Plan</span>
+<span>Plan 1</span>
+</div>
+
+<div class="row">
+<span>ROI</span>
+<span>1.5%</span>
+</div>
+
+<div class="row">
+<span>Validity</span>
+<span>30 Days</span>
+</div>
+
+<div class="row">
+<span>Min Amount</span>
+<span>₹500</span>
+</div>
+
+<div class="row">
+<span>Max Amount</span>
+<span>₹4,999</span>
+</div>
+
+<div class="row">
+<span>Total ROI</span>
+<span>₹900</span>
+</div>
+
+<div class="secure-box">
+
+<h3>Your Investment is Secure</h3>
+
+<p>We use industry standard encryption to protect your transactions.</p>
+
+</div>
+
+</div>
+
+<div class="help-box">
+
+<h3>Need Help?</h3>
+
+<p style="color:#aaa;font-size:15px;">
+Our support team is here to help anytime.
+</p>
+
+<button class="support-btn">
+
+Contact Support →
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

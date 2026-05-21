@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Cart</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020202;
+color:white;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#050505;
+border-right:1px solid #1d3900;
+padding:25px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.logo{
+color:#b7ff00;
+font-size:32px;
+font-weight:bold;
+margin-bottom:40px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:18px;
+}
+
+.menu a{
+text-decoration:none;
+color:white;
+padding:16px;
+border-radius:14px;
+display:flex;
+gap:15px;
+align-items:center;
+font-size:20px;
+}
+
+.menu a:hover,
+.active{
+background:#101700;
+border:1px solid #b7ff00;
+color:#b7ff00;
+}
+
+.refer-box{
+background:#101700;
+padding:20px;
+border-radius:20px;
+border:1px solid #2b5500;
+text-align:center;
+}
+
+.refer-box h3{
+color:#b7ff00;
+margin-bottom:10px;
+}
+
+.refer-btn{
+margin-top:15px;
+background:#b7ff00;
+color:black;
+border:none;
+padding:14px 20px;
+border-radius:12px;
+font-weight:bold;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:25px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.search{
+width:500px;
+background:#050505;
+border:1px solid #2d5a00;
+padding:18px 25px;
+border-radius:18px;
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.search input{
+background:none;
+border:none;
+outline:none;
+color:white;
+width:100%;
+font-size:18px;
+}
+
+.top-icons{
+display:flex;
+gap:25px;
+}
+
+.top-icons i{
+font-size:28px;
+color:#b7ff00;
+position:relative;
+}
+
+.badge{
+position:absolute;
+top:-8px;
+right:-10px;
+background:#b7ff00;
+color:black;
+width:22px;
+height:22px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:12px;
+font-weight:bold;
+}
+
+/* CONTENT */
+
+.content{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:25px;
+}
+
+/* CART ITEMS */
+
+.cart-box{
+background:#050505;
+border:1px solid #193600;
+border-radius:25px;
+padding:25px;
+}
+
+.cart-title{
+display:flex;
+justify-content:space-between;
+margin-bottom:25px;
+}
+
+.cart-title h2{
+font-size:38px;
+color:#b7ff00;
+}
+
+.cart-item{
+display:flex;
+align-items:center;
+gap:20px;
+background:#070707;
+border:1px solid #193600;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+.check{
+width:28px;
+height:28px;
+accent-color:#b7ff00;
+}
+
+.product-img{
+width:140px;
+height:140px;
+border-radius:20px;
+border:2px solid #b7ff00;
+padding:10px;
+}
+
+.product-img img{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
+.item-details{
+flex:1;
+}
+
+.item-details h3{
+font-size:32px;
+margin-bottom:15px;
+}
+
+.price{
+font-size:34px;
+color:#b7ff00;
+font-weight:bold;
+}
+
+.old-price{
+font-size:22px;
+text-decoration:line-through;
+color:#888;
+margin-left:10px;
+}
+
+.off{
+background:#1c3000;
+padding:8px 14px;
+border-radius:10px;
+font-size:18px;
+margin-left:12px;
+color:#b7ff00;
+}
+
+.qty{
+display:flex;
+align-items:center;
+gap:15px;
+margin-top:20px;
+}
+
+.qty button{
+width:45px;
+height:45px;
+border:none;
+background:#101700;
+border:1px solid #2d5a00;
+color:#b7ff00;
+font-size:22px;
+border-radius:10px;
+}
+
+.delete{
+font-size:24px;
+color:#999;
+}
+
+/* SUMMARY */
+
+.summary{
+background:#050505;
+border:1px solid #b7ff00;
+border-radius:25px;
+padding:25px;
+height:fit-content;
+position:sticky;
+top:20px;
+}
+
+.summary h2{
+color:#b7ff00;
+margin-bottom:30px;
+font-size:34px;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+font-size:22px;
+}
+
+.green{
+color:#b7ff00;
+}
+
+.total{
+font-size:36px;
+font-weight:bold;
+margin-top:25px;
+}
+
+.address,
+.payment{
+background:#070707;
+padding:20px;
+border-radius:18px;
+border:1px solid #193600;
+margin-top:25px;
+}
+
+.address h3,
+.payment h3{
+margin-bottom:15px;
+color:#b7ff00;
+}
+
+.pay-option{
+display:flex;
+justify-content:space-between;
+padding:15px 0;
+border-bottom:1px solid #1d3900;
+font-size:20px;
+}
+
+.checkout-btn{
+margin-top:30px;
+width:100%;
+padding:22px;
+border:none;
+background:#b7ff00;
+color:black;
+font-size:24px;
+font-weight:bold;
+border-radius:18px;
+cursor:pointer;
+}
+
+.secure{
+text-align:center;
+margin-top:15px;
+color:#aaa;
+}
+
+/* BOTTOM */
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:260px;
+right:0;
+height:90px;
+background:#050505;
+border-top:1px solid #1d3900;
+display:flex;
+justify-content:space-around;
+align-items:center;
+}
+
+.bottom-nav a{
+text-decoration:none;
+color:white;
+text-align:center;
+font-size:18px;
+}
+
+.bottom-nav .active-bottom{
+color:#b7ff00;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.sidebar{
+display:none;
+}
+
+.bottom-nav{
+left:0;
+}
+
+.content{
+grid-template-columns:1fr;
+}
+
+.search{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div>
+
+<div class="logo">
+🛍 NEON SHOP
+</div>
+
+<div class="menu">
+
+<a href="#"><i class="fa-solid fa-house"></i> Dashboard</a>
+
+<a href="#" class="active"><i class="fa-solid fa-bag-shopping"></i> Shop</a>
+
+<a href="#"><i class="fa-solid fa-layer-group"></i> Categories</a>
+
+<a href="#"><i class="fa-solid fa-box"></i> My Orders</a>
+
+<a href="#"><i class="fa-solid fa-wallet"></i> Wallet</a>
+
+<a href="#"><i class="fa-solid fa-users"></i> Referrals</a>
+
+<a href="#"><i class="fa-solid fa-chart-line"></i> Earnings</a>
+
+<a href="#"><i class="fa-solid fa-location-dot"></i> Address</a>
+
+<a href="#"><i class="fa-solid fa-headset"></i> Support</a>
+
+<a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+
+</div>
+
+</div>
+
+<div class="refer-box">
+
+<h3>REFER & EARN</h3>
+
+<p>Invite your friends and earn unlimited rewards</p>
+
+<button class="refer-btn">Invite Now</button>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<div class="search">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input type="text" placeholder="Search for products...">
+
+</div>
+
+<div class="top-icons">
+
+<i class="fa-regular fa-bell">
+<span class="badge">3</span>
+</i>
+
+<i class="fa-solid fa-cart-shopping">
+<span class="badge">4</span>
+</i>
+
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<!-- LEFT -->
+
+<div class="cart-box">
+
+<div class="cart-title">
+
+<h2>MY CART (4 Items)</h2>
+
+<div>Remove All</div>
+
+</div>
+
+<!-- ITEM -->
+
+<div class="cart-item">
+
+<input type="checkbox" class="check" checked>
+
+<div class="product-img">
+<img src="https://m.media-amazon.com/images/I/61y2VVWcGBL._SL1500_.jpg">
+</div>
+
+<div class="item-details">
+
+<h3>Fire-Boltt Ninja Pro Max Smart Watch</h3>
+
+<div class="price">
+₹ 2,999
+<span class="old-price">₹ 4,999</span>
+<span class="off">40% OFF</span>
+</div>
+
+<div class="qty">
+
+<button>-</button>
+
+<span>1</span>
+
+<button>+</button>
+
+</div>
+
+</div>
+
+<div class="delete">
+<i class="fa-regular fa-trash-can"></i>
+</div>
+
+</div>
+
+<!-- ITEM -->
+
+<div class="cart-item">
+
+<input type="checkbox" class="check" checked>
+
+<div class="product-img">
+<img src="https://m.media-amazon.com/images/I/61KNJav3S9L._SL1500_.jpg">
+</div>
+
+<div class="item-details">
+
+<h3>boAt Airdopes 141</h3>
+
+<div class="price">
+₹ 1,299
+<span class="old-price">₹ 2,399</span>
+<span class="off">46% OFF</span>
+</div>
+
+<div class="qty">
+
+<button>-</button>
+
+<span>1</span>
+
+<button>+</button>
+
+</div>
+
+</div>
+
+<div class="delete">
+<i class="fa-regular fa-trash-can"></i>
+</div>
+
+</div>
+
+<!-- ITEM -->
+
+<div class="cart-item">
+
+<input type="checkbox" class="check" checked>
+
+<div class="product-img">
+<img src="https://rukminim2.flixcart.com/image/850/1000/xif0q/shoe/l/g/r/8-376741-8-puma-black-castlerock-high-risk-red-original-imagqzcxzc8fwjtf.jpeg?q=90&crop=false">
+</div>
+
+<div class="item-details">
+
+<h3>Puma Running Shoes</h3>
+
+<div class="price">
+₹ 1,799
+<span class="old-price">₹ 2,999</span>
+<span class="off">40% OFF</span>
+</div>
+
+<div class="qty">
+
+<button>-</button>
+
+<span>1</span>
+
+<button>+</button>
+
+</div>
+
+</div>
+
+<div class="delete">
+<i class="fa-regular fa-trash-can"></i>
+</div>
+
+</div>
+
+</div>
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<h2>ORDER SUMMARY</h2>
+
+<div class="summary-row">
+<span>Total MRP</span>
+<span>₹ 70,297</span>
+</div>
+
+<div class="summary-row">
+<span>Discount</span>
+<span class="green">- ₹ 10,300</span>
+</div>
+
+<div class="summary-row">
+<span>Coupon Discount</span>
+<span class="green">- ₹ 1,000</span>
+</div>
+
+<div class="summary-row">
+<span>Shipping</span>
+<span class="green">FREE</span>
+</div>
+
+<hr style="margin:20px 0;border-color:#1d3900;">
+
+<div class="summary-row total">
+<span>Total Amount</span>
+<span class="green">₹ 58,997</span>
+</div>
+
+<!-- ADDRESS -->
+
+<div class="address">
+
+<h3>Deliver To</h3>
+
+<p>John Doe</p>
+<p>123 Green Street, Bangalore</p>
+<p>+91 9876543210</p>
+
+</div>
+
+<!-- PAYMENT -->
+
+<div class="payment">
+
+<h3>Payment Method</h3>
+
+<div class="pay-option">
+<span>UPI</span>
+<span class="green">✔</span>
+</div>
+
+<div class="pay-option">
+<span>Credit / Debit Card</span>
+<span>○</span>
+</div>
+
+<div class="pay-option">
+<span>Net Banking</span>
+<span>○</span>
+</div>
+
+<div class="pay-option">
+<span>Wallet Balance</span>
+<span>₹ 24,890</span>
+</div>
+
+</div>
+
+<button class="checkout-btn">
+
+PROCEED TO CHECKOUT →
+
+</button>
+
+<div class="secure">
+🔒 100% Secure Payment
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom-nav">
+
+<a href="#">
+<i class="fa-solid fa-house"></i>
+<br>Home
+</a>
+
+<a href="#">
+<i class="fa-solid fa-bag-shopping"></i>
+<br>Shop
+</a>
+
+<a href="#" class="active-bottom">
+<i class="fa-solid fa-cart-shopping"></i>
+<br>Cart
+</a>
+
+<a href="#">
+<i class="fa-solid fa-box"></i>
+<br>Orders
+</a>
+
+<a href="#">
+<i class="fa-regular fa-user"></i>
+<br>Profile
+</a>
+
+</div>
+
+</body>
+</html>

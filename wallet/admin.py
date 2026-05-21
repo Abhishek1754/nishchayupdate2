@@ -1,8 +1,32 @@
 from django.contrib import admin
-from accounts.admin import admin_site
+
 from .models import WalletTransaction
 
 
-@admin.register(WalletTransaction, site=admin_site)
-class WalletAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'amount', 'type')
+@admin.register(WalletTransaction)
+class WalletTransactionAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'transaction_type',
+        'source',
+        'amount',
+        'balance_after',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+
+    )
+
+    list_filter = (
+
+        'transaction_type',
+        'source',
+
+    )

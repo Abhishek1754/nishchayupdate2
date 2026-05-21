@@ -1,0 +1,1174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nishchay Multiverse</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    color:white;
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#000;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#b6ff00;
+    border-radius:20px;
+}
+
+/* BACKGROUND GLOW */
+
+.glow1{
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:#b6ff00;
+    filter:blur(220px);
+    opacity:.08;
+    top:-200px;
+    left:-100px;
+    z-index:-1;
+}
+
+.glow2{
+    position:fixed;
+    width:500px;
+    height:500px;
+    background:#b6ff00;
+    filter:blur(220px);
+    opacity:.08;
+    bottom:-200px;
+    right:-100px;
+    z-index:-1;
+}
+
+/* NAVBAR */
+
+.navbar{
+    width:100%;
+    padding:22px 70px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:rgba(0,0,0,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(182,255,0,.15);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-box{
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    border:2px solid #b6ff00;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    font-weight:800;
+    color:#b6ff00;
+    box-shadow:0 0 20px rgba(182,255,0,.4);
+}
+
+.logo h1{
+    font-family:'Orbitron',sans-serif;
+    color:#b6ff00;
+    font-size:34px;
+}
+
+.nav-links{
+    display:flex;
+    gap:35px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    transition:.3s;
+    font-size:14px;
+}
+
+.nav-links a:hover{
+    color:#b6ff00;
+}
+
+.nav-btns{
+    display:flex;
+    gap:15px;
+}
+
+.btn{
+    padding:13px 24px;
+    border-radius:14px;
+    border:1px solid #b6ff00;
+    color:#b6ff00;
+    text-decoration:none;
+    transition:.3s;
+    font-size:14px;
+}
+
+.btn:hover{
+    background:#b6ff00;
+    color:#000;
+    box-shadow:0 0 20px rgba(182,255,0,.35);
+}
+
+.btn.active{
+    background:#b6ff00;
+    color:#000;
+    font-weight:700;
+}
+
+/* HERO */
+
+.hero{
+    width:100%;
+    min-height:100vh;
+    padding:60px 70px;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:40px;
+    align-items:center;
+}
+
+/* LEFT */
+
+.hero-left .tag{
+    display:inline-block;
+    padding:12px 22px;
+    border-radius:40px;
+    border:1px solid #b6ff00;
+    color:#b6ff00;
+    margin-bottom:25px;
+    font-size:13px;
+    background:rgba(182,255,0,.08);
+}
+
+.hero-left h1{
+    font-family:'Orbitron',sans-serif;
+    font-size:65px;
+    line-height:1.1;
+    margin-bottom:25px;
+}
+
+.hero-left h1 span{
+    color:#b6ff00;
+}
+
+.hero-left p{
+    color:#aaa;
+    line-height:1.9;
+    margin-bottom:35px;
+}
+
+.hero-btns{
+    display:flex;
+    gap:20px;
+    margin-bottom:40px;
+}
+
+.hero-btn{
+    padding:16px 30px;
+    border-radius:16px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.hero-btn.primary{
+    background:#b6ff00;
+    color:#000;
+    font-weight:700;
+}
+
+.hero-btn.secondary{
+    border:1px solid #b6ff00;
+    color:#b6ff00;
+}
+
+.hero-btn:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 20px rgba(182,255,0,.35);
+}
+
+.stats{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.stat{
+    background:#0b0b0b;
+    border:1px solid rgba(182,255,0,.15);
+    padding:18px 22px;
+    border-radius:18px;
+    min-width:140px;
+}
+
+.stat h2{
+    color:#b6ff00;
+    margin-bottom:6px;
+}
+
+.stat p{
+    font-size:13px;
+    color:#aaa;
+}
+
+/* CENTER */
+
+.hero-center{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.orb{
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    background:radial-gradient(circle,#b6ff00 0%,#567700 45%,transparent 70%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    animation:float 4s ease-in-out infinite;
+    box-shadow:0 0 120px rgba(182,255,0,.35);
+}
+
+.orb-inner{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    border:4px solid #b6ff00;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:70px;
+    font-weight:800;
+    color:#b6ff00;
+    background:#000;
+}
+
+.floating-card{
+    position:absolute;
+    width:140px;
+    background:#0b0b0b;
+    border:1px solid rgba(182,255,0,.25);
+    border-radius:20px;
+    padding:18px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(182,255,0,.12);
+}
+
+.floating-card h3{
+    color:#b6ff00;
+    margin-bottom:8px;
+    font-size:18px;
+}
+
+.floating-card p{
+    color:#aaa;
+    font-size:12px;
+}
+
+.card1{
+    top:-20px;
+    left:-40px;
+}
+
+.card2{
+    top:-20px;
+    right:-40px;
+}
+
+.card3{
+    bottom:-20px;
+    left:-40px;
+}
+
+.card4{
+    bottom:-20px;
+    right:-40px;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+/* RIGHT SHOP PORTAL */
+
+.portal{
+    background:#0b0b0b;
+    border:1px solid rgba(182,255,0,.18);
+    border-radius:30px;
+    padding:35px;
+    box-shadow:0 0 30px rgba(182,255,0,.08);
+}
+
+.portal-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.portal-title h2{
+    color:#b6ff00;
+    font-size:30px;
+}
+
+.portal-title span{
+    color:#aaa;
+    font-size:13px;
+}
+
+.portal-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.form-box h3{
+    color:#b6ff00;
+    margin-bottom:18px;
+}
+
+.form-box input{
+    width:100%;
+    height:52px;
+    background:#111;
+    border:1px solid #222;
+    border-radius:14px;
+    margin-bottom:16px;
+    padding:0 18px;
+    color:white;
+    outline:none;
+}
+
+.form-box input:focus{
+    border-color:#b6ff00;
+    box-shadow:0 0 10px rgba(182,255,0,.2);
+}
+
+.form-box button{
+    width:100%;
+    height:52px;
+    border:none;
+    border-radius:14px;
+    background:#b6ff00;
+    color:#000;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.form-box button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 20px rgba(182,255,0,.35);
+}
+
+.small-text{
+    color:#888;
+    font-size:12px;
+    margin-top:12px;
+}
+
+/* APP CARDS */
+
+.apps{
+    padding:20px 70px 90px;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.section-title h2{
+    font-size:46px;
+    font-family:'Orbitron',sans-serif;
+}
+
+.section-title span{
+    color:#b6ff00;
+}
+
+.apps-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+
+.app-card{
+    background:#0b0b0b;
+    border:1px solid rgba(182,255,0,.18);
+    border-radius:28px;
+    padding:28px;
+    transition:.4s;
+    position:relative;
+    overflow:hidden;
+}
+
+.app-card:hover{
+    transform:translateY(-8px);
+    border-color:#b6ff00;
+    box-shadow:0 0 30px rgba(182,255,0,.15);
+}
+
+.app-number{
+    position:absolute;
+    top:18px;
+    right:20px;
+    font-size:34px;
+    color:#b6ff00;
+    opacity:.15;
+    font-weight:800;
+}
+
+.app-icon{
+    width:85px;
+    height:85px;
+    border-radius:22px;
+    border:2px solid #b6ff00;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#b6ff00;
+    font-size:40px;
+    margin-bottom:22px;
+    box-shadow:0 0 18px rgba(182,255,0,.2);
+}
+
+.app-card h3{
+    color:#b6ff00;
+    margin-bottom:15px;
+    font-size:24px;
+}
+
+.app-card p{
+    color:#aaa;
+    line-height:1.8;
+    margin-bottom:20px;
+}
+
+.app-card ul{
+    padding-left:18px;
+    color:#ccc;
+    line-height:1.9;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+.app-card a{
+    display:inline-block;
+    padding:12px 24px;
+    border:1px solid #b6ff00;
+    border-radius:14px;
+    color:#b6ff00;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.app-card a:hover{
+    background:#b6ff00;
+    color:#000;
+}
+
+/* CTA */
+
+.cta{
+    margin:0 70px 80px;
+    background:#0b0b0b;
+    border:1px solid rgba(182,255,0,.18);
+    border-radius:35px;
+    padding:50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:40px;
+}
+
+.cta h2{
+    font-size:55px;
+    font-family:'Orbitron',sans-serif;
+    color:#b6ff00;
+}
+
+.cta p{
+    color:#aaa;
+    margin-top:12px;
+}
+
+.cta-buttons{
+    display:flex;
+    gap:20px;
+}
+
+.cta-buttons a{
+    padding:16px 28px;
+    border-radius:16px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.join-btn{
+    background:#b6ff00;
+    color:#000;
+    font-weight:700;
+}
+
+.shop-btn{
+    border:1px solid #b6ff00;
+    color:#b6ff00;
+}
+
+.cta-buttons a:hover{
+    transform:translateY(-4px);
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid rgba(182,255,0,.12);
+    padding:60px 70px;
+    background:#050505;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px;
+}
+
+.footer-box h3{
+    color:#b6ff00;
+    margin-bottom:20px;
+}
+
+.footer-box p{
+    color:#999;
+    line-height:1.8;
+}
+
+.footer-box a{
+    display:block;
+    color:#999;
+    margin-bottom:12px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.footer-box a:hover{
+    color:#b6ff00;
+}
+
+.newsletter{
+    display:flex;
+    margin-top:18px;
+}
+
+.newsletter input{
+    flex:1;
+    height:50px;
+    background:#111;
+    border:none;
+    padding:0 15px;
+    color:white;
+    border-radius:12px 0 0 12px;
+}
+
+.newsletter button{
+    width:60px;
+    border:none;
+    background:#b6ff00;
+    color:#000;
+    border-radius:0 12px 12px 0;
+    cursor:pointer;
+}
+
+.copyright{
+    text-align:center;
+    color:#666;
+    margin-top:50px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1300px){
+
+    .hero{
+        grid-template-columns:1fr;
+    }
+
+    .apps-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .portal-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .navbar{
+        padding:20px;
+        flex-direction:column;
+        gap:20px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero{
+        padding:30px 20px;
+    }
+
+    .hero-left h1{
+        font-size:42px;
+    }
+
+    .apps{
+        padding:20px;
+    }
+
+    .apps-grid{
+        grid-template-columns:1fr;
+    }
+
+    .cta{
+        margin:20px;
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .cta h2{
+        font-size:36px;
+    }
+
+    footer{
+        padding:40px 20px;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="glow1"></div>
+<div class="glow2"></div>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        <div class="logo-box">
+            N
+        </div>
+
+        <h1>NISHCHAY</h1>
+
+    </div>
+
+    <div class="nav-links">
+
+        <a href="#">HOME</a>
+        <a href="#">ABOUT</a>
+        <a href="#">APPS</a>
+        <a href="#">FEATURES</a>
+        <a href="#">PRICING</a>
+        <a href="#">BLOG</a>
+        <a href="#">CONTACT</a>
+
+    </div>
+
+    <div class="nav-btns">
+
+        <a href="#" class="btn">
+            User Login
+        </a>
+
+        <a href="#" class="btn">
+            Register
+        </a>
+
+        <a href="#" class="btn active">
+            Shop Login
+        </a>
+
+    </div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <!-- LEFT -->
+
+    <div class="hero-left">
+
+        <div class="tag">
+            ⚡ SMART SOLUTIONS. REAL GROWTH.
+        </div>
+
+        <h1>
+            ONE UNIVERSE. <br>
+            FOUR APPS. <br>
+            <span>ENDLESS POSSIBILITIES.</span>
+        </h1>
+
+        <p>
+            Nishchay Multiverse Innovation is a next-gen ecosystem
+            combining Recharge, Ecommerce, ROI & Fuddo
+            into one powerful universe.
+        </p>
+
+        <div class="hero-btns">
+
+            <a href="#" class="hero-btn primary">
+                Explore Universe →
+            </a>
+
+            <a href="#" class="hero-btn secondary">
+                Watch Demo
+            </a>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h2>50K+</h2>
+                <p>Happy Users</p>
+            </div>
+
+            <div class="stat">
+                <h2>99.9%</h2>
+                <p>Secure</p>
+            </div>
+
+            <div class="stat">
+                <h2>24/7</h2>
+                <p>Support</p>
+            </div>
+
+            <div class="stat">
+                <h2>100%</h2>
+                <p>Reliable</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CENTER -->
+
+    <div class="hero-center">
+
+        <div class="floating-card card1">
+
+            <h3>Recharge</h3>
+
+            <p>Fast. Secure. Reliable.</p>
+
+        </div>
+
+        <div class="floating-card card2">
+
+            <h3>Ecommerce</h3>
+
+            <p>Shop Smart. Live Better.</p>
+
+        </div>
+
+        <div class="floating-card card3">
+
+            <h3>ROI</h3>
+
+            <p>Invest Smart. Earn More.</p>
+
+        </div>
+
+        <div class="floating-card card4">
+
+            <h3>FUDDO</h3>
+
+            <p>Delicious Food Delivered.</p>
+
+        </div>
+
+        <div class="orb">
+
+            <div class="orb-inner">
+                N
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="portal">
+
+        <div class="portal-title">
+
+            <h2>SHOP PORTAL</h2>
+
+            <span>Grow Your Business With Us</span>
+
+        </div>
+
+        <div class="portal-grid">
+
+            <!-- LOGIN -->
+
+            <div class="form-box">
+
+                <h3>SHOP LOGIN</h3>
+
+                <input type="text" placeholder="Email or Mobile Number">
+
+                <input type="password" placeholder="Password">
+
+                <button>
+                    Login
+                </button>
+
+                <div class="small-text">
+                    Remember me • Forgot Password?
+                </div>
+
+            </div>
+
+            <!-- SIGNUP -->
+
+           <!-- SIGNUP -->
+
+<div class="form-box">
+
+    <h3>SHOP SIGN UP</h3>
+
+    <input type="text" placeholder="Full Name" required>
+
+    <input type="text" placeholder="Mobile Number" required>
+
+    <input type="email" placeholder="Email Address" required>
+
+    <input type="text" placeholder="Shop Name" required>
+
+    <input type="text" placeholder="GST Number" required>
+
+    <input type="text" placeholder="PAN Card Number" required>
+
+    <input type="text" placeholder="Referral Code (Optional)">
+
+    <input type="password" placeholder="Password" required>
+
+    <input type="password" placeholder="Confirm Password" required>
+
+    <button>
+        Create Account
+    </button>
+
+    <div class="small-text">
+        GST & PAN verification required for secure onboarding.
+    </div>
+
+</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- APPS -->
+
+<section class="apps">
+
+    <div class="section-title">
+
+        <h2>
+            FOUR APPS.
+            <span>UNLIMITED POSSIBILITIES.</span>
+        </h2>
+
+    </div>
+
+    <div class="apps-grid">
+
+        <!-- RECHARGE -->
+
+        <div class="app-card">
+
+            <div class="app-number">01</div>
+
+            <div class="app-icon">
+                ⚡
+            </div>
+
+            <h3>Recharge App</h3>
+
+            <p>
+                Instant recharge ecosystem for mobile,
+                DTH and utility services.
+            </p>
+
+            <ul>
+                <li>Mobile Recharge</li>
+                <li>DTH Recharge</li>
+                <li>Bill Payments</li>
+                <li>Secure Transactions</li>
+            </ul>
+
+          <a href="/recharge/">
+    Explore Recharge →
+</a>
+
+        </div>
+
+        <!-- ECOMMERCE -->
+
+        <div class="app-card">
+
+            <div class="app-number">02</div>
+
+            <div class="app-icon">
+                🛒
+            </div>
+
+            <h3>Ecommerce</h3>
+
+            <p>
+                Shop smart with cashback rewards
+                and thousands of products.
+            </p>
+
+            <ul>
+                <li>Wide Product Range</li>
+                <li>Best Prices</li>
+                <li>Secure Shopping</li>
+                <li>Fast Delivery</li>
+            </ul>
+<a href="/eccomerce/">
+    Explore Ecommerce →
+</a>
+
+        </div>
+
+        <!-- ROI -->
+
+        <div class="app-card">
+
+            <div class="app-number">03</div>
+
+            <div class="app-icon">
+                📈
+            </div>
+
+            <h3>ROI Platform</h3>
+
+            <p>
+                Powerful ROI platform for smart
+                income growth and investment.
+            </p>
+
+            <ul>
+                <li>Attractive Plans</li>
+                <li>Real-time Tracking</li>
+                <li>Transparent System</li>
+                <li>Secure Platform</li>
+            </ul>
+
+           <a href="/roi/">
+    Explore ROI →
+</a>
+
+        </div>
+
+        <!-- FUDDO -->
+
+        <div class="app-card">
+
+            <div class="app-number">04</div>
+
+            <div class="app-icon">
+                🍔
+            </div>
+
+            <h3>Nishchay FUDDO</h3>
+
+            <p>
+                Reward-first food delivery app
+                with cashback and offers.
+            </p>
+
+            <ul>
+                <li>Fast Delivery</li>
+                <li>Top Restaurants</li>
+                <li>Cashback Rewards</li>
+                <li>Easy Tracking</li>
+            </ul>
+
+          <a href="/food/location/">
+    Explore FUDDO →
+</a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <div>
+
+        <h2>NISHCHAY</h2>
+
+        <p>
+            Step into the universe of endless possibilities.
+        </p>
+
+    </div>
+
+    <div class="cta-buttons">
+
+        <a href="#" class="join-btn">
+            Join Now
+        </a>
+
+        <a href="#" class="shop-btn">
+            Shop Login
+        </a>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-grid">
+
+        <div class="footer-box">
+
+            <h3>NISHCHAY MULTIVERSE</h3>
+
+            <p>
+                One universe. Four powerful apps.
+                Simplifying everyday needs.
+            </p>
+
+        </div>
+
+        <div class="footer-box">
+
+            <h3>Quick Links</h3>
+
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Apps</a>
+            <a href="#">Pricing</a>
+            <a href="#">Blog</a>
+
+        </div>
+
+        <div class="footer-box">
+
+            <h3>Our Apps</h3>
+
+            <a href="#">Recharge</a>
+            <a href="#">Ecommerce</a>
+            <a href="#">ROI</a>
+            <a href="#">FUDDO</a>
+
+        </div>
+
+        <div class="footer-box">
+
+            <h3>Newsletter</h3>
+
+            <p>
+                Stay updated with latest news.
+            </p>
+
+            <div class="newsletter">
+
+                <input type="email" placeholder="Enter your email">
+
+                <button>
+                    →
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="copyright">
+        © 2026 Nishchay Multiverse Innovation. All Rights Reserved.
+    </div>
+
+</footer>
+
+</body>
+</html>

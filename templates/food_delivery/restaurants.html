@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUDDO - Restaurants</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#000;
+            color:white;
+            display:flex;
+            justify-content:center;
+            overflow-x:hidden;
+        }
+
+        .mobile-screen{
+            width:100%;
+            max-width:390px;
+            min-height:100vh;
+            background:#000;
+            padding:18px;
+            padding-bottom:100px;
+            position:relative;
+        }
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:20px;
+        }
+
+        .back-btn{
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            border:2px solid #c6ff00;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:#c6ff00;
+            text-decoration:none;
+            font-size:20px;
+            box-shadow:0 0 12px rgba(198,255,0,.3);
+        }
+
+        .page-title{
+            font-size:22px;
+            font-weight:700;
+        }
+
+        .filter-btn{
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            border:2px solid #1f1f1f;
+            background:#111;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:#c6ff00;
+            font-size:18px;
+        }
+
+        .search-box{
+            width:100%;
+            height:52px;
+            background:#111;
+            border:1px solid #1f1f1f;
+            border-radius:16px;
+            display:flex;
+            align-items:center;
+            padding:0 16px;
+            margin-bottom:22px;
+            gap:10px;
+        }
+
+        .search-box input{
+            flex:1;
+            background:none;
+            border:none;
+            outline:none;
+            color:white;
+            font-size:14px;
+        }
+
+        .category-scroll{
+            display:flex;
+            gap:10px;
+            overflow-x:auto;
+            margin-bottom:24px;
+            scrollbar-width:none;
+        }
+
+        .category-scroll::-webkit-scrollbar{
+            display:none;
+        }
+
+        .category{
+            padding:10px 18px;
+            border-radius:30px;
+            background:#111;
+            border:1px solid #1f1f1f;
+            color:white;
+            font-size:13px;
+            white-space:nowrap;
+        }
+
+        .category.active{
+            background:#c6ff00;
+            color:#000;
+            font-weight:600;
+        }
+
+        .section-title{
+            font-size:22px;
+            margin-bottom:18px;
+        }
+
+        .restaurants{
+            display:flex;
+            flex-direction:column;
+            gap:18px;
+        }
+
+        .restaurant-card{
+            background:#0b0b0b;
+            border:1px solid #1f1f1f;
+            border-radius:24px;
+            overflow:hidden;
+            transition:.3s;
+        }
+
+        .restaurant-card:hover{
+            border-color:#c6ff00;
+            box-shadow:0 0 18px rgba(198,255,0,.18);
+        }
+
+        .restaurant-image{
+            width:100%;
+            height:180px;
+            background:linear-gradient(135deg,#c6ff00,#7fff00);
+            position:relative;
+        }
+
+        .offer-badge{
+            position:absolute;
+            top:14px;
+            left:14px;
+            background:#000;
+            color:#c6ff00;
+            padding:8px 14px;
+            border-radius:12px;
+            font-size:12px;
+            font-weight:700;
+            border:1px solid #c6ff00;
+        }
+
+        .restaurant-content{
+            padding:18px;
+        }
+
+        .restaurant-top{
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            margin-bottom:10px;
+        }
+
+        .restaurant-details h2{
+            font-size:22px;
+            margin-bottom:6px;
+        }
+
+        .restaurant-details p{
+            font-size:13px;
+            color:#bbb;
+            line-height:1.6;
+        }
+
+        .rating{
+            background:#c6ff00;
+            color:#000;
+            padding:7px 12px;
+            border-radius:12px;
+            font-size:13px;
+            font-weight:700;
+        }
+
+        .restaurant-info{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:16px;
+        }
+
+        .delivery-time{
+            color:#c6ff00;
+            font-size:13px;
+            font-weight:600;
+        }
+
+        .menu-btn{
+            background:#c6ff00;
+            color:#000;
+            border:none;
+            padding:10px 16px;
+            border-radius:12px;
+            font-size:13px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .menu-btn:hover{
+            transform:scale(1.05);
+            box-shadow:0 0 12px rgba(198,255,0,.4);
+        }
+
+        .bottom-nav{
+            position:fixed;
+            bottom:0;
+            width:100%;
+            max-width:390px;
+            height:75px;
+            background:#0b0b0b;
+            border-top:1px solid #1f1f1f;
+            display:flex;
+            justify-content:space-around;
+            align-items:center;
+            z-index:999;
+        }
+
+        .nav-item{
+            text-align:center;
+            color:#777;
+            text-decoration:none;
+            font-size:11px;
+        }
+
+        .nav-item.active{
+            color:#c6ff00;
+        }
+
+        .nav-icon{
+            font-size:20px;
+            margin-bottom:4px;
+        }
+
+        .bottom-glow{
+            position:absolute;
+            width:240px;
+            height:240px;
+            background:#c6ff00;
+            filter:blur(150px);
+            opacity:.08;
+            bottom:-100px;
+            left:50%;
+            transform:translateX(-50%);
+            pointer-events:none;
+        }
+
+        @media(max-width:480px){
+
+            .mobile-screen{
+                max-width:100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="mobile-screen">
+
+    <div class="top-bar">
+
+        <a href="/food/home/" class="back-btn">
+            ←
+        </a>
+
+        <div class="page-title">
+            Restaurants
+        </div>
+
+        <div class="filter-btn">
+            ☰
+        </div>
+
+    </div>
+
+    <div class="search-box">
+
+        🔍
+
+        <input type="text" placeholder="Search restaurants...">
+
+    </div>
+
+    <div class="category-scroll">
+
+        <div class="category active">
+            All
+        </div>
+
+        <div class="category">
+            Pizza
+        </div>
+
+        <div class="category">
+            Burger
+        </div>
+
+        <div class="category">
+            Biryani
+        </div>
+
+        <div class="category">
+            Chinese
+        </div>
+
+        <div class="category">
+            South Indian
+        </div>
+
+    </div>
+
+    <h2 class="section-title">
+        Top Restaurants
+    </h2>
+
+    <div class="restaurants">
+
+        <div class="restaurant-card">
+
+            <div class="restaurant-image">
+
+                <div class="offer-badge">
+                    20% OFF
+                </div>
+
+            </div>
+
+            <div class="restaurant-content">
+
+                <div class="restaurant-top">
+
+                    <div class="restaurant-details">
+
+                        <h2>Pizza Point</h2>
+
+                        <p>
+                            Pizza • Italian • Fast Food
+                        </p>
+
+                    </div>
+
+                    <div class="rating">
+                        ★ 4.5
+                    </div>
+
+                </div>
+
+                <div class="restaurant-info">
+
+                    <div class="delivery-time">
+                        🛵 25 mins
+                    </div>
+
+                    <a href="/food/menu/">
+
+                        <button class="menu-btn">
+                            Open Menu
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="restaurant-card">
+
+            <div class="restaurant-image">
+
+                <div class="offer-badge">
+                    FREE DELIVERY
+                </div>
+
+            </div>
+
+            <div class="restaurant-content">
+
+                <div class="restaurant-top">
+
+                    <div class="restaurant-details">
+
+                        <h2>Biryani House</h2>
+
+                        <p>
+                            Biryani • Mughlai • North Indian
+                        </p>
+
+                    </div>
+
+                    <div class="rating">
+                        ★ 4.3
+                    </div>
+
+                </div>
+
+                <div class="restaurant-info">
+
+                    <div class="delivery-time">
+                        🛵 30 mins
+                    </div>
+
+                    <a href="/food/menu/">
+
+                        <button class="menu-btn">
+                            Open Menu
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="restaurant-card">
+
+            <div class="restaurant-image">
+
+                <div class="offer-badge">
+                    BUY 1 GET 1
+                </div>
+
+            </div>
+
+            <div class="restaurant-content">
+
+                <div class="restaurant-top">
+
+                    <div class="restaurant-details">
+
+                        <h2>Burger Hub</h2>
+
+                        <p>
+                            Burgers • Fries • Snacks
+                        </p>
+
+                    </div>
+
+                    <div class="rating">
+                        ★ 4.6
+                    </div>
+
+                </div>
+
+                <div class="restaurant-info">
+
+                    <div class="delivery-time">
+                        🛵 18 mins
+                    </div>
+
+                    <a href="/food/menu/">
+
+                        <button class="menu-btn">
+                            Open Menu
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bottom-glow"></div>
+
+</div>
+
+<div class="bottom-nav">
+
+    <a href="/food/home/" class="nav-item">
+
+        <div class="nav-icon">🏠</div>
+
+        Home
+
+    </a>
+
+    <a href="/food/restaurants/" class="nav-item active">
+
+        <div class="nav-icon">🍽️</div>
+
+        Orders
+
+    </a>
+
+    <a href="/food/rewards/" class="nav-item">
+
+        <div class="nav-icon">🎁</div>
+
+        Rewards
+
+    </a>
+
+    <a href="/food/profile/" class="nav-item">
+
+        <div class="nav-icon">👤</div>
+
+        Profile
+
+    </a>
+
+</div>
+
+</body>
+</html>

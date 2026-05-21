@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ROI Plan Details</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#000;
+    color:white;
+    padding:30px;
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.back-btn{
+    font-size:40px;
+    color:#39ff14;
+    text-decoration:none;
+}
+
+.header-text h1{
+    font-size:42px;
+}
+
+.header-text p{
+    color:#bdbdbd;
+    margin-top:8px;
+}
+
+.header-icons{
+    display:flex;
+    gap:20px;
+}
+
+.icon{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    border:2px solid #39ff14;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#39ff14;
+    font-size:24px;
+    box-shadow:0 0 15px rgba(57,255,20,0.4);
+}
+
+/* MAIN */
+
+.container{
+    display:flex;
+    gap:30px;
+}
+
+.left{
+    flex:1.3;
+}
+
+.right{
+    flex:1;
+}
+
+/* CARD */
+
+.card{
+    background:#050505;
+    border:1px solid #2a2a2a;
+    border-radius:25px;
+    padding:35px;
+    margin-bottom:30px;
+    transition:0.3s;
+}
+
+.card:hover{
+    border:1px solid #39ff14;
+    box-shadow:
+    0 0 15px rgba(57,255,20,0.2);
+}
+
+/* PLAN TOP */
+
+.plan-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.plan-left h2{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+.roi{
+    font-size:80px;
+    color:#39ff14;
+    font-weight:bold;
+    text-shadow:0 0 15px #39ff14;
+}
+
+.plan-left p{
+    font-size:35px;
+    color:#39ff14;
+}
+
+.plan-image{
+    font-size:180px;
+    color:#39ff14;
+}
+
+/* TABLE */
+
+.table-row{
+    display:flex;
+    justify-content:space-between;
+    padding:18px 0;
+    border-bottom:1px solid #1f1f1f;
+    font-size:28px;
+}
+
+.table-row:last-child{
+    border:none;
+}
+
+.table-row span:last-child{
+    color:#39ff14;
+    font-weight:bold;
+}
+
+/* TITLE */
+
+.section-title{
+    color:#39ff14;
+    margin-bottom:30px;
+    font-size:34px;
+}
+
+/* WORK */
+
+.steps{
+    display:flex;
+    justify-content:space-between;
+    text-align:center;
+    margin-top:30px;
+}
+
+.step{
+    width:23%;
+}
+
+.step-number{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#39ff14;
+    color:black;
+    font-size:28px;
+    font-weight:bold;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.step-icon{
+    font-size:60px;
+    color:#39ff14;
+    margin-bottom:15px;
+}
+
+.step p{
+    line-height:35px;
+    color:#d1d1d1;
+    font-size:20px;
+}
+
+/* SUMMARY BOX */
+
+.summary-box{
+    background:#081108;
+    border:1px solid #39ff14;
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.summary-box h2{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.summary-box h1{
+    color:#39ff14;
+    font-size:55px;
+    text-shadow:0 0 10px #39ff14;
+}
+
+/* NOTE */
+
+.note-box{
+    display:flex;
+    gap:25px;
+    align-items:flex-start;
+}
+
+.note-icon{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    border:2px solid #39ff14;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    color:#39ff14;
+}
+
+/* BUTTON */
+
+.bottom-btn{
+    width:100%;
+    margin-top:25px;
+    background:#39ff14;
+    border:none;
+    padding:25px;
+    border-radius:18px;
+    font-size:32px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.bottom-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:
+    0 0 20px #39ff14,
+    0 0 40px rgba(57,255,20,0.4);
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+.container{
+    flex-direction:column;
+}
+
+.plan-top{
+    flex-direction:column;
+    gap:30px;
+}
+
+.steps{
+    flex-direction:column;
+    gap:40px;
+}
+
+.step{
+    width:100%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="header-left">
+
+        <a href="/roi/plans/" class="back-btn">←</a>
+
+        <div class="header-text">
+
+            <h1>PLAN DETAILS</h1>
+
+            <p>View detailed information about your selected investment plan</p>
+
+        </div>
+
+    </div>
+
+    <div class="header-icons">
+
+        <div class="icon">🔔</div>
+
+        <div class="icon">👤</div>
+
+    </div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="container">
+
+    <!-- LEFT -->
+
+    <div class="left">
+
+        <!-- PLAN DETAILS -->
+
+        <div class="card">
+
+            <div class="plan-top">
+
+                <div class="plan-left">
+
+                    <h2>Plan 1</h2>
+
+                    <div class="roi">1.5%</div>
+
+                    <p>Daily ROI</p>
+
+                </div>
+
+                <div class="plan-image">📈</div>
+
+            </div>
+
+            <div class="table-row">
+                <span>Minimum Amount</span>
+                <span>₹500</span>
+            </div>
+
+            <div class="table-row">
+                <span>Maximum Amount</span>
+                <span>₹4,999</span>
+            </div>
+
+            <div class="table-row">
+                <span>Validity</span>
+                <span>30 Days</span>
+            </div>
+
+            <div class="table-row">
+                <span>ROI</span>
+                <span>1.5% Daily</span>
+            </div>
+
+            <div class="table-row">
+                <span>Maturity Amount</span>
+                <span>₹645 - ₹6,498</span>
+            </div>
+
+            <div class="table-row">
+                <span>Principal Return</span>
+                <span>Yes</span>
+            </div>
+
+            <div class="table-row">
+                <span>Early Withdrawal</span>
+                <span>Not Allowed</span>
+            </div>
+
+        </div>
+
+        <!-- HOW IT WORKS -->
+
+        <div class="card">
+
+            <h1 class="section-title">HOW IT WORKS?</h1>
+
+            <div class="steps">
+
+                <div class="step">
+
+                    <div class="step-number">1</div>
+
+                    <div class="step-icon">📄</div>
+
+                    <p>Select a plan and enter amount</p>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="step-number">2</div>
+
+                    <div class="step-icon">💳</div>
+
+                    <p>Make payment securely</p>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="step-number">3</div>
+
+                    <div class="step-icon">📈</div>
+
+                    <p>Earn daily ROI as per plan</p>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="step-number">4</div>
+
+                    <div class="step-icon">💰</div>
+
+                    <p>Get maturity amount at end</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="right">
+
+        <!-- SUMMARY -->
+
+        <div class="card">
+
+            <h1 class="section-title">ROI & MATURITY SUMMARY</h1>
+
+            <div class="summary-box">
+
+                <h2>Plan 1 - 1.5% Daily ROI</h2>
+
+                <h2>Validity: 30 Days</h2>
+
+            </div>
+
+            <div class="summary-box">
+
+                <h2>You will get maturity amount between</h2>
+
+                <h1>₹645 - ₹6,498</h1>
+
+            </div>
+
+            <div class="table-row">
+                <span>ROI (Daily)</span>
+                <span>1.5%</span>
+            </div>
+
+            <div class="table-row">
+                <span>Total ROI</span>
+                <span>₹900</span>
+            </div>
+
+            <div class="table-row">
+                <span>Principal Amount</span>
+                <span>₹2,000</span>
+            </div>
+
+            <div class="table-row">
+                <span>Maturity Amount</span>
+                <span>₹2,580 - ₹6,498</span>
+            </div>
+
+            <div class="table-row">
+                <span>Validity</span>
+                <span>30 Days</span>
+            </div>
+
+        </div>
+
+        <!-- NOTE -->
+
+        <div class="card">
+
+            <div class="note-box">
+
+                <div class="note-icon">✔</div>
+
+                <div>
+
+                    <h1 class="section-title">NOTE</h1>
+
+                    <p style="line-height:35px; color:#cfcfcf; font-size:22px;">
+
+                        Maturity amount will be credited
+                        to your wallet at the end of the
+                        plan validity.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- BUTTON -->
+
+<button class="bottom-btn">
+
+   <a href="/roi/invest-now/">
+    <button class="invest-btn">
+        Invest Now
+    </button>
+</a>
+
+</button>
+
+</body>
+</html>

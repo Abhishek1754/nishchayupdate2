@@ -1,0 +1,537 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Offers</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#000;
+color:#fff;
+}
+
+.container{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:260px;
+background:#050505;
+padding:30px 20px;
+border-right:1px solid #1f1f1f;
+}
+
+.logo{
+font-size:42px;
+font-weight:700;
+color:#b7ff00;
+margin-bottom:40px;
+}
+
+.menu a{
+display:block;
+padding:16px;
+margin-bottom:10px;
+text-decoration:none;
+color:white;
+border-radius:12px;
+transition:.3s;
+}
+
+.menu a:hover,
+.active{
+background:#b7ff00;
+color:black !important;
+box-shadow:0 0 20px #b7ff00;
+}
+
+.main{
+flex:1;
+padding:30px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.wallet{
+padding:14px 25px;
+border:1px solid #b7ff00;
+border-radius:12px;
+background:#111;
+color:#b7ff00;
+font-weight:600;
+}
+
+.layout{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+.card{
+background:#050505;
+border:1px solid #1f1f1f;
+border-radius:20px;
+padding:25px;
+margin-bottom:20px;
+}
+
+.hero{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:40px;
+background:#111;
+border-radius:20px;
+margin-top:20px;
+}
+
+.hero h1{
+font-size:55px;
+color:#b7ff00;
+margin-bottom:10px;
+}
+
+.hero button{
+margin-top:20px;
+padding:16px 35px;
+border:none;
+background:#b7ff00;
+color:black;
+font-size:18px;
+font-weight:700;
+border-radius:12px;
+cursor:pointer;
+}
+
+.tabs{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:20px;
+margin-bottom:20px;
+}
+
+.tabs button{
+padding:14px 22px;
+background:#111;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
+.tabs .active-tab{
+background:#b7ff00;
+color:black;
+font-weight:700;
+}
+
+.offer{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#111;
+padding:25px;
+border-radius:16px;
+margin-bottom:15px;
+border:1px solid #1f1f1f;
+}
+
+.offer:hover{
+border:1px solid #b7ff00;
+box-shadow:0 0 20px rgba(183,255,0,.4);
+}
+
+.offer h2{
+margin-bottom:10px;
+}
+
+.offer p{
+color:#aaa;
+}
+
+.code{
+padding:12px 18px;
+border:1px dashed #b7ff00;
+color:#b7ff00;
+border-radius:10px;
+display:inline-block;
+margin-bottom:10px;
+}
+
+.apply{
+padding:12px 25px;
+background:#b7ff00;
+border:none;
+border-radius:10px;
+font-weight:700;
+cursor:pointer;
+}
+
+.side-box{
+background:#050505;
+border:1px solid #1f1f1f;
+padding:25px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+.side-box h2{
+color:#b7ff00;
+margin-bottom:20px;
+}
+
+.summary{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.summary-card{
+background:#111;
+padding:20px;
+border-radius:14px;
+text-align:center;
+}
+
+.summary-card h1{
+color:#b7ff00;
+margin-top:10px;
+}
+
+.steps p{
+margin-bottom:18px;
+color:#ccc;
+}
+
+.green{
+color:#b7ff00;
+font-weight:700;
+}
+
+@media(max-width:1100px){
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.hero{
+flex-direction:column;
+text-align:center;
+gap:20px;
+}
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<div class="logo">
+ReCharge
+</div>
+
+<div class="menu">
+
+<a href="/recharge/">Dashboard</a>
+
+<a href="/recharge/transactions/">Transactions</a>
+
+<a href="/recharge/withdraw/">Withdraw</a>
+
+<a href="/recharge/refer/">Refer & Earn</a>
+
+<a class="active" href="/recharge/offers/">
+Offers
+</a>
+
+<a href="/">Back Home</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<h1 style="color:#b7ff00;">
+Offers & Coupons
+</h1>
+
+<div class="wallet">
+Wallet ₹55
+</div>
+
+</div>
+
+<div class="layout">
+
+<div>
+
+<div class="card">
+
+<div class="hero">
+
+<div>
+
+<h1>20% Cashback</h1>
+
+<p>
+On Mobile Recharge of ₹199 or more
+</p>
+
+<button>
+Recharge Now
+</button>
+
+</div>
+
+<div>
+
+<h1 style="font-size:80px;">
+20%
+</h1>
+
+</div>
+
+</div>
+
+<div class="tabs">
+
+<button class="active-tab">
+All Offers
+</button>
+
+<button>
+Recharge
+</button>
+
+<button>
+Bills
+</button>
+
+<button>
+DTH
+</button>
+
+<button>
+Coupons
+</button>
+
+</div>
+
+<div class="offer">
+
+<div>
+
+<div class="code">
+MOB20
+</div>
+
+<h2>Flat 20% Cashback</h2>
+
+<p>Mobile Recharge Offer</p>
+
+</div>
+
+<div>
+
+<h1 style="color:#b7ff00;">
+20%
+</h1>
+
+</div>
+
+<div>
+
+<button class="apply">
+Apply
+</button>
+
+</div>
+
+</div>
+
+<div class="offer">
+
+<div>
+
+<div class="code">
+ELEC15
+</div>
+
+<h2>15% Cashback</h2>
+
+<p>Electricity Bill Offer</p>
+
+</div>
+
+<div>
+
+<h1 style="color:#b7ff00;">
+15%
+</h1>
+
+</div>
+
+<div>
+
+<button class="apply">
+Apply
+</button>
+
+</div>
+
+</div>
+
+<div class="offer">
+
+<div>
+
+<div class="code">
+BILL5
+</div>
+
+<h2>₹5 Cashback</h2>
+
+<p>Bill Payment Offer</p>
+
+</div>
+
+<div>
+
+<h1 style="color:#b7ff00;">
+₹5
+</h1>
+
+</div>
+
+<div>
+
+<button class="apply">
+Apply
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="side-box">
+
+<h2>Daily Rewards</h2>
+
+<p>
+Scratch & Win upto ₹100
+</p>
+
+<button class="apply" style="margin-top:15px;">
+Scratch Now
+</button>
+
+</div>
+
+<div class="side-box">
+
+<h2>Offer Summary</h2>
+
+<div class="summary">
+
+<div class="summary-card">
+<p>Total Offers</p>
+<h1>24</h1>
+</div>
+
+<div class="summary-card">
+<p>Coupons</p>
+<h1>12</h1>
+</div>
+
+<div class="summary-card">
+<p>Savings</p>
+<h1>₹320</h1>
+</div>
+
+<div class="summary-card">
+<p>Rewards</p>
+<h1>₹55</h1>
+</div>
+
+</div>
+
+</div>
+
+<div class="side-box">
+
+<h2>How to Use?</h2>
+
+<div class="steps">
+
+<p>
+<span class="green">1.</span>
+Choose Offer
+</p>
+
+<p>
+<span class="green">2.</span>
+Recharge or Pay Bill
+</p>
+
+<p>
+<span class="green">3.</span>
+Cashback Added to Wallet
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Success</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020202;
+color:white;
+padding:20px;
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:40px;
+font-weight:bold;
+color:#b7ff00;
+}
+
+.secure{
+color:#b7ff00;
+font-size:24px;
+font-weight:bold;
+}
+
+/* MAIN */
+
+.main{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:25px;
+}
+
+/* LEFT */
+
+.left{
+background:#050505;
+border:1px solid #294f00;
+border-radius:25px;
+padding:40px;
+}
+
+.success-icon{
+width:180px;
+height:180px;
+border-radius:50%;
+border:5px solid #b7ff00;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:auto;
+font-size:90px;
+color:#b7ff00;
+box-shadow:0 0 40px #b7ff00;
+margin-bottom:35px;
+}
+
+.success-title{
+text-align:center;
+font-size:58px;
+color:#b7ff00;
+margin-bottom:15px;
+}
+
+.success-sub{
+text-align:center;
+font-size:24px;
+color:#ccc;
+line-height:1.6;
+margin-bottom:35px;
+}
+
+/* ORDER ID */
+
+.order-box{
+background:#0a0a0a;
+border:1px solid #294f00;
+border-radius:20px;
+padding:25px;
+max-width:500px;
+margin:auto;
+display:flex;
+gap:20px;
+align-items:center;
+margin-bottom:35px;
+}
+
+.order-box i{
+font-size:60px;
+color:#b7ff00;
+}
+
+.order-box h3{
+font-size:22px;
+margin-bottom:10px;
+}
+
+.order-id{
+font-size:40px;
+font-weight:bold;
+color:#b7ff00;
+}
+
+.order-time{
+margin-top:10px;
+font-size:18px;
+color:#aaa;
+}
+
+/* EMAIL */
+
+.email{
+text-align:center;
+font-size:22px;
+margin-bottom:35px;
+}
+
+.email i{
+color:#b7ff00;
+margin-right:10px;
+}
+
+/* BUTTONS */
+
+.buttons{
+display:flex;
+justify-content:center;
+gap:20px;
+margin-bottom:45px;
+flex-wrap:wrap;
+}
+
+.track-btn{
+padding:22px 40px;
+border:none;
+border-radius:16px;
+background:#b7ff00;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.home-btn{
+padding:22px 40px;
+border:1px solid #b7ff00;
+border-radius:16px;
+background:transparent;
+color:#b7ff00;
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* TIMELINE */
+
+.timeline{
+margin-top:25px;
+background:#070707;
+border:1px solid #294f00;
+border-radius:20px;
+padding:35px;
+}
+
+.timeline h2{
+font-size:40px;
+color:#b7ff00;
+margin-bottom:30px;
+}
+
+.steps{
+display:flex;
+justify-content:space-between;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.step{
+text-align:center;
+flex:1;
+min-width:180px;
+}
+
+.step-circle{
+width:90px;
+height:90px;
+border-radius:50%;
+border:3px solid #b7ff00;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:40px;
+margin:auto;
+margin-bottom:15px;
+color:#b7ff00;
+box-shadow:0 0 20px #b7ff00;
+}
+
+.step h3{
+font-size:26px;
+margin-bottom:10px;
+}
+
+.step p{
+color:#aaa;
+font-size:18px;
+}
+
+/* HELP */
+
+.help{
+margin-top:25px;
+background:#070707;
+border:1px solid #294f00;
+border-radius:20px;
+padding:30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.help-left{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.help-left i{
+font-size:50px;
+color:#b7ff00;
+}
+
+.help-left h3{
+font-size:32px;
+margin-bottom:8px;
+}
+
+.help-left p{
+font-size:18px;
+color:#aaa;
+}
+
+.support-btn{
+padding:20px 35px;
+border:1px solid #b7ff00;
+background:transparent;
+border-radius:14px;
+color:#b7ff00;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* RIGHT PANEL */
+
+.right{
+background:#050505;
+border:1px solid #294f00;
+border-radius:25px;
+padding:30px;
+height:fit-content;
+}
+
+.right h2{
+font-size:36px;
+color:#b7ff00;
+margin-bottom:30px;
+}
+
+.product{
+display:flex;
+gap:15px;
+align-items:center;
+margin-bottom:25px;
+padding-bottom:20px;
+border-bottom:1px solid #1f3b00;
+}
+
+.product img{
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:15px;
+border:1px solid #294f00;
+}
+
+.product h4{
+font-size:24px;
+margin-bottom:8px;
+}
+
+.product p{
+font-size:18px;
+color:#aaa;
+}
+
+.product-price{
+margin-left:auto;
+font-size:24px;
+font-weight:bold;
+}
+
+/* SUMMARY */
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+font-size:24px;
+}
+
+.green{
+color:#b7ff00;
+}
+
+.total{
+font-size:42px;
+font-weight:bold;
+margin-top:30px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.main{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:768px){
+
+.success-title{
+font-size:40px;
+}
+
+.success-sub{
+font-size:18px;
+}
+
+.order-id{
+font-size:28px;
+}
+
+.timeline h2{
+font-size:30px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="logo">
+<i class="fa-solid fa-bag-shopping"></i>
+TechNova
+</div>
+
+<div class="secure">
+🛡 100% Secure Checkout
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- LEFT -->
+
+<div class="left">
+
+<div class="success-icon">
+✔
+</div>
+
+<h1 class="success-title">
+Order Placed Successfully!
+</h1>
+
+<p class="success-sub">
+
+Thank you for shopping with TechNova.<br>
+Your order has been confirmed.
+
+</p>
+
+<!-- ORDER ID -->
+
+<div class="order-box">
+
+<i class="fa-solid fa-receipt"></i>
+
+<div>
+
+<h3>Order ID</h3>
+
+<div class="order-id">
+TN123456789
+</div>
+
+<div class="order-time">
+May 12, 2024 • 10:45 AM
+</div>
+
+</div>
+
+</div>
+
+<!-- EMAIL -->
+
+<div class="email">
+
+<i class="fa-solid fa-envelope"></i>
+
+john.doe@email.com
+
+</div>
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+<button class="track-btn">
+📦 Track Your Order
+</button>
+
+<button class="home-btn">
+🏠 Back to Home
+</button>
+
+</div>
+
+<!-- TIMELINE -->
+
+<div class="timeline">
+
+<h2>What's Next?</h2>
+
+<div class="steps">
+
+<div class="step">
+
+<div class="step-circle">
+✔
+</div>
+
+<h3>Order Confirmed</h3>
+
+<p>May 12, 10:45 AM</p>
+
+</div>
+
+<div class="step">
+
+<div class="step-circle">
+📦
+</div>
+
+<h3>Processing</h3>
+
+<p>Within 24 Hours</p>
+
+</div>
+
+<div class="step">
+
+<div class="step-circle">
+🚚
+</div>
+
+<h3>Shipped</h3>
+
+<p>You'll get an update</p>
+
+</div>
+
+<div class="step">
+
+<div class="step-circle">
+🏠
+</div>
+
+<h3>Delivered</h3>
+
+<p>Stay tuned!</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- HELP -->
+
+<div class="help">
+
+<div class="help-left">
+
+<i class="fa-solid fa-headset"></i>
+
+<div>
+
+<h3>Need Help?</h3>
+
+<p>Our support team is here for you.</p>
+
+</div>
+
+</div>
+
+<button class="support-btn">
+
+💬 Contact Support
+
+</button>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="right">
+
+<h2>ORDER SUMMARY</h2>
+
+<div class="product">
+
+<img src="https://m.media-amazon.com/images/I/61y2VVWcGBL._SL1500_.jpg">
+
+<div>
+
+<h4>Fire-Boltt Ninja Pro Max Smart Watch</h4>
+
+<p>Qty: 1</p>
+
+</div>
+
+<div class="product-price">
+₹2,999
+</div>
+
+</div>
+
+<div class="product">
+
+<img src="https://m.media-amazon.com/images/I/61KNJav3S9L._SL1500_.jpg">
+
+<div>
+
+<h4>boAt Airdopes 141</h4>
+
+<p>Qty: 1</p>
+
+</div>
+
+<div class="product-price">
+₹1,299
+</div>
+
+</div>
+
+<div class="product">
+
+<img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/377758/01/sv01/fnd/IND/fmt/png">
+
+<div>
+
+<h4>Puma Running Shoes</h4>
+
+<p>Qty: 1</p>
+
+</div>
+
+<div class="product-price">
+₹1,799
+</div>
+
+</div>
+
+<hr style="margin:25px 0;border-color:#1f3b00;">
+
+<div class="summary-row">
+<span>Subtotal (3 Items)</span>
+<span>₹ 6,097</span>
+</div>
+
+<div class="summary-row">
+<span>Discount</span>
+<span class="green">- ₹ 1,099</span>
+</div>
+
+<div class="summary-row">
+<span>Shipping</span>
+<span class="green">FREE</span>
+</div>
+
+<hr style="margin:25px 0;border-color:#1f3b00;">
+
+<div class="summary-row total">
+<span>Total Amount</span>
+<span class="green">₹ 4,998</span>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

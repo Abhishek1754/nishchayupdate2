@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI Payment</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#030712;
+color:white;
+padding:20px;
+}
+
+.top-bar{
+display:flex;
+align-items:center;
+gap:20px;
+margin-bottom:25px;
+}
+
+.back-btn{
+font-size:28px;
+color:#b6ff00;
+text-decoration:none;
+}
+
+.title h1{
+font-size:34px;
+}
+
+.title p{
+color:#aaa;
+margin-top:5px;
+font-size:15px;
+}
+
+.main{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+.card{
+background:#08111f;
+border:1px solid #1cff5d30;
+border-radius:18px;
+padding:20px;
+}
+
+.heading{
+color:#b6ff00;
+font-size:28px;
+margin-bottom:20px;
+}
+
+.payment-box{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px;
+border:1px solid #1cff5d30;
+border-radius:15px;
+margin-bottom:15px;
+background:#071018;
+cursor:pointer;
+transition:0.3s;
+}
+
+.payment-box:hover{
+border:1px solid #b6ff00;
+}
+
+.left{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.radio{
+width:22px;
+height:22px;
+border:2px solid #b6ff00;
+border-radius:50%;
+}
+
+.method h2{
+font-size:24px;
+}
+
+.method p{
+font-size:14px;
+color:#aaa;
+margin-top:5px;
+}
+
+.right{
+font-size:20px;
+color:#b6ff00;
+font-weight:bold;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+padding:15px 0;
+border-bottom:1px solid #1cff5d20;
+font-size:18px;
+}
+
+.total{
+font-size:32px;
+font-weight:bold;
+color:#b6ff00;
+margin-top:20px;
+}
+
+.secure-box{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+border:1px solid #1cff5d30;
+background:#071018;
+}
+
+.secure-box h3{
+color:#b6ff00;
+margin-bottom:10px;
+}
+
+.pay-btn{
+width:100%;
+height:70px;
+background:#b6ff00;
+border:none;
+border-radius:14px;
+font-size:28px;
+font-weight:bold;
+margin-top:20px;
+cursor:pointer;
+}
+
+.pay-btn:hover{
+background:#d4ff57;
+}
+
+.footer{
+margin-top:25px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+
+.footer-card{
+background:#08111f;
+border:1px solid #1cff5d20;
+border-radius:14px;
+padding:18px;
+text-align:center;
+}
+
+.footer-card h3{
+color:#b6ff00;
+margin-bottom:8px;
+font-size:18px;
+}
+
+.footer-card p{
+font-size:13px;
+color:#aaa;
+}
+
+@media(max-width:900px){
+
+.main{
+grid-template-columns:1fr;
+}
+
+.footer{
+grid-template-columns:1fr 1fr;
+}
+
+.heading{
+font-size:22px;
+}
+
+.method h2{
+font-size:18px;
+}
+
+.pay-btn{
+font-size:22px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+
+<a href="/roi/invest-now/" class="back-btn">←</a>
+
+<div class="title">
+<h1>PAYMENT</h1>
+<p>Choose payment method and complete investment</p>
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="card">
+
+<h2 class="heading">SELECT PAYMENT METHOD</h2>
+
+<div class="payment-box">
+
+<div class="left">
+
+<div class="radio"></div>
+
+<div class="method">
+<h2>UPI / QR</h2>
+<p>Pay securely using any UPI app</p>
+</div>
+
+</div>
+
+<div class="right">UPI</div>
+
+</div>
+
+<div class="payment-box">
+
+<div class="left">
+
+<div class="radio"></div>
+
+<div class="method">
+<h2>Wallet Balance</h2>
+<p>Available Balance ₹2,150</p>
+</div>
+
+</div>
+
+<div class="right">₹2150</div>
+
+</div>
+
+<div class="payment-box">
+
+<div class="left">
+
+<div class="radio"></div>
+
+<div class="method">
+<h2>Net Banking</h2>
+<p>SBI, HDFC, ICICI</p>
+</div>
+
+</div>
+
+<div class="right">→</div>
+
+</div>
+
+<div class="payment-box">
+
+<div class="left">
+
+<div class="radio"></div>
+
+<div class="method">
+<h2>Debit / Credit Card</h2>
+<p>Visa, Mastercard, Rupay</p>
+</div>
+
+</div>
+
+<div class="right">→</div>
+
+</div>
+
+<div class="payment-box">
+
+<div class="left">
+
+<div class="radio"></div>
+
+<div class="method">
+<h2>Promo Code</h2>
+<p>Apply exciting offers</p>
+</div>
+
+</div>
+
+<div class="right">Apply</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="heading">ORDER SUMMARY</h2>
+
+<div class="summary-row">
+<span>Plan</span>
+<span>Plan 1</span>
+</div>
+
+<div class="summary-row">
+<span>ROI</span>
+<span>1.5%</span>
+</div>
+
+<div class="summary-row">
+<span>Investment</span>
+<span>₹2,000</span>
+</div>
+
+<div class="summary-row">
+<span>Maturity</span>
+<span>₹6,498</span>
+</div>
+
+<div class="summary-row">
+<span>Platform Fee</span>
+<span>₹0</span>
+</div>
+
+<div class="summary-row">
+<span>GST</span>
+<span>₹0</span>
+</div>
+
+<div class="total">
+
+₹2,000.00
+
+</div>
+
+<div class="secure-box">
+
+<h3>SAFE & SECURE</h3>
+
+<p>Your payment is fully encrypted and protected.</p>
+
+</div>
+
+<button class="pay-btn"
+onclick="window.location.href='/roi/payment-success/'">
+
+Pay Now ₹2,000
+
+</button>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+<div class="footer-card">
+<h3>100% Secure</h3>
+<p>Your data is protected</p>
+</div>
+
+<div class="footer-card">
+<h3>24/7 Support</h3>
+<p>We help anytime</p>
+</div>
+
+<div class="footer-card">
+<h3>Trusted</h3>
+<p>Thousands trust us</p>
+</div>
+
+<div class="footer-card">
+<h3>Instant</h3>
+<p>Quick confirmation</p>
+</div>
+
+</div>
+
+</body>
+</html>

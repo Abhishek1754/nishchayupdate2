@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Place Order</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020202;
+color:white;
+}
+
+/* MAIN LAYOUT */
+
+.container{
+padding:20px;
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:38px;
+font-weight:bold;
+color:#b7ff00;
+}
+
+.steps{
+display:flex;
+gap:40px;
+font-size:18px;
+color:#777;
+}
+
+.active-step{
+color:#b7ff00;
+font-weight:bold;
+}
+
+.secure{
+color:#b7ff00;
+font-size:22px;
+font-weight:bold;
+}
+
+/* CONTENT */
+
+.content{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:25px;
+}
+
+/* LEFT SIDE */
+
+.left-panel{
+border:1px solid #284800;
+border-radius:20px;
+padding:25px;
+background:#050505;
+}
+
+.title{
+font-size:42px;
+margin-bottom:8px;
+}
+
+.subtitle{
+color:#aaa;
+margin-bottom:35px;
+}
+
+/* BOX */
+
+.box{
+border:1px solid #203900;
+border-radius:20px;
+padding:22px;
+margin-bottom:25px;
+background:#080808;
+}
+
+.box-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.box-title h2{
+color:#b7ff00;
+font-size:28px;
+}
+
+.change-btn{
+padding:10px 20px;
+border:1px solid #3f7000;
+border-radius:12px;
+background:transparent;
+color:#b7ff00;
+font-size:16px;
+}
+
+/* ADDRESS */
+
+.address p{
+margin-top:10px;
+font-size:18px;
+color:#ccc;
+}
+
+/* ITEMS */
+
+.item{
+display:grid;
+grid-template-columns:100px 1fr auto auto;
+gap:20px;
+align-items:center;
+padding:20px 0;
+border-bottom:1px solid #193000;
+}
+
+.item img{
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:15px;
+border:1px solid #294f00;
+}
+
+.item-name{
+font-size:24px;
+}
+
+.price{
+font-size:22px;
+color:#b7ff00;
+font-weight:bold;
+}
+
+.qty{
+display:flex;
+align-items:center;
+gap:15px;
+border:1px solid #2a4b00;
+padding:10px 15px;
+border-radius:12px;
+}
+
+.qty button{
+width:35px;
+height:35px;
+border:none;
+background:#b7ff00;
+font-size:20px;
+font-weight:bold;
+border-radius:8px;
+}
+
+/* COUPON */
+
+.coupon{
+display:flex;
+gap:15px;
+}
+
+.coupon input{
+flex:1;
+padding:18px;
+background:#030303;
+border:1px solid #294f00;
+border-radius:14px;
+color:white;
+font-size:18px;
+}
+
+.coupon button{
+padding:18px 35px;
+border:none;
+background:#b7ff00;
+border-radius:14px;
+font-size:18px;
+font-weight:bold;
+}
+
+/* RIGHT PANEL */
+
+.right-panel{
+border:1px solid #294f00;
+border-radius:20px;
+padding:25px;
+background:#050505;
+height:fit-content;
+}
+
+.summary-title{
+font-size:34px;
+color:#b7ff00;
+margin-bottom:25px;
+}
+
+.summary-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+font-size:22px;
+}
+
+.green{
+color:#b7ff00;
+}
+
+.total{
+font-size:42px;
+font-weight:bold;
+margin-top:25px;
+}
+
+.save-box{
+margin-top:25px;
+padding:20px;
+border:1px solid #294f00;
+border-radius:16px;
+background:#0a1200;
+color:#b7ff00;
+font-size:20px;
+}
+
+.secure-box{
+margin-top:25px;
+padding:22px;
+border:1px solid #294f00;
+border-radius:16px;
+background:#0a1200;
+}
+
+.secure-box h3{
+color:#b7ff00;
+font-size:28px;
+margin-bottom:10px;
+}
+
+.place-btn{
+margin-top:30px;
+width:100%;
+padding:24px;
+border:none;
+background:#b7ff00;
+font-size:28px;
+font-weight:bold;
+border-radius:18px;
+cursor:pointer;
+}
+
+.terms{
+margin-top:20px;
+font-size:16px;
+text-align:center;
+color:#aaa;
+}
+
+/* FOOTER */
+
+.footer{
+margin-top:25px;
+border:1px solid #294f00;
+border-radius:20px;
+padding:30px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+background:#050505;
+}
+
+.footer-box{
+text-align:center;
+}
+
+.footer-box i{
+font-size:42px;
+color:#b7ff00;
+margin-bottom:12px;
+}
+
+.footer-box h3{
+margin-bottom:10px;
+}
+
+.footer-box p{
+color:#aaa;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.content{
+grid-template-columns:1fr;
+}
+
+.footer{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:768px){
+
+.steps{
+display:none;
+}
+
+.footer{
+grid-template-columns:1fr;
+}
+
+.item{
+grid-template-columns:1fr;
+text-align:center;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="logo">
+<i class="fa-solid fa-bag-shopping"></i>
+TechNova
+</div>
+
+<div class="steps">
+<div>Cart</div>
+<div>Address</div>
+<div>Payment</div>
+<div class="active-step">Place Order</div>
+</div>
+
+<div class="secure">
+🔒 100% Secure Checkout
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<!-- LEFT -->
+
+<div class="left-panel">
+
+<h1 class="title">Place Your Order</h1>
+
+<p class="subtitle">
+Almost there! Please review your details and place your order.
+</p>
+
+<!-- ADDRESS -->
+
+<div class="box">
+
+<div class="box-title">
+
+<h2>📍 DELIVERY ADDRESS</h2>
+
+<button class="change-btn">Change</button>
+
+</div>
+
+<div class="address">
+
+<h3>John Doe</h3>
+
+<p>123 Green Street, MG Road</p>
+
+<p>Bangalore, Karnataka - 560001</p>
+
+<p>+91 9876543210</p>
+
+</div>
+
+</div>
+
+<!-- PAYMENT -->
+
+<div class="box">
+
+<div class="box-title">
+
+<h2>💳 PAYMENT METHOD</h2>
+
+<button class="change-btn">Change</button>
+
+</div>
+
+<div class="address">
+
+<h3>UPI</h3>
+
+<p>john.doe@okaxis</p>
+
+</div>
+
+</div>
+
+<!-- ITEMS -->
+
+<div class="box">
+
+<div class="box-title">
+
+<h2>🛒 ORDER ITEMS</h2>
+
+</div>
+
+<div class="item">
+
+<img src="https://m.media-amazon.com/images/I/61y2VVWcGBL._SL1500_.jpg">
+
+<div class="item-name">
+Fire-Boltt Ninja Pro Max Smart Watch
+</div>
+
+<div class="qty">
+<button>-</button>
+<span>1</span>
+<button>+</button>
+</div>
+
+<div class="price">₹2,999</div>
+
+</div>
+
+<div class="item">
+
+<img src="https://m.media-amazon.com/images/I/61KNJav3S9L._SL1500_.jpg">
+
+<div class="item-name">
+boAt Airdopes 141
+</div>
+
+<div class="qty">
+<button>-</button>
+<span>1</span>
+<button>+</button>
+</div>
+
+<div class="price">₹1,299</div>
+
+</div>
+
+<div class="item">
+
+<img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/377758/01/sv01/fnd/IND/fmt/png">
+
+<div class="item-name">
+Puma Running Shoes
+</div>
+
+<div class="qty">
+<button>-</button>
+<span>1</span>
+<button>+</button>
+</div>
+
+<div class="price">₹1,799</div>
+
+</div>
+
+</div>
+
+<!-- COUPON -->
+
+<div class="box">
+
+<div class="box-title">
+
+<h2>🏷 APPLY COUPON CODE</h2>
+
+</div>
+
+<div class="coupon">
+
+<input type="text" placeholder="Enter coupon code">
+
+<button>Apply</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="right-panel">
+
+<h2 class="summary-title">ORDER SUMMARY</h2>
+
+<div class="summary-row">
+<span>Subtotal (3 Items)</span>
+<span>₹ 6,097</span>
+</div>
+
+<div class="summary-row">
+<span>Discount</span>
+<span class="green">- ₹ 1,099</span>
+</div>
+
+<div class="summary-row">
+<span>Shipping</span>
+<span class="green">FREE</span>
+</div>
+
+<hr style="margin:25px 0;border-color:#294f00;">
+
+<div class="summary-row total">
+<span>Total Amount</span>
+<span class="green">₹ 4,998</span>
+</div>
+
+<div class="save-box">
+
+🏷 You are saving ₹1,099 on this order!
+
+</div>
+
+<div class="secure-box">
+
+<h3>🛡 Safe & Secure Payments</h3>
+
+<p>
+Your payment information is 100% secure and protected.
+</p>
+
+</div>
+
+<button class="place-btn">
+
+🔒 Place Order ₹4,998
+
+</button>
+
+<div class="terms">
+
+By placing this order, you agree to our
+<span class="green">Terms & Conditions</span>
+and
+<span class="green">Privacy Policy</span>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-box">
+
+<i class="fa-solid fa-truck-fast"></i>
+
+<h3>Fast Delivery</h3>
+
+<p>2-4 Days</p>
+
+</div>
+
+<div class="footer-box">
+
+<i class="fa-solid fa-rotate-left"></i>
+
+<h3>7 Days Return</h3>
+
+<p>Easy Returns</p>
+
+</div>
+
+<div class="footer-box">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<h3>100% Original</h3>
+
+<p>Genuine Products</p>
+
+</div>
+
+<div class="footer-box">
+
+<i class="fa-solid fa-wallet"></i>
+
+<h3>Secure Payment</h3>
+
+<p>100% Protected</p>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

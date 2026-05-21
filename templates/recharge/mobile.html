@@ -1,0 +1,633 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Recharge</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#000;
+font-family:'Poppins',sans-serif;
+color:white;
+}
+
+.container{
+padding:20px;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 30px;
+border:1px solid rgba(183,255,0,.2);
+border-radius:18px;
+margin-bottom:20px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo-circle{
+width:55px;
+height:55px;
+border-radius:50%;
+border:2px solid #b7ff00;
+display:flex;
+justify-content:center;
+align-items:center;
+color:#b7ff00;
+font-size:25px;
+box-shadow:0 0 15px rgba(183,255,0,.5);
+}
+
+.logo h1{
+font-size:40px;
+color:#b7ff00;
+}
+
+.logo span{
+color:white;
+}
+
+.nav-links{
+display:flex;
+gap:35px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:white;
+font-size:18px;
+}
+
+.nav-links a.active{
+color:#b7ff00;
+border-bottom:2px solid #b7ff00;
+padding-bottom:6px;
+}
+
+.right-nav{
+display:flex;
+gap:20px;
+align-items:center;
+}
+
+.wallet{
+padding:14px 22px;
+border:1px solid rgba(183,255,0,.3);
+border-radius:14px;
+}
+
+.profile{
+padding:12px 20px;
+border:1px solid rgba(183,255,0,.2);
+border-radius:14px;
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.avatar{
+width:40px;
+height:40px;
+border-radius:50%;
+background:#b7ff00;
+color:black;
+display:flex;
+justify-content:center;
+align-items:center;
+font-weight:bold;
+}
+
+/* GRID */
+
+.main-grid{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:20px;
+}
+
+/* LEFT */
+
+.left-panel{
+border:1px solid rgba(183,255,0,.25);
+border-radius:22px;
+padding:25px;
+}
+
+.steps{
+display:flex;
+gap:40px;
+margin-bottom:35px;
+}
+
+.step{
+display:flex;
+align-items:center;
+gap:10px;
+color:#999;
+}
+
+.step.active{
+color:#b7ff00;
+}
+
+.step-number{
+width:35px;
+height:35px;
+border-radius:50%;
+border:2px solid #b7ff00;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.section-title{
+font-size:28px;
+color:#b7ff00;
+margin-bottom:20px;
+}
+
+.input-box{
+height:70px;
+border:1px solid rgba(183,255,0,.25);
+border-radius:16px;
+background:#050505;
+padding:0 20px;
+display:flex;
+align-items:center;
+margin-bottom:25px;
+}
+
+.input-box input,
+.input-box select{
+width:100%;
+background:none;
+border:none;
+outline:none;
+color:white;
+font-size:18px;
+}
+
+.operator-grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:18px;
+margin-bottom:30px;
+}
+
+.operator{
+height:120px;
+border:1px solid rgba(183,255,0,.2);
+border-radius:18px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+transition:.3s;
+}
+
+.operator.active{
+border:2px solid #b7ff00;
+box-shadow:0 0 20px rgba(183,255,0,.25);
+}
+
+.operator-circle{
+width:60px;
+height:60px;
+border-radius:50%;
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+color:#b7ff00;
+font-size:26px;
+margin-bottom:10px;
+}
+
+.amount-box{
+display:flex;
+gap:15px;
+}
+
+.amount-box input{
+flex:1;
+height:70px;
+background:#050505;
+border:1px solid rgba(183,255,0,.25);
+border-radius:16px;
+padding:0 20px;
+color:white;
+font-size:18px;
+}
+
+.browse-btn{
+width:180px;
+background:#111;
+border:1px solid rgba(183,255,0,.4);
+border-radius:16px;
+color:#b7ff00;
+font-size:18px;
+}
+
+/* RIGHT */
+
+.right-panel{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.card{
+border:1px solid rgba(183,255,0,.25);
+border-radius:22px;
+padding:25px;
+background:#040404;
+}
+
+.card-title{
+display:flex;
+justify-content:space-between;
+margin-bottom:20px;
+}
+
+.card-title h2{
+color:#b7ff00;
+font-size:28px;
+}
+
+.plans{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+}
+
+.plan{
+border:1px solid rgba(183,255,0,.25);
+border-radius:18px;
+padding:20px;
+}
+
+.plan.active{
+border:2px solid #b7ff00;
+box-shadow:0 0 20px rgba(183,255,0,.25);
+}
+
+.plan h1{
+font-size:42px;
+margin-bottom:15px;
+}
+
+.plan p{
+color:#aaa;
+margin-bottom:10px;
+}
+
+.recharge-btn{
+width:100%;
+height:55px;
+background:#b7ff00;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:600;
+margin-top:15px;
+cursor:pointer;
+}
+
+.wallet-card{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.wallet-card h1{
+font-size:52px;
+color:#b7ff00;
+}
+
+.add-btn{
+padding:14px 30px;
+background:#b7ff00;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:600;
+}
+
+.payment-section{
+margin-top:20px;
+border:1px solid rgba(183,255,0,.25);
+border-radius:22px;
+padding:25px;
+}
+
+.payment-grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:18px;
+margin-top:20px;
+}
+
+.payment{
+height:120px;
+border:1px solid rgba(183,255,0,.2);
+border-radius:18px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+}
+
+.payment.active{
+border:2px solid #b7ff00;
+}
+
+.bottom-pay{
+margin-top:30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px;
+border:1px solid rgba(183,255,0,.25);
+border-radius:20px;
+}
+
+.pay-btn{
+padding:18px 40px;
+background:#b7ff00;
+border:none;
+border-radius:14px;
+font-size:22px;
+font-weight:600;
+cursor:pointer;
+}
+
+@media(max-width:1200px){
+
+.main-grid{
+grid-template-columns:1fr;
+}
+
+.plans{
+grid-template-columns:1fr 1fr;
+}
+
+.operator-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.payment-grid{
+grid-template-columns:1fr 1fr;
+}
+
+.nav-links{
+display:none;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="navbar">
+
+<div class="logo">
+<div class="logo-circle">⚡</div>
+<h1>Re<span>Charge</span></h1>
+</div>
+
+<div class="nav-links">
+<a href="/recharge/">Home</a>
+<a href="#" class="active">Mobile</a>
+<a href="#">DTH</a>
+<a href="#">Electricity</a>
+<a href="#">Fastag</a>
+<a href="#">Offers</a>
+<a href="#">Help</a>
+</div>
+
+<div class="right-nav">
+<div class="wallet">₹250.00</div>
+
+<div class="profile">
+<div class="avatar">A</div>
+Hi, Ankit
+</div>
+</div>
+
+</div>
+
+<div class="main-grid">
+
+<!-- LEFT -->
+
+<div class="left-panel">
+
+<div class="steps">
+
+<div class="step active">
+<div class="step-number">1</div>
+Recharge Details
+</div>
+
+<div class="step">
+<div class="step-number">2</div>
+Payment
+</div>
+
+<div class="step">
+<div class="step-number">3</div>
+Confirmation
+</div>
+
+</div>
+
+<h2 class="section-title">1. Enter Mobile Number</h2>
+
+<div class="input-box">
+<input type="text" placeholder="Enter 10 digit mobile number">
+</div>
+
+<h2 class="section-title">2. Select Operator</h2>
+
+<div class="operator-grid">
+
+<div class="operator active">
+<div class="operator-circle">J</div>
+Jio
+</div>
+
+<div class="operator">
+<div class="operator-circle">A</div>
+Airtel
+</div>
+
+<div class="operator">
+<div class="operator-circle">V</div>
+Vi
+</div>
+
+<div class="operator">
+<div class="operator-circle">B</div>
+BSNL
+</div>
+
+<div class="operator">
+<div class="operator-circle">+</div>
+More
+</div>
+
+</div>
+
+<h2 class="section-title">3. Select Circle / State</h2>
+
+<div class="input-box">
+<select>
+<option>Uttar Pradesh (UP East)</option>
+<option>Bihar</option>
+<option>Jharkhand</option>
+</select>
+</div>
+
+<h2 class="section-title">4. Enter Amount</h2>
+
+<div class="amount-box">
+<input type="text" placeholder="Enter amount">
+<button class="browse-btn">Browse Plans</button>
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="right-panel">
+
+<div class="card">
+
+<div class="card-title">
+<h2>Popular Recharge Plans</h2>
+<span>View All</span>
+</div>
+
+<div class="plans">
+
+<div class="plan active">
+<h1>₹199</h1>
+<p>28 Days</p>
+<p>1.5GB/Day</p>
+<button class="recharge-btn">Recharge</button>
+</div>
+
+<div class="plan">
+<h1>₹249</h1>
+<p>28 Days</p>
+<p>2GB/Day</p>
+<button class="recharge-btn">Recharge</button>
+</div>
+
+<div class="plan">
+<h1>₹399</h1>
+<p>56 Days</p>
+<p>2.5GB/Day</p>
+<button class="recharge-btn">Recharge</button>
+</div>
+
+<div class="plan">
+<h1>₹599</h1>
+<p>84 Days</p>
+<p>2GB/Day</p>
+<button class="recharge-btn">Recharge</button>
+</div>
+
+</div>
+
+</div>
+
+<div class="card wallet-card">
+
+<div>
+<p>Wallet Balance</p>
+<h1>₹250.00</h1>
+</div>
+
+<button class="add-btn">
++ Add Money
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="payment-section">
+
+<h2 class="section-title">5. Select Payment Method</h2>
+
+<div class="payment-grid">
+
+<div class="payment active">
+<h3>UPI</h3>
+</div>
+
+<div class="payment">
+<h3>Cards</h3>
+</div>
+
+<div class="payment">
+<h3>Net Banking</h3>
+</div>
+
+<div class="payment">
+<h3>Wallets</h3>
+</div>
+
+<div class="payment">
+<h3>Pay Later</h3>
+</div>
+
+</div>
+
+<div class="bottom-pay">
+
+<div>
+<p>Amount to Pay</p>
+<h1 style="color:#b7ff00;font-size:55px;">₹199.00</h1>
+</div>
+
+<button class="pay-btn">
+Proceed to Pay →
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

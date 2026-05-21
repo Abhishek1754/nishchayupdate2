@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Product Details</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020202;
+color:white;
+padding:20px;
+}
+
+.container{
+max-width:1500px;
+margin:auto;
+}
+
+/* TOP */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+padding:20px;
+background:#050505;
+border:1px solid #193600;
+border-radius:20px;
+}
+
+.left-top{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.back{
+width:60px;
+height:60px;
+border-radius:50%;
+border:1px solid #2f5f00;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:24px;
+color:#b7ff00;
+}
+
+.topbar h1{
+color:#b7ff00;
+font-size:34px;
+}
+
+.icons{
+display:flex;
+gap:25px;
+}
+
+.icons i{
+font-size:28px;
+color:#b7ff00;
+position:relative;
+}
+
+.badge{
+position:absolute;
+top:-8px;
+right:-10px;
+background:#b7ff00;
+color:black;
+width:22px;
+height:22px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:12px;
+font-weight:bold;
+}
+
+/* PRODUCT AREA */
+
+.product-section{
+display:grid;
+grid-template-columns:120px 1fr 500px;
+gap:25px;
+background:#050505;
+border:1px solid #193600;
+border-radius:25px;
+padding:25px;
+}
+
+/* THUMBNAILS */
+
+.thumbs{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.thumb{
+background:#070707;
+border:1px solid #193600;
+border-radius:18px;
+padding:10px;
+height:130px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.thumb img{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
+.thumb.active{
+border:2px solid #b7ff00;
+box-shadow:0 0 15px #b7ff00;
+}
+
+/* MAIN IMAGE */
+
+.main-image{
+background:#070707;
+border-radius:25px;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:40px;
+position:relative;
+overflow:hidden;
+}
+
+.main-image img{
+width:100%;
+max-width:550px;
+filter:drop-shadow(0 0 25px #b7ff00);
+}
+
+/* DETAILS */
+
+.details h1{
+font-size:52px;
+margin-bottom:20px;
+line-height:1.2;
+}
+
+.rating{
+margin-bottom:25px;
+font-size:22px;
+}
+
+.rating i{
+color:#b7ff00;
+}
+
+.price{
+font-size:60px;
+font-weight:bold;
+color:#b7ff00;
+margin-bottom:20px;
+}
+
+.old{
+font-size:30px;
+color:#888;
+text-decoration:line-through;
+margin-left:10px;
+}
+
+.offer{
+background:#b7ff00;
+color:black;
+padding:10px 18px;
+border-radius:12px;
+font-size:20px;
+margin-left:15px;
+}
+
+.warranty{
+background:#101700;
+border:1px solid #2d5a00;
+padding:25px;
+border-radius:20px;
+display:flex;
+align-items:center;
+gap:20px;
+margin-bottom:30px;
+}
+
+.warranty i{
+font-size:45px;
+color:#b7ff00;
+}
+
+.color-title{
+font-size:28px;
+margin-bottom:15px;
+}
+
+.colors{
+display:flex;
+gap:18px;
+margin-bottom:35px;
+}
+
+.color{
+width:45px;
+height:45px;
+border-radius:50%;
+border:3px solid white;
+}
+
+.green{
+background:#b7ff00;
+}
+
+.black{
+background:black;
+}
+
+.blue{
+background:blue;
+}
+
+.red{
+background:red;
+}
+
+/* HIGHLIGHTS */
+
+.highlights h2{
+margin-bottom:20px;
+font-size:32px;
+}
+
+.highlights ul{
+list-style:none;
+}
+
+.highlights li{
+margin-bottom:18px;
+font-size:22px;
+display:flex;
+gap:15px;
+align-items:center;
+}
+
+.highlights i{
+color:#b7ff00;
+}
+
+/* FEATURES */
+
+.features{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin-top:25px;
+margin-bottom:25px;
+}
+
+.feature{
+background:#050505;
+border:1px solid #193600;
+padding:25px;
+border-radius:20px;
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.feature i{
+font-size:35px;
+color:#b7ff00;
+}
+
+/* BUY SECTION */
+
+.buy-box{
+background:#050505;
+border:1px solid #193600;
+padding:25px;
+border-radius:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.quantity{
+display:flex;
+align-items:center;
+gap:20px;
+font-size:28px;
+}
+
+.qty-btn{
+width:50px;
+height:50px;
+border-radius:12px;
+background:#101700;
+border:1px solid #2d5a00;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:26px;
+color:#b7ff00;
+}
+
+.actions{
+display:flex;
+gap:20px;
+}
+
+.btn{
+padding:20px 45px;
+border-radius:18px;
+font-size:24px;
+font-weight:bold;
+border:none;
+cursor:pointer;
+}
+
+.cart-btn{
+background:#111;
+border:1px solid #b7ff00;
+color:white;
+}
+
+.buy-btn{
+background:#b7ff00;
+color:black;
+}
+
+/* DESCRIPTION */
+
+.bottom-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+margin-bottom:25px;
+}
+
+.description,
+.specs{
+background:#050505;
+border:1px solid #193600;
+padding:30px;
+border-radius:25px;
+}
+
+.description h2,
+.specs h2{
+color:#b7ff00;
+margin-bottom:20px;
+font-size:34px;
+}
+
+.description p{
+font-size:22px;
+line-height:1.8;
+color:#ccc;
+}
+
+.view-more{
+margin-top:25px;
+display:inline-block;
+color:#b7ff00;
+font-size:24px;
+}
+
+/* SPECS */
+
+.spec-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
+
+.spec{
+display:flex;
+gap:15px;
+align-items:center;
+background:#070707;
+padding:18px;
+border-radius:15px;
+}
+
+.spec i{
+font-size:28px;
+color:#b7ff00;
+}
+
+/* FREQUENT */
+
+.frequently{
+background:#050505;
+border:1px solid #193600;
+padding:25px;
+border-radius:25px;
+}
+
+.frequently h2{
+color:#b7ff00;
+margin-bottom:25px;
+}
+
+.frequent-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.frequent-card{
+background:#070707;
+border:1px solid #193600;
+padding:20px;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.frequent-left{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.frequent-left img{
+width:90px;
+height:90px;
+object-fit:contain;
+}
+
+.add{
+width:50px;
+height:50px;
+border-radius:12px;
+background:#b7ff00;
+display:flex;
+justify-content:center;
+align-items:center;
+color:black;
+font-size:24px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+.product-section{
+grid-template-columns:1fr;
+}
+
+.bottom-grid{
+grid-template-columns:1fr;
+}
+
+.features{
+grid-template-columns:repeat(2,1fr);
+}
+
+.frequent-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<div class="left-top">
+
+<div class="back">
+<i class="fa-solid fa-arrow-left"></i>
+</div>
+
+<h1>PRODUCT DETAILS</h1>
+
+</div>
+
+<div class="icons">
+
+<i class="fa-solid fa-share-nodes"></i>
+
+<i class="fa-regular fa-heart"></i>
+
+<i class="fa-solid fa-cart-shopping">
+<span class="badge">3</span>
+</i>
+
+</div>
+
+</div>
+
+<!-- PRODUCT SECTION -->
+
+<div class="product-section">
+
+<!-- THUMBNAILS -->
+
+<div class="thumbs">
+
+<div class="thumb active">
+<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+</div>
+
+<div class="thumb">
+<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+</div>
+
+<div class="thumb">
+<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+</div>
+
+<div class="thumb">
+<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+</div>
+
+</div>
+
+<!-- MAIN IMAGE -->
+
+<div class="main-image">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+
+</div>
+
+<!-- DETAILS -->
+
+<div class="details">
+
+<h1>Fire-Boltt Ninja Pro Max Smart Watch</h1>
+
+<div class="rating">
+<i class="fa-solid fa-star"></i>
+4.5 (128 reviews)
+</div>
+
+<div class="price">
+₹ 2,999
+<span class="old">₹ 4,999</span>
+<span class="offer">40% OFF</span>
+</div>
+
+<div class="warranty">
+
+<i class="fa-solid fa-shield"></i>
+
+<div>
+<h3>1 Year Warranty</h3>
+<p>100% Original Product</p>
+</div>
+
+</div>
+
+<div class="color-title">Color</div>
+
+<div class="colors">
+
+<div class="color green"></div>
+<div class="color black"></div>
+<div class="color blue"></div>
+<div class="color red"></div>
+
+</div>
+
+<div class="highlights">
+
+<h2>Highlights</h2>
+
+<ul>
+
+<li><i class="fa-solid fa-mobile-screen"></i> 1.69" Full Touch Display</li>
+
+<li><i class="fa-brands fa-bluetooth"></i> Bluetooth Calling</li>
+
+<li><i class="fa-solid fa-person-running"></i> 100+ Sports Modes</li>
+
+<li><i class="fa-solid fa-heart-pulse"></i> Heart Rate Monitoring</li>
+
+<li><i class="fa-solid fa-droplet"></i> SpO2 Monitoring</li>
+
+<li><i class="fa-solid fa-shield"></i> IP68 Water Resistant</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FEATURES -->
+
+<div class="features">
+
+<div class="feature">
+<i class="fa-solid fa-lock"></i>
+<div>
+<h3>100%</h3>
+<p>Secure Payment</p>
+</div>
+</div>
+
+<div class="feature">
+<i class="fa-solid fa-rotate-left"></i>
+<div>
+<h3>7 Days</h3>
+<p>Easy Returns</p>
+</div>
+</div>
+
+<div class="feature">
+<i class="fa-solid fa-truck-fast"></i>
+<div>
+<h3>Free</h3>
+<p>Shipping</p>
+</div>
+</div>
+
+<div class="feature">
+<i class="fa-solid fa-award"></i>
+<div>
+<h3>Best Price</h3>
+<p>Guaranteed</p>
+</div>
+</div>
+
+</div>
+
+<!-- BUY -->
+
+<div class="buy-box">
+
+<div class="quantity">
+
+<div class="qty-btn">-</div>
+
+1
+
+<div class="qty-btn">+</div>
+
+</div>
+
+<div class="actions">
+
+<button class="btn cart-btn">
+<i class="fa-solid fa-cart-shopping"></i>
+ADD TO CART
+</button>
+
+<button class="btn buy-btn">
+⚡ BUY NOW
+</button>
+
+</div>
+
+</div>
+
+<!-- DESCRIPTION -->
+
+<div class="bottom-grid">
+
+<div class="description">
+
+<h2>Product Description</h2>
+
+<p>
+Fire-Boltt Ninja Pro Max is packed with advanced features
+to track your fitness and keep you connected on the go.
+</p>
+
+<div class="view-more">
+View More ↓
+</div>
+
+</div>
+
+<!-- SPECS -->
+
+<div class="specs">
+
+<h2>Specifications</h2>
+
+<div class="spec-grid">
+
+<div class="spec">
+<i class="fa-solid fa-tv"></i>
+<div>
+<h3>Display</h3>
+<p>1.69 HD Display</p>
+</div>
+</div>
+
+<div class="spec">
+<i class="fa-brands fa-bluetooth"></i>
+<div>
+<h3>Bluetooth</h3>
+<p>v5.3</p>
+</div>
+</div>
+
+<div class="spec">
+<i class="fa-solid fa-battery-full"></i>
+<div>
+<h3>Battery</h3>
+<p>Up to 7 Days</p>
+</div>
+</div>
+
+<div class="spec">
+<i class="fa-solid fa-droplet"></i>
+<div>
+<h3>Water Resistant</h3>
+<p>IP68</p>
+</div>
+</div>
+
+<div class="spec">
+<i class="fa-solid fa-mobile-screen"></i>
+<div>
+<h3>Compatibility</h3>
+<p>Android & iOS</p>
+</div>
+</div>
+
+<div class="spec">
+<i class="fa-solid fa-watch-smart"></i>
+<div>
+<h3>Strap Material</h3>
+<p>Silicon</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FREQUENTLY -->
+
+<div class="frequently">
+
+<h2>Frequently Bought Together</h2>
+
+<div class="frequent-grid">
+
+<div class="frequent-card">
+
+<div class="frequent-left">
+
+<img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
+
+<div>
+<h3>boAt Airdopes 141</h3>
+<p>₹ 1,299</p>
+</div>
+
+</div>
+
+<div class="add">+</div>
+
+</div>
+
+<div class="frequent-card">
+
+<div class="frequent-left">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+
+<div>
+<h3>Screen Protector</h3>
+<p>₹ 199</p>
+</div>
+
+</div>
+
+<div class="add">+</div>
+
+</div>
+
+<div class="frequent-card">
+
+<div class="frequent-left">
+
+<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+
+<div>
+<h3>Extra Strap</h3>
+<p>₹ 299</p>
+</div>
+
+</div>
+
+<div class="add">+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

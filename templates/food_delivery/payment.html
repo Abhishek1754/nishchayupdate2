@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUDDO - Payment</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#000;
+            color:white;
+            display:flex;
+            justify-content:center;
+            min-height:100vh;
+            overflow-x:hidden;
+        }
+
+        .mobile-screen{
+            width:100%;
+            max-width:390px;
+            min-height:100vh;
+            background:#000;
+            padding:18px;
+            position:relative;
+            overflow:hidden;
+            padding-bottom:100px;
+        }
+
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:24px;
+        }
+
+        .back-btn{
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            border:2px solid #c6ff00;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:#c6ff00;
+            text-decoration:none;
+            font-size:20px;
+            box-shadow:0 0 12px rgba(198,255,0,.3);
+        }
+
+        .page-title{
+            font-size:22px;
+            font-weight:700;
+        }
+
+        .secure{
+            color:#c6ff00;
+            font-size:13px;
+        }
+
+        .bill-card{
+            background:#0b0b0b;
+            border:1px solid #1f1f1f;
+            border-radius:24px;
+            padding:22px;
+            margin-bottom:24px;
+            box-shadow:0 0 15px rgba(198,255,0,.08);
+        }
+
+        .bill-title{
+            font-size:20px;
+            margin-bottom:18px;
+        }
+
+        .bill-row{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:14px;
+            font-size:14px;
+        }
+
+        .bill-row span:first-child{
+            color:#aaa;
+        }
+
+        .total-row{
+            border-top:1px solid #1f1f1f;
+            padding-top:15px;
+            margin-top:10px;
+            font-size:18px;
+            font-weight:700;
+            color:#c6ff00;
+        }
+
+        .section-title{
+            font-size:20px;
+            margin-bottom:18px;
+        }
+
+        .payment-options{
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+            margin-bottom:28px;
+        }
+
+        .option{
+            background:#0b0b0b;
+            border:1px solid #1f1f1f;
+            border-radius:20px;
+            padding:18px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            transition:.3s;
+            cursor:pointer;
+        }
+
+        .option:hover{
+            border-color:#c6ff00;
+            box-shadow:0 0 15px rgba(198,255,0,.15);
+        }
+
+        .option-left{
+            display:flex;
+            align-items:center;
+            gap:14px;
+        }
+
+        .payment-icon{
+            width:52px;
+            height:52px;
+            border-radius:16px;
+            background:#161616;
+            border:2px solid #c6ff00;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:24px;
+            color:#c6ff00;
+        }
+
+        .payment-details h3{
+            font-size:17px;
+            margin-bottom:4px;
+        }
+
+        .payment-details p{
+            color:#aaa;
+            font-size:12px;
+        }
+
+        .radio{
+            width:22px;
+            height:22px;
+            border-radius:50%;
+            border:2px solid #c6ff00;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        .radio::before{
+            content:'';
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            background:#c6ff00;
+        }
+
+        .pay-btn{
+            position:fixed;
+            bottom:15px;
+            width:100%;
+            max-width:360px;
+            left:50%;
+            transform:translateX(-50%);
+            z-index:999;
+        }
+
+        .pay-btn button{
+            width:100%;
+            height:58px;
+            border:none;
+            border-radius:18px;
+            background:#c6ff00;
+            color:#000;
+            font-size:18px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.3s;
+            box-shadow:0 0 18px rgba(198,255,0,.25);
+        }
+
+        .pay-btn button:hover{
+            transform:scale(1.02);
+            box-shadow:0 0 24px rgba(198,255,0,.45);
+        }
+
+        .bottom-glow{
+            position:absolute;
+            width:240px;
+            height:240px;
+            background:#c6ff00;
+            filter:blur(150px);
+            opacity:.08;
+            bottom:-100px;
+            left:50%;
+            transform:translateX(-50%);
+            pointer-events:none;
+        }
+
+        @media(max-width:480px){
+
+            .mobile-screen{
+                max-width:100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="mobile-screen">
+
+    <div class="top-bar">
+
+        <a href="/food/address/" class="back-btn">
+            ←
+        </a>
+
+        <div class="page-title">
+            Payment
+        </div>
+
+        <div class="secure">
+            Secure 🔒
+        </div>
+
+    </div>
+
+    <div class="bill-card">
+
+        <h2 class="bill-title">
+            Bill Summary
+        </h2>
+
+        <div class="bill-row">
+
+            <span>Item Total</span>
+
+            <span>₹448</span>
+
+        </div>
+
+        <div class="bill-row">
+
+            <span>Delivery Fee</span>
+
+            <span>₹25</span>
+
+        </div>
+
+        <div class="bill-row">
+
+            <span>Platform Fee</span>
+
+            <span>₹10</span>
+
+        </div>
+
+        <div class="bill-row total-row">
+
+            <span>Total Amount</span>
+
+            <span>₹483</span>
+
+        </div>
+
+    </div>
+
+    <h2 class="section-title">
+        Payment Options
+    </h2>
+
+    <div class="payment-options">
+
+        <div class="option">
+
+            <div class="option-left">
+
+                <div class="payment-icon">
+                    💰
+                </div>
+
+                <div class="payment-details">
+
+                    <h3>Wallet</h3>
+
+                    <p>
+                        Balance : ₹1,250
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="radio"></div>
+
+        </div>
+
+        <div class="option">
+
+            <div class="option-left">
+
+                <div class="payment-icon">
+                    📱
+                </div>
+
+                <div class="payment-details">
+
+                    <h3>UPI</h3>
+
+                    <p>
+                        Google Pay / PhonePe / Paytm
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="option">
+
+            <div class="option-left">
+
+                <div class="payment-icon">
+                    💳
+                </div>
+
+                <div class="payment-details">
+
+                    <h3>Credit / Debit Card</h3>
+
+                    <p>
+                        Visa, MasterCard & RuPay
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="option">
+
+            <div class="option-left">
+
+                <div class="payment-icon">
+                    🚚
+                </div>
+
+                <div class="payment-details">
+
+                    <h3>Cash on Delivery</h3>
+
+                    <p>
+                        Pay when order arrives
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bottom-glow"></div>
+
+</div>
+
+<div class="pay-btn">
+
+    <a href="/food/order-confirmation/">
+
+        <button>
+            Pay Securely ₹483 →
+        </button>
+
+    </a>
+
+</div>
+
+</body>
+</html>

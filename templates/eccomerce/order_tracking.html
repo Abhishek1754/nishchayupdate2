@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking</title>
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#000;
+            color:white;
+        }
+
+        a{
+            text-decoration:none;
+            color:white;
+        }
+
+        .main{
+            display:flex;
+            min-height:100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar{
+            width:230px;
+            background:#050505;
+            border-right:1px solid #1c1c1c;
+            padding:20px;
+        }
+
+        .logo{
+            color:#c6ff00;
+            font-size:38px;
+            margin-bottom:40px;
+        }
+
+        .logo span{
+            color:white;
+            font-size:22px;
+            margin-left:10px;
+        }
+
+        .menu{
+            display:flex;
+            flex-direction:column;
+            gap:15px;
+        }
+
+        .menu a{
+            padding:16px;
+            border-radius:14px;
+            color:#d8d8d8;
+            transition:0.3s;
+            border:1px solid transparent;
+        }
+
+        .menu a:hover,
+        .active{
+            background:#111;
+            border:1px solid #b6ff00;
+            color:#b6ff00;
+            box-shadow:0 0 12px #b6ff00;
+        }
+
+        .menu i{
+            margin-right:10px;
+        }
+
+        .sale-box{
+            margin-top:40px;
+            border:1px solid #1f1f1f;
+            border-radius:20px;
+            padding:25px;
+            text-align:center;
+            background:#080808;
+        }
+
+        .sale-box h2{
+            color:#b6ff00;
+            font-size:34px;
+            margin:15px 0;
+        }
+
+        .sale-box button{
+            margin-top:20px;
+            background:#b6ff00;
+            border:none;
+            padding:12px 20px;
+            border-radius:12px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        /* CONTENT */
+
+        .content{
+            flex:1;
+            padding:20px 30px;
+        }
+
+        /* TOPBAR */
+
+        .topbar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .search{
+            width:420px;
+            background:#080808;
+            border:1px solid #2d2d2d;
+            border-radius:15px;
+            padding:15px;
+            color:white;
+        }
+
+        .top-icons{
+            display:flex;
+            gap:25px;
+            font-size:22px;
+            color:#b6ff00;
+        }
+
+        .top-icons span{
+            color:white;
+            font-size:18px;
+            margin-left:6px;
+        }
+
+        /* TITLE */
+
+        .title{
+            margin-bottom:25px;
+        }
+
+        .title h1{
+            font-size:42px;
+            margin-bottom:10px;
+        }
+
+        .title p{
+            color:#9e9e9e;
+        }
+
+        /* CARD */
+
+        .card{
+            background:#070707;
+            border:1px solid #242424;
+            border-radius:20px;
+            padding:25px;
+            margin-bottom:25px;
+        }
+
+        .flex{
+            display:flex;
+            justify-content:space-between;
+            gap:20px;
+        }
+
+        .order-id h2{
+            color:#b6ff00;
+            font-size:45px;
+            margin:15px 0;
+        }
+
+        .status-box{
+            width:300px;
+        }
+
+        .status-badge{
+            display:inline-block;
+            background:#111;
+            border:1px solid #b6ff00;
+            color:#b6ff00;
+            padding:12px 18px;
+            border-radius:12px;
+            margin-bottom:20px;
+            font-weight:bold;
+        }
+
+        .status-badge i{
+            margin-right:8px;
+        }
+
+        /* TRACKING */
+
+        .tracking{
+            display:flex;
+            justify-content:space-between;
+            margin-top:30px;
+            position:relative;
+        }
+
+        .tracking::before{
+            content:"";
+            position:absolute;
+            top:28px;
+            left:70px;
+            right:70px;
+            height:3px;
+            background:#b6ff00;
+            z-index:0;
+        }
+
+        .step{
+            position:relative;
+            z-index:2;
+            text-align:center;
+            width:20%;
+        }
+
+        .circle{
+            width:60px;
+            height:60px;
+            border-radius:50%;
+            border:3px solid #b6ff00;
+            margin:auto;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#b6ff00;
+            background:#000;
+            font-size:24px;
+            margin-bottom:15px;
+            box-shadow:0 0 15px #b6ff00;
+        }
+
+        .pending{
+            border-style:dashed;
+            opacity:0.5;
+            box-shadow:none;
+        }
+
+        .step h3{
+            margin-bottom:10px;
+        }
+
+        .step p{
+            color:#aaa;
+            font-size:14px;
+        }
+
+        /* SHIPPED ALERT */
+
+        .alert-box{
+            margin-top:35px;
+            border-top:1px solid #202020;
+            padding-top:25px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .alert-left{
+            display:flex;
+            gap:20px;
+            align-items:center;
+        }
+
+        .alert-left i{
+            font-size:38px;
+            color:#b6ff00;
+        }
+
+        .track-btn{
+            background:#111;
+            border:1px solid #b6ff00;
+            color:#b6ff00;
+            padding:15px 30px;
+            border-radius:12px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        /* GRID */
+
+        .grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:25px;
+        }
+
+        .section-title{
+            color:#b6ff00;
+            margin-bottom:20px;
+            font-size:28px;
+        }
+
+        .info p{
+            margin-bottom:12px;
+            color:#d4d4d4;
+            line-height:1.6;
+        }
+
+        .blue{
+            color:#00aaff;
+        }
+
+        .track-blue{
+            margin-top:20px;
+            width:100%;
+            padding:16px;
+            border-radius:12px;
+            border:1px solid #b6ff00;
+            background:transparent;
+            color:#b6ff00;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        /* ITEMS */
+
+        .item{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:20px 0;
+            border-bottom:1px solid #1c1c1c;
+        }
+
+        .item-left{
+            display:flex;
+            gap:20px;
+            align-items:center;
+        }
+
+        .item img{
+            width:100px;
+            height:100px;
+            border-radius:15px;
+            object-fit:cover;
+            border:1px solid #b6ff00;
+        }
+
+        .item h3{
+            margin-bottom:10px;
+        }
+
+        .shipped{
+            color:#b6ff00;
+            font-weight:bold;
+        }
+
+        /* SUMMARY */
+
+        .summary{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            text-align:center;
+        }
+
+        .summary-box h3{
+            margin-bottom:10px;
+            color:#b6ff00;
+        }
+
+        .summary-box p{
+            color:#d8d8d8;
+        }
+
+        .amount{
+            font-size:52px;
+            color:#b6ff00;
+            font-weight:bold;
+        }
+
+        /* SUPPORT */
+
+        .support{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .support button{
+            background:transparent;
+            border:1px solid #b6ff00;
+            color:#b6ff00;
+            padding:14px 28px;
+            border-radius:12px;
+            cursor:pointer;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="main">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>TechNova</span>
+        </div>
+
+        <div class="menu">
+
+            <a href="#"><i class="fa-solid fa-house"></i>Home</a>
+
+            <a href="#"><i class="fa-solid fa-store"></i>Shop</a>
+
+            <a href="#"><i class="fa-solid fa-table-cells"></i>Categories</a>
+
+            <a href="#" class="active">
+                <i class="fa-solid fa-clipboard-list"></i>Orders
+            </a>
+
+            <a href="#"><i class="fa-solid fa-wallet"></i>Wallet</a>
+
+            <a href="#"><i class="fa-solid fa-gift"></i>Rewards</a>
+
+            <a href="#"><i class="fa-solid fa-users"></i>Refer & Earn</a>
+
+            <a href="#"><i class="fa-solid fa-headset"></i>Support</a>
+
+            <a href="#"><i class="fa-solid fa-gear"></i>Settings</a>
+
+        </div>
+
+        <div class="sale-box">
+
+            <h3>MEGA SALE</h3>
+
+            <h2>50%</h2>
+
+            <p>Up To OFF</p>
+
+            <button>Shop Now</button>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <input type="text"
+            class="search"
+            placeholder="Search for products...">
+
+            <div class="top-icons">
+
+                <div>
+                    <i class="fa-regular fa-heart"></i>
+                    <span>Wishlist</span>
+                </div>
+
+                <div>
+                    <i class="fa-regular fa-bell"></i>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Cart</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- TITLE -->
+
+        <div class="title">
+
+            <h1>Order Status</h1>
+
+            <p>Home > Orders > Order Status</p>
+
+        </div>
+
+        <!-- ORDER CARD -->
+
+        <div class="card">
+
+            <div class="flex">
+
+                <div class="order-id">
+
+                    <p>Order ID</p>
+
+                    <h2>TN123456789</h2>
+
+                    <p>Placed on May 12, 2024 at 10:45 AM</p>
+
+                </div>
+
+                <div class="status-box">
+
+                    <div class="status-badge">
+                        <i class="fa-solid fa-truck"></i>
+                        In Transit
+                    </div>
+
+                    <h2 style="color:#b6ff00;">
+                        May 16, 2024
+                    </h2>
+
+                    <p>Estimated Delivery</p>
+
+                </div>
+
+            </div>
+
+            <!-- TRACKING -->
+
+            <div class="tracking">
+
+                <div class="step">
+
+                    <div class="circle">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+
+                    <h3>Confirmed</h3>
+
+                    <p>May 12</p>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="circle">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+
+                    <h3>Processing</h3>
+
+                    <p>May 12</p>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="circle">
+                        <i class="fa-solid fa-truck"></i>
+                    </div>
+
+                    <h3>Shipped</h3>
+
+                    <p>May 13</p>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="circle pending"></div>
+
+                    <h3>Out for Delivery</h3>
+
+                    <p>Pending</p>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="circle pending"></div>
+
+                    <h3>Delivered</h3>
+
+                    <p>Pending</p>
+
+                </div>
+
+            </div>
+
+            <!-- ALERT -->
+
+            <div class="alert-box">
+
+                <div class="alert-left">
+
+                    <i class="fa-solid fa-truck-fast"></i>
+
+                    <div>
+
+                        <h2>Your order has been shipped!</h2>
+
+                        <p>
+                            Your package is on the way.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <button class="track-btn">
+                    Track Live
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ADDRESS + SHIPPING -->
+
+        <div class="grid">
+
+            <!-- ADDRESS -->
+
+            <div class="card">
+
+                <h2 class="section-title">
+                    Delivery Address
+                </h2>
+
+                <div class="info">
+
+                    <p>John Doe</p>
+
+                    <p>
+                        123 Green Street,
+                        MG Road
+                    </p>
+
+                    <p>
+                        Bangalore, Karnataka
+                    </p>
+
+                    <p>India</p>
+
+                    <p>+91 9876543210</p>
+
+                </div>
+
+            </div>
+
+            <!-- SHIPPING -->
+
+            <div class="card">
+
+                <h2 class="section-title">
+                    Shipping Details
+                </h2>
+
+                <div class="info">
+
+                    <p>
+                        Courier Partner :
+                        <span class="blue">
+                            BlueDart
+                        </span>
+                    </p>
+
+                    <p>
+                        Tracking ID :
+                        <span class="blue">
+                            BD1234567890
+                        </span>
+                    </p>
+
+                </div>
+
+                <button class="track-blue">
+                    Track on BlueDart
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- ORDER ITEMS -->
+
+        <div class="card">
+
+            <h2 class="section-title">
+                Order Items
+            </h2>
+
+            <!-- ITEM -->
+
+            <div class="item">
+
+                <div class="item-left">
+
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12">
+
+                    <div>
+
+                        <h3>
+                            Fire-Boltt Ninja Pro
+                        </h3>
+
+                        <p>₹2,999</p>
+
+                        <p>Qty : 1</p>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <p class="shipped">Shipped</p>
+
+                    <p>May 13</p>
+
+                </div>
+
+            </div>
+
+            <!-- ITEM -->
+
+            <div class="item">
+
+                <div class="item-left">
+
+                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90">
+
+                    <div>
+
+                        <h3>boAt Airdopes</h3>
+
+                        <p>₹1,299</p>
+
+                        <p>Qty : 1</p>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <p class="shipped">Shipped</p>
+
+                    <p>May 13</p>
+
+                </div>
+
+            </div>
+
+            <!-- ITEM -->
+
+            <div class="item">
+
+                <div class="item-left">
+
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
+
+                    <div>
+
+                        <h3>Puma Shoes</h3>
+
+                        <p>₹1,799</p>
+
+                        <p>Qty : 1</p>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <p class="shipped">Shipped</p>
+
+                    <p>May 13</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SUMMARY -->
+
+        <div class="card">
+
+            <div class="summary">
+
+                <div class="summary-box">
+
+                    <h3>Subtotal</h3>
+
+                    <p>₹6,097</p>
+
+                </div>
+
+                <div class="summary-box">
+
+                    <h3>Discount</h3>
+
+                    <p>- ₹1,099</p>
+
+                </div>
+
+                <div class="summary-box">
+
+                    <h3>Shipping</h3>
+
+                    <p>FREE</p>
+
+                </div>
+
+                <div>
+
+                    <div class="amount">
+                        ₹4,998
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SUPPORT -->
+
+        <div class="card support">
+
+            <div>
+
+                <h2 style="color:#b6ff00;">
+                    Need Help?
+                </h2>
+
+                <p>
+                    Our support team is here for you.
+                </p>
+
+            </div>
+
+            <button>
+                Contact Support
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

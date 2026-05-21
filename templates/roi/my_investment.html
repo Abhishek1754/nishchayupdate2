@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Investment</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020812;
+color:white;
+padding:18px;
+}
+
+.top-bar{
+display:flex;
+align-items:center;
+gap:18px;
+margin-bottom:25px;
+}
+
+.back-btn{
+font-size:30px;
+color:#b6ff00;
+text-decoration:none;
+}
+
+.title h1{
+font-size:32px;
+}
+
+.title p{
+color:#aaa;
+font-size:14px;
+margin-top:5px;
+}
+
+.main{
+display:grid;
+grid-template-columns:2fr 1.5fr 1fr;
+gap:18px;
+}
+
+.card{
+background:#07111d;
+border:1px solid #1dff5d20;
+border-radius:16px;
+padding:18px;
+}
+
+.heading{
+color:#b6ff00;
+font-size:24px;
+margin-bottom:18px;
+}
+
+.invest-box{
+background:#050c16;
+border:1px solid #1dff5d20;
+border-radius:14px;
+padding:16px;
+margin-bottom:16px;
+}
+
+.invest-top{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+}
+
+.active{
+background:#b6ff00;
+color:black;
+padding:5px 12px;
+border-radius:8px;
+font-size:13px;
+font-weight:bold;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+font-size:15px;
+border-bottom:1px solid #1dff5d10;
+}
+
+.progress{
+height:10px;
+background:#1a2432;
+border-radius:10px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.progress div{
+height:100%;
+width:60%;
+background:#b6ff00;
+}
+
+.tree{
+text-align:center;
+padding-top:10px;
+}
+
+.circle{
+width:55px;
+height:55px;
+border-radius:50%;
+background:#b6ff00;
+color:black;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:auto;
+font-weight:bold;
+font-size:20px;
+margin-bottom:10px;
+}
+
+.tree-line{
+height:35px;
+width:2px;
+background:#b6ff00;
+margin:auto;
+}
+
+.tree-members{
+display:flex;
+justify-content:space-around;
+margin-top:10px;
+}
+
+.member{
+text-align:center;
+}
+
+.small-circle{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#b6ff00;
+color:black;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:auto;
+font-size:18px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.level-table{
+width:100%;
+border-collapse:collapse;
+}
+
+.level-table th{
+color:#b6ff00;
+padding:12px;
+font-size:14px;
+border-bottom:1px solid #1dff5d20;
+}
+
+.level-table td{
+padding:14px 8px;
+text-align:center;
+font-size:14px;
+border-bottom:1px solid #1dff5d15;
+}
+
+.green{
+color:#b6ff00;
+font-weight:bold;
+}
+
+.summary-box{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:#050c16;
+border:1px solid #1dff5d20;
+}
+
+.summary-box h2{
+font-size:20px;
+margin-bottom:10px;
+}
+
+.summary-box h1{
+color:#b6ff00;
+font-size:42px;
+}
+
+.bottom-nav{
+margin-top:25px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:15px;
+}
+
+.nav-box{
+background:#07111d;
+border:1px solid #1dff5d20;
+padding:16px;
+border-radius:14px;
+text-align:center;
+font-size:18px;
+}
+
+.active-nav{
+color:#b6ff00;
+border:1px solid #b6ff00;
+}
+
+.btn{
+width:100%;
+height:55px;
+background:#b6ff00;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+}
+
+@media(max-width:1000px){
+
+.main{
+grid-template-columns:1fr;
+}
+
+.bottom-nav{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+
+<a href="/roi/" class="back-btn">←</a>
+
+<div class="title">
+<h1>MY INVESTMENT, REFERRAL & LEVEL INCOME</h1>
+<p>Track your investments and earnings</p>
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="card">
+
+<h2 class="heading">MY INVESTMENTS</h2>
+
+<div class="invest-box">
+
+<div class="invest-top">
+
+<h2>Plan 1</h2>
+
+<span class="active">Active</span>
+
+</div>
+
+<div class="row">
+<span>Invested Amount</span>
+<span>₹2,000</span>
+</div>
+
+<div class="row">
+<span>Daily ROI</span>
+<span>1.5%</span>
+</div>
+
+<div class="row">
+<span>Maturity Amount</span>
+<span>₹6,498</span>
+</div>
+
+<div class="row">
+<span>Days Left</span>
+<span>25 Days</span>
+</div>
+
+<div class="progress">
+<div></div>
+</div>
+
+</div>
+
+<div class="invest-box">
+
+<div class="invest-top">
+
+<h2>Plan 3</h2>
+
+<span class="active">Active</span>
+
+</div>
+
+<div class="row">
+<span>Invested Amount</span>
+<span>₹5,000</span>
+</div>
+
+<div class="row">
+<span>Daily ROI</span>
+<span>2.5%</span>
+</div>
+
+<div class="row">
+<span>Maturity Amount</span>
+<span>₹17,498</span>
+</div>
+
+<div class="row">
+<span>Days Left</span>
+<span>48 Days</span>
+</div>
+
+<div class="progress">
+<div style="width:30%;"></div>
+</div>
+
+</div>
+
+<button class="btn">
+
+View All Investments →
+
+</button>
+
+</div>
+
+<div class="card">
+
+<h2 class="heading">REFERRAL TREE</h2>
+
+<div class="tree">
+
+<div class="circle">U</div>
+
+<h3>You</h3>
+
+<div class="tree-line"></div>
+
+<div class="tree-members">
+
+<div class="member">
+
+<div class="small-circle">A</div>
+
+<p>3 Direct</p>
+
+</div>
+
+<div class="member">
+
+<div class="small-circle">B</div>
+
+<p>2 Direct</p>
+
+</div>
+
+</div>
+
+<div class="tree-line"></div>
+
+<div class="tree-members">
+
+<div class="member">
+
+<div class="small-circle">C</div>
+
+<p>5 Members</p>
+
+</div>
+
+<div class="member">
+
+<div class="small-circle">D</div>
+
+<p>4 Members</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="summary-box">
+
+<h2>Total Team Members</h2>
+
+<h1>33</h1>
+
+</div>
+
+<button class="btn">
+
+View Full Tree →
+
+</button>
+
+</div>
+
+<div>
+
+<div class="card">
+
+<h2 class="heading">LEVEL INCOME</h2>
+
+<table class="level-table">
+
+<tr>
+<th>Level</th>
+<th>Members</th>
+<th>Income</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>3</td>
+<td class="green">₹2500</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>9</td>
+<td class="green">₹2250</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>21</td>
+<td class="green">₹2100</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>68</td>
+<td class="green">₹1680</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>192</td>
+<td class="green">₹1215</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="summary-box">
+
+<h2>Total Level Income</h2>
+
+<h1>₹9,745</h1>
+
+</div>
+
+<div class="summary-box">
+
+<h2>Total Referral Income</h2>
+
+<h1>₹5,680</h1>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+<div class="nav-box">Home</div>
+
+<div class="nav-box">Invest</div>
+
+<div class="nav-box active-nav">Team</div>
+
+<div class="nav-box">Wallet</div>
+
+<div class="nav-box">Profile</div>
+
+</div>
+
+</body>
+</html>

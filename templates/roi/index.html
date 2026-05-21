@@ -1,0 +1,582 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ROI Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:250px;
+background:#07101f;
+padding:25px 15px;
+border-right:1px solid rgba(255,255,255,0.05);
+}
+
+.logo{
+font-size:32px;
+font-weight:700;
+margin-bottom:40px;
+color:#7cff4f;
+}
+
+.logo span{
+color:white;
+font-size:14px;
+display:block;
+letter-spacing:3px;
+}
+
+.menu a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px;
+margin-bottom:10px;
+border-radius:12px;
+text-decoration:none;
+color:#cfd8dc;
+transition:0.3s;
+}
+
+.menu a:hover,
+.menu a.active{
+background:#6cff2d;
+color:black;
+font-weight:600;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:25px;
+overflow-y:auto;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.welcome h1{
+font-size:32px;
+}
+
+.welcome p{
+color:#9ea7b3;
+margin-top:5px;
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.profile img{
+width:50px;
+height:50px;
+border-radius:50%;
+border:2px solid #6cff2d;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin-bottom:25px;
+}
+
+.card{
+padding:25px;
+border-radius:20px;
+background:#0b1327;
+border:1px solid rgba(255,255,255,0.06);
+}
+
+.card h2{
+font-size:16px;
+margin-bottom:12px;
+color:#cfd8dc;
+}
+
+.card h1{
+font-size:34px;
+margin-bottom:10px;
+}
+
+.card p{
+color:#9ea7b3;
+}
+
+.purple{
+background:linear-gradient(135deg,#331c70,#111b3b);
+}
+
+.green{
+background:linear-gradient(135deg,#123a2b,#0d1f2b);
+}
+
+.blue{
+background:linear-gradient(135deg,#122c6f,#0d1f2b);
+}
+
+.orange{
+background:linear-gradient(135deg,#5a3207,#0d1f2b);
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+margin-bottom:25px;
+}
+
+.box{
+background:#0b1327;
+padding:25px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.05);
+}
+
+.box h2{
+margin-bottom:20px;
+}
+
+.income-item{
+display:flex;
+justify-content:space-between;
+padding:18px 0;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.progress{
+width:100%;
+height:12px;
+background:#1a2238;
+border-radius:20px;
+overflow:hidden;
+margin:20px 0;
+}
+
+.progress span{
+display:block;
+height:100%;
+width:45%;
+background:#7cff4f;
+border-radius:20px;
+}
+
+/* BANNER */
+
+.banner{
+background:linear-gradient(135deg,#10201b,#0b1327);
+padding:30px;
+border-radius:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.banner h1{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.banner button{
+margin-top:20px;
+padding:14px 30px;
+border:none;
+background:#7cff4f;
+border-radius:12px;
+font-weight:600;
+cursor:pointer;
+}
+
+/* TRANSACTIONS */
+
+.transaction{
+display:flex;
+justify-content:space-between;
+padding:18px 0;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.green-text{
+color:#66ff66;
+}
+
+.red-text{
+color:#ff4d6d;
+}
+
+/* INVESTMENT */
+
+.plan{
+padding:20px;
+background:#121d37;
+border-radius:15px;
+}
+
+.plan button{
+width:100%;
+margin-top:20px;
+padding:14px;
+border:none;
+background:transparent;
+border:2px solid #7cff4f;
+color:#7cff4f;
+border-radius:12px;
+cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:1200px){
+
+.cards{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:900px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+display:flex;
+overflow-x:auto;
+}
+
+.menu{
+display:flex;
+gap:10px;
+}
+
+.main{
+padding:15px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.banner{
+flex-direction:column;
+text-align:center;
+gap:20px;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+ROI
+<span>SYSTEM</span>
+</div>
+
+<div class="menu">
+
+<a href="/roi/" class="active">🏠 Dashboard</a>
+
+<a href="/roi/plans/">📈 Invest Plan</a>
+
+<a href="/roi/my-investment/">💼 My Investments</a>
+
+<a href="/roi/payment/">👛 Wallet</a>
+
+<a href="/roi/withdraw/">💳 Withdraw</a>
+
+<a href="/roi/referral-tree/">👥 Referral</a>
+
+<a href="/roi/team-income/">👨‍👩‍👧 Team Income</a>
+
+<a href="/roi/profile/">🔔 Notifications</a>
+
+<a href="/roi/profile/">👤 Profile</a>
+
+<a href="/dashboard/">🛟 Support</a>
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<div class="welcome">
+<h1>Welcome back, Rohit Kumar 👋</h1>
+<p>Here is your account overview</p>
+</div>
+
+<div class="profile">
+🔔
+<img src="https://i.pravatar.cc/100">
+</div>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card purple">
+<h2>Total Balance</h2>
+<h1>₹25,680</h1>
+<p>Available Balance</p>
+</div>
+
+<div class="card green">
+<h2>Total Investment</h2>
+<h1>₹60,000</h1>
+<p>Active Investment</p>
+</div>
+
+<div class="card blue">
+<h2>Total ROI Earned</h2>
+<h1>₹15,430</h1>
+<p>Total ROI Earned</p>
+</div>
+
+<div class="card orange">
+<h2>Total Withdrawn</h2>
+<h1>₹10,250</h1>
+<p>Total Withdrawn</p>
+</div>
+
+</div>
+
+<!-- GRID -->
+
+<div class="grid">
+
+<div class="box">
+
+<h2>Income Overview</h2>
+
+<div class="income-item">
+<span>Daily ROI Income</span>
+<strong>₹210</strong>
+</div>
+
+<div class="income-item">
+<span>Referral Income</span>
+<strong>₹1,250</strong>
+</div>
+
+<div class="income-item">
+<span>Level Income</span>
+<strong>₹2,950</strong>
+</div>
+
+<div class="income-item">
+<span>Total Income</span>
+<strong>₹4,410</strong>
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>ROI Progress</h2>
+
+<p>Current Plan: Standard Plan</p>
+
+<br>
+
+<div style="display:flex;justify-content:space-between;">
+<span>Start Date</span>
+<span>End Date</span>
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:10px;">
+<strong>24 May 2024</strong>
+<strong>24 May 2025</strong>
+</div>
+
+<div class="progress">
+<span></span>
+</div>
+
+<div style="display:flex;justify-content:space-between;">
+<div>
+<p>Invested Amount</p>
+<h2>₹10,000</h2>
+</div>
+
+<div>
+<p>Total Return</p>
+<h2>₹22,500</h2>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- BANNER -->
+
+<div class="banner">
+
+<div>
+<h1>Grow Your Wealth With ROI System</h1>
+<p>Invest in our plans and earn daily ROI</p>
+
+<button>Invest Now</button>
+</div>
+
+<div>
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="220">
+</div>
+
+</div>
+
+<!-- LOWER GRID -->
+
+<div class="grid">
+
+<div class="box">
+
+<h2>Recent Transactions</h2>
+
+<div class="transaction">
+<span>Daily ROI Income</span>
+<strong class="green-text">+₹210</strong>
+</div>
+
+<div class="transaction">
+<span>Referral Income</span>
+<strong class="green-text">+₹560</strong>
+</div>
+
+<div class="transaction">
+<span>Level Income</span>
+<strong class="green-text">+₹230</strong>
+</div>
+
+<div class="transaction">
+<span>Withdraw to Bank</span>
+<strong class="red-text">-₹2,000</strong>
+</div>
+
+<div class="transaction">
+<span>Daily ROI Income</span>
+<strong class="green-text">+₹210</strong>
+</div>
+
+</div>
+
+<div class="box">
+
+<h2>My Active Investment</h2>
+
+<div class="plan">
+
+<h2>Standard Plan</h2>
+
+<br>
+
+<div style="display:flex;justify-content:space-between;">
+<span>Invested Amount</span>
+<strong>₹10,000</strong>
+</div>
+
+<br>
+
+<div style="display:flex;justify-content:space-between;">
+<span>Daily ROI</span>
+<strong>1.20%</strong>
+</div>
+
+<br>
+
+<div style="display:flex;justify-content:space-between;">
+<span>Total Return</span>
+<strong>₹22,500</strong>
+</div>
+
+<br>
+
+<div style="display:flex;justify-content:space-between;">
+<span>ROI Duration</span>
+<strong>365 Days</strong>
+</div>
+
+<br>
+
+<div style="display:flex;justify-content:space-between;">
+<span>Next ROI Date</span>
+<strong>25 May 2024</strong>
+</div>
+
+<br>
+
+<div style="display:flex;justify-content:space-between;">
+<span>Next ROI Amount</span>
+<strong>₹120</strong>
+</div>
+
+<button>View Plan Details</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

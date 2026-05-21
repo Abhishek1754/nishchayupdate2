@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invest Now</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#02060f;
+color:white;
+padding:20px;
+}
+
+.top-bar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.back{
+font-size:35px;
+color:#b6ff00;
+text-decoration:none;
+}
+
+.title h1{
+font-size:42px;
+}
+
+.title p{
+color:#aaa;
+margin-top:8px;
+}
+
+.main{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:25px;
+}
+
+.card{
+background:#07111f;
+border:1px solid #1dff5d40;
+border-radius:20px;
+overflow:hidden;
+}
+
+.plan-header{
+display:flex;
+justify-content:space-between;
+padding:25px;
+border-bottom:1px solid #1dff5d25;
+}
+
+.plan-box h2{
+font-size:34px;
+}
+
+.green{
+color:#b6ff00;
+}
+
+.plan-box p{
+margin-top:10px;
+font-size:24px;
+}
+
+.amount-section{
+padding:25px;
+}
+
+.amount-title{
+font-size:30px;
+margin-bottom:25px;
+}
+
+.amount-input{
+width:100%;
+height:110px;
+background:black;
+border:2px solid #b6ff00;
+border-radius:18px;
+color:white;
+font-size:60px;
+padding-left:30px;
+margin-bottom:25px;
+outline:none;
+}
+
+.quick-btns{
+display:flex;
+gap:15px;
+margin-bottom:30px;
+}
+
+.quick-btns button{
+flex:1;
+height:70px;
+background:#081420;
+border:1px solid #2aff5a50;
+color:white;
+border-radius:14px;
+font-size:28px;
+cursor:pointer;
+}
+
+.quick-btns button:hover{
+background:#b6ff00;
+color:black;
+}
+
+.maturity{
+text-align:center;
+font-size:28px;
+margin-bottom:30px;
+}
+
+.keypad{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+
+.keypad button{
+height:80px;
+background:#081420;
+border:1px solid #1dff5d40;
+color:white;
+font-size:32px;
+border-radius:14px;
+cursor:pointer;
+}
+
+.keypad button:hover{
+background:#b6ff00;
+color:black;
+}
+
+.summary{
+padding:25px;
+}
+
+.summary h2{
+color:#b6ff00;
+margin-bottom:25px;
+font-size:32px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:18px 0;
+border-bottom:1px solid #1dff5d20;
+font-size:24px;
+}
+
+.secure-box{
+margin-top:30px;
+padding:20px;
+border:1px solid #1dff5d30;
+border-radius:18px;
+background:#081420;
+}
+
+.secure-box h3{
+color:#b6ff00;
+margin-bottom:10px;
+font-size:28px;
+}
+
+.pay-btn{
+width:100%;
+height:85px;
+background:#b6ff00;
+border:none;
+border-radius:16px;
+font-size:32px;
+font-weight:bold;
+margin-top:30px;
+cursor:pointer;
+}
+
+.pay-btn:hover{
+background:#d7ff59;
+}
+
+.footer-note{
+margin-top:20px;
+font-size:20px;
+color:#aaa;
+}
+
+@media(max-width:900px){
+
+.main{
+grid-template-columns:1fr;
+}
+
+.amount-input{
+font-size:40px;
+height:90px;
+}
+
+.keypad button{
+height:65px;
+font-size:24px;
+}
+
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+
+<div style="display:flex;gap:20px;align-items:center;">
+
+<a href="/roi/plan-details/" class="back">←</a>
+
+<div class="title">
+<h1>INVEST IN PLAN 1</h1>
+<p>Enter investment amount and proceed to payment</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="card">
+
+<div class="plan-header">
+
+<div class="plan-box">
+<h2>Plan 1</h2>
+<p class="green">1.5% Daily ROI</p>
+</div>
+
+<div class="plan-box">
+<h2>30 Days</h2>
+<p>Validity</p>
+</div>
+
+<div class="plan-box">
+<h2 class="green">₹645 - ₹6,498</h2>
+<p>Maturity</p>
+</div>
+
+</div>
+
+<div class="amount-section">
+
+<h2 class="amount-title">ENTER INVESTMENT AMOUNT</h2>
+
+<input type="text" class="amount-input" value="₹ 2,000">
+
+<div class="quick-btns">
+
+<button>₹500</button>
+<button>₹1000</button>
+<button>₹2000</button>
+<button>MAX</button>
+
+</div>
+
+<div class="maturity">
+
+You will get maturity amount between
+
+<h1 class="green">₹2,580 - ₹6,498</h1>
+
+</div>
+
+<div class="keypad">
+
+<button>1</button>
+<button>2</button>
+<button>3</button>
+<button>⌫</button>
+
+<button>4</button>
+<button>5</button>
+<button>6</button>
+<button>+</button>
+
+<button>7</button>
+<button>8</button>
+<button>9</button>
+<button>-</button>
+
+<button>.</button>
+<button>0</button>
+<button>00</button>
+<button>✔</button>
+
+</div>
+
+<div class="footer-note">
+
+By continuing, you agree to our
+<span class="green">Terms & Conditions</span>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="summary">
+
+<h2>INVESTMENT SUMMARY</h2>
+
+<div class="row">
+<span>Plan</span>
+<span>Plan 1</span>
+</div>
+
+<div class="row">
+<span>ROI</span>
+<span>1.5%</span>
+</div>
+
+<div class="row">
+<span>Principal</span>
+<span>₹2,000</span>
+</div>
+
+<div class="row">
+<span>Total ROI</span>
+<span>₹900</span>
+</div>
+
+<div class="row">
+<span>Validity</span>
+<span>30 Days</span>
+</div>
+
+<div class="secure-box">
+
+<h3>SAFE & SECURE</h3>
+
+<p>Your investment is 100% secure with us.</p>
+
+</div>
+
+<div class="secure-box">
+
+<h3>MATURITY DATE</h3>
+
+<p>12 June 2024</p>
+
+</div>
+
+<button class="pay-btn"
+onclick="window.location.href='/roi/payment/'">
+
+Continue to Payment →
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

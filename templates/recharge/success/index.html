@@ -1,0 +1,276 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recharge Success</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:black;
+color:white;
+padding:30px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.success-box{
+border:1px solid #9dff00;
+border-radius:25px;
+padding:50px;
+text-align:center;
+background:#050505;
+box-shadow:0 0 30px #9dff0020;
+}
+
+.check{
+font-size:90px;
+color:#9dff00;
+margin-bottom:20px;
+}
+
+h1{
+font-size:50px;
+color:#9dff00;
+margin-bottom:15px;
+}
+
+p{
+font-size:20px;
+color:#ddd;
+margin-bottom:40px;
+}
+
+.details{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+margin-top:40px;
+}
+
+.card{
+border:1px solid #222;
+padding:25px;
+border-radius:20px;
+background:#0a0a0a;
+}
+
+.card h3{
+color:#9dff00;
+margin-bottom:10px;
+}
+
+.btns{
+margin-top:40px;
+display:flex;
+justify-content:center;
+gap:20px;
+}
+
+.btn{
+padding:18px 40px;
+border-radius:12px;
+text-decoration:none;
+font-size:18px;
+font-weight:600;
+}
+
+.home-btn{
+background:#9dff00;
+color:black;
+}
+
+.invoice-btn{
+border:1px solid #9dff00;
+color:#9dff00;
+}
+
+.summary{
+margin-top:40px;
+border:1px solid #9dff00;
+padding:30px;
+border-radius:20px;
+background:#080808;
+}
+
+.summary h2{
+color:#9dff00;
+margin-bottom:25px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+font-size:18px;
+}
+
+.total{
+font-size:35px;
+color:#9dff00;
+font-weight:700;
+margin-top:20px;
+}
+
+.footer{
+margin-top:50px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+}
+
+.footer-box{
+border:1px solid #222;
+padding:20px;
+border-radius:15px;
+text-align:center;
+background:#050505;
+}
+
+.footer-box h3{
+color:#9dff00;
+margin-bottom:10px;
+}
+
+@media(max-width:900px){
+
+.details{
+grid-template-columns:1fr;
+}
+
+.footer{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+.footer{
+grid-template-columns:1fr;
+}
+
+.btns{
+flex-direction:column;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="success-box">
+
+<div class="check">✔</div>
+
+<h1>Recharge Successful!</h1>
+
+<p>
+Your recharge has been completed successfully.
+</p>
+
+<div class="details">
+
+<div class="card">
+<h3>Mobile Number</h3>
+<p>+91 9876543210</p>
+</div>
+
+<div class="card">
+<h3>Recharge Time</h3>
+<p>15 May 2026, 11:45 AM</p>
+</div>
+
+<div class="card">
+<h3>Transaction ID</h3>
+<p>RC987654321</p>
+</div>
+
+</div>
+
+<div class="btns">
+
+<a href="/" class="btn home-btn">
+Go To Home
+</a>
+
+<a href="#" class="btn invoice-btn">
+Download Invoice
+</a>
+
+</div>
+
+</div>
+
+<div class="summary">
+
+<h2>Transaction Summary</h2>
+
+<div class="row">
+<span>Recharge Amount</span>
+<span>₹199</span>
+</div>
+
+<div class="row">
+<span>Convenience Fee</span>
+<span>₹1</span>
+</div>
+
+<div class="row">
+<span>Discount Applied</span>
+<span style="color:#9dff00;">- ₹5</span>
+</div>
+
+<div class="total">
+Total Paid ₹195
+</div>
+
+</div>
+
+<div class="footer">
+
+<div class="footer-box">
+<h3>⚡ Fast Recharge</h3>
+<p>Instant processing</p>
+</div>
+
+<div class="footer-box">
+<h3>🔒 Secure</h3>
+<p>100% safe payment</p>
+</div>
+
+<div class="footer-box">
+<h3>🎁 Cashback</h3>
+<p>Extra rewards added</p>
+</div>
+
+<div class="footer-box">
+<h3>📞 Support</h3>
+<p>24/7 available</p>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

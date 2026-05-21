@@ -1,0 +1,452 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharge Payment - Nishchay</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#000;
+            color:white;
+        }
+
+        .navbar{
+            width:100%;
+            padding:20px 50px;
+            border-bottom:1px solid #1aff00;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .logo{
+            color:#b7ff00;
+            font-size:35px;
+            font-weight:700;
+        }
+
+        .logo span{
+            color:white;
+        }
+
+        .wallet{
+            border:1px solid #b7ff00;
+            padding:10px 20px;
+            border-radius:12px;
+            color:#b7ff00;
+            font-weight:600;
+        }
+
+        .container{
+            width:95%;
+            margin:auto;
+            margin-top:30px;
+            display:grid;
+            grid-template-columns:2fr 1fr;
+            gap:30px;
+        }
+
+        .left-panel{
+            border:1px solid #1aff00;
+            border-radius:20px;
+            padding:30px;
+            background:#050505;
+        }
+
+        .title{
+            font-size:35px;
+            margin-bottom:30px;
+            color:#b7ff00;
+        }
+
+        .payment-methods{
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+        }
+
+        .method{
+            border:1px solid #222;
+            border-radius:15px;
+            padding:20px;
+            transition:0.3s;
+            cursor:pointer;
+            background:#0a0a0a;
+        }
+
+        .method:hover{
+            border-color:#b7ff00;
+            box-shadow:0 0 20px #b7ff0050;
+        }
+
+        .method.active{
+            border-color:#b7ff00;
+            box-shadow:0 0 20px #b7ff0060;
+        }
+
+        .method h3{
+            color:#b7ff00;
+            margin-bottom:8px;
+        }
+
+        .upi-grid{
+            margin-top:25px;
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:20px;
+        }
+
+        .upi-card{
+            border:1px solid #1aff00;
+            border-radius:15px;
+            padding:25px;
+            text-align:center;
+            background:#0b0b0b;
+            transition:0.3s;
+            cursor:pointer;
+        }
+
+        .upi-card:hover{
+            transform:translateY(-5px);
+            box-shadow:0 0 20px #b7ff0050;
+        }
+
+        .upi-card img{
+            width:60px;
+            margin-bottom:15px;
+        }
+
+        .upi-card h4{
+            color:#fff;
+        }
+
+        .upi-input{
+            margin-top:30px;
+            display:flex;
+            gap:15px;
+        }
+
+        .upi-input input{
+            flex:1;
+            padding:18px;
+            background:#111;
+            border:1px solid #333;
+            border-radius:12px;
+            color:white;
+            font-size:16px;
+        }
+
+        .verify-btn{
+            background:#b7ff00;
+            color:black;
+            border:none;
+            padding:18px 35px;
+            border-radius:12px;
+            font-size:16px;
+            font-weight:700;
+            cursor:pointer;
+        }
+
+        .right-panel{
+            border:1px solid #1aff00;
+            border-radius:20px;
+            padding:30px;
+            background:#050505;
+            height:fit-content;
+        }
+
+        .summary-title{
+            color:#b7ff00;
+            font-size:28px;
+            margin-bottom:25px;
+        }
+
+        .summary-box{
+            border-bottom:1px solid #222;
+            padding-bottom:20px;
+            margin-bottom:20px;
+        }
+
+        .summary-row{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:15px;
+            font-size:17px;
+        }
+
+        .green{
+            color:#b7ff00;
+        }
+
+        .amount{
+            font-size:40px;
+            font-weight:700;
+            color:#b7ff00;
+            margin-top:15px;
+        }
+
+        .offer-box{
+            margin-top:25px;
+            border:1px solid #1aff00;
+            border-radius:15px;
+            padding:20px;
+            background:#0d0d0d;
+            color:#b7ff00;
+        }
+
+        .coupon{
+            margin-top:25px;
+        }
+
+        .coupon input{
+            width:100%;
+            padding:15px;
+            background:#111;
+            border:1px solid #333;
+            border-radius:12px;
+            color:white;
+            margin-top:10px;
+        }
+
+        .pay-btn{
+            width:100%;
+            margin-top:30px;
+            background:#b7ff00;
+            color:black;
+            padding:20px;
+            border:none;
+            border-radius:15px;
+            font-size:22px;
+            font-weight:700;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .pay-btn:hover{
+            transform:scale(1.03);
+            box-shadow:0 0 25px #b7ff00;
+        }
+
+        .footer-icons{
+            width:95%;
+            margin:40px auto;
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:20px;
+        }
+
+        .footer-box{
+            border:1px solid #1aff00;
+            border-radius:15px;
+            padding:20px;
+            text-align:center;
+            background:#050505;
+        }
+
+        .footer-box h3{
+            color:#b7ff00;
+            margin-bottom:10px;
+        }
+
+        @media(max-width:1000px){
+
+            .container{
+                grid-template-columns:1fr;
+            }
+
+            .upi-grid{
+                grid-template-columns:repeat(2,1fr);
+            }
+
+            .footer-icons{
+                grid-template-columns:repeat(2,1fr);
+            }
+
+        }
+
+        @media(max-width:700px){
+
+            .navbar{
+                padding:20px;
+            }
+
+            .upi-grid{
+                grid-template-columns:1fr;
+            }
+
+            .footer-icons{
+                grid-template-columns:1fr;
+            }
+
+            .upi-input{
+                flex-direction:column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            Re<span>Charge</span>
+        </div>
+
+        <div class="wallet">
+            Wallet ₹250.00
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="left-panel">
+
+            <h1 class="title">
+                Select Payment Method
+            </h1>
+
+            <div class="payment-methods">
+
+                <div class="method active">
+                    <h3>UPI</h3>
+                    <p>Google Pay, PhonePe, Paytm & more</p>
+                </div>
+
+                <div class="method">
+                    <h3>Cards</h3>
+                    <p>Debit / Credit Card</p>
+                </div>
+
+                <div class="method">
+                    <h3>Net Banking</h3>
+                    <p>All major banks supported</p>
+                </div>
+
+                <div class="method">
+                    <h3>Wallet</h3>
+                    <p>Pay using wallet balance</p>
+                </div>
+
+            </div>
+
+            <div class="upi-grid">
+
+                <div class="upi-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968279.png">
+                    <h4>Google Pay</h4>
+                </div>
+
+                <div class="upi-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png">
+                    <h4>PhonePe</h4>
+                </div>
+
+                <div class="upi-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968144.png">
+                    <h4>Paytm</h4>
+                </div>
+
+            </div>
+
+            <div class="upi-input">
+
+                <input type="text" placeholder="Enter UPI ID">
+
+                <button class="verify-btn">
+                    Verify & Pay
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="right-panel">
+
+            <h2 class="summary-title">
+                Recharge Summary
+            </h2>
+
+            <div class="summary-box">
+
+                <div class="summary-row">
+                    <span>Recharge Amount</span>
+                    <span>₹199</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Convenience Fee</span>
+                    <span>₹1</span>
+                </div>
+
+                <div class="summary-row green">
+                    <span>Offer Discount</span>
+                    <span>- ₹5</span>
+                </div>
+
+            </div>
+
+            <div class="amount">
+                ₹195
+            </div>
+
+            <div class="offer-box">
+                🎉 You save ₹5 on this recharge
+            </div>
+
+            <div class="coupon">
+
+                <label>Apply Coupon</label>
+
+                <input type="text" placeholder="Enter Coupon Code">
+
+            </div>
+
+           <a href="/recharge/success/" class="pay-btn">
+    Pay ₹195 Securely
+</a>
+        </div>
+
+    </div>
+
+    <div class="footer-icons">
+
+        <div class="footer-box">
+            <h3>⚡ Instant Recharge</h3>
+            <p>Lightning fast payments</p>
+        </div>
+
+        <div class="footer-box">
+            <h3>🔒 Secure</h3>
+            <p>100% safe transactions</p>
+        </div>
+
+        <div class="footer-box">
+            <h3>🎁 Cashback</h3>
+            <p>Best recharge offers</p>
+        </div>
+
+        <div class="footer-box">
+            <h3>📞 Support</h3>
+            <p>24/7 customer support</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

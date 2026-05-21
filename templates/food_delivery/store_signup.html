@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Partner Signup - FUDDO</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background:#000;
+            font-family:'Poppins',sans-serif;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            overflow:hidden;
+        }
+
+        .mobile-screen{
+            width:100%;
+            max-width:430px;
+            min-height:100vh;
+            background:#000;
+            color:white;
+            padding:25px;
+            position:relative;
+        }
+
+        .back-btn{
+            width:55px;
+            height:55px;
+            border-radius:50%;
+            border:2px solid #c6ff00;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:24px;
+            color:#c6ff00;
+            text-decoration:none;
+            margin-bottom:30px;
+            box-shadow:0 0 15px rgba(198,255,0,.4);
+        }
+
+        .store-box{
+            width:120px;
+            height:120px;
+            border:3px solid #c6ff00;
+            border-radius:30px;
+            margin:auto;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:70px;
+            color:#c6ff00;
+            box-shadow:0 0 25px #c6ff00;
+        }
+
+        .brand{
+            text-align:center;
+            margin-top:20px;
+        }
+
+        .brand h1{
+            color:#c6ff00;
+            font-size:56px;
+            font-weight:800;
+        }
+
+        .brand p{
+            color:#bbb;
+            margin-top:8px;
+            font-size:18px;
+        }
+
+        .heading{
+            text-align:center;
+            margin-top:35px;
+        }
+
+        .heading h2{
+            font-size:34px;
+            margin-bottom:10px;
+        }
+
+        .heading p{
+            color:#bbb;
+            line-height:1.7;
+            font-size:15px;
+        }
+
+        .form{
+            margin-top:35px;
+        }
+
+        .input-box{
+            margin-bottom:18px;
+        }
+
+        .input-box label{
+            display:block;
+            margin-bottom:10px;
+            color:#c6ff00;
+            font-size:15px;
+        }
+
+        .input-box input{
+            width:100%;
+            height:62px;
+            border-radius:18px;
+            border:2px solid #1f1f1f;
+            background:#0b0b0b;
+            padding:0 18px;
+            color:white;
+            font-size:16px;
+            outline:none;
+            transition:.3s;
+        }
+
+        .input-box input:focus{
+            border-color:#c6ff00;
+            box-shadow:0 0 15px rgba(198,255,0,.2);
+        }
+
+        .signup-btn{
+            width:100%;
+            height:68px;
+            border:none;
+            border-radius:18px;
+            background:#c6ff00;
+            color:#000;
+            font-size:24px;
+            font-weight:700;
+            cursor:pointer;
+            margin-top:10px;
+            transition:.3s;
+        }
+
+        .signup-btn:hover{
+            transform:scale(1.02);
+            box-shadow:0 0 25px #c6ff00;
+        }
+
+        .stats{
+            margin-top:35px;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:15px;
+        }
+
+        .stat-card{
+            background:#0b0b0b;
+            border:1px solid #1f1f1f;
+            border-radius:18px;
+            padding:20px;
+            text-align:center;
+        }
+
+        .stat-card h3{
+            color:#c6ff00;
+            font-size:26px;
+            margin-bottom:8px;
+        }
+
+        .stat-card p{
+            color:#bbb;
+            font-size:14px;
+            line-height:1.5;
+        }
+
+        .login-link{
+            margin-top:35px;
+            text-align:center;
+            color:#bbb;
+            font-size:16px;
+        }
+
+        .login-link a{
+            color:#c6ff00;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .bottom-glow{
+            position:absolute;
+            width:250px;
+            height:250px;
+            background:#c6ff00;
+            filter:blur(150px);
+            opacity:.08;
+            bottom:-100px;
+            left:50%;
+            transform:translateX(-50%);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="mobile-screen">
+
+    <a href="/food/store-login/" class="back-btn">
+        ←
+    </a>
+
+    <div class="store-box">
+        🏪
+    </div>
+
+    <div class="brand">
+
+        <h1>FUDDO</h1>
+
+        <p>Become a Store Partner</p>
+
+    </div>
+
+    <div class="heading">
+
+        <h2>Store Signup</h2>
+
+        <p>
+            Register your restaurant/store and
+            grow your business with FUDDO.
+        </p>
+
+    </div>
+
+    <div class="form">
+
+        <div class="input-box">
+
+            <label>Store Name</label>
+
+            <input type="text" placeholder="Enter store name">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Owner Name</label>
+
+            <input type="text" placeholder="Enter owner name">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Phone Number</label>
+
+            <input type="text" placeholder="Enter phone number">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Email Address</label>
+
+            <input type="email" placeholder="Enter email">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Store Address</label>
+
+            <input type="text" placeholder="Enter store address">
+
+        </div>
+
+        <div class="input-box">
+
+            <label>Create Password</label>
+
+            <input type="password" placeholder="Create password">
+
+        </div>
+
+        <button class="signup-btn">
+            Register Store →
+        </button>
+
+    </div>
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <h3>10K+</h3>
+
+            <p>Daily Customers</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>₹1L+</h3>
+
+            <p>Monthly Sales Growth</p>
+
+        </div>
+
+    </div>
+
+    <div class="login-link">
+
+        Already registered?
+
+        <a href="/food/store-login/">
+            Login Here
+        </a>
+
+    </div>
+
+    <div class="bottom-glow"></div>
+
+</div>
+
+</body>
+</html>

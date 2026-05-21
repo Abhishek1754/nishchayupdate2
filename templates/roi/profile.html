@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI Profile</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#020812;
+color:white;
+padding:18px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.top h1{
+font-size:42px;
+}
+
+.icons{
+display:flex;
+gap:20px;
+font-size:30px;
+color:#b6ff00;
+}
+
+.card{
+background:#07111d;
+border:1px solid #1dff5d20;
+border-radius:18px;
+padding:22px;
+margin-bottom:25px;
+}
+
+.profile-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.profile-left{
+display:flex;
+gap:20px;
+align-items:center;
+}
+
+.avatar{
+width:150px;
+height:150px;
+border-radius:50%;
+border:2px solid #b6ff00;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:70px;
+background:#09131f;
+color:#b6ff00;
+}
+
+.user-details h2{
+font-size:48px;
+margin-bottom:10px;
+}
+
+.user-id{
+font-size:32px;
+color:#aaa;
+margin-bottom:15px;
+}
+
+.verify{
+display:inline-block;
+padding:10px 18px;
+border-radius:10px;
+background:#0d1a10;
+border:1px solid #b6ff00;
+color:#b6ff00;
+font-size:20px;
+}
+
+.arrow{
+font-size:45px;
+color:#b6ff00;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+margin-top:30px;
+padding-top:25px;
+border-top:1px solid #1dff5d20;
+}
+
+.stat{
+display:flex;
+gap:15px;
+align-items:center;
+}
+
+.icon{
+width:70px;
+height:70px;
+border-radius:14px;
+background:#09131f;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:32px;
+color:#b6ff00;
+}
+
+.stat h3{
+font-size:22px;
+margin-bottom:8px;
+}
+
+.green{
+color:#b6ff00;
+font-size:34px;
+font-weight:bold;
+}
+
+.section-title{
+font-size:28px;
+margin-bottom:18px;
+color:#aaa;
+}
+
+.list-card{
+background:#07111d;
+border:1px solid #1dff5d20;
+border-radius:18px;
+overflow:hidden;
+margin-bottom:25px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:22px;
+border-bottom:1px solid #1dff5d10;
+}
+
+.row:last-child{
+border-bottom:none;
+}
+
+.left{
+display:flex;
+align-items:center;
+gap:18px;
+}
+
+.circle{
+width:60px;
+height:60px;
+border-radius:50%;
+background:#0d1a10;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+color:#b6ff00;
+}
+
+.text h3{
+font-size:24px;
+margin-bottom:5px;
+}
+
+.text p{
+font-size:20px;
+color:#aaa;
+}
+
+.right{
+display:flex;
+align-items:center;
+gap:15px;
+font-size:22px;
+}
+
+.footer{
+margin-top:25px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:15px;
+}
+
+.nav{
+background:#07111d;
+padding:18px;
+border-radius:14px;
+text-align:center;
+border:1px solid #1dff5d20;
+font-size:20px;
+}
+
+.active{
+border:1px solid #b6ff00;
+color:#b6ff00;
+}
+
+@media(max-width:1000px){
+
+.stats{
+grid-template-columns:1fr;
+}
+
+.footer{
+grid-template-columns:1fr 1fr;
+}
+
+.profile-top{
+flex-direction:column;
+gap:20px;
+align-items:flex-start;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="top">
+
+<h1>Profile</h1>
+
+<div class="icons">
+
+<span>🔔</span>
+<span>⚙️</span>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="profile-top">
+
+<div class="profile-left">
+
+<div class="avatar">
+👤
+</div>
+
+<div class="user-details">
+
+<h2>ROI User ✅</h2>
+
+<div class="user-id">
+ROI123456
+</div>
+
+<div class="verify">
+Verified User
+</div>
+
+</div>
+
+</div>
+
+<div class="arrow">
+›
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="icon">👛</div>
+
+<div>
+<h3>Wallet Balance</h3>
+<div class="green">₹2,150</div>
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="icon">📈</div>
+
+<div>
+<h3>Total Invested</h3>
+<div class="green">₹9,000</div>
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="icon">📊</div>
+
+<div>
+<h3>Total ROI Earned</h3>
+<div class="green">₹150</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<h2 class="section-title">
+ACCOUNT INFORMATION
+</h2>
+
+<div class="list-card">
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">👤</div>
+
+<div class="text">
+<h3>Full Name</h3>
+</div>
+
+</div>
+
+<div class="right">
+ROI User ›
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">✉️</div>
+
+<div class="text">
+<h3>Email Address</h3>
+</div>
+
+</div>
+
+<div class="right">
+roiuser@email.com ›
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">📞</div>
+
+<div class="text">
+<h3>Mobile Number</h3>
+</div>
+
+</div>
+
+<div class="right">
++91 9876543210 ›
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">📅</div>
+
+<div class="text">
+<h3>Date of Birth</h3>
+</div>
+
+</div>
+
+<div class="right">
+12 May 1995 ›
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">📍</div>
+
+<div class="text">
+<h3>Address</h3>
+</div>
+
+</div>
+
+<div class="right">
+Mumbai, India ›
+</div>
+
+</div>
+
+</div>
+
+<h2 class="section-title">
+MORE OPTIONS
+</h2>
+
+<div class="list-card">
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">🛡️</div>
+
+<div class="text">
+<h3>KYC Verification</h3>
+</div>
+
+</div>
+
+<div class="right green">
+Verified ✓
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">🔒</div>
+
+<div class="text">
+<h3>Change Password</h3>
+</div>
+
+</div>
+
+<div class="right">
+›
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">🔔</div>
+
+<div class="text">
+<h3>Notification Settings</h3>
+</div>
+
+</div>
+
+<div class="right">
+›
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">❓</div>
+
+<div class="text">
+<h3>Help & Support</h3>
+</div>
+
+</div>
+
+<div class="right">
+›
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="left">
+
+<div class="circle">🚪</div>
+
+<div class="text">
+<h3>Logout</h3>
+</div>
+
+</div>
+
+<div class="right">
+›
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+<div class="nav">Home</div>
+
+<div class="nav">Invest</div>
+
+<div class="nav">Team</div>
+
+<div class="nav">Wallet</div>
+
+<div class="nav active">Profile</div>
+
+</div>
+
+</body>
+</html>
