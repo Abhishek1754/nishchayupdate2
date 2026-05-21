@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from decimal import Decimal
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -12,6 +13,8 @@ from .models import (
     RechargeProvider,
     Recharge,
     RechargeLevelIncome,
+    RechargeLevelSetting,
+    RechargeCashbackHistory,
 
 )
 
@@ -164,14 +167,49 @@ def do_recharge(request):
         'mobile_number'
     )
 
-    amount = float(
-        request.data.get('amount')
+    amount = request.data.get(
+        'amount'
     )
+
+    # =========================
+    # VALIDATION
+    # =========================
+
+    if not provider_id:
+
+        return Response({
+
+            "error": "provider_id is required"
+
+        }, status=400)
+
+    if not mobile_number:
+
+        return Response({
+
+            "error": "mobile_number is required"
+
+        }, status=400)
+
+    if not amount:
+
+        return Response({
+
+            "error": "amount is required"
+
+        }, status=400)
+
+    amount = Decimal(amount)
+
+    # =========================
+    # PROVIDER CHECK
+    # =========================
 
     try:
 
         provider = RechargeProvider.objects.get(
-            id=provider_id
+            id=provider_id,
+            is_active=True
         )
 
     except RechargeProvider.DoesNotExist:
@@ -182,9 +220,11 @@ def do_recharge(request):
 
         }, status=404)
 
+    # =========================
     # CHECK WALLET
+    # =========================
 
-    if user.wallet_balance < amount:
+    if Decimal(user.wallet_balance) < amount:
 
         return Response({
 
@@ -192,25 +232,33 @@ def do_recharge(request):
 
         }, status=400)
 
+    # =========================
     # DEDUCT WALLET
+    # =========================
 
     user.wallet_balance -= amount
 
-    # CASHBACK
+    # =========================
+    # CASHBACK CALCULATION
+    # =========================
 
     cashback = (
 
         amount *
 
-        float(provider.cashback_percentage)
+        Decimal(provider.cashback_percentage)
 
-    ) / 100
+    ) / Decimal(100)
+
+    # CREDIT CASHBACK
 
     user.wallet_balance += cashback
 
     user.save()
 
+    # =========================
     # WALLET HISTORY
+    # =========================
 
     create_wallet_transaction(
 
@@ -225,6 +273,10 @@ def do_recharge(request):
         remark='Recharge Payment'
 
     )
+
+    # =========================
+    # CASHBACK HISTORY
+    # =========================
 
     if cashback > 0:
 
@@ -242,7 +294,9 @@ def do_recharge(request):
 
         )
 
+    # =========================
     # CREATE RECHARGE ENTRY
+    # =========================
 
     recharge = Recharge.objects.create(
 
@@ -265,34 +319,56 @@ def do_recharge(request):
     )
 
     # =========================
+    # SAVE CASHBACK HISTORY
+    # =========================
+
+    RechargeCashbackHistory.objects.create(
+
+        recharge=recharge,
+
+        user=user,
+
+        cashback_percentage=provider.cashback_percentage,
+
+        cashback_amount=cashback,
+
+    )
+
+    # =========================
     # LEVEL INCOME DISTRIBUTION
     # =========================
 
     current_user = user.referred_by
 
-    level_percentages = [
+    current_level = 1
 
-        provider.level_1_percentage,
+    while current_user and current_level <= 3:
 
-        provider.level_2_percentage,
+        try:
 
-        provider.level_3_percentage,
+            level_setting = RechargeLevelSetting.objects.get(
+                level=current_level
+            )
 
-    ]
+            percentage = level_setting.percentage
 
-    level = 1
+        except RechargeLevelSetting.DoesNotExist:
 
-    for percentage in level_percentages:
+            percentage = Decimal(0)
 
-        if current_user and percentage > 0:
+        # LEVEL INCOME
 
-            income = (
+        income = (
 
-                amount *
+            amount *
 
-                float(percentage)
+            percentage
 
-            ) / 100
+        ) / Decimal(100)
+
+        if income > 0:
+
+            # CREDIT WALLET
 
             current_user.wallet_balance += income
 
@@ -310,11 +386,11 @@ def do_recharge(request):
 
                 amount=income,
 
-                remark=f'Level {level} Recharge Income'
+                remark=f'Level {current_level} Recharge Income'
 
             )
 
-            # SAVE LEVEL INCOME
+            # SAVE LEVEL HISTORY
 
             RechargeLevelIncome.objects.create(
 
@@ -324,7 +400,7 @@ def do_recharge(request):
 
                 from_user=user,
 
-                level=level,
+                level=current_level,
 
                 percentage=percentage,
 
@@ -332,9 +408,11 @@ def do_recharge(request):
 
             )
 
-            current_user = current_user.referred_by
+        # NEXT LEVEL
 
-            level += 1
+        current_user = current_user.referred_by
+
+        current_level += 1
 
     return Response({
 
@@ -377,6 +455,8 @@ def my_recharges(request):
             "cashback": recharge.cashback,
 
             "status": recharge.status,
+
+            "transaction_id": recharge.transaction_id,
 
             "created_at": recharge.created_at,
 
