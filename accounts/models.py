@@ -5,9 +5,9 @@ import uuid
 
 class User(AbstractUser):
 
-    # =========================
+    # =====================================================
     # BASIC DETAILS
-    # =========================
+    # =====================================================
 
     email = models.EmailField(
         unique=True
@@ -28,9 +28,9 @@ class User(AbstractUser):
         max_length=10
     )
 
-    # =========================
+    # =====================================================
     # REFERRAL SYSTEM
-    # =========================
+    # =====================================================
 
     referral_code = models.CharField(
         max_length=10,
@@ -39,37 +39,115 @@ class User(AbstractUser):
     )
 
     referred_by = models.ForeignKey(
+
         'self',
+
         null=True,
+
         blank=True,
-        on_delete=models.SET_NULL
+
+        on_delete=models.SET_NULL,
+
+        related_name='team_members'
+
     )
 
-    # =========================
+    # =====================================================
     # WALLET SYSTEM
-    # =========================
+    # =====================================================
 
     wallet_balance = models.DecimalField(
+
         max_digits=12,
+
         decimal_places=2,
+
         default=0
+
     )
+
+    # ROI WALLET
+
+    roi_wallet = models.DecimalField(
+
+        max_digits=12,
+
+        decimal_places=2,
+
+        default=0
+
+    )
+
+    # RECHARGE WALLET
+
+    recharge_wallet = models.DecimalField(
+
+        max_digits=12,
+
+        decimal_places=2,
+
+        default=0
+
+    )
+
+    # ECOMMERCE WALLET
+
+    ecommerce_wallet = models.DecimalField(
+
+        max_digits=12,
+
+        decimal_places=2,
+
+        default=0
+
+    )
+
+    # TOTAL EARNINGS
+
+    total_earnings = models.DecimalField(
+
+        max_digits=12,
+
+        decimal_places=2,
+
+        default=0
+
+    )
+
+    # TOTAL WITHDRAW
+
+    total_withdraw = models.DecimalField(
+
+        max_digits=12,
+
+        decimal_places=2,
+
+        default=0
+
+    )
+
+    # NISHCHAY COIN
 
     nishchay_coin = models.IntegerField(
         default=0
     )
 
-    # =========================
+    # =====================================================
     # SUBSCRIPTION
-    # =========================
+    # =====================================================
 
     is_subscribed = models.BooleanField(
         default=False
     )
 
-    # =========================
+    subscription_date = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    # =====================================================
     # ENTERPRISE ROLE SYSTEM
-    # =========================
+    # =====================================================
 
     is_admin = models.BooleanField(
         default=False
@@ -94,14 +172,18 @@ class User(AbstractUser):
     )
 
     role = models.CharField(
+
         max_length=20,
+
         choices=ROLE_CHOICES,
+
         default='user'
+
     )
 
-    # =========================
+    # =====================================================
     # ACCOUNT STATUS
-    # =========================
+    # =====================================================
 
     is_verified = models.BooleanField(
         default=False
@@ -111,9 +193,9 @@ class User(AbstractUser):
         default=False
     )
 
-    # =========================
+    # =====================================================
     # TIMESTAMPS
-    # =========================
+    # =====================================================
 
     created_at = models.DateTimeField(
         auto_now_add=True
@@ -123,9 +205,9 @@ class User(AbstractUser):
         auto_now=True
     )
 
-    # =========================
+    # =====================================================
     # SAVE METHOD
-    # =========================
+    # =====================================================
 
     def save(self, *args, **kwargs):
 
@@ -133,7 +215,15 @@ class User(AbstractUser):
 
         if not self.referral_code:
 
-            self.referral_code = str(uuid.uuid4()).replace('-', '')[:8].upper()
+            self.referral_code = (
+
+                str(uuid.uuid4())
+
+                .replace('-', '')[:8]
+
+                .upper()
+
+            )
 
         # AUTO ADMIN ROLE
 
@@ -145,9 +235,18 @@ class User(AbstractUser):
 
         super().save(*args, **kwargs)
 
-    # =========================
+    # =====================================================
+    # TEAM COUNT
+    # =====================================================
+
+    @property
+    def total_team(self):
+
+        return self.team_members.count()
+
+    # =====================================================
     # STRING METHOD
-    # =========================
+    # =====================================================
 
     def __str__(self):
 

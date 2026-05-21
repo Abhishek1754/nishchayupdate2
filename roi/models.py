@@ -1,9 +1,32 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+from decimal import Decimal
 
-# 🚀 AI KARMA IMPORT
+# AI KARMA IMPORT
 from ai_karma.fraud_engine import detect_roi_fraud
+
+
+# =========================
+# ROI LEVEL SETTINGS
+# =========================
+
+class ROILevelIncome(models.Model):
+
+    level = models.IntegerField()
+
+    percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"ROI Level {self.level} - {self.percentage}%"
 
 
 # =========================
@@ -35,13 +58,6 @@ class ROIPlan(models.Model):
     # MATURITY AMOUNT
     maturity_amount = models.DecimalField(
         max_digits=12,
-        decimal_places=2,
-        default=0
-    )
-
-    # LEVEL INCOME %
-    level_income_percentage = models.DecimalField(
-        max_digits=5,
         decimal_places=2,
         default=0
     )
@@ -146,7 +162,7 @@ class Investment(models.Model):
 
                 self.plan.percentage
 
-            ) / 100
+            ) / Decimal(100)
 
             # MATURITY DATE
 
@@ -163,10 +179,14 @@ class Investment(models.Model):
         super().save(*args, **kwargs)
 
         # =========================
-        # AI KARMA FRAUD CHECK
+        # AFTER NEW INVESTMENT
         # =========================
 
         if is_new:
+
+            # =========================
+            # AI FRAUD CHECK
+            # =========================
 
             detect_roi_fraud(
                 self.user,
@@ -174,24 +194,118 @@ class Investment(models.Model):
             )
 
             # =========================
-            # LEVEL INCOME
+            # DISTRIBUTE LEVEL INCOME
             # =========================
 
-            sponsor = self.user.referred_by
+            self.distribute_level_income()
 
-            if sponsor:
+    # =========================
+    # LEVEL INCOME FUNCTION
+    # =========================
 
-                level_income = (
+    def distribute_level_income(self):
 
-                    self.amount *
+        sponsor = self.user.referred_by
 
-                    self.plan.level_income_percentage
+        current_level = 1
 
-                ) / 100
+        while sponsor and current_level <= 5:
 
-                sponsor.wallet_balance += level_income
+            try:
 
-                sponsor.save()
+                level_setting = ROILevelIncome.objects.get(
+                    level=current_level
+                )
+
+                level_percentage = level_setting.percentage
+
+            except ROILevelIncome.DoesNotExist:
+
+                level_percentage = Decimal(0)
+
+            # LEVEL INCOME
+
+            level_income = (
+
+                self.amount *
+
+                level_percentage
+
+            ) / Decimal(100)
+
+            # CREDIT WALLET
+
+            sponsor.wallet_balance += level_income
+
+            sponsor.save()
+
+            # SAVE HISTORY
+
+            ROILevelIncomeHistory.objects.create(
+
+                user=sponsor,
+
+                from_user=self.user,
+
+                investment=self,
+
+                level=current_level,
+
+                percentage=level_percentage,
+
+                amount=level_income
+
+            )
+
+            # NEXT LEVEL
+
+            sponsor = sponsor.referred_by
+
+            current_level += 1
+
+
+# =========================
+# ROI LEVEL INCOME HISTORY
+# =========================
+
+class ROILevelIncomeHistory(models.Model):
+
+    user = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.CASCADE,
+        related_name='roi_income_receiver'
+    )
+
+    from_user = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.CASCADE,
+        related_name='roi_income_from_user'
+    )
+
+    investment = models.ForeignKey(
+        Investment,
+        on_delete=models.CASCADE
+    )
+
+    level = models.IntegerField()
+
+    percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - Level {self.level}"
 
 
 # =========================

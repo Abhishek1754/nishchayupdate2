@@ -13,6 +13,7 @@ from .models import (
     ROIPlan,
     Investment,
     WithdrawRequest,
+    ROILevelIncomeHistory,
 
 )
 
@@ -186,12 +187,16 @@ def roi_plans_api(request):
         data.append({
 
             "id": plan.id,
+
             "name": plan.name,
+
             "amount": plan.amount,
+
             "percentage": plan.percentage,
+
             "maturity_days": plan.maturity_days,
+
             "maturity_amount": plan.maturity_amount,
-            "level_income_percentage": plan.level_income_percentage,
 
         })
 
@@ -211,10 +216,19 @@ def invest_now(request):
 
     plan_id = request.data.get('plan_id')
 
+    if not plan_id:
+
+        return Response({
+
+            "error": "plan_id is required"
+
+        }, status=400)
+
     try:
 
         plan = ROIPlan.objects.get(
-            id=plan_id
+            id=plan_id,
+            is_active=True
         )
 
     except ROIPlan.DoesNotExist:
@@ -225,9 +239,11 @@ def invest_now(request):
 
         }, status=404)
 
-    # CHECK WALLET
+    # =========================
+    # CHECK WALLET BALANCE
+    # =========================
 
-    if user.wallet_balance < float(plan.amount):
+    if float(user.wallet_balance) < float(plan.amount):
 
         return Response({
 
@@ -235,23 +251,31 @@ def invest_now(request):
 
         }, status=400)
 
+    # =========================
     # DEDUCT WALLET
+    # =========================
 
     user.wallet_balance -= float(plan.amount)
 
     user.save()
 
+    # =========================
     # CREATE INVESTMENT
+    # =========================
 
     investment = Investment.objects.create(
 
         user=user,
+
         plan=plan,
+
         amount=plan.amount,
 
     )
 
-    # CREATE WALLET TRANSACTION
+    # =========================
+    # WALLET HISTORY
+    # =========================
 
     create_wallet_transaction(
 
@@ -319,6 +343,40 @@ def my_investments(request):
 
 
 # =========================
+# TEAM INCOME API
+# =========================
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+
+def team_income_api(request):
+
+    incomes = ROILevelIncomeHistory.objects.filter(
+        user=request.user
+    ).order_by('-id')
+
+    data = []
+
+    for income in incomes:
+
+        data.append({
+
+            "from_user": income.from_user.email,
+
+            "level": income.level,
+
+            "percentage": income.percentage,
+
+            "amount": income.amount,
+
+            "created_at": income.created_at,
+
+        })
+
+    return Response(data)
+
+
+# =========================
 # WITHDRAW REQUEST API
 # =========================
 
@@ -329,13 +387,23 @@ def withdraw_request(request):
 
     user = request.user
 
-    amount = float(
-        request.data.get('amount')
-    )
+    amount = request.data.get('amount')
 
+    if not amount:
+
+        return Response({
+
+            "error": "Amount is required"
+
+        }, status=400)
+
+    amount = float(amount)
+
+    # =========================
     # CHECK BALANCE
+    # =========================
 
-    if amount > user.wallet_balance:
+    if amount > float(user.wallet_balance):
 
         return Response({
 
@@ -343,7 +411,9 @@ def withdraw_request(request):
 
         }, status=400)
 
-    # CREATE WITHDRAW REQUEST
+    # =========================
+    # CREATE REQUEST
+    # =========================
 
     WithdrawRequest.objects.create(
 
@@ -353,7 +423,9 @@ def withdraw_request(request):
 
     )
 
-    # CREATE WALLET TRANSACTION
+    # =========================
+    # WALLET HISTORY
+    # =========================
 
     create_wallet_transaction(
 
@@ -374,8 +446,9 @@ def withdraw_request(request):
         "msg": "Withdraw request submitted"
 
     })
-    
-    # =========================
+
+
+# =========================
 # GENERATE DAILY ROI API
 # =========================
 

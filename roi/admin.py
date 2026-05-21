@@ -11,6 +11,8 @@ from .models import (
     Investment,
     DailyROIIncome,
     WithdrawRequest,
+    ROILevelIncome,
+    ROILevelIncomeHistory,
 
 )
 
@@ -30,8 +32,8 @@ class ROIPlanAdmin(admin.ModelAdmin):
         'percentage',
         'maturity_days',
         'maturity_amount',
-        'level_income_percentage',
         'is_active',
+        'created_at',
 
     )
 
@@ -44,6 +46,62 @@ class ROIPlanAdmin(admin.ModelAdmin):
     list_filter = (
 
         'is_active',
+
+    )
+
+
+# =========================
+# ROI LEVEL INCOME ADMIN
+# =========================
+
+@admin.register(ROILevelIncome, site=admin_site)
+class ROILevelIncomeAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'level',
+        'percentage',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'level',
+
+    )
+
+
+# =========================
+# ROI LEVEL INCOME HISTORY
+# =========================
+
+@admin.register(ROILevelIncomeHistory, site=admin_site)
+class ROILevelIncomeHistoryAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'from_user',
+        'level',
+        'percentage',
+        'amount',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'from_user__email',
+
+    )
+
+    list_filter = (
+
+        'level',
 
     )
 
@@ -64,6 +122,8 @@ class InvestmentAdmin(admin.ModelAdmin):
         'daily_income',
         'total_earned',
         'status',
+        'start_date',
+        'end_date',
         'created_at',
 
     )

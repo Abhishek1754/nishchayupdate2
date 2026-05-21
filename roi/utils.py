@@ -1,4 +1,5 @@
 from django.utils import timezone
+from decimal import Decimal
 
 from .models import (
 
@@ -22,7 +23,9 @@ def generate_daily_roi():
 
     for investment in investments:
 
+        # =========================
         # CHECK MATURITY
+        # =========================
 
         if timezone.now() >= investment.end_date:
 
@@ -32,27 +35,35 @@ def generate_daily_roi():
 
             continue
 
+        # =========================
         # DAILY ROI AMOUNT
+        # =========================
 
-        daily_income = investment.daily_income
+        daily_income = Decimal(
+            investment.daily_income
+        )
 
+        # =========================
         # CREDIT USER WALLET
+        # =========================
 
         user = investment.user
 
-        user.wallet_balance += float(
-            daily_income
-        )
+        user.wallet_balance += daily_income
 
         user.save()
 
+        # =========================
         # UPDATE TOTAL EARNED
+        # =========================
 
         investment.total_earned += daily_income
 
         investment.save()
 
+        # =========================
         # CREATE DAILY ROI ENTRY
+        # =========================
 
         DailyROIIncome.objects.create(
 
@@ -64,7 +75,9 @@ def generate_daily_roi():
 
         )
 
+        # =========================
         # CREATE WALLET HISTORY
+        # =========================
 
         create_wallet_transaction(
 
@@ -79,3 +92,5 @@ def generate_daily_roi():
             remark='Daily ROI Income'
 
         )
+
+    return True

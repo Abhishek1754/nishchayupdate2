@@ -1,5 +1,11 @@
+from decimal import Decimal
+
 from .models import WalletTransaction
 
+
+# =====================================================
+# CREATE WALLET TRANSACTION
+# =====================================================
 
 def create_wallet_transaction(
 
@@ -10,6 +16,16 @@ def create_wallet_transaction(
     remark=""
 
 ):
+
+    # =========================
+    # SAFE DECIMAL CONVERSION
+    # =========================
+
+    amount = Decimal(amount)
+
+    # =========================
+    # CREATE TRANSACTION
+    # =========================
 
     WalletTransaction.objects.create(
 
@@ -26,3 +42,5 @@ def create_wallet_transaction(
         remark=remark,
 
     )
+
+    return True
