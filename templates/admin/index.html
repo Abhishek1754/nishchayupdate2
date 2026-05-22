@@ -1,80 +1,798 @@
 {% extends "admin/base_site.html" %}
 
+{% block extrastyle %}
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap');
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+body{
+
+    background:#020202 !important;
+    color:white !important;
+    font-family:'Orbitron',sans-serif;
+    overflow-x:hidden;
+
+}
+
+/* =========================
+BACKGROUND EFFECT
+========================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    width:1200px;
+    height:1200px;
+
+    background:radial-gradient(circle,rgba(182,255,0,.12),transparent 70%);
+
+    top:-500px;
+    right:-300px;
+
+    z-index:-1;
+
+    animation: glowMove 8s linear infinite alternate;
+
+}
+
+@keyframes glowMove{
+
+    from{
+
+        transform:translateY(0px);
+
+    }
+
+    to{
+
+        transform:translateY(60px);
+
+    }
+
+}
+
+/* =========================
+MAIN WRAPPER
+========================= */
+
+.main-wrapper{
+
+    display:flex;
+    min-height:100vh;
+
+}
+
+/* =========================
+SIDEBAR
+========================= */
+
+.sidebar{
+
+    width:280px;
+
+    background:rgba(0,0,0,.95);
+
+    border-right:1px solid rgba(182,255,0,.2);
+
+    padding:30px 20px;
+
+    position:fixed;
+
+    height:100vh;
+
+    overflow:auto;
+
+}
+
+.logo{
+
+    text-align:center;
+    margin-bottom:40px;
+
+}
+
+.logo h1{
+
+    color:#b6ff00;
+
+    font-size:30px;
+
+    text-shadow:
+        0 0 10px #b6ff00,
+        0 0 20px #b6ff00;
+
+}
+
+.menu{
+
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+
+}
+
+.menu a{
+
+    text-decoration:none;
+
+    color:white;
+
+    padding:16px 20px;
+
+    border-radius:14px;
+
+    background:#0c0c0c;
+
+    border:1px solid rgba(182,255,0,.1);
+
+    transition:.3s;
+
+    font-size:15px;
+
+}
+
+.menu a:hover{
+
+    background:#b6ff00;
+
+    color:black;
+
+    transform:translateX(8px);
+
+    box-shadow:
+        0 0 25px rgba(182,255,0,.5);
+
+}
+
+/* =========================
+CONTENT
+========================= */
+
+.content{
+
+    margin-left:280px;
+
+    width:calc(100% - 280px);
+
+    padding:40px;
+
+}
+
+/* =========================
+TOPBAR
+========================= */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+.topbar h2{
+
+    color:#b6ff00;
+
+    font-size:34px;
+
+    text-shadow:0 0 10px #b6ff00;
+
+}
+
+.live-status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:#0c0c0c;
+
+    padding:12px 20px;
+
+    border-radius:40px;
+
+    border:1px solid rgba(182,255,0,.2);
+
+}
+
+.dot{
+
+    width:12px;
+    height:12px;
+
+    border-radius:50%;
+
+    background:#00ff6a;
+
+    animation:pulse 1.5s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        box-shadow:0 0 0 0 rgba(0,255,106,.7);
+
+    }
+
+    70%{
+
+        box-shadow:0 0 0 16px rgba(0,255,106,0);
+
+    }
+
+    100%{
+
+        box-shadow:0 0 0 0 rgba(0,255,106,0);
+
+    }
+
+}
+
+/* =========================
+CARDS
+========================= */
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+
+    margin-bottom:40px;
+
+}
+
+.card{
+
+    position:relative;
+
+    background:rgba(12,12,12,.9);
+
+    border:1px solid rgba(182,255,0,.2);
+
+    border-radius:24px;
+
+    padding:28px;
+
+    overflow:hidden;
+
+    transition:.4s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:
+        0 0 40px rgba(182,255,0,.3);
+
+}
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:200%;
+    height:200%;
+
+    background:linear-gradient(
+        45deg,
+        transparent,
+        rgba(182,255,0,.08),
+        transparent
+    );
+
+    top:-50%;
+    left:-50%;
+
+    animation:rotate 6s linear infinite;
+
+}
+
+@keyframes rotate{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+.card-content{
+
+    position:relative;
+    z-index:2;
+
+}
+
+.card h3{
+
+    color:#b6ff00;
+
+    margin-bottom:15px;
+
+}
+
+.card h1{
+
+    font-size:42px;
+
+}
+
+/* =========================
+CHART BOX
+========================= */
+
+.chart-box{
+
+    background:rgba(10,10,10,.9);
+
+    border:1px solid rgba(182,255,0,.2);
+
+    border-radius:28px;
+
+    padding:30px;
+
+    margin-bottom:40px;
+
+    box-shadow:
+        0 0 30px rgba(182,255,0,.08);
+
+}
+
+.chart-box h2{
+
+    margin-bottom:20px;
+
+    color:#b6ff00;
+
+}
+
+canvas{
+
+    background:#050505;
+
+    border-radius:20px;
+
+    padding:15px;
+
+}
+
+/* =========================
+ACTIVITY PANEL
+========================= */
+
+.activity{
+
+    background:rgba(10,10,10,.9);
+
+    border:1px solid rgba(182,255,0,.2);
+
+    border-radius:28px;
+
+    padding:30px;
+
+}
+
+.activity h2{
+
+    color:#b6ff00;
+
+    margin-bottom:20px;
+
+}
+
+.activity-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:16px 0;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+/* =========================
+SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#b6ff00;
+
+    border-radius:20px;
+
+}
+
+</style>
+
+{% endblock %}
+
+
+
 {% block content %}
 
-<h1>🚀 Nishchay Dashboard</h1>
+<div class="main-wrapper">
 
-<div style="display:flex; gap:20px; flex-wrap:wrap;">
+    <!-- SIDEBAR -->
 
-    <div style="flex:1; padding:20px; background:#4CAF50; color:white;">
-        <h3>Total Users</h3>
-        <h2>{{ total_users }}</h2>
+    <div class="sidebar">
+
+        <div class="logo">
+
+            <h1>NISHCHAY AI</h1>
+
+        </div>
+
+        <div class="menu">
+
+            <a href="/admin/">Dashboard</a>
+
+            <a href="/admin/accounts/user/">Users</a>
+
+            <a href="/admin/ecommerce/product/">Products</a>
+
+            <a href="/admin/ecommerce/order/">Orders</a>
+
+            <a href="/admin/roi/">ROI Plans</a>
+
+            <a href="/admin/recharge/">Recharge</a>
+
+            <a href="/admin/wallet/">Wallet</a>
+
+            <a href="/admin/referral/">Referral</a>
+
+            <a href="/admin/logout/">Logout</a>
+
+        </div>
+
     </div>
 
-    <div style="flex:1; padding:20px; background:#2196F3; color:white;">
-        <h3>Total Wallet</h3>
-        <h2>₹{{ total_wallet }}</h2>
-    </div>
+    <!-- CONTENT -->
 
-    <div style="flex:1; padding:20px; background:#FF9800; color:white;">
-        <h3>ROI Plans</h3>
-        <h2>{{ total_roi }}</h2>
+    <div class="content">
+
+        <div class="topbar">
+
+            <h2>NISHCHAY CONTROL CENTER</h2>
+
+            <div class="live-status">
+
+                <div class="dot"></div>
+
+                SYSTEM ACTIVE
+
+            </div>
+
+        </div>
+
+        <!-- CARDS -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-content">
+
+                    <h3>Total Users</h3>
+
+                    <h1>{{ total_users }}</h1>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-content">
+
+                    <h3>Total Wallet</h3>
+
+                    <h1>₹{{ total_wallet }}</h1>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-content">
+
+                    <h3>ROI Plans</h3>
+
+                    <h1>{{ total_roi }}</h1>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-content">
+
+                    <h3>AI Threats</h3>
+
+                    <h1>0</h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- USER CHART -->
+
+        <div class="chart-box">
+
+            <h2>User Growth Analytics</h2>
+
+            <canvas id="userChart" height="120"></canvas>
+
+        </div>
+
+        <!-- EARNINGS -->
+
+        <div class="chart-box">
+
+            <h2>Earnings Overview</h2>
+
+            <canvas id="earningsChart" height="120"></canvas>
+
+        </div>
+
+        <!-- ACTIVITY -->
+
+        <div class="activity">
+
+            <h2>Live Activity Feed</h2>
+
+            <div class="activity-item">
+
+                <span>New User Registered</span>
+
+                <span>2 min ago</span>
+
+            </div>
+
+            <div class="activity-item">
+
+                <span>ROI Activated</span>
+
+                <span>5 min ago</span>
+
+            </div>
+
+            <div class="activity-item">
+
+                <span>Recharge Completed</span>
+
+                <span>8 min ago</span>
+
+            </div>
+
+            <div class="activity-item">
+
+                <span>New Shop Joined</span>
+
+                <span>15 min ago</span>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
 
-<hr>
-
-<h2>User Growth Chart</h2>
-
-<canvas id="userChart" width="400" height="150"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    const ctx = document.getElementById('userChart').getContext('2d');
 
-    const userChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: {{ chart_labels|safe }},
-            datasets: [{
-                label: 'Users',
-                data: {{ chart_data|safe }},
-                borderWidth: 2,
-                fill: false
-            }]
+const userCtx = document.getElementById('userChart').getContext('2d');
+
+new Chart(userCtx, {
+
+    type:'line',
+
+    data:{
+
+        labels:{{ chart_labels|safe }},
+
+        datasets:[{
+
+            label:'Users',
+
+            data:{{ chart_data|safe }},
+
+            borderColor:'#b6ff00',
+
+            backgroundColor:'rgba(182,255,0,.12)',
+
+            borderWidth:3,
+
+            fill:true,
+
+            tension:.4,
+
+            pointBackgroundColor:'#b6ff00',
+
+            pointRadius:5
+
+        }]
+
+    },
+
+    options:{
+
+        plugins:{
+
+            legend:{
+
+                labels:{
+
+                    color:'#b6ff00'
+
+                }
+
+            }
+
+        },
+
+        scales:{
+
+            x:{
+
+                ticks:{
+
+                    color:'#b6ff00'
+
+                }
+
+            },
+
+            y:{
+
+                ticks:{
+
+                    color:'#b6ff00'
+
+                }
+
+            }
+
         }
-    });
+
+    }
+
+});
+
+
+const earningsCtx = document.getElementById('earningsChart').getContext('2d');
+
+new Chart(earningsCtx, {
+
+    type:'bar',
+
+    data:{
+
+        labels:{{ earning_labels|safe }},
+
+        datasets:[
+
+            {
+
+                label:'Wallet',
+
+                data:{{ wallet_data|safe }},
+
+                backgroundColor:'#b6ff00',
+
+                borderRadius:12
+
+            },
+
+            {
+
+                label:'ROI',
+
+                data:{{ roi_data|safe }},
+
+                backgroundColor:'#00ffcc',
+
+                borderRadius:12
+
+            }
+
+        ]
+
+    },
+
+    options:{
+
+        plugins:{
+
+            legend:{
+
+                labels:{
+
+                    color:'#b6ff00'
+
+                }
+
+            }
+
+        },
+
+        scales:{
+
+            x:{
+
+                ticks:{
+
+                    color:'#b6ff00'
+
+                }
+
+            },
+
+            y:{
+
+                ticks:{
+
+                    color:'#b6ff00'
+
+                }
+
+            }
+
+        }
+
+    }
+
+});
+
 </script>
 
 {% endblock %}
-
-<hr>
-
-<h2>Earnings Overview</h2>
-
-<canvas id="earningsChart" width="400" height="150"></canvas>
-
-<script>
-    const earningsCtx = document.getElementById('earningsChart').getContext('2d');
-
-    const earningsChart = new Chart(earningsCtx, {
-        type: 'bar',
-        data: {
-            labels: {{ earning_labels|safe }},
-            datasets: [
-                {
-                    label: 'Wallet',
-                    data: {{ wallet_data|safe }},
-                    borderWidth: 1
-                },
-                {
-                    label: 'ROI',
-                    data: {{ roi_data|safe }},
-                    borderWidth: 1
-                }
-            ]
-        }
-    });
-</script>

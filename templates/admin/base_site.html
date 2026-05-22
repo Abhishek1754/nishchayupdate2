@@ -1,0 +1,274 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Nishchay AI Admin{% endblock %}
+
+{% block branding %}
+
+<h1 id="site-name">
+
+    <a href="/admin/" style="color:#b6ff00;text-decoration:none;">
+
+        🚀 NISHCHAY AI CONTROL CENTER
+
+    </a>
+
+</h1>
+
+{% endblock %}
+
+
+{% block extrastyle %}
+
+<style>
+
+/* =========================
+GLOBAL
+========================= */
+
+body{
+
+    background:#050505 !important;
+
+    color:#b6ff00 !important;
+
+}
+
+/* =========================
+HEADER
+========================= */
+
+#header{
+
+    background:#000 !important;
+
+    color:#b6ff00 !important;
+
+    border-bottom:2px solid #b6ff00;
+
+    box-shadow:
+        0 0 20px rgba(182,255,0,.25);
+
+}
+
+/* =========================
+BREADCRUMB
+========================= */
+
+div.breadcrumbs{
+
+    background:#0d0d0d !important;
+
+    color:#b6ff00 !important;
+
+    border-bottom:1px solid rgba(182,255,0,.2);
+
+}
+
+/* =========================
+MODULES
+========================= */
+
+.module{
+
+    background:#0b0b0b !important;
+
+    border:1px solid rgba(182,255,0,.15);
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 0 20px rgba(182,255,0,.08);
+
+}
+
+/* =========================
+TABLES
+========================= */
+
+#changelist table{
+
+    background:#0d0d0d !important;
+
+    color:white !important;
+
+}
+
+#changelist table thead th{
+
+    background:#111 !important;
+
+    color:#b6ff00 !important;
+
+}
+
+#changelist table tbody tr{
+
+    background:#090909 !important;
+
+}
+
+#changelist table tbody tr:nth-child(even){
+
+    background:#111 !important;
+
+}
+
+#changelist table tbody tr:hover{
+
+    background:#1a1a1a !important;
+
+}
+
+/* =========================
+LINKS
+========================= */
+
+a{
+
+    color:#b6ff00 !important;
+
+}
+
+/* =========================
+SIDEBAR FILTER
+========================= */
+
+#changelist-filter{
+
+    background:#0d0d0d !important;
+
+    border-left:1px solid rgba(182,255,0,.15);
+
+}
+
+/* =========================
+FORMS
+========================= */
+
+input,
+textarea,
+select{
+
+    background:#0b0b0b !important;
+
+    color:#b6ff00 !important;
+
+    border:1px solid rgba(182,255,0,.25) !important;
+
+    border-radius:10px !important;
+
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input{
+
+    background:#b6ff00 !important;
+
+    color:black !important;
+
+    border:none !important;
+
+    border-radius:10px !important;
+
+    font-weight:bold !important;
+
+}
+
+/* =========================
+BUTTON HOVER
+========================= */
+
+.button:hover,
+input[type=submit]:hover{
+
+    background:#d4ff00 !important;
+
+    box-shadow:
+        0 0 20px rgba(182,255,0,.5);
+
+}
+
+/* =========================
+OBJECT TOOLS
+========================= */
+
+.object-tools a{
+
+    background:#111 !important;
+
+    border:1px solid rgba(182,255,0,.2);
+
+    color:#b6ff00 !important;
+
+    border-radius:10px;
+
+}
+
+/* =========================
+MESSAGES
+========================= */
+
+.success{
+
+    background:#072b07 !important;
+
+    color:#7dff7d !important;
+
+}
+
+/* =========================
+PAGINATION
+========================= */
+
+.paginator{
+
+    background:#0d0d0d !important;
+
+    color:#b6ff00 !important;
+
+}
+
+/* =========================
+DASHBOARD APPS
+========================= */
+
+.app-auth,
+.app-ecommerce,
+.app-roi,
+.app-recharge{
+
+    background:#0d0d0d !important;
+
+    border-radius:16px;
+
+}
+
+/* =========================
+SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#b6ff00;
+
+    border-radius:20px;
+
+}
+
+</style>
+
+{% endblock %}
