@@ -20,6 +20,8 @@ from .models import (
     ShopPurchase,
     ShopDailyQueue,
     ShopChainIncome,
+    ConsumerReferralPlan,
+    ConsumerReferralIncome,
 
     Cart,
 
@@ -402,6 +404,71 @@ class ShopChainIncomeAdmin(admin.ModelAdmin):
 
         'income_date',
         'shop',
+        'level',
+
+    )
+    
+    
+    # =========================
+# CONSUMER REFERRAL PLAN ADMIN
+# =========================
+
+@admin.register(ConsumerReferralPlan, site=admin_site)
+class ConsumerReferralPlanAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'name',
+        'direct_percentage',
+        'indirect_percentage',
+        'total_levels',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'name',
+
+    )
+
+    list_filter = (
+
+        'is_active',
+
+    )
+
+
+# =========================
+# CONSUMER REFERRAL INCOME ADMIN
+# =========================
+
+@admin.register(ConsumerReferralIncome, site=admin_site)
+class ConsumerReferralIncomeAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'from_user',
+        'level',
+        'purchase_amount',
+        'commission_amount',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'from_user__email',
+
+    )
+
+    list_filter = (
+
         'level',
 
     )

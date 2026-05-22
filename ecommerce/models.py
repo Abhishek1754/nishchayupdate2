@@ -400,6 +400,12 @@ class ShopCashbackPlan(models.Model):
     def __str__(self):
 
         return self.name
+    
+class Meta:
+
+  verbose_name = "Cashback 360"
+
+verbose_name_plural = "Cashback 360"
 
 
 # =========================
@@ -526,6 +532,96 @@ class ShopChainIncome(models.Model):
 
     income_date = models.DateField(
         auto_now_add=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - Level {self.level}"
+    
+    
+    # =========================
+# CONSUMER REFERRAL PLAN
+# =========================
+
+class ConsumerReferralPlan(models.Model):
+
+    name = models.CharField(
+        max_length=100
+    )
+
+    direct_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=4
+    )
+
+    indirect_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=1
+    )
+
+    total_levels = models.IntegerField(
+        default=5
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return self.name
+
+
+# =========================
+# CONSUMER REFERRAL INCOME
+# =========================
+
+class ConsumerReferralIncome(models.Model):
+
+    plan = models.ForeignKey(
+        ConsumerReferralPlan,
+        on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='consumer_referral_user'
+    )
+
+    from_user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='consumer_referral_from_user'
+    )
+
+    order = models.ForeignKey(
+        'Order',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
+    level = models.IntegerField()
+
+    purchase_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    commission_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
     )
 
     created_at = models.DateTimeField(

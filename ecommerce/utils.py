@@ -13,6 +13,8 @@ from .models import (
     ShopPurchase,
     ShopDailyQueue,
     ShopChainIncome,
+    ConsumerReferralPlan,
+    ConsumerReferralIncome,
 
 )
 
@@ -355,5 +357,134 @@ def distribute_shop_chain_cashback(
             amount=chain_amount,
 
         )
+
+        level += 1
+        
+        # =====================================================
+# CONSUMER REFERRAL BONUS ENGINE
+# =====================================================
+
+def distribute_consumer_referral_bonus(
+
+    user,
+    purchase_amount,
+    order=None
+
+):
+
+    """
+    Consumer Referral Bonus System
+
+    Level 1 = 4%
+    Level 2-5 = 1%
+    """
+
+    # =========================
+    # GET ACTIVE PLAN
+    # =========================
+
+    plan = ConsumerReferralPlan.objects.filter(
+        is_active=True
+    ).first()
+
+    if not plan:
+
+        return
+
+    # =========================
+    # START REFERRAL CHAIN
+    # =========================
+
+    current_user = user.referred_by
+
+    level = 1
+
+    while current_user and level <= plan.total_levels:
+
+        # =========================
+        # DIRECT BONUS
+        # =========================
+
+        if level == 1:
+
+            percentage = Decimal(
+                plan.direct_percentage
+            )
+
+        # =========================
+        # INDIRECT BONUS
+        # =========================
+
+        else:
+
+            percentage = Decimal(
+                plan.indirect_percentage
+            )
+
+        # =========================
+        # CALCULATE COMMISSION
+        # =========================
+
+        commission = (
+
+            Decimal(purchase_amount) *
+
+            percentage
+
+        ) / Decimal(100)
+
+        # =========================
+        # CREDIT WALLET
+        # =========================
+
+        current_user.wallet_balance += commission
+
+        current_user.save()
+
+        # =========================
+        # WALLET TRANSACTION
+        # =========================
+
+        create_wallet_transaction(
+
+            user=current_user,
+
+            transaction_type='credit',
+
+            source='referral',
+
+            amount=commission,
+
+            remark=f'Consumer Referral Level {level} Bonus'
+
+        )
+
+        # =========================
+        # CREATE INCOME RECORD
+        # =========================
+
+        ConsumerReferralIncome.objects.create(
+
+            plan=plan,
+
+            user=current_user,
+
+            from_user=user,
+
+            order=order,
+
+            level=level,
+
+            purchase_amount=purchase_amount,
+
+            commission_amount=commission,
+
+        )
+
+        # =========================
+        # NEXT LEVEL
+        # =========================
+
+        current_user = current_user.referred_by
 
         level += 1

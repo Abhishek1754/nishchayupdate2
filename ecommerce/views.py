@@ -11,6 +11,7 @@ from .utils import (
 
     distribute_smart_share_income,
     distribute_shop_chain_cashback,
+    distribute_consumer_referral_bonus,
 
 )
 
@@ -21,8 +22,6 @@ from .models import (
 
     Order,
     OrderItem,
-
-    SmartSharePlan,
 
     Shop,
 
@@ -333,6 +332,10 @@ def checkout(request):
 
         }, status=400)
 
+    # =========================
+    # USER CART
+    # =========================
+
     cart_items = Cart.objects.filter(
         user=user
     )
@@ -496,6 +499,18 @@ def checkout(request):
         user=user,
         shop=shop,
         amount=total_amount,
+        order=order
+
+    )
+
+    # =========================
+    # CONSUMER REFERRAL BONUS
+    # =========================
+
+    distribute_consumer_referral_bonus(
+
+        user=user,
+        purchase_amount=total_amount,
         order=order
 
     )
