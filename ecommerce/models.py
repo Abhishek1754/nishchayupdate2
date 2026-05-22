@@ -183,8 +183,6 @@ class ProductImage(models.Model):
 
         return self.product.name
 
-    # LIMIT MAX 4 IMAGES
-
     def save(self, *args, **kwargs):
 
         if self.product.images.count() >= 4:
@@ -267,10 +265,6 @@ class SmartSharePlan(models.Model):
         default=5
     )
 
-    # =========================
-    # LEVEL INCOME
-    # =========================
-
     level_1_income = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -300,10 +294,6 @@ class SmartSharePlan(models.Model):
         decimal_places=2,
         default=0
     )
-
-    # =========================
-    # NISHCHAY COINS
-    # =========================
 
     coin_free = models.IntegerField(
         default=0
@@ -362,6 +352,180 @@ class SmartShareIncome(models.Model):
     amount = models.DecimalField(
         max_digits=12,
         decimal_places=2
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - Level {self.level}"
+
+
+# =========================
+# SHOP CASHBACK PLAN
+# =========================
+
+class ShopCashbackPlan(models.Model):
+
+    name = models.CharField(
+        max_length=100
+    )
+
+    self_cashback_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=5
+    )
+
+    chain_cashback_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=1
+    )
+
+    total_chain_users = models.IntegerField(
+        default=5
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return self.name
+
+
+# =========================
+# SHOP PURCHASE
+# =========================
+
+class ShopPurchase(models.Model):
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    shop = models.ForeignKey(
+        Shop,
+        on_delete=models.CASCADE
+    )
+
+    order = models.ForeignKey(
+        'Order',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    cashback_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    purchase_date = models.DateField(
+        auto_now_add=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - {self.shop.name}"
+
+
+# =========================
+# SHOP DAILY QUEUE
+# =========================
+
+class ShopDailyQueue(models.Model):
+
+    shop = models.ForeignKey(
+        Shop,
+        on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    purchase = models.ForeignKey(
+        ShopPurchase,
+        on_delete=models.CASCADE
+    )
+
+    queue_position = models.IntegerField()
+
+    queue_date = models.DateField(
+        auto_now_add=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+
+        ordering = ['queue_position']
+
+    def __str__(self):
+
+        return f"{self.shop.name} - {self.user.email}"
+
+
+# =========================
+# SHOP CHAIN INCOME
+# =========================
+
+class ShopChainIncome(models.Model):
+
+    shop = models.ForeignKey(
+        Shop,
+        on_delete=models.CASCADE
+    )
+
+    purchase = models.ForeignKey(
+        ShopPurchase,
+        on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='shop_chain_user'
+    )
+
+    from_user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='shop_chain_from_user'
+    )
+
+    level = models.IntegerField()
+
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    income_date = models.DateField(
+        auto_now_add=True
     )
 
     created_at = models.DateTimeField(
@@ -466,10 +630,6 @@ class Order(models.Model):
     def __str__(self):
 
         return f"Order {self.id}"
-
-    # =========================
-    # REAL-TIME EVENT
-    # =========================
 
     def save(self, *args, **kwargs):
 

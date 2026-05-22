@@ -6,7 +6,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 
 from wallet.utils import create_wallet_transaction
-from .utils import distribute_smart_share_income
+
+from .utils import (
+
+    distribute_smart_share_income,
+    distribute_shop_chain_cashback,
+
+)
 
 from .models import (
 
@@ -15,6 +21,10 @@ from .models import (
 
     Order,
     OrderItem,
+
+    SmartSharePlan,
+
+    Shop,
 
 )
 
@@ -136,6 +146,8 @@ def all_products(request):
             "category": product.category.name if product.category else "",
 
             "subcategory": product.subcategory.name if product.subcategory else "",
+
+            "child_category": product.child_category.name if product.child_category else "",
 
             "description": product.description,
 
@@ -299,6 +311,28 @@ def checkout(request):
         'address'
     )
 
+    # =========================
+    # SHOP ID
+    # =========================
+
+    shop_id = request.data.get(
+        'shop_id'
+    )
+
+    try:
+
+        shop = Shop.objects.get(
+            id=shop_id
+        )
+
+    except Shop.DoesNotExist:
+
+        return Response({
+
+            "error": "Invalid shop"
+
+        }, status=400)
+
     cart_items = Cart.objects.filter(
         user=user
     )
@@ -315,7 +349,9 @@ def checkout(request):
 
     cashback_amount = 0
 
+    # =========================
     # CALCULATE TOTAL
+    # =========================
 
     for item in cart_items:
 
@@ -339,7 +375,9 @@ def checkout(request):
 
         cashback_amount += cashback
 
+    # =========================
     # WALLET PAYMENT
+    # =========================
 
     if payment_method == 'wallet':
 
@@ -351,13 +389,13 @@ def checkout(request):
 
             }, status=400)
 
-        # DEDUCT WALLET
-
         user.wallet_balance -= float(
             total_amount
         )
 
-    # CREDIT CASHBACK
+    # =========================
+    # PRODUCT CASHBACK
+    # =========================
 
     user.wallet_balance += float(
         cashback_amount
@@ -365,7 +403,9 @@ def checkout(request):
 
     user.save()
 
+    # =========================
     # WALLET HISTORY
+    # =========================
 
     create_wallet_transaction(
 
@@ -381,6 +421,10 @@ def checkout(request):
 
     )
 
+    # =========================
+    # PRODUCT CASHBACK ENTRY
+    # =========================
+
     if cashback_amount > 0:
 
         create_wallet_transaction(
@@ -393,11 +437,13 @@ def checkout(request):
 
             amount=cashback_amount,
 
-            remark='Ecommerce Cashback'
+            remark='Product Cashback'
 
         )
 
+    # =========================
     # CREATE ORDER
+    # =========================
 
     order = Order.objects.create(
 
@@ -413,7 +459,9 @@ def checkout(request):
 
     )
 
+    # =========================
     # CREATE ORDER ITEMS
+    # =========================
 
     for item in cart_items:
 
@@ -429,7 +477,9 @@ def checkout(request):
 
         )
 
+        # =========================
         # REDUCE STOCK
+        # =========================
 
         product = item.product
 
@@ -437,7 +487,22 @@ def checkout(request):
 
         product.save()
 
-     # CLEAR CART
+    # =========================
+    # SHOP DAILY CHAIN ENGINE
+    # =========================
+
+    distribute_shop_chain_cashback(
+
+        user=user,
+        shop=shop,
+        amount=total_amount,
+        order=order
+
+    )
+
+    # =========================
+    # CLEAR CART
+    # =========================
 
     cart_items.delete()
 
@@ -453,12 +518,12 @@ def checkout(request):
 
         "order_id": order.id,
 
+        "cashback_received": cashback_amount,
+
     })
-    
-    
-    
-    
-    # =========================
+
+
+# =========================
 # MY ORDERS API
 # =========================
 

@@ -16,6 +16,11 @@ from .models import (
     SmartSharePlan,
     SmartShareIncome,
 
+    ShopCashbackPlan,
+    ShopPurchase,
+    ShopDailyQueue,
+    ShopChainIncome,
+
     Cart,
 
     Order,
@@ -262,6 +267,142 @@ class SmartShareIncomeAdmin(admin.ModelAdmin):
 
         'level',
         'plan',
+
+    )
+
+
+# =========================
+# SHOP CASHBACK PLAN ADMIN
+# =========================
+
+@admin.register(ShopCashbackPlan, site=admin_site)
+class ShopCashbackPlanAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'name',
+        'self_cashback_percentage',
+        'chain_cashback_percentage',
+        'total_chain_users',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'name',
+
+    )
+
+    list_filter = (
+
+        'is_active',
+
+    )
+
+
+# =========================
+# SHOP PURCHASE ADMIN
+# =========================
+
+@admin.register(ShopPurchase, site=admin_site)
+class ShopPurchaseAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'shop',
+        'amount',
+        'cashback_amount',
+        'purchase_date',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'shop__name',
+
+    )
+
+    list_filter = (
+
+        'purchase_date',
+        'shop',
+
+    )
+
+
+# =========================
+# SHOP DAILY QUEUE ADMIN
+# =========================
+
+@admin.register(ShopDailyQueue, site=admin_site)
+class ShopDailyQueueAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'shop',
+        'user',
+        'queue_position',
+        'queue_date',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'shop__name',
+
+    )
+
+    list_filter = (
+
+        'queue_date',
+        'shop',
+
+    )
+
+
+# =========================
+# SHOP CHAIN INCOME ADMIN
+# =========================
+
+@admin.register(ShopChainIncome, site=admin_site)
+class ShopChainIncomeAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'shop',
+        'user',
+        'from_user',
+        'level',
+        'amount',
+        'income_date',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'from_user__email',
+        'shop__name',
+
+    )
+
+    list_filter = (
+
+        'income_date',
+        'shop',
+        'level',
 
     )
 
