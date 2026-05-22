@@ -209,7 +209,7 @@ class Investment(models.Model):
 
         current_level = 1
 
-        while sponsor and current_level <= 5:
+        while sponsor and current_level <= 6:
 
             try:
 
@@ -306,6 +306,103 @@ class ROILevelIncomeHistory(models.Model):
     def __str__(self):
 
         return f"{self.user.email} - Level {self.level}"
+    
+    # =========================
+# ROI MONTHLY SALARY PLAN
+# =========================
+
+class ROIMonthlySalaryPlan(models.Model):
+
+    name = models.CharField(
+        max_length=100
+    )
+
+    minimum_direct_team = models.IntegerField(
+        default=20
+    )
+
+    minimum_total_team = models.IntegerField(
+        default=100
+    )
+
+    minimum_business = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    maximum_business = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    commission_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return self.name
+
+
+# =========================
+# ROI MONTHLY SALARY INCOME
+# =========================
+
+class ROIMonthlySalaryIncome(models.Model):
+
+    user = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.CASCADE
+    )
+
+    salary_plan = models.ForeignKey(
+        ROIMonthlySalaryPlan,
+        on_delete=models.CASCADE
+    )
+
+    total_business = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    direct_team = models.IntegerField(
+        default=0
+    )
+
+    total_team = models.IntegerField(
+        default=0
+    )
+
+    commission_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+
+    salary_amount = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    month = models.IntegerField()
+
+    year = models.IntegerField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - {self.month}/{self.year}"
 
 
 # =========================

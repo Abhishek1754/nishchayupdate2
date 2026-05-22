@@ -13,6 +13,8 @@ from .models import (
     WithdrawRequest,
     ROILevelIncome,
     ROILevelIncomeHistory,
+    ROIMonthlySalaryPlan,
+    ROIMonthlySalaryIncome,
 
 )
 
@@ -104,6 +106,78 @@ class ROILevelIncomeHistoryAdmin(admin.ModelAdmin):
         'level',
 
     )
+    
+    # =========================
+# ROI MONTHLY SALARY PLAN ADMIN
+# =========================
+
+@admin.register(ROIMonthlySalaryPlan, site=admin_site)
+class ROIMonthlySalaryPlanAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'name',
+        'minimum_direct_team',
+        'minimum_total_team',
+        'minimum_business',
+        'maximum_business',
+        'commission_percentage',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'name',
+
+    )
+
+    list_filter = (
+
+        'is_active',
+
+    )
+
+
+# =========================
+# ROI MONTHLY SALARY INCOME ADMIN
+# =========================
+
+@admin.register(ROIMonthlySalaryIncome, site=admin_site)
+class ROIMonthlySalaryIncomeAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'salary_plan',
+        'total_business',
+        'direct_team',
+        'total_team',
+        'commission_percentage',
+        'salary_amount',
+        'month',
+        'year',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+
+    )
+
+    list_filter = (
+
+        'month',
+        'year',
+
+    )
+    
+    
 
 
 # =========================
