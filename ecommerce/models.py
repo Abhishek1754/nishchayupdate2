@@ -52,6 +52,45 @@ class SubCategory(models.Model):
 
 
 # =========================
+# CHILD CATEGORY
+# =========================
+
+class ChildCategory(models.Model):
+
+    category = models.ForeignKey(
+
+        Category,
+
+        on_delete=models.CASCADE,
+
+        related_name='child_categories'
+
+    )
+
+    subcategory = models.ForeignKey(
+
+        SubCategory,
+
+        on_delete=models.CASCADE,
+
+        related_name='child_categories'
+
+    )
+
+    name = models.CharField(
+        max_length=100
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.category.name} - {self.subcategory.name} - {self.name}"
+
+
+# =========================
 # PRODUCT
 # =========================
 
@@ -69,6 +108,18 @@ class Product(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True
+    )
+
+    child_category = models.ForeignKey(
+
+        ChildCategory,
+
+        on_delete=models.SET_NULL,
+
+        null=True,
+
+        blank=True
+
     )
 
     name = models.CharField(

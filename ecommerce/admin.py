@@ -6,6 +6,7 @@ from .models import (
 
     Category,
     SubCategory,
+    ChildCategory,
 
     Product,
     ProductImage,
@@ -88,6 +89,37 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
 
 # =========================
+# CHILD CATEGORY ADMIN
+# =========================
+
+@admin.register(ChildCategory, site=admin_site)
+class ChildCategoryAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'name',
+        'category',
+        'subcategory',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'name',
+
+    )
+
+    list_filter = (
+
+        'category',
+        'subcategory',
+
+    )
+
+
+# =========================
 # PRODUCT ADMIN
 # =========================
 
@@ -100,6 +132,7 @@ class ProductAdmin(admin.ModelAdmin):
         'name',
         'category',
         'subcategory',
+        'child_category',
         'price',
         'quantity',
         'cashback_percentage',
@@ -118,6 +151,7 @@ class ProductAdmin(admin.ModelAdmin):
 
         'category',
         'subcategory',
+        'child_category',
         'is_active',
 
     )
