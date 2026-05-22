@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 
 from wallet.utils import create_wallet_transaction
+from .utils import distribute_smart_share_income
 
 from .models import (
 
@@ -436,9 +437,15 @@ def checkout(request):
 
         product.save()
 
-    # CLEAR CART
+     # CLEAR CART
 
     cart_items.delete()
+
+    # =========================
+    # SMART SHARE DISTRIBUTION
+    # =========================
+
+    distribute_smart_share_income(user)
 
     return Response({
 
@@ -447,6 +454,8 @@ def checkout(request):
         "order_id": order.id,
 
     })
+    
+    
     
     
     # =========================
