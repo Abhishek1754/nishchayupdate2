@@ -25,6 +25,10 @@ from .models import (
     StoreBoostPlan,
     StoreBoostBusiness,
     StoreBoostIncome,
+    RegionalConnectPlan,
+    RegionalFranchise,
+    RegionalFranchiseShop,
+    RegionalConnectIncome,
 
     Cart,
 
@@ -582,6 +586,142 @@ class StoreBoostIncomeAdmin(admin.ModelAdmin):
         'year',
 
     )
+    
+    
+    # =========================
+# REGIONAL CONNECT PLAN ADMIN
+# =========================
+
+@admin.register(RegionalConnectPlan, site=admin_site)
+class RegionalConnectPlanAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'name',
+        'minimum_team_size',
+        'team_level_depth',
+        'nishchay_commission_percentage',
+        'franchise_income_percentage',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'name',
+
+    )
+
+    list_filter = (
+
+        'is_active',
+
+    )
+
+
+# =========================
+# REGIONAL FRANCHISE ADMIN
+# =========================
+
+@admin.register(RegionalFranchise, site=admin_site)
+class RegionalFranchiseAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'state',
+        'district',
+        'city',
+        'pincode',
+        'total_team_size',
+        'total_shops',
+        'status',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'state',
+        'district',
+        'city',
+
+    )
+
+    list_filter = (
+
+        'status',
+        'state',
+        'is_active',
+
+    )
+
+
+# =========================
+# REGIONAL FRANCHISE SHOP ADMIN
+# =========================
+
+@admin.register(RegionalFranchiseShop, site=admin_site)
+class RegionalFranchiseShopAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'franchise',
+        'shop',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'franchise__user__email',
+        'shop__name',
+
+    )
+
+
+# =========================
+# REGIONAL CONNECT INCOME ADMIN
+# =========================
+
+@admin.register(RegionalConnectIncome, site=admin_site)
+class RegionalConnectIncomeAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'franchise',
+        'user',
+        'total_shop_profit',
+        'nishchay_profit',
+        'franchise_percentage',
+        'franchise_income',
+        'month',
+        'year',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+
+    )
+
+    list_filter = (
+
+        'month',
+        'year',
+
+    )
+    
+    
 
 
 # =========================

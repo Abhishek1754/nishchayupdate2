@@ -18,6 +18,11 @@ from .models import (
     StoreBoostPlan,
     StoreBoostBusiness,
     StoreBoostIncome,
+    
+    RegionalConnectPlan,
+    RegionalFranchise,
+    RegionalFranchiseShop,
+    RegionalConnectIncome,
 
 )
 
@@ -696,3 +701,191 @@ def distribute_store_boost_income(
         current_user = current_user.referred_by
 
         level += 1
+        
+        
+        # =====================================================
+# GET TEAM SIZE UPTO LEVEL
+# =====================================================
+
+def get_team_size_upto_level(
+
+    user,
+    max_level,
+    current_level=1
+
+):
+
+    if current_level > max_level:
+
+        return 0
+
+    total = 0
+
+    direct_members = user.team_members.all()
+
+    for member in direct_members:
+
+        total += 1
+
+        total += get_team_size_upto_level(
+
+            member,
+            max_level,
+            current_level + 1
+
+        )
+
+    return total
+
+
+# =====================================================
+# REGIONAL CONNECT FRANCHISE ENGINE
+# =====================================================
+
+def distribute_regional_connect_income(
+
+    franchise,
+    total_shop_profit,
+    month,
+    year
+
+):
+
+    """
+    Regional Franchise Revenue Sharing Engine
+    """
+
+    # =========================
+    # GET ACTIVE PLAN
+    # =========================
+
+    plan = RegionalConnectPlan.objects.filter(
+        is_active=True
+    ).first()
+
+    if not plan:
+
+        return
+
+    # =========================
+    # TEAM ELIGIBILITY
+    # =========================
+
+    team_size = get_team_size_upto_level(
+
+        franchise.user,
+        plan.team_level_depth
+
+    )
+
+    if team_size < plan.minimum_team_size:
+
+        return
+
+    # =========================
+    # NISHCHAY PROFIT
+    # =========================
+
+    nishchay_profit = (
+
+        Decimal(total_shop_profit) *
+
+        Decimal(
+            plan.nishchay_commission_percentage
+        )
+
+    ) / Decimal(100)
+
+    # =========================
+    # FRANCHISE INCOME
+    # =========================
+
+    franchise_income = (
+
+        nishchay_profit *
+
+        Decimal(
+            plan.franchise_income_percentage
+        )
+
+    ) / Decimal(100)
+
+    # =========================
+    # PREVENT DUPLICATE
+    # =========================
+
+    already_exists = (
+
+        RegionalConnectIncome.objects.filter(
+
+            franchise=franchise,
+
+            month=month,
+
+            year=year,
+
+        ).exists()
+
+    )
+
+    if already_exists:
+
+        return
+
+    # =========================
+    # CREDIT WALLET
+    # =========================
+
+    franchise.user.wallet_balance += franchise_income
+
+    franchise.user.save()
+
+    # =========================
+    # WALLET HISTORY
+    # =========================
+
+    create_wallet_transaction(
+
+        user=franchise.user,
+
+        transaction_type='credit',
+
+        source='referral',
+
+        amount=franchise_income,
+
+        remark='Regional Connect Franchise Income'
+
+    )
+
+    # =========================
+    # CREATE INCOME ENTRY
+    # =========================
+
+    RegionalConnectIncome.objects.create(
+
+        franchise=franchise,
+
+        user=franchise.user,
+
+        total_shop_profit=total_shop_profit,
+
+        nishchay_profit=nishchay_profit,
+
+        franchise_percentage=plan.franchise_income_percentage,
+
+        franchise_income=franchise_income,
+
+        month=month,
+
+        year=year,
+
+    )
+
+    # =========================
+    # UPDATE TEAM SIZE
+    # =========================
+
+    franchise.total_team_size = team_size
+
+    franchise.save()
