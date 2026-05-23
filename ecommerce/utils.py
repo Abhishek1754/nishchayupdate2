@@ -13,33 +13,36 @@ from .models import (
     ShopPurchase,
     ShopDailyQueue,
     ShopChainIncome,
+
     ConsumerReferralPlan,
     ConsumerReferralIncome,
+
     StoreBoostPlan,
     StoreBoostBusiness,
     StoreBoostIncome,
-    
+
     RegionalConnectPlan,
     RegionalFranchise,
     RegionalFranchiseShop,
     RegionalConnectIncome,
 
+    MasterConnectPlan,
+    MasterConnect,
+    MasterConnectShop,
+    MasterConnectIncome,
+    MonthlyCouponCampaign,
+    MonthlyCouponEligibility,
+    MonthlyCouponUser,
+    Order,
+
 )
 
 
-# =========================
+# =====================================================
 # DISTRIBUTE SMART SHARE
-# =========================
+# =====================================================
 
 def distribute_smart_share_income(user):
-
-    """
-    Distribute 5 level smart share income
-    """
-
-    # =========================
-    # DETERMINE PLAN TYPE
-    # =========================
 
     if user.is_subscribed:
 
@@ -48,10 +51,6 @@ def distribute_smart_share_income(user):
     else:
 
         plan_type = 'free'
-
-    # =========================
-    # GET ACTIVE PLAN
-    # =========================
 
     plan = SmartSharePlan.objects.filter(
 
@@ -64,10 +63,6 @@ def distribute_smart_share_income(user):
 
         return
 
-    # =========================
-    # LEVEL INCOME MAP
-    # =========================
-
     level_income_map = {
 
         1: plan.level_1_income,
@@ -77,10 +72,6 @@ def distribute_smart_share_income(user):
         5: plan.level_5_income,
 
     }
-
-    # =========================
-    # START REFERRAL CHAIN
-    # =========================
 
     current_user = user.referred_by
 
@@ -92,35 +83,7 @@ def distribute_smart_share_income(user):
             level_income_map.get(level, 0)
         )
 
-        # =========================
-        # CREDIT WALLET
-        # =========================
-
         current_user.wallet_balance += amount
-
-        current_user.save()
-
-        # =========================
-        # CREATE SMART SHARE ENTRY
-        # =========================
-
-        SmartShareIncome.objects.create(
-
-            plan=plan,
-
-            user=current_user,
-
-            from_user=user,
-
-            level=level,
-
-            amount=amount,
-
-        )
-
-        # =========================
-        # WALLET HISTORY
-        # =========================
 
         create_wallet_transaction(
 
@@ -136,9 +99,19 @@ def distribute_smart_share_income(user):
 
         )
 
-        # =========================
-        # NISHCHAY COINS
-        # =========================
+        SmartShareIncome.objects.create(
+
+            plan=plan,
+
+            user=current_user,
+
+            from_user=user,
+
+            level=level,
+
+            amount=amount,
+
+        )
 
         if plan_type == 'paid':
 
@@ -149,10 +122,6 @@ def distribute_smart_share_income(user):
             current_user.nishchay_coin += plan.coin_free
 
         current_user.save()
-
-        # =========================
-        # MOVE NEXT LEVEL
-        # =========================
 
         current_user = current_user.referred_by
 
@@ -172,20 +141,6 @@ def distribute_shop_chain_cashback(
 
 ):
 
-    """
-    Daily Shop Sequential Cashback Engine
-
-    Logic:
-    - Buyer gets self cashback
-    - Previous users get chain cashback
-    - Same day queue
-    - Queue resets automatically daily
-    """
-
-    # =========================
-    # GET ACTIVE PLAN
-    # =========================
-
     plan = ShopCashbackPlan.objects.filter(
         is_active=True
     ).first()
@@ -193,10 +148,6 @@ def distribute_shop_chain_cashback(
     if not plan:
 
         return
-
-    # =========================
-    # SELF CASHBACK
-    # =========================
 
     self_cashback = (
 
@@ -206,17 +157,9 @@ def distribute_shop_chain_cashback(
 
     ) / Decimal(100)
 
-    # =========================
-    # CREDIT USER WALLET
-    # =========================
-
     user.wallet_balance += self_cashback
 
     user.save()
-
-    # =========================
-    # WALLET TRANSACTION
-    # =========================
 
     create_wallet_transaction(
 
@@ -232,10 +175,6 @@ def distribute_shop_chain_cashback(
 
     )
 
-    # =========================
-    # CREATE SHOP PURCHASE
-    # =========================
-
     purchase = ShopPurchase.objects.create(
 
         user=user,
@@ -250,15 +189,7 @@ def distribute_shop_chain_cashback(
 
     )
 
-    # =========================
-    # TODAY DATE
-    # =========================
-
     today = timezone.now().date()
-
-    # =========================
-    # FIND TODAY QUEUE
-    # =========================
 
     today_queue = ShopDailyQueue.objects.filter(
 
@@ -268,15 +199,7 @@ def distribute_shop_chain_cashback(
 
     ).order_by('queue_position')
 
-    # =========================
-    # NEW POSITION
-    # =========================
-
     queue_position = today_queue.count() + 1
-
-    # =========================
-    # ADD CURRENT USER TO QUEUE
-    # =========================
 
     ShopDailyQueue.objects.create(
 
@@ -290,27 +213,15 @@ def distribute_shop_chain_cashback(
 
     )
 
-    # =========================
-    # PREVIOUS USERS
-    # =========================
-
     previous_users = today_queue.order_by(
         '-queue_position'
     )[:plan.total_chain_users]
-
-    # =========================
-    # DISTRIBUTE CHAIN INCOME
-    # =========================
 
     level = 1
 
     for queue_user in previous_users:
 
         previous_user = queue_user.user
-
-        # =========================
-        # CHAIN CASHBACK
-        # =========================
 
         chain_amount = (
 
@@ -320,17 +231,9 @@ def distribute_shop_chain_cashback(
 
         ) / Decimal(100)
 
-        # =========================
-        # CREDIT WALLET
-        # =========================
-
         previous_user.wallet_balance += chain_amount
 
         previous_user.save()
-
-        # =========================
-        # WALLET ENTRY
-        # =========================
 
         create_wallet_transaction(
 
@@ -345,10 +248,6 @@ def distribute_shop_chain_cashback(
             remark=f'Shop Chain Cashback Level {level}'
 
         )
-
-        # =========================
-        # CREATE INCOME ENTRY
-        # =========================
 
         ShopChainIncome.objects.create(
 
@@ -367,8 +266,9 @@ def distribute_shop_chain_cashback(
         )
 
         level += 1
-        
-        # =====================================================
+
+
+# =====================================================
 # CONSUMER REFERRAL BONUS ENGINE
 # =====================================================
 
@@ -380,17 +280,6 @@ def distribute_consumer_referral_bonus(
 
 ):
 
-    """
-    Consumer Referral Bonus System
-
-    Level 1 = 4%
-    Level 2-5 = 1%
-    """
-
-    # =========================
-    # GET ACTIVE PLAN
-    # =========================
-
     plan = ConsumerReferralPlan.objects.filter(
         is_active=True
     ).first()
@@ -399,19 +288,11 @@ def distribute_consumer_referral_bonus(
 
         return
 
-    # =========================
-    # START REFERRAL CHAIN
-    # =========================
-
     current_user = user.referred_by
 
     level = 1
 
     while current_user and level <= plan.total_levels:
-
-        # =========================
-        # DIRECT BONUS
-        # =========================
 
         if level == 1:
 
@@ -419,19 +300,11 @@ def distribute_consumer_referral_bonus(
                 plan.direct_percentage
             )
 
-        # =========================
-        # INDIRECT BONUS
-        # =========================
-
         else:
 
             percentage = Decimal(
                 plan.indirect_percentage
             )
-
-        # =========================
-        # CALCULATE COMMISSION
-        # =========================
 
         commission = (
 
@@ -441,17 +314,9 @@ def distribute_consumer_referral_bonus(
 
         ) / Decimal(100)
 
-        # =========================
-        # CREDIT WALLET
-        # =========================
-
         current_user.wallet_balance += commission
 
         current_user.save()
-
-        # =========================
-        # WALLET TRANSACTION
-        # =========================
 
         create_wallet_transaction(
 
@@ -466,10 +331,6 @@ def distribute_consumer_referral_bonus(
             remark=f'Consumer Referral Level {level} Bonus'
 
         )
-
-        # =========================
-        # CREATE INCOME RECORD
-        # =========================
 
         ConsumerReferralIncome.objects.create(
 
@@ -489,16 +350,12 @@ def distribute_consumer_referral_bonus(
 
         )
 
-        # =========================
-        # NEXT LEVEL
-        # =========================
-
         current_user = current_user.referred_by
 
         level += 1
-        
-        
-        # =====================================================
+
+
+# =====================================================
 # STORE BOOST MONTHLY ENGINE
 # =====================================================
 
@@ -512,14 +369,6 @@ def distribute_store_boost_income(
 
 ):
 
-    """
-    Store Boost MLM Revenue Sharing Engine
-    """
-
-    # =========================
-    # GET ACTIVE PLAN
-    # =========================
-
     plan = StoreBoostPlan.objects.filter(
         is_active=True
     ).first()
@@ -527,10 +376,6 @@ def distribute_store_boost_income(
     if not plan:
 
         return
-
-    # =========================
-    # NISHCHAY PROFIT
-    # =========================
 
     nishchay_profit = (
 
@@ -541,10 +386,6 @@ def distribute_store_boost_income(
         )
 
     ) / Decimal(100)
-
-    # =========================
-    # CREATE BUSINESS ENTRY
-    # =========================
 
     business = StoreBoostBusiness.objects.create(
 
@@ -562,27 +403,11 @@ def distribute_store_boost_income(
 
     )
 
-    # =========================
-    # START REFERRAL CHAIN
-    # =========================
-
     current_user = user
 
     level = 1
 
-    while (
-
-        current_user
-
-        and
-
-        level <= plan.total_levels
-
-    ):
-
-        # =========================
-        # DIRECT %
-        # =========================
+    while current_user and level <= plan.total_levels:
 
         if level == 1:
 
@@ -590,19 +415,11 @@ def distribute_store_boost_income(
                 plan.direct_income_percentage
             )
 
-        # =========================
-        # INDIRECT %
-        # =========================
-
         else:
 
             percentage = Decimal(
                 plan.indirect_income_percentage
             )
-
-        # =========================
-        # COMMISSION
-        # =========================
 
         commission = (
 
@@ -612,17 +429,9 @@ def distribute_store_boost_income(
 
         ) / Decimal(100)
 
-        # =========================
-        # CREDIT WALLET
-        # =========================
-
         current_user.wallet_balance += commission
 
         current_user.save()
-
-        # =========================
-        # WALLET HISTORY
-        # =========================
 
         create_wallet_transaction(
 
@@ -638,10 +447,6 @@ def distribute_store_boost_income(
 
         )
 
-        # =========================
-        # PREVENT DUPLICATE
-        # =========================
-
         already_exists = (
 
             StoreBoostIncome.objects.filter(
@@ -656,54 +461,40 @@ def distribute_store_boost_income(
 
         )
 
-        if already_exists:
+        if not already_exists:
 
-            current_user = current_user.referred_by
+            StoreBoostIncome.objects.create(
 
-            level += 1
+                plan=plan,
 
-            continue
+                business=business,
 
-        # =========================
-        # CREATE INCOME ENTRY
-        # =========================
+                user=current_user,
 
-        StoreBoostIncome.objects.create(
+                from_user=user,
 
-            plan=plan,
+                level=level,
 
-            business=business,
+                total_business=monthly_business,
 
-            user=current_user,
+                nishchay_profit=nishchay_profit,
 
-            from_user=user,
+                commission_percentage=percentage,
 
-            level=level,
+                commission_amount=commission,
 
-            total_business=monthly_business,
+                month=month,
 
-            nishchay_profit=nishchay_profit,
+                year=year,
 
-            commission_percentage=percentage,
-
-            commission_amount=commission,
-
-            month=month,
-
-            year=year,
-
-        )
-
-        # =========================
-        # NEXT LEVEL
-        # =========================
+            )
 
         current_user = current_user.referred_by
 
         level += 1
-        
-        
-        # =====================================================
+
+
+# =====================================================
 # GET TEAM SIZE UPTO LEVEL
 # =====================================================
 
@@ -751,14 +542,6 @@ def distribute_regional_connect_income(
 
 ):
 
-    """
-    Regional Franchise Revenue Sharing Engine
-    """
-
-    # =========================
-    # GET ACTIVE PLAN
-    # =========================
-
     plan = RegionalConnectPlan.objects.filter(
         is_active=True
     ).first()
@@ -766,10 +549,6 @@ def distribute_regional_connect_income(
     if not plan:
 
         return
-
-    # =========================
-    # TEAM ELIGIBILITY
-    # =========================
 
     team_size = get_team_size_upto_level(
 
@@ -782,10 +561,6 @@ def distribute_regional_connect_income(
 
         return
 
-    # =========================
-    # NISHCHAY PROFIT
-    # =========================
-
     nishchay_profit = (
 
         Decimal(total_shop_profit) *
@@ -796,10 +571,6 @@ def distribute_regional_connect_income(
 
     ) / Decimal(100)
 
-    # =========================
-    # FRANCHISE INCOME
-    # =========================
-
     franchise_income = (
 
         nishchay_profit *
@@ -809,10 +580,6 @@ def distribute_regional_connect_income(
         )
 
     ) / Decimal(100)
-
-    # =========================
-    # PREVENT DUPLICATE
-    # =========================
 
     already_exists = (
 
@@ -832,17 +599,9 @@ def distribute_regional_connect_income(
 
         return
 
-    # =========================
-    # CREDIT WALLET
-    # =========================
-
     franchise.user.wallet_balance += franchise_income
 
     franchise.user.save()
-
-    # =========================
-    # WALLET HISTORY
-    # =========================
 
     create_wallet_transaction(
 
@@ -857,10 +616,6 @@ def distribute_regional_connect_income(
         remark='Regional Connect Franchise Income'
 
     )
-
-    # =========================
-    # CREATE INCOME ENTRY
-    # =========================
 
     RegionalConnectIncome.objects.create(
 
@@ -882,10 +637,408 @@ def distribute_regional_connect_income(
 
     )
 
-    # =========================
-    # UPDATE TEAM SIZE
-    # =========================
-
     franchise.total_team_size = team_size
 
     franchise.save()
+
+
+# =====================================================
+# MASTER CONNECT REVENUE ENGINE
+# =====================================================
+
+def distribute_master_connect_income(
+
+    master_connect,
+    total_shop_business,
+    month,
+    year
+
+):
+
+    plan = MasterConnectPlan.objects.filter(
+        is_active=True
+    ).first()
+
+    if not plan:
+
+        return
+
+    total_team_size = get_team_size_upto_level(
+
+        master_connect.user,
+        plan.team_level_depth
+
+    )
+
+    regional_connect_count = (
+
+        RegionalFranchise.objects.filter(
+
+            user=master_connect.user,
+
+            status='approved',
+
+            is_active=True
+
+        ).count()
+
+    )
+
+    if (
+
+        total_team_size < plan.minimum_team_size
+
+        or
+
+        regional_connect_count < plan.minimum_regional_connects
+
+    ):
+
+        return
+
+    nishchay_profit = (
+
+        Decimal(total_shop_business) *
+
+        Decimal(
+            plan.nishchay_commission_percentage
+        )
+
+    ) / Decimal(100)
+
+    master_income = (
+
+        nishchay_profit *
+
+        Decimal(
+            plan.master_income_percentage
+        )
+
+    ) / Decimal(100)
+
+    already_exists = (
+
+        MasterConnectIncome.objects.filter(
+
+            master_connect=master_connect,
+
+            month=month,
+
+            year=year,
+
+        ).exists()
+
+    )
+
+    if already_exists:
+
+        return
+
+    master_connect.user.wallet_balance += master_income
+
+    master_connect.user.save()
+
+    create_wallet_transaction(
+
+        user=master_connect.user,
+
+        transaction_type='credit',
+
+        source='referral',
+
+        amount=master_income,
+
+        remark='Master Connect Income'
+
+    )
+
+    MasterConnectIncome.objects.create(
+
+        master_connect=master_connect,
+
+        user=master_connect.user,
+
+        total_shop_business=total_shop_business,
+
+        nishchay_profit=nishchay_profit,
+
+        master_percentage=plan.master_income_percentage,
+
+        master_income=master_income,
+
+        month=month,
+
+        year=year,
+
+    )
+
+    master_connect.total_team_size = total_team_size
+
+    master_connect.total_regional_connects = regional_connect_count
+
+    master_connect.save()
+    
+    # =====================================================
+# MONTHLY COUPON ELIGIBILITY ENGINE
+# =====================================================
+
+def generate_monthly_coupon_eligibility(
+
+    user,
+    month,
+    year
+
+):
+
+    """
+    Dynamic Monthly Coupon Eligibility Engine
+    """
+
+    campaigns = MonthlyCouponCampaign.objects.filter(
+        is_active=True
+    )
+
+    for campaign in campaigns:
+
+        eligibility_rules = campaign.eligibilities.all()
+
+        is_eligible = True
+
+        for rule in eligibility_rules:
+
+            # =========================
+            # PURCHASE AMOUNT
+            # =========================
+
+            if rule.condition_type == 'purchase_amount':
+
+                total_purchase = (
+
+                    Order.objects.filter(
+
+                        user=user,
+
+                        created_at__month=month,
+
+                        created_at__year=year
+
+                    ).aggregate(
+
+                        total=models.Sum('total_amount')
+
+                    )['total']
+
+                    or Decimal(0)
+
+                )
+
+                if total_purchase < rule.minimum_value:
+
+                    is_eligible = False
+
+                    break
+
+            # =========================
+            # ORDER COUNT
+            # =========================
+
+            elif rule.condition_type == 'order_count':
+
+                total_orders = (
+
+                    Order.objects.filter(
+
+                        user=user,
+
+                        created_at__month=month,
+
+                        created_at__year=year
+
+                    ).count()
+
+                )
+
+                if total_orders < int(rule.minimum_value):
+
+                    is_eligible = False
+
+                    break
+
+            # =========================
+            # SHOP PURCHASE COUNT
+            # =========================
+
+            elif rule.condition_type == 'shop_purchase_count':
+
+                total_shop_purchase = (
+
+                    ShopPurchase.objects.filter(
+
+                        user=user,
+
+                        created_at__month=month,
+
+                        created_at__year=year
+
+                    ).count()
+
+                )
+
+                if total_shop_purchase < int(rule.minimum_value):
+
+                    is_eligible = False
+
+                    break
+
+            # =========================
+            # WALLET BALANCE
+            # =========================
+
+            elif rule.condition_type == 'wallet_balance':
+
+                if user.wallet_balance < rule.minimum_value:
+
+                    is_eligible = False
+
+                    break
+
+            # =========================
+            # ROI INVESTMENT
+            # =========================
+
+            elif rule.condition_type == 'roi_investment':
+
+                from roi.models import Investment
+
+                total_investment = (
+
+                    Investment.objects.filter(
+
+                        user=user,
+
+                        status='active'
+
+                    ).aggregate(
+
+                        total=models.Sum('amount')
+
+                    )['total']
+
+                    or Decimal(0)
+
+                )
+
+                if total_investment < rule.minimum_value:
+
+                    is_eligible = False
+
+                    break
+
+            # =========================
+            # REGIONAL CONNECT
+            # =========================
+
+            elif rule.condition_type == 'regional_connect':
+
+                has_regional = (
+
+                    RegionalFranchise.objects.filter(
+
+                        user=user,
+
+                        status='approved',
+
+                        is_active=True
+
+                    ).exists()
+
+                )
+
+                if not has_regional:
+
+                    is_eligible = False
+
+                    break
+
+            # =========================
+            # MASTER CONNECT
+            # =========================
+
+            elif rule.condition_type == 'master_connect':
+
+                has_master = (
+
+                    MasterConnect.objects.filter(
+
+                        user=user,
+
+                        status='approved',
+
+                        is_active=True
+
+                    ).exists()
+
+                )
+
+                if not has_master:
+
+                    is_eligible = False
+
+                    break
+
+            # =========================
+            # TEAM SIZE
+            # =========================
+
+            elif rule.condition_type == 'team_size':
+
+                team_size = get_team_size_upto_level(
+
+                    user,
+                    10
+
+                )
+
+                if team_size < int(rule.minimum_value):
+
+                    is_eligible = False
+
+                    break
+
+        # =========================
+        # CREATE ELIGIBLE USER
+        # =========================
+
+        if is_eligible:
+
+            already_exists = (
+
+                MonthlyCouponUser.objects.filter(
+
+                    campaign=campaign,
+
+                    user=user,
+
+                    month=month,
+
+                    year=year,
+
+                ).exists()
+
+            )
+
+            if not already_exists:
+
+                MonthlyCouponUser.objects.create(
+
+                    campaign=campaign,
+
+                    user=user,
+
+                    month=month,
+
+                    year=year,
+
+                    status='eligible'
+
+                )

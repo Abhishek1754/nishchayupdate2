@@ -968,6 +968,347 @@ class RegionalConnectIncome(models.Model):
     def __str__(self):
 
         return f"{self.user.email} - {self.month}/{self.year}"
+    
+    
+    # =========================
+# MASTER CONNECT PLAN
+# =========================
+
+class MasterConnectPlan(models.Model):
+
+    name = models.CharField(
+        max_length=100
+    )
+
+    minimum_regional_connects = models.IntegerField(
+        default=5
+    )
+
+    minimum_team_size = models.IntegerField(
+        default=200000
+    )
+
+    team_level_depth = models.IntegerField(
+        default=10
+    )
+
+    nishchay_commission_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=2.5
+    )
+
+    master_income_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0.30
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return self.name
+
+
+# =========================
+# MASTER CONNECT
+# =========================
+
+class MasterConnect(models.Model):
+
+    STATUS_CHOICES = (
+
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    total_team_size = models.IntegerField(
+        default=0
+    )
+
+    total_regional_connects = models.IntegerField(
+        default=0
+    )
+
+    total_shops = models.IntegerField(
+        default=0
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return self.user.email
+
+
+# =========================
+# MASTER CONNECT SHOP
+# =========================
+
+class MasterConnectShop(models.Model):
+
+    master_connect = models.ForeignKey(
+        MasterConnect,
+        on_delete=models.CASCADE
+    )
+
+    shop = models.ForeignKey(
+        Shop,
+        on_delete=models.CASCADE
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.master_connect.user.email} - {self.shop.name}"
+
+
+# =========================
+# MASTER CONNECT INCOME
+# =========================
+
+class MasterConnectIncome(models.Model):
+
+    master_connect = models.ForeignKey(
+        MasterConnect,
+        on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    total_shop_business = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    nishchay_profit = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    master_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+
+    master_income = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    month = models.IntegerField()
+
+    year = models.IntegerField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - {self.month}/{self.year}"
+    
+    # =========================
+# MONTHLY COUPON CAMPAIGN
+# =========================
+
+class MonthlyCouponCampaign(models.Model):
+
+    name = models.CharField(
+        max_length=200
+    )
+
+    coupon_code = models.CharField(
+        max_length=50,
+        unique=True
+    )
+
+    description = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    discount_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0
+    )
+
+    maximum_discount_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    valid_from = models.DateField()
+
+    valid_to = models.DateField()
+
+    total_usage_limit = models.IntegerField(
+        default=1000
+    )
+
+    per_user_limit = models.IntegerField(
+        default=1
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return self.name
+
+
+# =========================
+# MONTHLY COUPON ELIGIBILITY
+# =========================
+
+class MonthlyCouponEligibility(models.Model):
+
+    CONDITION_TYPES = (
+
+        ('purchase_amount', 'Purchase Amount'),
+
+        ('order_count', 'Order Count'),
+
+        ('shop_purchase_count', 'Shop Purchase Count'),
+
+        ('wallet_balance', 'Wallet Balance'),
+
+        ('roi_investment', 'ROI Investment'),
+
+        ('regional_connect', 'Regional Connect'),
+
+        ('master_connect', 'Master Connect'),
+
+        ('team_size', 'Team Size'),
+
+    )
+
+    campaign = models.ForeignKey(
+        MonthlyCouponCampaign,
+        on_delete=models.CASCADE,
+        related_name='eligibilities'
+    )
+
+    condition_type = models.CharField(
+        max_length=50,
+        choices=CONDITION_TYPES
+    )
+
+    minimum_value = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        default=0
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.campaign.name} - {self.condition_type}"
+
+
+# =========================
+# MONTHLY COUPON USER
+# =========================
+
+class MonthlyCouponUser(models.Model):
+
+    STATUS_CHOICES = (
+
+        ('eligible', 'Eligible'),
+
+        ('used', 'Used'),
+
+        ('expired', 'Expired'),
+
+    )
+
+    campaign = models.ForeignKey(
+        MonthlyCouponCampaign,
+        on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='eligible'
+    )
+
+    used_at = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    month = models.IntegerField()
+
+    year = models.IntegerField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+
+        unique_together = (
+
+            'campaign',
+            'user',
+            'month',
+            'year'
+
+        )
+
+    def __str__(self):
+
+        return f"{self.user.email} - {self.campaign.name}"
+
 
 
 # =========================

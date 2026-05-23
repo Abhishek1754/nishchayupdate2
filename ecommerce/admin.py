@@ -29,6 +29,13 @@ from .models import (
     RegionalFranchise,
     RegionalFranchiseShop,
     RegionalConnectIncome,
+    MasterConnectPlan,
+    MasterConnect,
+    MasterConnectShop,
+    MasterConnectIncome,
+    MonthlyCouponCampaign,
+    MonthlyCouponEligibility,
+    MonthlyCouponUser,
 
     Cart,
 
@@ -716,6 +723,254 @@ class RegionalConnectIncomeAdmin(admin.ModelAdmin):
 
     list_filter = (
 
+        'month',
+        'year',
+
+    )
+    
+    # =========================
+# MASTER CONNECT PLAN ADMIN
+# =========================
+
+@admin.register(MasterConnectPlan, site=admin_site)
+class MasterConnectPlanAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'name',
+        'minimum_regional_connects',
+        'minimum_team_size',
+        'team_level_depth',
+        'nishchay_commission_percentage',
+        'master_income_percentage',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'name',
+
+    )
+
+    list_filter = (
+
+        'is_active',
+
+    )
+
+
+# =========================
+# MASTER CONNECT ADMIN
+# =========================
+
+@admin.register(MasterConnect, site=admin_site)
+class MasterConnectAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'total_team_size',
+        'total_regional_connects',
+        'total_shops',
+        'status',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+
+    )
+
+    list_filter = (
+
+        'status',
+        'is_active',
+
+    )
+
+
+# =========================
+# MASTER CONNECT SHOP ADMIN
+# =========================
+
+@admin.register(MasterConnectShop, site=admin_site)
+class MasterConnectShopAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'master_connect',
+        'shop',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'master_connect__user__email',
+        'shop__name',
+
+    )
+
+
+# =========================
+# MASTER CONNECT INCOME ADMIN
+# =========================
+
+@admin.register(MasterConnectIncome, site=admin_site)
+class MasterConnectIncomeAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'master_connect',
+        'user',
+        'total_shop_business',
+        'nishchay_profit',
+        'master_percentage',
+        'master_income',
+        'month',
+        'year',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+
+    )
+
+    list_filter = (
+
+        'month',
+        'year',
+
+    )
+    
+    # =========================
+# MONTHLY COUPON ELIGIBILITY INLINE
+# =========================
+
+class MonthlyCouponEligibilityInline(admin.TabularInline):
+
+    model = MonthlyCouponEligibility
+
+    extra = 1
+
+
+# =========================
+# MONTHLY COUPON CAMPAIGN ADMIN
+# =========================
+
+@admin.register(MonthlyCouponCampaign, site=admin_site)
+class MonthlyCouponCampaignAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'name',
+        'coupon_code',
+        'discount_percentage',
+        'maximum_discount_amount',
+        'valid_from',
+        'valid_to',
+        'total_usage_limit',
+        'per_user_limit',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'name',
+        'coupon_code',
+
+    )
+
+    list_filter = (
+
+        'is_active',
+        'valid_from',
+        'valid_to',
+
+    )
+
+    inlines = [
+
+        MonthlyCouponEligibilityInline,
+
+    ]
+
+
+# =========================
+# MONTHLY COUPON ELIGIBILITY ADMIN
+# =========================
+
+@admin.register(MonthlyCouponEligibility, site=admin_site)
+class MonthlyCouponEligibilityAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'campaign',
+        'condition_type',
+        'minimum_value',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'campaign__name',
+
+    )
+
+    list_filter = (
+
+        'condition_type',
+
+    )
+
+
+# =========================
+# MONTHLY COUPON USER ADMIN
+# =========================
+
+@admin.register(MonthlyCouponUser, site=admin_site)
+class MonthlyCouponUserAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'campaign',
+        'user',
+        'status',
+        'month',
+        'year',
+        'used_at',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'campaign__name',
+
+    )
+
+    list_filter = (
+
+        'status',
         'month',
         'year',
 
