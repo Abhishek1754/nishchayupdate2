@@ -22,6 +22,9 @@ from .models import (
     ShopChainIncome,
     ConsumerReferralPlan,
     ConsumerReferralIncome,
+    StoreBoostPlan,
+    StoreBoostBusiness,
+    StoreBoostIncome,
 
     Cart,
 
@@ -470,6 +473,113 @@ class ConsumerReferralIncomeAdmin(admin.ModelAdmin):
     list_filter = (
 
         'level',
+
+    )
+    
+    # =========================
+# STORE BOOST PLAN ADMIN
+# =========================
+
+@admin.register(StoreBoostPlan, site=admin_site)
+class StoreBoostPlanAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'name',
+        'nishchay_commission_percentage',
+        'direct_income_percentage',
+        'indirect_income_percentage',
+        'total_levels',
+        'is_active',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'name',
+
+    )
+
+    list_filter = (
+
+        'is_active',
+
+    )
+
+
+# =========================
+# STORE BOOST BUSINESS ADMIN
+# =========================
+
+@admin.register(StoreBoostBusiness, site=admin_site)
+class StoreBoostBusinessAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'shop',
+        'month',
+        'year',
+        'total_business',
+        'nishchay_profit',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'shop__name',
+
+    )
+
+    list_filter = (
+
+        'month',
+        'year',
+        'shop',
+
+    )
+
+
+# =========================
+# STORE BOOST INCOME ADMIN
+# =========================
+
+@admin.register(StoreBoostIncome, site=admin_site)
+class StoreBoostIncomeAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'from_user',
+        'level',
+        'total_business',
+        'nishchay_profit',
+        'commission_percentage',
+        'commission_amount',
+        'month',
+        'year',
+        'created_at',
+
+    )
+
+    search_fields = (
+
+        'user__email',
+        'from_user__email',
+
+    )
+
+    list_filter = (
+
+        'level',
+        'month',
+        'year',
 
     )
 

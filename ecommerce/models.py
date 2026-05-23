@@ -631,6 +631,156 @@ class ConsumerReferralIncome(models.Model):
     def __str__(self):
 
         return f"{self.user.email} - Level {self.level}"
+    
+    
+    # =========================
+# STORE BOOST PLAN
+# =========================
+
+class StoreBoostPlan(models.Model):
+
+    name = models.CharField(
+        max_length=100
+    )
+
+    nishchay_commission_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=3
+    )
+
+    direct_income_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=3
+    )
+
+    indirect_income_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=1
+    )
+
+    total_levels = models.IntegerField(
+        default=5
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return self.name
+
+
+# =========================
+# STORE BOOST BUSINESS
+# =========================
+
+class StoreBoostBusiness(models.Model):
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='store_boost_business_user'
+    )
+
+    shop = models.ForeignKey(
+        Shop,
+        on_delete=models.CASCADE
+    )
+
+    month = models.IntegerField()
+
+    year = models.IntegerField()
+
+    total_business = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        default=0
+    )
+
+    nishchay_profit = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        default=0
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - {self.shop.name}"
+
+
+# =========================
+# STORE BOOST INCOME
+# =========================
+
+class StoreBoostIncome(models.Model):
+
+    plan = models.ForeignKey(
+        StoreBoostPlan,
+        on_delete=models.CASCADE
+    )
+
+    business = models.ForeignKey(
+        StoreBoostBusiness,
+        on_delete=models.CASCADE
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='store_boost_user'
+    )
+
+    from_user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='store_boost_from_user'
+    )
+
+    level = models.IntegerField()
+
+    total_business = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    nishchay_profit = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    commission_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2
+    )
+
+    commission_amount = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    month = models.IntegerField()
+
+    year = models.IntegerField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - Level {self.level}"
 
 
 # =========================

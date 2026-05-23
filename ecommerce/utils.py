@@ -15,6 +15,9 @@ from .models import (
     ShopChainIncome,
     ConsumerReferralPlan,
     ConsumerReferralIncome,
+    StoreBoostPlan,
+    StoreBoostBusiness,
+    StoreBoostIncome,
 
 )
 
@@ -478,6 +481,211 @@ def distribute_consumer_referral_bonus(
             purchase_amount=purchase_amount,
 
             commission_amount=commission,
+
+        )
+
+        # =========================
+        # NEXT LEVEL
+        # =========================
+
+        current_user = current_user.referred_by
+
+        level += 1
+        
+        
+        # =====================================================
+# STORE BOOST MONTHLY ENGINE
+# =====================================================
+
+def distribute_store_boost_income(
+
+    user,
+    shop,
+    monthly_business,
+    month,
+    year
+
+):
+
+    """
+    Store Boost MLM Revenue Sharing Engine
+    """
+
+    # =========================
+    # GET ACTIVE PLAN
+    # =========================
+
+    plan = StoreBoostPlan.objects.filter(
+        is_active=True
+    ).first()
+
+    if not plan:
+
+        return
+
+    # =========================
+    # NISHCHAY PROFIT
+    # =========================
+
+    nishchay_profit = (
+
+        Decimal(monthly_business) *
+
+        Decimal(
+            plan.nishchay_commission_percentage
+        )
+
+    ) / Decimal(100)
+
+    # =========================
+    # CREATE BUSINESS ENTRY
+    # =========================
+
+    business = StoreBoostBusiness.objects.create(
+
+        user=user,
+
+        shop=shop,
+
+        month=month,
+
+        year=year,
+
+        total_business=monthly_business,
+
+        nishchay_profit=nishchay_profit,
+
+    )
+
+    # =========================
+    # START REFERRAL CHAIN
+    # =========================
+
+    current_user = user
+
+    level = 1
+
+    while (
+
+        current_user
+
+        and
+
+        level <= plan.total_levels
+
+    ):
+
+        # =========================
+        # DIRECT %
+        # =========================
+
+        if level == 1:
+
+            percentage = Decimal(
+                plan.direct_income_percentage
+            )
+
+        # =========================
+        # INDIRECT %
+        # =========================
+
+        else:
+
+            percentage = Decimal(
+                plan.indirect_income_percentage
+            )
+
+        # =========================
+        # COMMISSION
+        # =========================
+
+        commission = (
+
+            nishchay_profit *
+
+            percentage
+
+        ) / Decimal(100)
+
+        # =========================
+        # CREDIT WALLET
+        # =========================
+
+        current_user.wallet_balance += commission
+
+        current_user.save()
+
+        # =========================
+        # WALLET HISTORY
+        # =========================
+
+        create_wallet_transaction(
+
+            user=current_user,
+
+            transaction_type='credit',
+
+            source='referral',
+
+            amount=commission,
+
+            remark=f'Store Boost Level {level} Income'
+
+        )
+
+        # =========================
+        # PREVENT DUPLICATE
+        # =========================
+
+        already_exists = (
+
+            StoreBoostIncome.objects.filter(
+
+                business=business,
+
+                user=current_user,
+
+                level=level,
+
+            ).exists()
+
+        )
+
+        if already_exists:
+
+            current_user = current_user.referred_by
+
+            level += 1
+
+            continue
+
+        # =========================
+        # CREATE INCOME ENTRY
+        # =========================
+
+        StoreBoostIncome.objects.create(
+
+            plan=plan,
+
+            business=business,
+
+            user=current_user,
+
+            from_user=user,
+
+            level=level,
+
+            total_business=monthly_business,
+
+            nishchay_profit=nishchay_profit,
+
+            commission_percentage=percentage,
+
+            commission_amount=commission,
+
+            month=month,
+
+            year=year,
 
         )
 
