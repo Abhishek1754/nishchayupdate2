@@ -1,8 +1,50 @@
+from decimal import Decimal
+import random
+import string
+
 from django.shortcuts import render
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 
-from django.shortcuts import render
+from wallet.utils import create_wallet_transaction
 
+from .models import (
+
+    Restaurant,
+    FoodItem,
+
+    FoodCart,
+
+    DeliveryAddress,
+
+    GroupOrder,
+    GroupOrderMember,
+
+    FoodOrder,
+    FoodOrderItem,
+
+)
+
+from .serializers import (
+
+    RestaurantSerializer,
+    FoodItemSerializer,
+
+    FoodCartSerializer,
+
+    GroupOrderSerializer,
+
+    FoodOrderSerializer,
+
+)
+
+
+# =====================================================
+# TEMPLATE VIEWS
+# =====================================================
 
 def fuddo_intro(request):
     return render(request, 'food_delivery/fuddo_intro.html')
@@ -86,3 +128,585 @@ def delivered(request):
 
 def rewards(request):
     return render(request, 'food_delivery/rewards.html')
+
+
+# =====================================================
+# RESTAURANT LIST API
+# =====================================================
+
+@api_view(['GET'])
+def restaurant_list_api(request):
+
+    restaurants = Restaurant.objects.filter(
+        is_active=True
+    )
+
+    serializer = RestaurantSerializer(
+
+        restaurants,
+        many=True
+
+    )
+
+    return Response(serializer.data)
+
+
+# =====================================================
+# RESTAURANT DETAIL API
+# =====================================================
+
+@api_view(['GET'])
+def restaurant_detail_api(
+
+    request,
+    restaurant_id
+
+):
+
+    try:
+
+        restaurant = Restaurant.objects.get(
+
+            id=restaurant_id,
+            is_active=True
+
+        )
+
+    except Restaurant.DoesNotExist:
+
+        return Response(
+
+            {
+
+                'error': 'Restaurant not found'
+
+            },
+
+            status=status.HTTP_404_NOT_FOUND
+
+        )
+
+    serializer = RestaurantSerializer(
+        restaurant
+    )
+
+    return Response(serializer.data)
+
+
+# =====================================================
+# FOOD ITEM LIST API
+# =====================================================
+
+@api_view(['GET'])
+def food_item_list_api(
+
+    request,
+    restaurant_id
+
+):
+
+    food_items = FoodItem.objects.filter(
+
+        restaurant_id=restaurant_id,
+        is_available=True
+
+    )
+
+    serializer = FoodItemSerializer(
+
+        food_items,
+        many=True
+
+    )
+
+    return Response(serializer.data)
+
+
+# =====================================================
+# ADD TO CART API
+# =====================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_to_cart_api(request):
+
+    food_item_id = request.data.get(
+        'food_item_id'
+    )
+
+    quantity = int(
+
+        request.data.get(
+            'quantity',
+            1
+        )
+
+    )
+
+    try:
+
+        food_item = FoodItem.objects.get(
+            id=food_item_id
+        )
+
+    except FoodItem.DoesNotExist:
+
+        return Response(
+
+            {
+
+                'error': 'Food item not found'
+
+            },
+
+            status=status.HTTP_404_NOT_FOUND
+
+        )
+
+    cart_item, created = FoodCart.objects.get_or_create(
+
+        user=request.user,
+
+        food_item=food_item,
+
+        defaults={
+
+            'quantity': quantity
+
+        }
+
+    )
+
+    if not created:
+
+        cart_item.quantity += quantity
+
+        cart_item.save()
+
+    serializer = FoodCartSerializer(
+        cart_item
+    )
+
+    return Response(
+
+        serializer.data,
+        status=status.HTTP_201_CREATED
+
+    )
+
+
+# =====================================================
+# VIEW CART API
+# =====================================================
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def view_cart_api(request):
+
+    cart_items = FoodCart.objects.filter(
+        user=request.user
+    )
+
+    serializer = FoodCartSerializer(
+
+        cart_items,
+        many=True
+
+    )
+
+    return Response(serializer.data)
+
+
+# =====================================================
+# REMOVE CART ITEM API
+# =====================================================
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_cart_item_api(
+
+    request,
+    cart_id
+
+):
+
+    try:
+
+        cart_item = FoodCart.objects.get(
+
+            id=cart_id,
+            user=request.user
+
+        )
+
+    except FoodCart.DoesNotExist:
+
+        return Response(
+
+            {
+
+                'error': 'Cart item not found'
+
+            },
+
+            status=status.HTTP_404_NOT_FOUND
+
+        )
+
+    cart_item.delete()
+
+    return Response(
+
+        {
+
+            'message': 'Cart item removed'
+
+        }
+
+    )
+
+
+# =====================================================
+# CREATE GROUP ORDER API
+# =====================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_group_order_api(request):
+
+    restaurant_id = request.data.get(
+        'restaurant_id'
+    )
+
+    title = request.data.get(
+        'title'
+    )
+
+    cashback_percentage = Decimal(
+
+        request.data.get(
+            'cashback_percentage',
+            0
+        )
+
+    )
+
+    group_code = ''.join(
+
+        random.choices(
+
+            string.ascii_uppercase +
+
+            string.digits,
+
+            k=8
+
+        )
+
+    )
+
+    group_order = GroupOrder.objects.create(
+
+        restaurant_id=restaurant_id,
+
+        created_by=request.user,
+
+        title=title,
+
+        group_code=group_code,
+
+        cashback_percentage=cashback_percentage,
+
+        expires_at=request.data.get(
+            'expires_at'
+        )
+
+    )
+
+    GroupOrderMember.objects.create(
+
+        group_order=group_order,
+
+        user=request.user
+
+    )
+
+    serializer = GroupOrderSerializer(
+        group_order
+    )
+
+    return Response(
+
+        serializer.data,
+        status=status.HTTP_201_CREATED
+
+    )
+
+
+# =====================================================
+# JOIN GROUP ORDER API
+# =====================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def join_group_order_api(request):
+
+    group_code = request.data.get(
+        'group_code'
+    )
+
+    try:
+
+        group_order = GroupOrder.objects.get(
+
+            group_code=group_code,
+            status='active'
+
+        )
+
+    except GroupOrder.DoesNotExist:
+
+        return Response(
+
+            {
+
+                'error': 'Invalid group code'
+
+            },
+
+            status=status.HTTP_404_NOT_FOUND
+
+        )
+
+    already_joined = GroupOrderMember.objects.filter(
+
+        group_order=group_order,
+
+        user=request.user
+
+    ).exists()
+
+    if already_joined:
+
+        return Response(
+
+            {
+
+                'message': 'Already joined'
+
+            }
+
+        )
+
+    GroupOrderMember.objects.create(
+
+        group_order=group_order,
+
+        user=request.user
+
+    )
+
+    group_order.total_members += 1
+
+    group_order.save()
+
+    serializer = GroupOrderSerializer(
+        group_order
+    )
+
+    return Response(serializer.data)
+
+
+# =====================================================
+# CREATE FOOD ORDER API
+# =====================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_food_order_api(request):
+
+    address_id = request.data.get(
+        'address_id'
+    )
+
+    payment_method = request.data.get(
+        'payment_method'
+    )
+
+    group_order_id = request.data.get(
+        'group_order_id'
+    )
+
+    cart_items = FoodCart.objects.filter(
+        user=request.user
+    )
+
+    if not cart_items.exists():
+
+        return Response(
+
+            {
+
+                'error': 'Cart is empty'
+
+            },
+
+            status=status.HTTP_400_BAD_REQUEST
+
+        )
+
+    restaurant = cart_items.first().food_item.restaurant
+
+    subtotal = Decimal(0)
+
+    for item in cart_items:
+
+        subtotal += (
+
+            item.food_item.price *
+
+            item.quantity
+
+        )
+
+    delivery_charge = restaurant.delivery_charge
+
+    cashback_amount = Decimal(0)
+
+    total_amount = (
+
+        subtotal +
+
+        delivery_charge
+
+    )
+
+    order_number = ''.join(
+
+        random.choices(
+
+            string.digits,
+            k=10
+
+        )
+
+    )
+
+    order = FoodOrder.objects.create(
+
+        user=request.user,
+
+        restaurant=restaurant,
+
+        delivery_address_id=address_id,
+
+        group_order_id=group_order_id,
+
+        order_number=order_number,
+
+        subtotal=subtotal,
+
+        delivery_charge=delivery_charge,
+
+        cashback_amount=cashback_amount,
+
+        total_amount=total_amount,
+
+        payment_method=payment_method,
+
+    )
+
+    for item in cart_items:
+
+        FoodOrderItem.objects.create(
+
+            order=order,
+
+            food_item=item.food_item,
+
+            quantity=item.quantity,
+
+            price=item.food_item.price,
+
+            total_price=(
+
+                item.food_item.price *
+
+                item.quantity
+
+            )
+
+        )
+
+    # =========================
+    # WALLET PAYMENT
+    # =========================
+
+    if payment_method == 'wallet':
+
+        if request.user.wallet_balance < total_amount:
+
+            return Response(
+
+                {
+
+                    'error': 'Insufficient wallet balance'
+
+                },
+
+                status=status.HTTP_400_BAD_REQUEST
+
+            )
+
+        request.user.wallet_balance -= total_amount
+
+        request.user.save()
+
+        create_wallet_transaction(
+
+            user=request.user,
+
+            transaction_type='debit',
+
+            source='ecommerce',
+
+            amount=total_amount,
+
+            remark='Fuddo Food Order Payment'
+
+        )
+
+    cart_items.delete()
+
+    serializer = FoodOrderSerializer(
+        order
+    )
+
+    return Response(
+
+        serializer.data,
+        status=status.HTTP_201_CREATED
+
+    )
+
+
+# =====================================================
+# USER FOOD ORDER LIST API
+# =====================================================
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_food_orders_api(request):
+
+    orders = FoodOrder.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
+
+    serializer = FoodOrderSerializer(
+
+        orders,
+        many=True
+
+    )
+
+    return Response(serializer.data)

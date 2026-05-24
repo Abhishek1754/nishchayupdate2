@@ -25,29 +25,7 @@ from accounts.views import (
 
 
 
-from food_delivery.views import (
-    fuddo_intro,
-    location_access,
-    select_role,
-    user_login,
-    user_signup,
-    delivery_login,
-    delivery_signup,
-    store_login,
-    store_signup,
-    home,
-    services,
-    restaurants,
-    menu,
-    cart,
-    address,
-    payment,
-    order_success,
-    tracking,
-    live_tracking,
-    delivered,
-    rewards,
-)
+
 from subscription.views import get_plan
 from recharge.views import recharge_home, mobile_recharge, recharge_payment, recharge_success,transaction_history,refer_earn,profile_page,withdraw_page,offers_page,notifications_page,support_page
 
@@ -83,52 +61,8 @@ urlpatterns = [
    path('recharge/', include('recharge.urls')),
     path('roi/', include('roi.urls')),
     path('ecommerce/', include('ecommerce.urls')),
-        
-        path('food/', fuddo_intro, name='fuddo_intro'),
-        path(
-    'food/location/',
-    location_access,
-    name='location_access'
-),
-   path('food/', fuddo_intro),
-
-path('food/location/', location_access),
-
-path('food/select-role/', select_role),
-
-path('food/user-login/', user_login),
-
-path('food/user-signup/', user_signup),
-
-path('food/delivery-login/', delivery_login),
-
-path('food/delivery-signup/', delivery_signup),
-
-path('food/store-login/', store_login),
-
-path('food/store-signup/', store_signup),
-
-path('food/home/', home),
-
-path('food/services/', services),
-
-path('food/restaurants/', restaurants),
-
-path('food/menu/', menu),
-
-path('food/cart/', cart),
-
-path('food/address/', address),
-
-path('food/payment/', payment),
-
-path('food/order-confirmation/', order_success),
-
-path('food/order-tracking/', tracking),
-
-path('food/live-tracking/', live_tracking),
-
-path('food/delivered/', delivered),
-
-path('food/rewards/', rewards),
+    path('food/', include('food_delivery.urls')),
+    
 ]
+        
+      
