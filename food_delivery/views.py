@@ -3,6 +3,7 @@ import random
 import string
 
 from django.shortcuts import render
+from django.utils import timezone
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -26,6 +27,10 @@ from .models import (
     FoodOrder,
     FoodOrderItem,
 
+    DeliveryPartner,
+
+    OrderTrackingLog,
+
 )
 
 from .serializers import (
@@ -38,6 +43,28 @@ from .serializers import (
     GroupOrderSerializer,
 
     FoodOrderSerializer,
+
+    DeliveryPartnerSerializer,
+
+    LiveTrackingSerializer,
+
+)
+
+# =====================================================
+# REALTIME UTILITIES
+# =====================================================
+
+from .utils import (
+
+    send_group_order_update,
+
+    order_created_event,
+    order_accepted_event,
+    order_picked_event,
+    order_nearby_event,
+    order_delivered_event,
+
+    complete_delivery,
 
 )
 
@@ -142,10 +169,8 @@ def restaurant_list_api(request):
     )
 
     serializer = RestaurantSerializer(
-
         restaurants,
         many=True
-
     )
 
     return Response(serializer.data)
@@ -156,39 +181,25 @@ def restaurant_list_api(request):
 # =====================================================
 
 @api_view(['GET'])
-def restaurant_detail_api(
-
-    request,
-    restaurant_id
-
-):
+def restaurant_detail_api(request, restaurant_id):
 
     try:
 
         restaurant = Restaurant.objects.get(
-
             id=restaurant_id,
             is_active=True
-
         )
 
     except Restaurant.DoesNotExist:
 
         return Response(
-
             {
-
                 'error': 'Restaurant not found'
-
             },
-
             status=status.HTTP_404_NOT_FOUND
-
         )
 
-    serializer = RestaurantSerializer(
-        restaurant
-    )
+    serializer = RestaurantSerializer(restaurant)
 
     return Response(serializer.data)
 
@@ -198,25 +209,16 @@ def restaurant_detail_api(
 # =====================================================
 
 @api_view(['GET'])
-def food_item_list_api(
-
-    request,
-    restaurant_id
-
-):
+def food_item_list_api(request, restaurant_id):
 
     food_items = FoodItem.objects.filter(
-
         restaurant_id=restaurant_id,
         is_available=True
-
     )
 
     serializer = FoodItemSerializer(
-
         food_items,
         many=True
-
     )
 
     return Response(serializer.data)
@@ -230,17 +232,10 @@ def food_item_list_api(
 @permission_classes([IsAuthenticated])
 def add_to_cart_api(request):
 
-    food_item_id = request.data.get(
-        'food_item_id'
-    )
+    food_item_id = request.data.get('food_item_id')
 
     quantity = int(
-
-        request.data.get(
-            'quantity',
-            1
-        )
-
+        request.data.get('quantity', 1)
     )
 
     try:
@@ -252,15 +247,10 @@ def add_to_cart_api(request):
     except FoodItem.DoesNotExist:
 
         return Response(
-
             {
-
                 'error': 'Food item not found'
-
             },
-
             status=status.HTTP_404_NOT_FOUND
-
         )
 
     cart_item, created = FoodCart.objects.get_or_create(
@@ -270,9 +260,7 @@ def add_to_cart_api(request):
         food_item=food_item,
 
         defaults={
-
             'quantity': quantity
-
         }
 
     )
@@ -283,15 +271,11 @@ def add_to_cart_api(request):
 
         cart_item.save()
 
-    serializer = FoodCartSerializer(
-        cart_item
-    )
+    serializer = FoodCartSerializer(cart_item)
 
     return Response(
-
         serializer.data,
         status=status.HTTP_201_CREATED
-
     )
 
 
@@ -308,10 +292,8 @@ def view_cart_api(request):
     )
 
     serializer = FoodCartSerializer(
-
         cart_items,
         many=True
-
     )
 
     return Response(serializer.data)
@@ -323,47 +305,29 @@ def view_cart_api(request):
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def remove_cart_item_api(
-
-    request,
-    cart_id
-
-):
+def remove_cart_item_api(request, cart_id):
 
     try:
 
         cart_item = FoodCart.objects.get(
-
             id=cart_id,
             user=request.user
-
         )
 
     except FoodCart.DoesNotExist:
 
         return Response(
-
             {
-
                 'error': 'Cart item not found'
-
             },
-
             status=status.HTTP_404_NOT_FOUND
-
         )
 
     cart_item.delete()
 
-    return Response(
-
-        {
-
-            'message': 'Cart item removed'
-
-        }
-
-    )
+    return Response({
+        'message': 'Cart item removed'
+    })
 
 
 # =====================================================
@@ -374,36 +338,22 @@ def remove_cart_item_api(
 @permission_classes([IsAuthenticated])
 def create_group_order_api(request):
 
-    restaurant_id = request.data.get(
-        'restaurant_id'
-    )
+    restaurant_id = request.data.get('restaurant_id')
 
-    title = request.data.get(
-        'title'
-    )
+    title = request.data.get('title')
 
     cashback_percentage = Decimal(
-
-        request.data.get(
-            'cashback_percentage',
-            0
-        )
-
+        request.data.get('cashback_percentage', 0)
     )
 
     group_code = ''.join(
-
         random.choices(
-
-            string.ascii_uppercase +
-
-            string.digits,
-
+            string.ascii_uppercase + string.digits,
             k=8
-
         )
-
     )
+
+    expires_at = timezone.now() + timezone.timedelta(hours=2)
 
     group_order = GroupOrder.objects.create(
 
@@ -417,29 +367,20 @@ def create_group_order_api(request):
 
         cashback_percentage=cashback_percentage,
 
-        expires_at=request.data.get(
-            'expires_at'
-        )
+        expires_at=expires_at,
 
     )
 
     GroupOrderMember.objects.create(
-
         group_order=group_order,
-
         user=request.user
-
     )
 
-    serializer = GroupOrderSerializer(
-        group_order
-    )
+    serializer = GroupOrderSerializer(group_order)
 
     return Response(
-
         serializer.data,
         status=status.HTTP_201_CREATED
-
     )
 
 
@@ -451,68 +392,119 @@ def create_group_order_api(request):
 @permission_classes([IsAuthenticated])
 def join_group_order_api(request):
 
-    group_code = request.data.get(
-        'group_code'
-    )
+    group_code = request.data.get('group_code')
 
     try:
 
         group_order = GroupOrder.objects.get(
-
             group_code=group_code,
             status='active'
-
         )
 
     except GroupOrder.DoesNotExist:
 
         return Response(
-
             {
-
                 'error': 'Invalid group code'
-
             },
-
             status=status.HTTP_404_NOT_FOUND
-
         )
 
     already_joined = GroupOrderMember.objects.filter(
-
         group_order=group_order,
-
         user=request.user
-
     ).exists()
 
     if already_joined:
 
-        return Response(
-
-            {
-
-                'message': 'Already joined'
-
-            }
-
-        )
+        return Response({
+            'message': 'Already joined'
+        })
 
     GroupOrderMember.objects.create(
-
         group_order=group_order,
-
         user=request.user
-
     )
 
     group_order.total_members += 1
 
     group_order.save()
 
-    serializer = GroupOrderSerializer(
-        group_order
+    # =================================================
+    # REALTIME EVENT
+    # =================================================
+
+    send_group_order_update(
+        group_code=group_order.group_code,
+        action='joined',
+        user=request.user.email
     )
+
+    serializer = GroupOrderSerializer(group_order)
+
+    return Response(serializer.data)
+
+
+# =====================================================
+# GROUP MEMBER CONTRIBUTION API
+# =====================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def group_member_contribution_api(request):
+
+    group_order_id = request.data.get(
+        'group_order_id'
+    )
+
+    contribution = Decimal(
+        request.data.get('contribution', 0)
+    )
+
+    try:
+
+        member = GroupOrderMember.objects.get(
+            group_order_id=group_order_id,
+            user=request.user
+        )
+
+    except GroupOrderMember.DoesNotExist:
+
+        return Response(
+            {
+                'error': 'Group member not found'
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    member.total_amount += contribution
+
+    member.save()
+
+    group_order = member.group_order
+
+    total_amount = Decimal(0)
+
+    for item in group_order.members.all():
+
+        total_amount += item.total_amount
+
+    group_order.total_amount = total_amount
+
+    group_order.save()
+
+    # =================================================
+    # REALTIME GROUP UPDATE
+    # =================================================
+
+    send_group_order_update(
+        group_code=group_order.group_code,
+        action='contribution',
+        user=request.user.email,
+        total_amount=group_order.total_amount
+    )
+
+    serializer = GroupOrderSerializer(group_order)
 
     return Response(serializer.data)
 
@@ -525,17 +517,11 @@ def join_group_order_api(request):
 @permission_classes([IsAuthenticated])
 def create_food_order_api(request):
 
-    address_id = request.data.get(
-        'address_id'
-    )
+    address_id = request.data.get('address_id')
 
-    payment_method = request.data.get(
-        'payment_method'
-    )
+    payment_method = request.data.get('payment_method')
 
-    group_order_id = request.data.get(
-        'group_order_id'
-    )
+    group_order_id = request.data.get('group_order_id')
 
     cart_items = FoodCart.objects.filter(
         user=request.user
@@ -544,15 +530,10 @@ def create_food_order_api(request):
     if not cart_items.exists():
 
         return Response(
-
             {
-
                 'error': 'Cart is empty'
-
             },
-
             status=status.HTTP_400_BAD_REQUEST
-
         )
 
     restaurant = cart_items.first().food_item.restaurant
@@ -562,34 +543,25 @@ def create_food_order_api(request):
     for item in cart_items:
 
         subtotal += (
-
-            item.food_item.price *
-
-            item.quantity
-
+            item.food_item.price * item.quantity
         )
 
     delivery_charge = restaurant.delivery_charge
 
     cashback_amount = Decimal(0)
 
-    total_amount = (
-
-        subtotal +
-
-        delivery_charge
-
-    )
+    total_amount = subtotal + delivery_charge
 
     order_number = ''.join(
-
         random.choices(
-
             string.digits,
             k=10
-
         )
+    )
 
+    estimated_delivery_time = (
+        timezone.now() +
+        timezone.timedelta(minutes=45)
     )
 
     order = FoodOrder.objects.create(
@@ -614,6 +586,8 @@ def create_food_order_api(request):
 
         payment_method=payment_method,
 
+        estimated_delivery_time=estimated_delivery_time,
+
     )
 
     for item in cart_items:
@@ -629,33 +603,20 @@ def create_food_order_api(request):
             price=item.food_item.price,
 
             total_price=(
-
-                item.food_item.price *
-
-                item.quantity
-
+                item.food_item.price * item.quantity
             )
 
         )
-
-    # =========================
-    # WALLET PAYMENT
-    # =========================
 
     if payment_method == 'wallet':
 
         if request.user.wallet_balance < total_amount:
 
             return Response(
-
                 {
-
                     'error': 'Insufficient wallet balance'
-
                 },
-
                 status=status.HTTP_400_BAD_REQUEST
-
             )
 
         request.user.wallet_balance -= total_amount
@@ -663,31 +624,230 @@ def create_food_order_api(request):
         request.user.save()
 
         create_wallet_transaction(
-
             user=request.user,
-
             transaction_type='debit',
-
-            source='ecommerce',
-
+            source='food_delivery',
             amount=total_amount,
-
-            remark='Fuddo Food Order Payment'
-
+            remark='FUDDO Food Order Payment'
         )
+
+    OrderTrackingLog.objects.create(
+        order=order,
+        status='pending',
+        note='Order placed successfully'
+    )
+
+    # =================================================
+    # REALTIME EVENT
+    # =================================================
+
+    order_created_event(order)
 
     cart_items.delete()
 
-    serializer = FoodOrderSerializer(
-        order
-    )
+    serializer = FoodOrderSerializer(order)
 
     return Response(
-
         serializer.data,
         status=status.HTTP_201_CREATED
-
     )
+
+
+# =====================================================
+# ASSIGN DELIVERY PARTNER API
+# =====================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def assign_delivery_partner_api(request):
+
+    order_id = request.data.get('order_id')
+
+    try:
+
+        order = FoodOrder.objects.get(id=order_id)
+
+    except FoodOrder.DoesNotExist:
+
+        return Response(
+            {
+                'error': 'Order not found'
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    partner = DeliveryPartner.objects.filter(
+        status='online',
+        is_available=True,
+        is_verified=True
+    ).first()
+
+    if not partner:
+
+        return Response(
+            {
+                'error': 'No delivery partner available'
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    order.delivery_partner = partner
+
+    order.status = 'accepted'
+
+    order.accepted_at = timezone.now()
+
+    order.save()
+
+    partner.is_available = False
+
+    partner.current_order = order
+
+    partner.save()
+
+    OrderTrackingLog.objects.create(
+        order=order,
+        status='accepted',
+        note='Delivery partner assigned'
+    )
+
+    # =================================================
+    # REALTIME EVENT
+    # =================================================
+
+    order_accepted_event(order)
+
+    serializer = FoodOrderSerializer(order)
+
+    return Response(serializer.data)
+
+
+# =====================================================
+# UPDATE LIVE LOCATION API
+# =====================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_live_location_api(request):
+
+    order_id = request.data.get('order_id')
+
+    latitude = request.data.get('latitude')
+
+    longitude = request.data.get('longitude')
+
+    try:
+
+        order = FoodOrder.objects.get(id=order_id)
+
+    except FoodOrder.DoesNotExist:
+
+        return Response(
+            {
+                'error': 'Order not found'
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    order.live_latitude = latitude
+
+    order.live_longitude = longitude
+
+    order.save()
+
+    # =================================================
+    # REALTIME EVENT
+    # =================================================
+
+    order_picked_event(
+        order=order,
+        latitude=latitude,
+        longitude=longitude
+    )
+
+    return Response({
+        'message': 'Live location updated'
+    })
+
+
+# =====================================================
+# UPDATE ORDER STATUS API
+# =====================================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_order_status_api(request):
+
+    order_id = request.data.get('order_id')
+
+    status_value = request.data.get('status')
+
+    try:
+
+        order = FoodOrder.objects.get(id=order_id)
+
+    except FoodOrder.DoesNotExist:
+
+        return Response(
+            {
+                'error': 'Order not found'
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    order.status = status_value
+
+    if status_value == 'picked':
+
+        order.picked_at = timezone.now()
+
+        order_picked_event(order)
+
+    elif status_value == 'nearby':
+
+        order_nearby_event(order)
+
+    elif status_value == 'delivered':
+
+        complete_delivery(order)
+
+    order.save()
+
+    OrderTrackingLog.objects.create(
+        order=order,
+        status=status_value,
+        note=f'Order status updated to {status_value}'
+    )
+
+    return Response({
+        'message': 'Order status updated'
+    })
+
+
+# =====================================================
+# LIVE TRACKING API
+# =====================================================
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def live_tracking_api(request, order_id):
+
+    try:
+
+        order = FoodOrder.objects.get(id=order_id)
+
+    except FoodOrder.DoesNotExist:
+
+        return Response(
+            {
+                'error': 'Order not found'
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    serializer = LiveTrackingSerializer(order)
+
+    return Response(serializer.data)
 
 
 # =====================================================
@@ -703,10 +863,8 @@ def user_food_orders_api(request):
     ).order_by('-created_at')
 
     serializer = FoodOrderSerializer(
-
         orders,
         many=True
-
     )
 
     return Response(serializer.data)

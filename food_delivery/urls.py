@@ -2,6 +2,8 @@ from django.urls import path
 
 from .views import (
 
+    # TEMPLATE VIEWS
+
     fuddo_intro,
     location_access,
     select_role,
@@ -28,20 +30,43 @@ from .views import (
     delivered,
     rewards,
 
+    # RESTAURANT APIs
+
     restaurant_list_api,
     restaurant_detail_api,
 
+    # FOOD APIs
+
     food_item_list_api,
+
+    # CART APIs
 
     add_to_cart_api,
     view_cart_api,
     remove_cart_item_api,
 
+    # GROUP ORDER APIs
+
     create_group_order_api,
     join_group_order_api,
+    group_member_contribution_api,
+
+    # FOOD ORDER APIs
 
     create_food_order_api,
     user_food_orders_api,
+
+    # DELIVERY APIs
+
+    assign_delivery_partner_api,
+
+    update_live_location_api,
+
+    update_order_status_api,
+
+    # LIVE TRACKING API
+
+    live_tracking_api,
 
 )
 
@@ -242,6 +267,12 @@ urlpatterns = [
         name='join_group_order_api'
     ),
 
+    path(
+        'api/group-order/contribution/',
+        group_member_contribution_api,
+        name='group_member_contribution_api'
+    ),
+
     # =====================================================
     # FOOD ORDER APIs
     # =====================================================
@@ -256,6 +287,38 @@ urlpatterns = [
         'api/orders/',
         user_food_orders_api,
         name='user_food_orders_api'
+    ),
+
+    # =====================================================
+    # DELIVERY APIs
+    # =====================================================
+
+    path(
+        'api/order/assign-delivery/',
+        assign_delivery_partner_api,
+        name='assign_delivery_partner_api'
+    ),
+
+    path(
+        'api/order/update-location/',
+        update_live_location_api,
+        name='update_live_location_api'
+    ),
+
+    path(
+        'api/order/update-status/',
+        update_order_status_api,
+        name='update_order_status_api'
+    ),
+
+    # =====================================================
+    # LIVE TRACKING API
+    # =====================================================
+
+    path(
+        'api/order/live-tracking/<int:order_id>/',
+        live_tracking_api,
+        name='live_tracking_api'
     ),
 
 ]
