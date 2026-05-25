@@ -34,7 +34,15 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
 
+    # =================================================
+    # ADMIN UI
+    # =================================================
+
     'jazzmin',
+
+    # =================================================
+    # DJANGO APPS
+    # =================================================
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,7 +51,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # THIRD PARTY
+    # =================================================
+    # THIRD PARTY APPS
+    # =================================================
 
     'rest_framework',
 
@@ -55,7 +65,9 @@ INSTALLED_APPS = [
 
     'channels',
 
+    # =================================================
     # PROJECT APPS
+    # =================================================
 
     'accounts.apps.AccountsConfig',
 
@@ -283,6 +295,12 @@ REST_FRAMEWORK = {
 
     ),
 
+    'DEFAULT_PERMISSION_CLASSES': (
+
+        'rest_framework.permissions.IsAuthenticated',
+
+    ),
+
     'DEFAULT_FILTER_BACKENDS': (
 
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -293,20 +311,16 @@ REST_FRAMEWORK = {
 
 
 # =====================================================
-# CHANNELS + REDIS
+# CHANNEL LAYERS
+# =====================================================
+# LOCALHOST DEVELOPMENT
 # =====================================================
 
 CHANNEL_LAYERS = {
 
     "default": {
 
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-
-        "CONFIG": {
-
-            "hosts": [("127.0.0.1", 6379)],
-
-        },
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
 
     },
 
