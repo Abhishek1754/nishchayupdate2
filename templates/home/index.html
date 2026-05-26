@@ -1124,13 +1124,53 @@ footer{
 
     <div class="nav-btns">
 
+    <!-- GUEST BUTTONS -->
+
+    <div id="guestButtons">
+
         <a href="/login/" class="btn">
+
             User Login
+
         </a>
 
         <a href="/register/" class="btn">
+
             Register
+
         </a>
+
+    </div>
+
+    <!-- USER SECTION -->
+
+    <div
+        id="userSection"
+        style="display:none; align-items:center; gap:15px;"
+    >
+
+        <span
+            id="welcomeUser"
+            style="
+                color:#b6ff00;
+                font-weight:bold;
+                font-size:16px;
+            "
+        >
+        </span>
+
+        <button
+            onclick="logoutUser()"
+            class="btn"
+        >
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
 
         <a href="#" class="btn active">
             Shop Login
@@ -1509,11 +1549,52 @@ footer{
     <div class="copyright">
 
         © 2026 Nishchay Multiverse Innovation.
-        All Rights Reserved.
+      All Rights Reserved.
 
     </div>
 
 </footer>
+
+<script>
+
+const userEmail =
+    localStorage.getItem('email');
+
+if(userEmail){
+
+    document.getElementById(
+        'guestButtons'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'userSection'
+    ).style.display = 'flex';
+
+    document.getElementById(
+        'welcomeUser'
+    ).innerHTML =
+        "Welcome " + userEmail;
+
+}
+
+function logoutUser(){
+
+    localStorage.removeItem('access');
+
+    localStorage.removeItem('refresh');
+
+    localStorage.removeItem('email');
+
+    localStorage.removeItem('wallet_balance');
+
+    localStorage.removeItem('referral_code');
+
+    alert('Logout Successful');
+
+    window.location.href='/';
+}
+
+</script>
 
 </body>
 </html>
