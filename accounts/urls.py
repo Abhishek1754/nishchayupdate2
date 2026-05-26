@@ -13,23 +13,30 @@ from .views import (
 
     ai_karma_dashboard,
 
+    user_login_page,
+    user_register_page,
+
 )
 
 urlpatterns = [
 
-    # =========================
-    # HOME
-    # =========================
+    path('', home, name='home'),
+
+    # FRONTEND PAGES
 
     path(
-        '',
-        home,
-        name='home'
+        'login/',
+        user_login_page,
+        name='user_login_page'
     ),
 
-    # =========================
+    path(
+        'register/',
+        user_register_page,
+        name='user_register_page'
+    ),
+
     # AUTH APIs
-    # =========================
 
     path(
         'api/register/',
@@ -49,9 +56,7 @@ urlpatterns = [
         name='profile'
     ),
 
-    # =========================
     # DASHBOARD
-    # =========================
 
     path(
         'dashboard/',
@@ -65,9 +70,7 @@ urlpatterns = [
         name='dashboard_api'
     ),
 
-    # =========================
     # AI KARMA
-    # =========================
 
     path(
         'ai-karma/',

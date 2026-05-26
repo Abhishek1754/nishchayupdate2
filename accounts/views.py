@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import permission_classes
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -27,10 +30,35 @@ from ai_karma.models import RiskScore, FraudAlert
 # REGISTER API
 # =========================
 
+# =========================
+# REGISTER API
+# =========================
+
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def register(request):
 
     data = request.data
+
+    # =========================
+    # VALIDATIONS
+    # =========================
+
+    if User.objects.filter(email=data['email']).exists():
+
+        return Response({
+
+            "error": "Email already exists"
+
+        }, status=400)
+
+    if User.objects.filter(phone=data['phone']).exists():
+
+        return Response({
+
+            "error": "Phone already exists"
+
+        }, status=400)
 
     # =========================
     # REFERRAL USER
@@ -73,33 +101,12 @@ def register(request):
     )
 
     # =========================
-    # SUBSCRIPTION LOGIC
+    # FREE BONUS
     # =========================
 
-    subscription = data.get(
-        'subscription',
-        'free'
-    )
+    user.wallet_balance += 1
 
-    # FREE USER
-
-    if subscription == 'free':
-
-        user.wallet_balance += 1
-
-        user.nishchay_coin += 2
-
-    # PREMIUM USER
-
-    elif subscription == 'premium':
-
-        user.wallet_balance += 2
-
-        user.nishchay_coin += 5
-
-        user.is_subscribed = True
-
-    # SAVE USER
+    user.nishchay_coin += 2
 
     user.save()
 
@@ -121,7 +128,7 @@ def register(request):
 
     return Response({
 
-        "msg": "Registered Successfully",
+        "msg": "Registration Successful",
 
         "wallet_balance": user.wallet_balance,
 
@@ -129,18 +136,14 @@ def register(request):
 
         "referral_code": user.referral_code,
 
-        "subscription": subscription,
-
-    })
-
-
+    }, status=201)
 # =========================
 # LOGIN API
 # =========================
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def login(request):
-
     user = authenticate(
 
         username=request.data['email'],
@@ -521,9 +524,37 @@ def ai_karma_dashboard(request):
 # HOME PAGE
 # =========================
 
+# =========================
+# HOME PAGE
+# =========================
+
 def home(request):
 
     return render(
         request,
         'home/index.html'
+    )
+
+
+# =========================
+# FRONTEND LOGIN PAGE
+# =========================
+
+def user_login_page(request):
+
+    return render(
+        request,
+        'accounts/login.html'
+    )
+
+
+# =========================
+# FRONTEND REGISTER PAGE
+# =========================
+
+def user_register_page(request):
+
+    return render(
+        request,
+        'accounts/register.html'
     )
