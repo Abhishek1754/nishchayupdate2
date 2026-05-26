@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FUDDO - Rewards</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FUDDO Rewards</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -13,269 +17,483 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
+        }
+
+        :root{
+
+            --neon:#39ff14;
+            --bg:#050505;
+            --card:#0d0d0d;
+            --border:rgba(57,255,20,.15);
+
         }
 
         body{
+
             background:#000;
             color:white;
-            display:flex;
-            justify-content:center;
+            font-family:'Poppins',sans-serif;
             overflow-x:hidden;
+
         }
 
-        .mobile-screen{
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#39ff14;
+            filter:blur(180px);
+            top:-220px;
+            left:-220px;
+            opacity:.08;
+            z-index:-1;
+
+        }
+
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-220px;
+            right:-220px;
+            opacity:.06;
+            z-index:-1;
+
+        }
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar{
+
             width:100%;
-            max-width:390px;
-            min-height:100vh;
-            background:#000;
-            padding:18px;
-            padding-bottom:100px;
-            position:relative;
+            height:90px;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:999;
+            backdrop-filter:blur(18px);
+            background:rgba(0,0,0,.7);
+            border-bottom:1px solid rgba(57,255,20,.08);
+
         }
 
-        .top-bar{
+        .nav-container{
+
+            width:92%;
+            max-width:1450px;
+            height:100%;
+            margin:auto;
             display:flex;
             justify-content:space-between;
             align-items:center;
-            margin-bottom:24px;
+
         }
 
-        .back-btn{
-            width:42px;
-            height:42px;
-            border-radius:50%;
-            border:2px solid #c6ff00;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            color:#c6ff00;
-            text-decoration:none;
-            font-size:20px;
-            box-shadow:0 0 12px rgba(198,255,0,.3);
-        }
+        .logo{
 
-        .page-title{
-            font-size:22px;
-            font-weight:700;
-        }
-
-        .wallet-btn{
-            color:#c6ff00;
-            font-size:13px;
-            text-decoration:none;
-        }
-
-        .reward-banner{
-            background:linear-gradient(135deg,#c6ff00,#7fff00);
-            border-radius:24px;
-            padding:24px;
-            color:#000;
-            margin-bottom:24px;
-            box-shadow:0 0 25px rgba(198,255,0,.25);
-        }
-
-        .reward-banner h1{
-            font-size:32px;
+            font-size:34px;
+            font-family:'Orbitron',sans-serif;
             font-weight:800;
-            margin-bottom:10px;
+            color:var(--neon);
+            text-shadow:0 0 18px rgba(57,255,20,.7);
+
         }
 
-        .reward-banner p{
-            font-size:14px;
-            margin-bottom:18px;
-        }
+        .nav-links{
 
-        .wallet-balance{
-            background:#000;
-            color:#c6ff00;
-            padding:14px 18px;
-            border-radius:16px;
-            display:inline-block;
-            font-size:20px;
-            font-weight:700;
-        }
-
-        .section-title{
-            font-size:22px;
-            margin-bottom:18px;
-        }
-
-        .rewards{
             display:flex;
-            flex-direction:column;
-            gap:18px;
-            margin-bottom:24px;
+            align-items:center;
+            gap:34px;
+
+        }
+
+        .nav-links a{
+
+            color:#bbb;
+            transition:.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:var(--neon);
+
+        }
+
+        .active-btn{
+
+            background:var(--neon);
+            color:black !important;
+            padding:12px 24px;
+            border-radius:14px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main{
+
+            width:92%;
+            max-width:1450px;
+            margin:auto;
+            padding-top:130px;
+            display:grid;
+            grid-template-columns:1.15fr .6fr;
+            gap:35px;
+            margin-bottom:80px;
+
+        }
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .header{
+
+            margin-bottom:35px;
+
+        }
+
+        .header h1{
+
+            font-size:72px;
+            font-family:'Orbitron',sans-serif;
+            margin-bottom:16px;
+
+        }
+
+        .header h1 span{
+
+            color:var(--neon);
+
+        }
+
+        .header p{
+
+            color:#999;
+            line-height:1.9;
+            max-width:700px;
+
+        }
+
+        /* =========================
+           WALLET HERO
+        ========================== */
+
+        .wallet-hero{
+
+            background:linear-gradient(135deg,#39ff14,#00ff95);
+            border-radius:40px;
+            padding:42px;
+            color:black;
+            margin-bottom:35px;
+            position:relative;
+            overflow:hidden;
+
+            box-shadow:
+            0 0 40px rgba(57,255,20,.18);
+
+        }
+
+        .wallet-hero::before{
+
+            content:'';
+            position:absolute;
+            width:260px;
+            height:260px;
+            background:white;
+            opacity:.08;
+            border-radius:50%;
+            right:-100px;
+            top:-100px;
+
+        }
+
+        .wallet-hero h2{
+
+            font-size:24px;
+            margin-bottom:18px;
+
+        }
+
+        .wallet-amount{
+
+            font-size:82px;
+            font-weight:800;
+            margin-bottom:18px;
+            font-family:'Orbitron',sans-serif;
+
+        }
+
+        .wallet-status{
+
+            display:inline-block;
+            background:black;
+            color:var(--neon);
+            padding:14px 22px;
+            border-radius:18px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           REWARDS
+        ========================== */
+
+        .reward-grid{
+
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:24px;
+
         }
 
         .reward-card{
-            background:#0b0b0b;
-            border:1px solid #1f1f1f;
-            border-radius:22px;
-            padding:20px;
-            transition:.3s;
-            box-shadow:0 0 15px rgba(198,255,0,.05);
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:28px;
+            transition:.35s;
+            position:relative;
+            overflow:hidden;
+
         }
 
         .reward-card:hover{
-            border-color:#c6ff00;
-            box-shadow:0 0 20px rgba(198,255,0,.15);
-        }
 
-        .reward-top{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:16px;
+            transform:translateY(-6px);
+            border-color:var(--neon);
+            box-shadow:0 0 35px rgba(57,255,20,.12);
+
         }
 
         .reward-icon{
-            width:58px;
-            height:58px;
-            border-radius:18px;
-            background:#161616;
-            border:2px solid #c6ff00;
+
+            width:72px;
+            height:72px;
+            border-radius:22px;
+            background:#111;
+            border:2px solid rgba(57,255,20,.25);
             display:flex;
             justify-content:center;
             align-items:center;
-            font-size:26px;
-            color:#c6ff00;
+            font-size:34px;
+            color:var(--neon);
+            margin-bottom:24px;
+
         }
 
-        .reward-amount{
-            color:#c6ff00;
-            font-size:28px;
-            font-weight:800;
-        }
+        .reward-card h2{
 
-        .reward-card h3{
-            font-size:20px;
-            margin-bottom:8px;
+            font-size:30px;
+            margin-bottom:12px;
+
         }
 
         .reward-card p{
-            font-size:13px;
-            color:#bbb;
-            line-height:1.6;
-            margin-bottom:14px;
+
+            color:#999;
+            line-height:1.8;
+            margin-bottom:20px;
+
+        }
+
+        .reward-amount{
+
+            color:var(--neon);
+            font-size:42px;
+            font-weight:800;
+            margin-bottom:18px;
+
         }
 
         .claim-btn{
-            background:#c6ff00;
-            color:#000;
+
+            height:54px;
             border:none;
-            padding:12px 18px;
-            border-radius:14px;
-            font-size:13px;
+            border-radius:18px;
+            background:var(--neon);
+            color:black;
+            padding:0 22px;
             font-weight:700;
             cursor:pointer;
-            transition:.3s;
+
         }
 
-        .claim-btn:hover{
-            transform:scale(1.05);
-            box-shadow:0 0 12px rgba(198,255,0,.4);
+        /* =========================
+           RIGHT PANEL
+        ========================== */
+
+        .side-panel{
+
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+
         }
 
-        .referral-card{
-            background:#111;
-            border:1px solid #1f1f1f;
-            border-radius:24px;
-            padding:22px;
-            text-align:center;
-            margin-bottom:24px;
+        .referral-card,
+        .ai-card,
+        .level-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:32px;
+
         }
 
-        .referral-card h2{
-            color:#c6ff00;
-            font-size:26px;
-            margin-bottom:10px;
-        }
+        .referral-card h2,
+        .ai-card h2,
+        .level-card h2{
 
-        .referral-card p{
-            color:#bbb;
-            font-size:14px;
-            line-height:1.7;
+            font-size:32px;
             margin-bottom:18px;
+
+        }
+
+        .referral-card p,
+        .ai-card p,
+        .level-card p{
+
+            color:#999;
+            line-height:1.8;
+
         }
 
         .referral-code{
-            background:#000;
-            border:2px dashed #c6ff00;
-            border-radius:16px;
-            padding:16px;
-            font-size:24px;
+
+            background:#0c0c0c;
+            border:2px dashed var(--neon);
+            border-radius:22px;
+            padding:22px;
+            margin:24px 0;
+            text-align:center;
+            color:var(--neon);
+            font-size:38px;
             font-weight:800;
-            color:#c6ff00;
-            margin-bottom:18px;
-            letter-spacing:2px;
+            letter-spacing:4px;
+            font-family:'Orbitron',sans-serif;
+
         }
 
         .share-btn{
+
             width:100%;
-            height:54px;
+            height:64px;
             border:none;
-            border-radius:16px;
-            background:#c6ff00;
-            color:#000;
+            border-radius:22px;
+            background:var(--neon);
+            color:black;
             font-size:16px;
-            font-weight:700;
+            font-weight:800;
             cursor:pointer;
-            transition:.3s;
+
         }
 
-        .share-btn:hover{
-            transform:scale(1.02);
-            box-shadow:0 0 18px rgba(198,255,0,.4);
-        }
+        /* =========================
+           LEVEL
+        ========================== */
 
-        .bottom-nav{
-            position:fixed;
-            bottom:0;
-            width:100%;
-            max-width:390px;
-            height:75px;
-            background:#0b0b0b;
-            border-top:1px solid #1f1f1f;
+        .level-badge{
+
+            width:140px;
+            height:140px;
+            border-radius:50%;
+            border:5px solid var(--neon);
             display:flex;
-            justify-content:space-around;
+            justify-content:center;
             align-items:center;
-            z-index:999;
+            margin:24px auto;
+            font-size:32px;
+            font-weight:800;
+            color:var(--neon);
+
+            box-shadow:
+            0 0 25px rgba(57,255,20,.22);
+
         }
 
-        .nav-item{
-            text-align:center;
-            color:#777;
-            text-decoration:none;
-            font-size:11px;
+        .progress{
+
+            width:100%;
+            height:16px;
+            border-radius:20px;
+            background:#111;
+            overflow:hidden;
+            margin-top:20px;
+
         }
 
-        .nav-item.active{
-            color:#c6ff00;
+        .progress-bar{
+
+            width:72%;
+            height:100%;
+            background:linear-gradient(90deg,#39ff14,#00ff95);
+
         }
 
-        .nav-icon{
-            font-size:20px;
-            margin-bottom:4px;
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1200px){
+
+            .main{
+
+                grid-template-columns:1fr;
+
+            }
+
         }
 
-        .bottom-glow{
-            position:absolute;
-            width:240px;
-            height:240px;
-            background:#c6ff00;
-            filter:blur(150px);
-            opacity:.08;
-            bottom:-100px;
-            left:50%;
-            transform:translateX(-50%);
-            pointer-events:none;
-        }
+        @media(max-width:768px){
 
-        @media(max-width:480px){
+            .nav-links{
 
-            .mobile-screen{
-                max-width:100%;
+                display:none;
+
+            }
+
+            .header h1{
+
+                font-size:48px;
+
+            }
+
+            .wallet-amount{
+
+                font-size:52px;
+
+            }
+
+            .reward-grid{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .referral-code{
+
+                font-size:24px;
+
             }
 
         }
@@ -286,181 +504,316 @@
 
 <body>
 
-<div class="mobile-screen">
+    <!-- NAVBAR -->
 
-    <div class="top-bar">
+    <nav class="navbar">
 
-        <a href="/food/home/" class="back-btn">
-            ←
-        </a>
+        <div class="nav-container">
 
-        <div class="page-title">
-            Rewards
+            <div class="logo">
+
+                FUDDO
+
+            </div>
+
+            <div class="nav-links">
+
+                <a href="/food/home/">Home</a>
+
+                <a href="/food/restaurants/">Restaurants</a>
+
+                <a href="/food/cart/">Cart</a>
+
+                <a href="#" class="active-btn">
+
+                    Rewards
+
+                </a>
+
+            </div>
+
         </div>
 
-        <a href="/food/wallet/" class="wallet-btn">
-            Wallet
-        </a>
+    </nav>
 
-    </div>
+    <!-- MAIN -->
 
-    <div class="reward-banner">
+    <section class="main">
 
-        <h1>₹1,250</h1>
+        <!-- LEFT -->
 
-        <p>
-            Total cashback & rewards earned
-        </p>
+        <div>
 
-        <div class="wallet-balance">
-            Wallet Active
-        </div>
+            <div class="header">
 
-    </div>
+                <h1>
 
-    <h2 class="section-title">
-        Your Rewards
-    </h2>
+                    REWARD <span>ECOSYSTEM</span>
 
-    <div class="rewards">
+                </h1>
 
-        <div class="reward-card">
+                <p>
 
-            <div class="reward-top">
+                    Unlock cashback rewards, AI bonuses and futuristic loyalty benefits inside the FUDDO cyberpunk commerce network.
 
-                <div class="reward-icon">
-                    🎁
+                </p>
+
+            </div>
+
+            <!-- WALLET -->
+
+            <div class="wallet-hero">
+
+                <h2>
+
+                    TOTAL REWARD BALANCE
+
+                </h2>
+
+                <div class="wallet-amount">
+
+                    ₹1,250
+
                 </div>
 
-                <div class="reward-amount">
-                    +₹50
+                <div class="wallet-status">
+
+                    Wallet Active
+
                 </div>
 
             </div>
 
-            <h3>Order Cashback</h3>
+            <!-- REWARD GRID -->
 
-            <p>
-                Cashback received on your recent food order.
-            </p>
+            <div class="reward-grid">
 
-            <button class="claim-btn">
-                Claimed
-            </button>
+                <!-- CARD -->
 
-        </div>
+                <div class="reward-card">
 
-        <div class="reward-card">
+                    <div class="reward-icon">
+                        🎁
+                    </div>
 
-            <div class="reward-top">
+                    <h2>
 
-                <div class="reward-icon">
-                    👥
+                        Order Cashback
+
+                    </h2>
+
+                    <div class="reward-amount">
+
+                        +₹50
+
+                    </div>
+
+                    <p>
+
+                        Cashback earned from your recent cyberpunk food delivery experience.
+
+                    </p>
+
+                    <button class="claim-btn">
+
+                        CLAIMED
+
+                    </button>
+
                 </div>
 
-                <div class="reward-amount">
-                    +₹100
+                <!-- CARD -->
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+                        👥
+                    </div>
+
+                    <h2>
+
+                        Referral Bonus
+
+                    </h2>
+
+                    <div class="reward-amount">
+
+                        +₹100
+
+                    </div>
+
+                    <p>
+
+                        Bonus reward unlocked after successful referral onboarding.
+
+                    </p>
+
+                    <button class="claim-btn">
+
+                        CLAIMED
+
+                    </button>
+
+                </div>
+
+                <!-- CARD -->
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+                        ⚡
+                    </div>
+
+                    <h2>
+
+                        Festival Reward
+
+                    </h2>
+
+                    <div class="reward-amount">
+
+                        +₹75
+
+                    </div>
+
+                    <p>
+
+                        Special AI generated festive cashback campaign reward.
+
+                    </p>
+
+                    <button class="claim-btn">
+
+                        CLAIM NOW
+
+                    </button>
+
+                </div>
+
+                <!-- CARD -->
+
+                <div class="reward-card">
+
+                    <div class="reward-icon">
+                        🚀
+                    </div>
+
+                    <h2>
+
+                        Elite Bonus
+
+                    </h2>
+
+                    <div class="reward-amount">
+
+                        +₹120
+
+                    </div>
+
+                    <p>
+
+                        Premium loyalty reward unlocked for high frequency orders.
+
+                    </p>
+
+                    <button class="claim-btn">
+
+                        UNLOCK
+
+                    </button>
+
                 </div>
 
             </div>
 
-            <h3>Referral Bonus</h3>
-
-            <p>
-                Reward earned for inviting your friend to FUDDO.
-            </p>
-
-            <button class="claim-btn">
-                Claimed
-            </button>
-
         </div>
 
-        <div class="reward-card">
+        <!-- RIGHT -->
 
-            <div class="reward-top">
+        <div class="side-panel">
 
-                <div class="reward-icon">
-                    ⚡
+            <!-- REFERRAL -->
+
+            <div class="referral-card">
+
+                <h2>
+
+                    REFER & EARN
+
+                </h2>
+
+                <p>
+
+                    Invite your friends into the futuristic FUDDO ecosystem and unlock instant cashback rewards.
+
+                </p>
+
+                <div class="referral-code">
+
+                    FUDDO50
+
                 </div>
 
-                <div class="reward-amount">
-                    +₹75
+                <button class="share-btn">
+
+                    SHARE REFERRAL CODE →
+
+                </button>
+
+            </div>
+
+            <!-- LEVEL -->
+
+            <div class="level-card">
+
+                <h2>
+
+                    USER LEVEL
+
+                </h2>
+
+                <div class="level-badge">
+
+                    PRO
+
+                </div>
+
+                <p>
+
+                    You are currently in the Pro tier of FUDDO loyalty network. Complete more orders to unlock Elite level.
+
+                </p>
+
+                <div class="progress">
+
+                    <div class="progress-bar"></div>
+
                 </div>
 
             </div>
 
-            <h3>Special Offer</h3>
+            <!-- AI -->
 
-            <p>
-                Extra reward unlocked during festival season.
-            </p>
+            <div class="ai-card">
 
-            <button class="claim-btn">
-                Claim Now
-            </button>
+                <h2>
+
+                    🤖 AI SAVINGS ENGINE
+
+                </h2>
+
+                <p>
+
+                    FUDDO AI continuously analyzes your order behavior and recommends cashback optimized food deals and reward campaigns.
+
+                </p>
+
+            </div>
 
         </div>
 
-    </div>
-
-    <div class="referral-card">
-
-        <h2>Refer & Earn</h2>
-
-        <p>
-            Invite your friends and earn cashback rewards instantly.
-        </p>
-
-        <div class="referral-code">
-            FUDDO50
-        </div>
-
-        <button class="share-btn">
-            Share Referral Code →
-        </button>
-
-    </div>
-
-    <div class="bottom-glow"></div>
-
-</div>
-
-<div class="bottom-nav">
-
-    <a href="/food/home/" class="nav-item">
-
-        <div class="nav-icon">🏠</div>
-
-        Home
-
-    </a>
-
-    <a href="/food/restaurants/" class="nav-item">
-
-        <div class="nav-icon">🍽️</div>
-
-        Orders
-
-    </a>
-
-    <a href="/food/rewards/" class="nav-item active">
-
-        <div class="nav-icon">🎁</div>
-
-        Rewards
-
-    </a>
-
-    <a href="/food/profile/" class="nav-item">
-
-        <div class="nav-icon">👤</div>
-
-        Profile
-
-    </a>
-
-</div>
+    </section>
 
 </body>
+
 </html>

@@ -157,6 +157,23 @@ def rewards(request):
     return render(request, 'food_delivery/rewards.html')
 
 
+def profile(request):
+
+    return render(
+        request,
+        'food_delivery/profile.html'
+    )
+    
+def wallet(request):
+
+    return render(
+        request,
+        'food_delivery/wallet.html'
+    )
+    
+    
+
+
 # =====================================================
 # RESTAURANT LIST API
 # =====================================================

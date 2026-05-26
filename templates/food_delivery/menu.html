@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FUDDO - Menu</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FUDDO Menu</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -13,235 +17,484 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
+        }
+
+        :root{
+
+            --neon:#39ff14;
+            --bg:#050505;
+            --card:#0d0d0d;
+            --border:rgba(57,255,20,.15);
+
         }
 
         body{
+
             background:#000;
             color:white;
-            display:flex;
-            justify-content:center;
+            font-family:'Poppins',sans-serif;
             overflow-x:hidden;
+
         }
 
-        .mobile-screen{
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:450px;
+            height:450px;
+            background:#39ff14;
+            filter:blur(180px);
+            top:-180px;
+            left:-180px;
+            opacity:.08;
+            z-index:-1;
+
+        }
+
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:450px;
+            height:450px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-180px;
+            right:-180px;
+            opacity:.06;
+            z-index:-1;
+
+        }
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar{
+
             width:100%;
-            max-width:390px;
-            min-height:100vh;
-            background:#000;
-            padding:18px;
-            padding-bottom:100px;
-            position:relative;
+            height:90px;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:999;
+            backdrop-filter:blur(18px);
+            background:rgba(0,0,0,.7);
+            border-bottom:1px solid rgba(57,255,20,.08);
+
         }
 
-        .top-bar{
+        .nav-container{
+
+            width:92%;
+            max-width:1450px;
+            height:100%;
+            margin:auto;
             display:flex;
             justify-content:space-between;
             align-items:center;
-            margin-bottom:20px;
+
         }
 
-        .back-btn{
-            width:42px;
-            height:42px;
-            border-radius:50%;
-            border:2px solid #c6ff00;
+        .logo{
+
+            font-size:34px;
+            font-family:'Orbitron',sans-serif;
+            font-weight:800;
+            color:var(--neon);
+            text-shadow:0 0 18px rgba(57,255,20,.7);
+
+        }
+
+        .nav-links{
+
             display:flex;
-            justify-content:center;
             align-items:center;
-            color:#c6ff00;
-            text-decoration:none;
-            font-size:20px;
-            box-shadow:0 0 12px rgba(198,255,0,.3);
+            gap:34px;
+
         }
 
-        .restaurant-name{
-            font-size:22px;
+        .nav-links a{
+
+            color:#bbb;
+            transition:.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:var(--neon);
+
+        }
+
+        .cart-btn-nav{
+
+            background:var(--neon);
+            color:black !important;
+            padding:12px 24px;
+            border-radius:14px;
             font-weight:700;
-            color:#fff;
+
         }
 
-        .cart-icon{
-            width:42px;
-            height:42px;
-            border-radius:50%;
-            background:#111;
-            border:2px solid #c6ff00;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            color:#c6ff00;
-            font-size:18px;
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main{
+
+            width:92%;
+            max-width:1450px;
+            margin:auto;
+            padding-top:130px;
+            display:grid;
+            grid-template-columns:1.2fr .55fr;
+            gap:35px;
+            margin-bottom:80px;
+
         }
+
+        /* =========================
+           LEFT SIDE
+        ========================== */
 
         .restaurant-banner{
-            width:100%;
-            height:180px;
-            border-radius:24px;
-            background:linear-gradient(135deg,#c6ff00,#7fff00);
-            margin-bottom:20px;
+
+            height:320px;
+            border-radius:40px;
+            background:linear-gradient(135deg,#39ff14,#00ff95);
             position:relative;
             overflow:hidden;
-            box-shadow:0 0 20px rgba(198,255,0,.15);
+            margin-bottom:35px;
+
         }
 
         .restaurant-overlay{
+
             position:absolute;
             inset:0;
-            background:rgba(0,0,0,.35);
-            padding:20px;
+            background:rgba(0,0,0,.45);
+            padding:40px;
             display:flex;
             flex-direction:column;
             justify-content:flex-end;
+
         }
 
-        .restaurant-overlay h2{
-            font-size:24px;
-            margin-bottom:6px;
+        .restaurant-overlay h1{
+
+            font-size:56px;
+            font-family:'Orbitron',sans-serif;
+            margin-bottom:16px;
+
         }
 
         .restaurant-overlay p{
-            font-size:13px;
+
             color:#ddd;
-            margin-bottom:8px;
+            line-height:1.9;
+            margin-bottom:20px;
+            max-width:700px;
+
         }
 
         .restaurant-info{
+
             display:flex;
-            gap:12px;
+            gap:15px;
+            flex-wrap:wrap;
+
         }
 
-        .rating,
-        .delivery-time{
-            background:#000;
-            padding:6px 12px;
-            border-radius:10px;
+        .badge{
+
+            background:black;
+            border:1px solid rgba(57,255,20,.2);
+            padding:12px 18px;
+            border-radius:14px;
+            color:var(--neon);
+            font-weight:600;
+
+        }
+
+        /* =========================
+           AI SECTION
+        ========================== */
+
+        .ai-box{
+
+            background:rgba(57,255,20,.08);
+            border:1px solid rgba(57,255,20,.15);
+            border-radius:28px;
+            padding:28px;
+            margin-bottom:35px;
+
+        }
+
+        .ai-box h2{
+
+            color:var(--neon);
+            margin-bottom:14px;
+            font-size:28px;
+
+        }
+
+        .ai-box p{
+
+            color:#bbb;
+            line-height:1.8;
+
+        }
+
+        /* =========================
+           MENU GRID
+        ========================== */
+
+        .menu-grid{
+
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:28px;
+
+        }
+
+        .food-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            overflow:hidden;
+            transition:.35s;
+
+        }
+
+        .food-card:hover{
+
+            transform:translateY(-10px);
+            border-color:var(--neon);
+            box-shadow:0 0 35px rgba(57,255,20,.15);
+
+        }
+
+        .food-image{
+
+            height:240px;
+            background:linear-gradient(135deg,#39ff14,#00ff95);
+            position:relative;
+
+        }
+
+        .popular-tag{
+
+            position:absolute;
+            top:18px;
+            left:18px;
+            background:black;
+            color:var(--neon);
+            padding:10px 18px;
+            border-radius:14px;
+            border:1px solid var(--neon);
             font-size:12px;
-            color:#c6ff00;
-            border:1px solid #1f1f1f;
+            font-weight:700;
+
         }
 
-        .section-title{
-            font-size:20px;
-            margin-bottom:16px;
+        .food-content{
+
+            padding:28px;
+
         }
 
-        .menu-items{
-            display:flex;
-            flex-direction:column;
-            gap:16px;
+        .food-content h3{
+
+            font-size:28px;
+            margin-bottom:12px;
+
         }
 
-        .item{
-            background:#0b0b0b;
-            border:1px solid #1f1f1f;
-            border-radius:20px;
-            padding:16px;
+        .food-content p{
+
+            color:#999;
+            line-height:1.8;
+            margin-bottom:20px;
+
+        }
+
+        .food-footer{
+
             display:flex;
             justify-content:space-between;
-            gap:15px;
-            transition:.3s;
-        }
+            align-items:center;
 
-        .item:hover{
-            border-color:#c6ff00;
-            box-shadow:0 0 15px rgba(198,255,0,.15);
-        }
-
-        .item-left{
-            flex:1;
-        }
-
-        .item-left h3{
-            font-size:18px;
-            margin-bottom:8px;
-        }
-
-        .item-left p{
-            font-size:12px;
-            color:#bbb;
-            line-height:1.6;
-            margin-bottom:10px;
         }
 
         .price{
-            color:#c6ff00;
-            font-size:18px;
+
+            color:var(--neon);
+            font-size:28px;
             font-weight:700;
-        }
 
-        .item-right{
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-            gap:12px;
-        }
-
-        .food-img{
-            width:90px;
-            height:90px;
-            border-radius:16px;
-            background:linear-gradient(135deg,#c6ff00,#7fff00);
         }
 
         .add-btn{
-            background:#c6ff00;
-            color:#000;
+
+            background:var(--neon);
+            color:black;
             border:none;
-            padding:10px 18px;
-            border-radius:12px;
-            font-size:13px;
+            height:50px;
+            padding:0 24px;
+            border-radius:16px;
             font-weight:700;
             cursor:pointer;
             transition:.3s;
+
         }
 
         .add-btn:hover{
-            transform:scale(1.05);
-            box-shadow:0 0 12px rgba(198,255,0,.4);
+
+            transform:scale(1.06);
+
         }
 
-        .view-cart{
-            position:fixed;
-            bottom:15px;
-            width:100%;
-            max-width:360px;
-            left:50%;
-            transform:translateX(-50%);
-            z-index:999;
+        /* =========================
+           CART PANEL
+        ========================== */
+
+        .cart-panel{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:32px;
+            height:fit-content;
+            position:sticky;
+            top:120px;
+
         }
 
-        .cart-btn{
+        .cart-panel h2{
+
+            font-size:34px;
+            margin-bottom:30px;
+            font-family:'Orbitron',sans-serif;
+
+        }
+
+        .cart-item{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:22px;
+            padding-bottom:22px;
+            border-bottom:1px solid rgba(255,255,255,.06);
+
+        }
+
+        .cart-item h4{
+
+            margin-bottom:6px;
+
+        }
+
+        .cart-item p{
+
+            color:#999;
+            font-size:14px;
+
+        }
+
+        .qty{
+
+            color:var(--neon);
+            font-weight:700;
+
+        }
+
+        .total{
+
+            margin-top:30px;
+            margin-bottom:25px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+        }
+
+        .total h3{
+
+            font-size:22px;
+
+        }
+
+        .total-price{
+
+            color:var(--neon);
+            font-size:34px;
+            font-weight:800;
+
+        }
+
+        .checkout-btn{
+
             width:100%;
-            height:58px;
+            height:60px;
             border:none;
             border-radius:18px;
-            background:#c6ff00;
-            color:#000;
-            font-size:18px;
+            background:var(--neon);
+            color:black;
+            font-size:16px;
             font-weight:700;
             cursor:pointer;
-            box-shadow:0 0 18px rgba(198,255,0,.25);
+            box-shadow:0 0 20px rgba(57,255,20,.25);
+
         }
 
-        .bottom-glow{
-            position:absolute;
-            width:240px;
-            height:240px;
-            background:#c6ff00;
-            filter:blur(150px);
-            opacity:.08;
-            bottom:-100px;
-            left:50%;
-            transform:translateX(-50%);
-            pointer-events:none;
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1200px){
+
+            .main{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .cart-panel{
+
+                position:relative;
+                top:0;
+
+            }
+
         }
 
-        @media(max-width:480px){
+        @media(max-width:768px){
 
-            .mobile-screen{
-                max-width:100%;
+            .nav-links{
+
+                display:none;
+
+            }
+
+            .restaurant-overlay h1{
+
+                font-size:38px;
+
+            }
+
+            .menu-grid{
+
+                grid-template-columns:1fr;
+
             }
 
         }
@@ -252,193 +505,378 @@
 
 <body>
 
-<div class="mobile-screen">
+    <!-- NAVBAR -->
 
-    <div class="top-bar">
+    <nav class="navbar">
 
-        <a href="/food/restaurants/" class="back-btn">
-            ←
-        </a>
+        <div class="nav-container">
 
-        <div class="restaurant-name">
-            Pizza Point
-        </div>
+            <div class="logo">
 
-        <a href="/food/cart/" style="text-decoration:none;">
+                FUDDO
 
-            <div class="cart-icon">
-                🛒
             </div>
 
-        </a>
+            <div class="nav-links">
 
-    </div>
+                <a href="/food/home/">Home</a>
 
-    <div class="restaurant-banner">
+                <a href="/food/restaurants/">Restaurants</a>
 
-        <div class="restaurant-overlay">
+                <a href="#">Rewards</a>
 
-            <h2>Pizza Point</h2>
+                <a href="#">Tracking</a>
 
-            <p>
-                Pizza • Italian • Fast Food
-            </p>
+                <a href="/food/cart/" class="cart-btn-nav">
 
-            <div class="restaurant-info">
+                    View Cart
 
-                <div class="rating">
-                    ★ 4.5
-                </div>
-
-                <div class="delivery-time">
-                    25 mins
-                </div>
+                </a>
 
             </div>
 
         </div>
 
-    </div>
+    </nav>
 
-    <h2 class="section-title">
-        Recommended Items
-    </h2>
+    <!-- MAIN -->
 
-    <div class="menu-items">
+    <section class="main">
 
-        <div class="item">
+        <!-- LEFT -->
 
-            <div class="item-left">
+        <div>
 
-                <h3>🍕 Margherita Pizza</h3>
+            <div class="restaurant-banner">
+
+                <div class="restaurant-overlay">
+
+                    <h1>
+
+                        CYBER PIZZA HUB
+
+                    </h1>
+
+                    <p>
+
+                        Futuristic pizza experience powered by AI recommendations, cashback rewards and realtime delivery ecosystem.
+
+                    </p>
+
+                    <div class="restaurant-info">
+
+                        <div class="badge">
+                            ★ 4.9
+                        </div>
+
+                        <div class="badge">
+                            ⚡ 20% Cashback
+                        </div>
+
+                        <div class="badge">
+                            🛵 18 mins
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- AI BOX -->
+
+            <div class="ai-box">
+
+                <h2>
+
+                    🤖 AI FOOD PICKS
+
+                </h2>
 
                 <p>
-                    Fresh mozzarella cheese,
-                    tomato sauce & herbs
-                </p>
 
-                <div class="price">
-                    ₹199
-                </div>
+                    Based on your activity, spicy preference and current weather, FUDDO AI recommends hot cheesy pizzas and cold beverages tonight.
+
+                </p>
 
             </div>
 
-            <div class="item-right">
+            <!-- MENU GRID -->
 
-                <div class="food-img"></div>
+            <div class="menu-grid">
 
-                <button class="add-btn">
-                    ADD
-                </button>
+                <div class="food-card">
+
+                    <div class="food-image">
+
+                        <div class="popular-tag">
+                            🔥 BESTSELLER
+                        </div>
+
+                    </div>
+
+                    <div class="food-content">
+
+                        <h3>
+
+                            Margherita Pizza
+
+                        </h3>
+
+                        <p>
+
+                            Fresh mozzarella cheese, tomato sauce and futuristic Italian herbs.
+
+                        </p>
+
+                        <div class="food-footer">
+
+                            <div class="price">
+
+                                ₹199
+
+                            </div>
+
+                            <button class="add-btn">
+
+                                ADD
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="food-card">
+
+                    <div class="food-image">
+
+                        <div class="popular-tag">
+                            ⚡ GROUP ORDER
+                        </div>
+
+                    </div>
+
+                    <div class="food-content">
+
+                        <h3>
+
+                            Farm House Pizza
+
+                        </h3>
+
+                        <p>
+
+                            Loaded with fresh veggies, cheese layers and neon toppings.
+
+                        </p>
+
+                        <div class="food-footer">
+
+                            <div class="price">
+
+                                ₹249
+
+                            </div>
+
+                            <button class="add-btn">
+
+                                ADD
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="food-card">
+
+                    <div class="food-image">
+
+                        <div class="popular-tag">
+                            🌶 SPICY
+                        </div>
+
+                    </div>
+
+                    <div class="food-content">
+
+                        <h3>
+
+                            Veg Burger
+
+                        </h3>
+
+                        <p>
+
+                            Crispy burger with spicy sauce, premium cheese and fresh veggies.
+
+                        </p>
+
+                        <div class="food-footer">
+
+                            <div class="price">
+
+                                ₹149
+
+                            </div>
+
+                            <button class="add-btn">
+
+                                ADD
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="food-card">
+
+                    <div class="food-image">
+
+                        <div class="popular-tag">
+                            ❄ CHILLED
+                        </div>
+
+                    </div>
+
+                    <div class="food-content">
+
+                        <h3>
+
+                            Cold Drink
+
+                        </h3>
+
+                        <p>
+
+                            Premium chilled beverage with combo cashback offers.
+
+                        </p>
+
+                        <div class="food-footer">
+
+                            <div class="price">
+
+                                ₹79
+
+                            </div>
+
+                            <button class="add-btn">
+
+                                ADD
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
 
-        <div class="item">
+        <!-- RIGHT CART -->
 
-            <div class="item-left">
+        <div class="cart-panel">
 
-                <h3>🍕 Farm House Pizza</h3>
+            <h2>
 
-                <p>
-                    Loaded with veggies,
-                    cheese & fresh toppings
-                </p>
+                LIVE CART
 
-                <div class="price">
-                    ₹249
+            </h2>
+
+            <div class="cart-item">
+
+                <div>
+
+                    <h4>
+
+                        Margherita Pizza
+
+                    </h4>
+
+                    <p>
+
+                        ₹199 x 1
+
+                    </p>
+
+                </div>
+
+                <div class="qty">
+
+                    1
+
                 </div>
 
             </div>
 
-            <div class="item-right">
+            <div class="cart-item">
 
-                <div class="food-img"></div>
+                <div>
 
-                <button class="add-btn">
-                    ADD
-                </button>
+                    <h4>
 
-            </div>
+                        Cold Drink
 
-        </div>
+                    </h4>
 
-        <div class="item">
+                    <p>
 
-            <div class="item-left">
+                        ₹79 x 1
 
-                <h3>🍔 Veg Burger</h3>
+                    </p>
 
-                <p>
-                    Crispy patty with fresh
-                    vegetables & sauces
-                </p>
+                </div>
 
-                <div class="price">
-                    ₹149
+                <div class="qty">
+
+                    1
+
                 </div>
 
             </div>
 
-            <div class="item-right">
+            <div class="total">
 
-                <div class="food-img"></div>
+                <h3>
 
-                <button class="add-btn">
-                    ADD
-                </button>
+                    Total
 
-            </div>
+                </h3>
 
-        </div>
+                <div class="total-price">
 
-        <div class="item">
+                    ₹278
 
-            <div class="item-left">
-
-                <h3>🥤 Cold Drink</h3>
-
-                <p>
-                    Chilled soft drink
-                    with combo offers
-                </p>
-
-                <div class="price">
-                    ₹79
                 </div>
 
             </div>
 
-            <div class="item-right">
+            <a href="/food/cart/">
 
-                <div class="food-img"></div>
+                <button class="checkout-btn">
 
-                <button class="add-btn">
-                    ADD
+                    GO TO CART →
+
                 </button>
 
-            </div>
+            </a>
 
         </div>
 
-    </div>
-
-    <div class="bottom-glow"></div>
-
-</div>
-
-<div class="view-cart">
-
-    <a href="/food/cart/">
-
-        <button class="cart-btn">
-            View Cart →
-        </button>
-
-    </a>
-
-</div>
+    </section>
 
 </body>
+
 </html>

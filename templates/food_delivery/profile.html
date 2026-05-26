@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FUDDO Profile</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        :root{
+
+            --neon:#39ff14;
+            --bg:#050505;
+            --card:#0d0d0d;
+            --border:rgba(57,255,20,.15);
+
+        }
+
+        body{
+
+            background:#000;
+            color:white;
+            font-family:'Poppins',sans-serif;
+            overflow-x:hidden;
+
+        }
+
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#39ff14;
+            filter:blur(180px);
+            top:-220px;
+            left:-220px;
+            opacity:.08;
+            z-index:-1;
+
+        }
+
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-220px;
+            right:-220px;
+            opacity:.06;
+            z-index:-1;
+
+        }
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar{
+
+            width:100%;
+            height:90px;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:999;
+            backdrop-filter:blur(18px);
+            background:rgba(0,0,0,.7);
+            border-bottom:1px solid rgba(57,255,20,.08);
+
+        }
+
+        .nav-container{
+
+            width:92%;
+            max-width:1450px;
+            height:100%;
+            margin:auto;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+        }
+
+        .logo{
+
+            font-size:34px;
+            font-family:'Orbitron',sans-serif;
+            font-weight:800;
+            color:var(--neon);
+            text-shadow:0 0 18px rgba(57,255,20,.7);
+
+        }
+
+        .nav-links{
+
+            display:flex;
+            align-items:center;
+            gap:34px;
+
+        }
+
+        .nav-links a{
+
+            color:#bbb;
+            transition:.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:var(--neon);
+
+        }
+
+        .active-btn{
+
+            background:var(--neon);
+            color:black !important;
+            padding:12px 24px;
+            border-radius:14px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main{
+
+            width:92%;
+            max-width:1450px;
+            margin:auto;
+            padding-top:130px;
+            display:grid;
+            grid-template-columns:.9fr 1.1fr;
+            gap:35px;
+            margin-bottom:80px;
+
+        }
+
+        /* =========================
+           PROFILE CARD
+        ========================== */
+
+        .profile-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:42px;
+            padding:40px;
+            position:relative;
+            overflow:hidden;
+
+        }
+
+        .profile-card::before{
+
+            content:'';
+            position:absolute;
+            width:260px;
+            height:260px;
+            background:var(--neon);
+            filter:blur(140px);
+            opacity:.08;
+            right:-100px;
+            top:-100px;
+
+        }
+
+        .profile-top{
+
+            display:flex;
+            align-items:center;
+            gap:24px;
+            margin-bottom:35px;
+
+        }
+
+        .avatar{
+
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            border:4px solid var(--neon);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:48px;
+            color:var(--neon);
+
+            box-shadow:
+            0 0 30px rgba(57,255,20,.22);
+
+        }
+
+        .profile-info h1{
+
+            font-size:42px;
+            margin-bottom:10px;
+
+        }
+
+        .profile-info p{
+
+            color:#999;
+            line-height:1.8;
+
+        }
+
+        .level-badge{
+
+            display:inline-block;
+            margin-top:14px;
+            background:var(--neon);
+            color:black;
+            padding:10px 18px;
+            border-radius:14px;
+            font-size:13px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           STATS
+        ========================== */
+
+        .stats-grid{
+
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:20px;
+
+        }
+
+        .stat-card{
+
+            background:#0c0c0c;
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:28px;
+            padding:28px;
+
+        }
+
+        .stat-card h2{
+
+            color:var(--neon);
+            font-size:38px;
+            margin-bottom:10px;
+
+        }
+
+        .stat-card p{
+
+            color:#999;
+
+        }
+
+        /* =========================
+           RIGHT SIDE
+        ========================== */
+
+        .right-panel{
+
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+
+        }
+
+        .dashboard-card,
+        .wallet-card,
+        .activity-card,
+        .ai-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:32px;
+
+        }
+
+        .dashboard-card h2,
+        .wallet-card h2,
+        .activity-card h2,
+        .ai-card h2{
+
+            font-size:34px;
+            margin-bottom:20px;
+
+        }
+
+        .dashboard-links{
+
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:18px;
+
+        }
+
+        .dashboard-item{
+
+            height:90px;
+            background:#0c0c0c;
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:22px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:10px;
+            transition:.3s;
+            cursor:pointer;
+
+        }
+
+        .dashboard-item:hover{
+
+            border-color:var(--neon);
+            transform:translateY(-4px);
+
+        }
+
+        .wallet-balance{
+
+            font-size:64px;
+            color:var(--neon);
+            font-weight:800;
+            margin-bottom:14px;
+            font-family:'Orbitron',sans-serif;
+
+        }
+
+        .wallet-card p,
+        .activity-card p,
+        .ai-card p{
+
+            color:#999;
+            line-height:1.9;
+
+        }
+
+        /* =========================
+           ACTIVITY
+        ========================== */
+
+        .activity{
+
+            display:flex;
+            flex-direction:column;
+            gap:18px;
+            margin-top:24px;
+
+        }
+
+        .activity-item{
+
+            display:flex;
+            align-items:center;
+            gap:18px;
+            background:#0c0c0c;
+            border-radius:22px;
+            padding:18px;
+
+        }
+
+        .activity-icon{
+
+            width:58px;
+            height:58px;
+            border-radius:18px;
+            background:#111;
+            border:2px solid rgba(57,255,20,.18);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:24px;
+            color:var(--neon);
+
+        }
+
+        .activity-content h3{
+
+            margin-bottom:6px;
+
+        }
+
+        .activity-content p{
+
+            font-size:14px;
+
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1200px){
+
+            .main{
+
+                grid-template-columns:1fr;
+
+            }
+
+        }
+
+        @media(max-width:768px){
+
+            .nav-links{
+
+                display:none;
+
+            }
+
+            .profile-top{
+
+                flex-direction:column;
+                align-items:flex-start;
+
+            }
+
+            .dashboard-links{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .stats-grid{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .profile-info h1{
+
+                font-size:32px;
+
+            }
+
+            .wallet-balance{
+
+                font-size:42px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <div class="logo">
+
+                FUDDO
+
+            </div>
+
+            <div class="nav-links">
+
+                <a href="/food/home/">Home</a>
+
+                <a href="/food/restaurants/">Restaurants</a>
+
+                <a href="/food/rewards/">Rewards</a>
+
+                <a href="#" class="active-btn">
+
+                    Profile
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- MAIN -->
+
+    <section class="main">
+
+        <!-- LEFT -->
+
+        <div class="profile-card">
+
+            <div class="profile-top">
+
+                <div class="avatar">
+
+                    👤
+
+                </div>
+
+                <div class="profile-info">
+
+                    <h1>
+
+                        Rohit Sharma
+
+                    </h1>
+
+                    <p>
+
+                        rohit@gmail.com<br>
+                        +91 9876543210
+
+                    </p>
+
+                    <div class="level-badge">
+
+                        PRO MEMBER
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <h2>
+
+                        142
+
+                    </h2>
+
+                    <p>
+
+                        Orders Completed
+
+                    </p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h2>
+
+                        ₹1250
+
+                    </h2>
+
+                    <p>
+
+                        Total Cashback
+
+                    </p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h2>
+
+                        24
+
+                    </h2>
+
+                    <p>
+
+                        Referrals Joined
+
+                    </p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h2>
+
+                        4.9★
+
+                    </h2>
+
+                    <p>
+
+                        User Rating
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="right-panel">
+
+            <!-- DASHBOARD -->
+
+            <div class="dashboard-card">
+
+                <h2>
+
+                    QUICK ACCESS
+
+                </h2>
+
+                <div class="dashboard-links">
+
+                    <a href="/food/cart/" class="dashboard-item">
+
+                        🛒 Cart
+
+                    </a>
+
+                    <a href="/food/rewards/" class="dashboard-item">
+
+                        🎁 Rewards
+
+                    </a>
+
+                    <a href="/food/address/" class="dashboard-item">
+
+                        📍 Address
+
+                    </a>
+
+                    <a href="/food/payment/" class="dashboard-item">
+
+                        💳 Payment
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- WALLET -->
+
+            <div class="wallet-card">
+
+                <h2>
+
+                    FUDDO WALLET
+
+                </h2>
+
+                <div class="wallet-balance">
+
+                    ₹1,250
+
+                </div>
+
+                <p>
+
+                    Your futuristic cashback wallet is active and synced with AI rewards engine.
+
+                </p>
+
+            </div>
+
+            <!-- ACTIVITY -->
+
+            <div class="activity-card">
+
+                <h2>
+
+                    RECENT ACTIVITY
+
+                </h2>
+
+                <div class="activity">
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            🍕
+
+                        </div>
+
+                        <div class="activity-content">
+
+                            <h3>
+
+                                Pizza Order Delivered
+
+                            </h3>
+
+                            <p>
+
+                                Cashback Earned ₹50
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            👥
+
+                        </div>
+
+                        <div class="activity-content">
+
+                            <h3>
+
+                                Referral Joined
+
+                            </h3>
+
+                            <p>
+
+                                Bonus Reward ₹100
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            ⚡
+
+                        </div>
+
+                        <div class="activity-content">
+
+                            <h3>
+
+                                Elite Reward Unlocked
+
+                            </h3>
+
+                            <p>
+
+                                Festival Campaign Reward
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- AI -->
+
+            <div class="ai-card">
+
+                <h2>
+
+                    🤖 AI USER INSIGHTS
+
+                </h2>
+
+                <p>
+
+                    Based on your activity patterns, FUDDO AI predicts high cashback opportunities and optimized food recommendations for upcoming orders.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>

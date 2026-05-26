@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FUDDO Home</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FUDDO — Future Of Food Delivery</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -15,262 +19,596 @@
             box-sizing:border-box;
         }
 
+        :root{
+
+            --neon:#39ff14;
+            --dark:#050505;
+            --card:#0d0d0d;
+            --light:#bdbdbd;
+
+        }
+
         body{
+
             background:#000;
+            color:white;
             font-family:'Poppins',sans-serif;
-            color:white;
-            display:flex;
-            justify-content:center;
             overflow-x:hidden;
+
         }
 
-        .mobile-screen{
-            width:100%;
-            max-width:390px;
-            min-height:100vh;
-            background:#000;
-            padding:16px;
-            padding-bottom:100px;
-            position:relative;
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:600px;
+            height:600px;
+            background:#39ff14;
+            filter:blur(200px);
+            top:-250px;
+            left:-250px;
+            opacity:.08;
+            z-index:-1;
+
         }
 
-        .top-bar{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:20px;
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-250px;
+            right:-250px;
+            opacity:.06;
+            z-index:-1;
+
         }
 
-        .location h3{
-            font-size:12px;
-            color:#aaa;
-        }
-
-        .location h2{
-            font-size:18px;
-            margin-top:3px;
-        }
-
-        .profile{
-            width:48px;
-            height:48px;
-            border-radius:50%;
-            background:#111;
-            border:2px solid #c6ff00;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-size:20px;
-            color:#c6ff00;
-            box-shadow:0 0 12px rgba(198,255,0,.3);
-        }
-
-        .search-box{
-            width:100%;
-            height:52px;
-            background:#111;
-            border:1px solid #1f1f1f;
-            border-radius:16px;
-            display:flex;
-            align-items:center;
-            padding:0 16px;
-            margin-bottom:20px;
-            gap:10px;
-        }
-
-        .search-box input{
-            flex:1;
-            background:none;
-            border:none;
-            outline:none;
-            color:white;
-            font-size:14px;
-        }
-
-        .banner{
-            background:linear-gradient(135deg,#c6ff00,#7fff00);
-            border-radius:22px;
-            padding:20px;
-            color:black;
-            margin-bottom:25px;
-            box-shadow:0 0 25px rgba(198,255,0,.25);
-        }
-
-        .banner h1{
-            font-size:22px;
-            font-weight:800;
-            margin-bottom:8px;
-        }
-
-        .banner p{
-            font-size:13px;
-            margin-bottom:14px;
-        }
-
-        .banner button{
-            background:black;
-            color:#c6ff00;
-            border:none;
-            padding:12px 20px;
-            border-radius:12px;
-            font-weight:700;
-            font-size:13px;
-            cursor:pointer;
-        }
-
-        .section-title{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:14px;
-            margin-top:10px;
-        }
-
-        .section-title h2{
-            font-size:18px;
-        }
-
-        .section-title a{
-            color:#c6ff00;
+        a{
             text-decoration:none;
-            font-size:12px;
+            color:inherit;
         }
 
-        .categories{
-            display:grid;
-            grid-template-columns:repeat(4,1fr);
-            gap:10px;
-            margin-bottom:25px;
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar{
+
+            width:100%;
+            height:90px;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:999;
+            backdrop-filter:blur(20px);
+            background:rgba(0,0,0,.72);
+            border-bottom:1px solid rgba(57,255,20,.08);
+
         }
 
-        .category{
-            background:#0b0b0b;
-            border:1px solid #1f1f1f;
-            border-radius:16px;
-            padding:14px 8px;
-            text-align:center;
-            transition:.3s;
-        }
+        .nav-container{
 
-        .category:hover{
-            border-color:#c6ff00;
-            box-shadow:0 0 12px rgba(198,255,0,.2);
-        }
-
-        .category .icon{
-            width:48px;
-            height:48px;
+            width:92%;
+            max-width:1500px;
+            height:100%;
             margin:auto;
-            border-radius:50%;
-            background:#161616;
-            border:2px solid #c6ff00;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-size:20px;
-            margin-bottom:10px;
-            color:#c6ff00;
-        }
-
-        .category h3{
-            font-size:11px;
-            line-height:1.4;
-        }
-
-        .restaurants{
-            display:flex;
-            flex-direction:column;
-            gap:16px;
-        }
-
-        .restaurant-card{
-            background:#0b0b0b;
-            border:1px solid #1f1f1f;
-            border-radius:20px;
-            overflow:hidden;
-            transition:.3s;
-        }
-
-        .restaurant-card:hover{
-            border-color:#c6ff00;
-            box-shadow:0 0 18px rgba(198,255,0,.15);
-        }
-
-        .restaurant-img{
-            height:140px;
-            background:linear-gradient(135deg,#c6ff00,#7fff00);
-        }
-
-        .restaurant-content{
-            padding:16px;
-        }
-
-        .restaurant-content h2{
-            font-size:18px;
-            margin-bottom:6px;
-        }
-
-        .restaurant-content p{
-            color:#bbb;
-            margin-bottom:12px;
-            font-size:12px;
-        }
-
-        .restaurant-info{
             display:flex;
             justify-content:space-between;
             align-items:center;
+
+        }
+
+        .logo{
+
+            font-size:36px;
+            font-family:'Orbitron',sans-serif;
+            font-weight:800;
+            color:var(--neon);
+
+            text-shadow:
+            0 0 18px rgba(57,255,20,.7);
+
+        }
+
+        .nav-links{
+
+            display:flex;
+            align-items:center;
+            gap:20px;
+
+        }
+
+        .nav-links a{
+
+            color:#ccc;
+            transition:.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:var(--neon);
+
+        }
+
+        .login-btn{
+
+            padding:12px 24px;
+            border:1px solid var(--neon);
+            border-radius:14px;
+            color:var(--neon) !important;
+
+        }
+
+        .signup-btn{
+
+            padding:12px 24px;
+            border-radius:14px;
+            background:var(--neon);
+            color:black !important;
+            font-weight:700;
+
+        }
+
+        .nav-btn{
+
+            padding:12px 24px;
+            border-radius:14px;
+            border:1px solid rgba(57,255,20,.2);
+
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero{
+
+            width:92%;
+            max-width:1500px;
+            min-height:100vh;
+            margin:auto;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            align-items:center;
+            gap:80px;
+            padding-top:130px;
+
+        }
+
+        .hero-left h1{
+
+            font-size:110px;
+            line-height:1;
+            margin-bottom:30px;
+            font-family:'Orbitron',sans-serif;
+
+        }
+
+        .hero-left h1 span{
+
+            color:var(--neon);
+
+            text-shadow:
+            0 0 20px rgba(57,255,20,.5);
+
+        }
+
+        .hero-left p{
+
+            font-size:20px;
+            line-height:2;
+            color:#999;
+            max-width:700px;
+            margin-bottom:40px;
+
+        }
+
+        .hero-buttons{
+
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
+
+        }
+
+        .primary-btn{
+
+            height:72px;
+            padding:0 40px;
+            border:none;
+            border-radius:20px;
+            background:var(--neon);
+            color:black;
+            font-size:18px;
+            font-weight:800;
+            cursor:pointer;
+
+            box-shadow:
+            0 0 25px rgba(57,255,20,.25);
+
+        }
+
+        .secondary-btn{
+
+            height:72px;
+            padding:0 40px;
+            border-radius:20px;
+            border:1px solid rgba(57,255,20,.2);
+            background:#111;
+            color:white;
+            font-size:18px;
+            cursor:pointer;
+
+        }
+
+        /* =========================
+           RIGHT SIDE
+        ========================== */
+
+        .hero-right{
+
+            position:relative;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+        }
+
+        .glow-circle{
+
+            width:650px;
+            height:650px;
+            border-radius:50%;
+
+            background:
+            radial-gradient(circle,
+            rgba(57,255,20,.35) 0%,
+            rgba(57,255,20,.08) 40%,
+            transparent 70%);
+
+            position:absolute;
+
+            animation:rotate 20s linear infinite;
+
+        }
+
+        @keyframes rotate{
+
+            from{
+                transform:rotate(0deg);
+            }
+
+            to{
+                transform:rotate(360deg);
+            }
+
+        }
+
+        .food-card{
+
+            width:560px;
+            background:rgba(255,255,255,.04);
+            border:1px solid rgba(57,255,20,.15);
+            border-radius:42px;
+            padding:35px;
+            position:relative;
+            z-index:2;
+            backdrop-filter:blur(20px);
+
+            box-shadow:
+            0 0 40px rgba(57,255,20,.12);
+
+        }
+
+        .food-image{
+
+            width:100%;
+            height:340px;
+            border-radius:30px;
+
+            background:
+            url('https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop')
+            center/cover;
+
+            margin-bottom:28px;
+
+        }
+
+        .food-top{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:18px;
+
+        }
+
+        .food-top h2{
+
+            font-size:38px;
+
         }
 
         .rating{
-            background:#c6ff00;
+
+            background:var(--neon);
             color:black;
-            padding:6px 12px;
-            border-radius:10px;
+            padding:10px 18px;
+            border-radius:14px;
             font-weight:700;
-            font-size:12px;
+
         }
 
-        .time{
-            color:#c6ff00;
-            font-size:12px;
-            font-weight:600;
+        .food-card p{
+
+            color:#999;
+            line-height:1.9;
+            margin-bottom:28px;
+
         }
 
-        .bottom-nav{
-            position:fixed;
-            bottom:0;
-            width:100%;
-            max-width:390px;
-            height:75px;
-            background:#0b0b0b;
-            border-top:1px solid #1f1f1f;
+        .price-row{
+
             display:flex;
-            justify-content:space-around;
+            justify-content:space-between;
             align-items:center;
-            z-index:999;
+
         }
 
-        .nav-item{
+        .price{
+
+            font-size:48px;
+            color:var(--neon);
+            font-weight:800;
+
+        }
+
+        .order-btn{
+
+            height:64px;
+            padding:0 30px;
+            border:none;
+            border-radius:18px;
+            background:var(--neon);
+            color:black;
+            font-size:16px;
+            font-weight:800;
+            cursor:pointer;
+
+        }
+
+        /* =========================
+           STATS
+        ========================== */
+
+        .stats{
+
+            width:92%;
+            max-width:1500px;
+            margin:50px auto 90px auto;
+
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:25px;
+
+        }
+
+        .stat-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:35px;
+            transition:.35s;
+
+        }
+
+        .stat-card:hover{
+
+            transform:translateY(-8px);
+            border-color:var(--neon);
+
+        }
+
+        .stat-card h2{
+
+            font-size:52px;
+            color:var(--neon);
+            margin-bottom:12px;
+
+        }
+
+        .stat-card p{
+
+            color:#999;
+            line-height:1.8;
+
+        }
+
+        /* =========================
+           FEATURES
+        ========================== */
+
+        .features{
+
+            width:92%;
+            max-width:1500px;
+            margin:0 auto 100px auto;
+
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:30px;
+
+        }
+
+        .feature-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:38px;
+            padding:38px;
+            transition:.35s;
+
+        }
+
+        .feature-card:hover{
+
+            transform:translateY(-10px);
+            border-color:var(--neon);
+
+            box-shadow:
+            0 0 40px rgba(57,255,20,.12);
+
+        }
+
+        .feature-icon{
+
+            width:90px;
+            height:90px;
+            border-radius:26px;
+            background:#111;
+            border:2px solid rgba(57,255,20,.22);
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            font-size:38px;
+            color:var(--neon);
+
+            margin-bottom:24px;
+
+        }
+
+        .feature-card h2{
+
+            font-size:34px;
+            margin-bottom:18px;
+
+        }
+
+        .feature-card p{
+
+            color:#999;
+            line-height:2;
+
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .footer{
+
+            width:100%;
+            padding:40px 0;
+            border-top:1px solid rgba(57,255,20,.08);
             text-align:center;
             color:#777;
-            text-decoration:none;
-            font-size:11px;
+
         }
 
-        .nav-item.active{
-            color:#c6ff00;
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1300px){
+
+            .hero{
+
+                grid-template-columns:1fr;
+                text-align:center;
+
+            }
+
+            .hero-left p{
+
+                margin:auto auto 40px auto;
+
+            }
+
+            .hero-buttons{
+
+                justify-content:center;
+
+            }
+
         }
 
-        .nav-icon{
-            font-size:20px;
-            margin-bottom:4px;
+        @media(max-width:900px){
+
+            .nav-links{
+
+                display:none;
+
+            }
+
+            .hero-left h1{
+
+                font-size:62px;
+
+            }
+
+            .food-card{
+
+                width:100%;
+
+            }
+
+            .glow-circle{
+
+                width:420px;
+                height:420px;
+
+            }
+
+            .stats{
+
+                grid-template-columns:1fr 1fr;
+
+            }
+
+            .features{
+
+                grid-template-columns:1fr;
+
+            }
+
         }
 
-        @media(max-width:480px){
+        @media(max-width:600px){
 
-            .mobile-screen{
-                max-width:100%;
+            .hero-left h1{
+
+                font-size:48px;
+
+            }
+
+            .stats{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .food-top{
+
+                flex-direction:column;
+                align-items:flex-start;
+                gap:12px;
+
+            }
+
+            .price-row{
+
+                flex-direction:column;
+                align-items:flex-start;
+                gap:20px;
+
             }
 
         }
@@ -281,203 +619,328 @@
 
 <body>
 
-<div class="mobile-screen">
+    <!-- NAVBAR -->
 
-    <div class="top-bar">
+    <nav class="navbar">
 
-        <div class="location">
+        <div class="nav-container">
 
-            <h3>Deliver to</h3>
+            <div class="logo">
 
-            <h2>Home ▼</h2>
-
-        </div>
-
-        <a href="/food/profile/" style="text-decoration:none;">
-
-            <div class="profile">
-                👤
-            </div>
-
-        </a>
-
-    </div>
-
-    <div class="search-box">
-
-        🔍
-
-        <input type="text" placeholder="Search food, grocery, medicine...">
-
-    </div>
-
-    <div class="banner">
-
-        <h1>FLAT 20% CASHBACK</h1>
-
-        <p>On all food & grocery orders</p>
-
-        <button>Order Now</button>
-
-    </div>
-
-    <div class="section-title">
-
-        <h2>Services</h2>
-
-        <a href="/food/services/">See All</a>
-
-    </div>
-
-    <div class="categories">
-
-        <a href="/food/restaurants/" style="text-decoration:none;color:white;">
-
-            <div class="category">
-
-                <div class="icon">🍔</div>
-
-                <h3>Food</h3>
+                FUDDO
 
             </div>
 
-        </a>
+            <div class="nav-links">
 
-        <div class="category">
+                <a href="/food/home/">
 
-            <div class="icon">🛒</div>
+                    Home
 
-            <h3>Grocery</h3>
+                </a>
+
+                <a href="/food/restaurants/">
+
+                    Restaurants
+
+                </a>
+
+                <a href="/food/rewards/">
+
+                    Rewards
+
+                </a>
+
+                <a href="/food/tracking/">
+
+                    Tracking
+
+                </a>
+
+                <a href="/food/profile/">
+
+                    Profile
+
+                </a>
+
+                <a href="/food/user-login/" class="login-btn">
+
+                    Login
+
+                </a>
+
+                <a href="/food/user-signup/" class="signup-btn">
+
+                    Signup
+
+                </a>
+
+                <a href="/food/restaurants/" class="nav-btn">
+
+                    Order Now
+
+                </a>
+
+            </div>
 
         </div>
 
-        <div class="category">
+    </nav>
 
-            <div class="icon">💊</div>
+    <!-- HERO -->
 
-            <h3>Medicine</h3>
+    <section class="hero">
+
+        <!-- LEFT -->
+
+        <div class="hero-left">
+
+            <h1>
+
+                FUTURE OF <span>FOOD DELIVERY</span>
+
+            </h1>
+
+            <p>
+
+                Experience futuristic cyberpunk food commerce powered by realtime AI delivery, cashback rewards, wallet ecosystem and lightning-fast ordering infrastructure.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/food/restaurants/">
+
+                    <button class="primary-btn">
+
+                        ORDER FOOD →
+
+                    </button>
+
+                </a>
+
+                <a href="/food/rewards/">
+
+                    <button class="secondary-btn">
+
+                        VIEW REWARDS
+
+                    </button>
+
+                </a>
+
+            </div>
 
         </div>
 
-        <div class="category">
+        <!-- RIGHT -->
 
-            <div class="icon">⚡</div>
+        <div class="hero-right">
 
-            <h3>Recharge</h3>
+            <div class="glow-circle"></div>
 
-        </div>
+            <div class="food-card">
 
-    </div>
+                <div class="food-image"></div>
 
-    <div class="section-title">
+                <div class="food-top">
 
-        <h2>Top Restaurants</h2>
+                    <h2>
 
-        <a href="/food/restaurants/">View All</a>
+                        Neon Pizza
 
-    </div>
+                    </h2>
 
-    <div class="restaurants">
+                    <div class="rating">
 
-        <a href="/food/menu/" style="text-decoration:none;color:white;">
-
-            <div class="restaurant-card">
-
-                <div class="restaurant-img"></div>
-
-                <div class="restaurant-content">
-
-                    <h2>Pizza Point</h2>
-
-                    <p>Pizza • Italian • Fast Food</p>
-
-                    <div class="restaurant-info">
-
-                        <div class="rating">
-                            ★ 4.5
-                        </div>
-
-                        <div class="time">
-                            25 mins
-                        </div>
+                        ★ 4.9
 
                     </div>
 
                 </div>
 
-            </div>
+                <p>
 
-        </a>
+                    Futuristic handcrafted pizza loaded with premium toppings and delivered instantly through the FUDDO AI network.
 
-        <a href="/food/menu/" style="text-decoration:none;color:white;">
+                </p>
 
-            <div class="restaurant-card">
+                <div class="price-row">
 
-                <div class="restaurant-img"></div>
+                    <div class="price">
 
-                <div class="restaurant-content">
-
-                    <h2>Biryani House</h2>
-
-                    <p>Biryani • Mughlai • North Indian</p>
-
-                    <div class="restaurant-info">
-
-                        <div class="rating">
-                            ★ 4.3
-                        </div>
-
-                        <div class="time">
-                            30 mins
-                        </div>
+                        ₹299
 
                     </div>
+
+                    <a href="/food/menu/">
+
+                        <button class="order-btn">
+
+                            ADD TO CART
+
+                        </button>
+
+                    </a>
 
                 </div>
 
             </div>
 
-        </a>
+        </div>
 
-    </div>
+    </section>
 
-</div>
+    <!-- STATS -->
 
-<div class="bottom-nav">
+    <section class="stats">
 
-    <a href="/food/home/" class="nav-item active">
+        <div class="stat-card">
 
-        <div class="nav-icon">🏠</div>
+            <h2>
 
-        Home
+                50K+
 
-    </a>
+            </h2>
 
-    <a href="/food/restaurants/" class="nav-item">
+            <p>
 
-        <div class="nav-icon">🍽️</div>
+                Active Cyberpunk Food Users Across India
 
-        Orders
+            </p>
 
-    </a>
+        </div>
 
-    <a href="/food/rewards/" class="nav-item">
+        <div class="stat-card">
 
-        <div class="nav-icon">🎁</div>
+            <h2>
 
-        Rewards
+                24/7
 
-    </a>
+            </h2>
 
-    <a href="/food/profile/" class="nav-item">
+            <p>
 
-        <div class="nav-icon">👤</div>
+                AI Powered Realtime Delivery Infrastructure
 
-        Profile
+            </p>
 
-    </a>
+        </div>
 
-</div>
+        <div class="stat-card">
+
+            <h2>
+
+                ₹10L+
+
+            </h2>
+
+            <p>
+
+                Cashback Rewards Distributed To Users
+
+            </p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2>
+
+                4.9★
+
+            </h2>
+
+            <p>
+
+                Highest Rated Futuristic Food Platform
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- FEATURES -->
+
+    <section class="features">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+
+                ⚡
+
+            </div>
+
+            <h2>
+
+                Instant Delivery
+
+            </h2>
+
+            <p>
+
+                Realtime AI route optimization for lightning-fast futuristic delivery experience.
+
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+
+                🎁
+
+            </div>
+
+            <h2>
+
+                Cashback Rewards
+
+            </h2>
+
+            <p>
+
+                Earn futuristic cashback rewards and wallet bonuses on every order you place.
+
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+
+                🤖
+
+            </div>
+
+            <h2>
+
+                AI Recommendations
+
+            </h2>
+
+            <p>
+
+                Smart AI-powered recommendations based on realtime food behavior analytics.
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        © 2026 FUDDO — FUTURISTIC FOOD DELIVERY ECOSYSTEM
+
+    </footer>
 
 </body>
+
 </html>

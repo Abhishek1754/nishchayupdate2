@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>User Login - FUDDO</title>
+    <title>FUDDO User Login</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -16,229 +19,456 @@
             box-sizing:border-box;
         }
 
-        body{
-            background:#000;
-            font-family:'Poppins',sans-serif;
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            overflow:hidden;
+        :root{
+
+            --neon:#39ff14;
+            --bg:#050505;
+            --card:#0d0d0d;
+            --border:rgba(57,255,20,.15);
+
         }
 
-        .mobile-screen{
-            width:100%;
-            max-width:430px;
-            min-height:100vh;
+        body{
+
             background:#000;
             color:white;
-            padding:25px;
-            position:relative;
+            font-family:'Poppins',sans-serif;
+            overflow-x:hidden;
+            min-height:100vh;
+
         }
 
-        .back-btn{
-            width:55px;
-            height:55px;
-            border-radius:50%;
-            border:2px solid #c6ff00;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            font-size:24px;
-            color:#c6ff00;
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#39ff14;
+            filter:blur(180px);
+            top:-220px;
+            left:-220px;
+            opacity:.08;
+            z-index:-1;
+
+        }
+
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-220px;
+            right:-220px;
+            opacity:.06;
+            z-index:-1;
+
+        }
+
+        a{
             text-decoration:none;
-            margin-bottom:35px;
-            box-shadow:0 0 15px rgba(198,255,0,.4);
+            color:inherit;
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main{
+
+            width:92%;
+            max-width:1450px;
+            min-height:100vh;
+            margin:auto;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            align-items:center;
+            gap:60px;
+            padding:60px 0;
+
+        }
+
+        /* =========================
+           LEFT PANEL
+        ========================== */
+
+        .left-panel{
+
+            position:relative;
+
         }
 
         .logo-box{
-            width:120px;
-            height:120px;
-            border:3px solid #c6ff00;
-            border-radius:30px;
-            margin:auto;
+
+            width:140px;
+            height:140px;
+            border-radius:38px;
+            border:4px solid var(--neon);
             display:flex;
             justify-content:center;
             align-items:center;
-            color:#c6ff00;
             font-size:80px;
+            color:var(--neon);
+            font-family:'Orbitron',sans-serif;
             font-weight:800;
-            box-shadow:0 0 25px #c6ff00;
+
+            box-shadow:
+            0 0 35px rgba(57,255,20,.35),
+            inset 0 0 25px rgba(57,255,20,.15);
+
+            margin-bottom:35px;
+
         }
 
-        .brand{
-            text-align:center;
-            margin-top:22px;
-        }
+        .left-panel h1{
 
-        .brand h1{
-            color:#c6ff00;
-            font-size:62px;
-            font-weight:800;
+            font-size:82px;
             line-height:1;
+            font-family:'Orbitron',sans-serif;
+            margin-bottom:24px;
+
         }
 
-        .brand p{
-            margin-top:10px;
-            color:#bbb;
-            font-size:20px;
+        .left-panel h1 span{
+
+            color:var(--neon);
+            text-shadow:0 0 18px rgba(57,255,20,.5);
+
         }
 
-        .heading{
-            margin-top:45px;
-            text-align:center;
+        .left-panel p{
+
+            color:#999;
+            line-height:2;
+            font-size:18px;
+            max-width:650px;
+            margin-bottom:40px;
+
         }
 
-        .heading h2{
-            font-size:36px;
+        .features{
+
+            display:flex;
+            flex-wrap:wrap;
+            gap:20px;
+
+        }
+
+        .feature-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:28px;
+            padding:24px;
+            min-width:190px;
+
+        }
+
+        .feature-card h3{
+
+            color:var(--neon);
+            font-size:30px;
             margin-bottom:10px;
+
         }
 
-        .heading p{
-            color:#bbb;
-            line-height:1.7;
-            font-size:16px;
+        .feature-card p{
+
+            margin:0;
+            font-size:14px;
+            color:#999;
+
         }
 
-        .form{
-            margin-top:40px;
+        /* =========================
+           LOGIN PANEL
+        ========================== */
+
+        .login-panel{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:42px;
+            padding:42px;
+            position:relative;
+            overflow:hidden;
+
         }
+
+        .login-panel::before{
+
+            content:'';
+            position:absolute;
+            width:240px;
+            height:240px;
+            background:var(--neon);
+            filter:blur(120px);
+            opacity:.08;
+            right:-80px;
+            top:-80px;
+
+        }
+
+        .login-panel h2{
+
+            font-size:48px;
+            margin-bottom:14px;
+            font-family:'Orbitron',sans-serif;
+
+        }
+
+        .login-panel p{
+
+            color:#999;
+            line-height:1.8;
+            margin-bottom:35px;
+
+        }
+
+        /* =========================
+           FORM
+        ========================== */
 
         .input-box{
-            margin-bottom:22px;
+
+            margin-bottom:24px;
+
         }
 
         .input-box label{
+
             display:block;
-            margin-bottom:10px;
-            font-size:16px;
-            color:#c6ff00;
+            margin-bottom:12px;
+            color:var(--neon);
+            font-size:15px;
+            font-weight:600;
+
         }
 
         .input-box input{
+
             width:100%;
-            height:65px;
+            height:68px;
             background:#0c0c0c;
             border:2px solid #1f1f1f;
-            border-radius:18px;
-            padding:0 20px;
+            border-radius:20px;
+            padding:0 22px;
             color:white;
-            font-size:17px;
+            font-size:16px;
             outline:none;
             transition:.3s;
+
         }
 
         .input-box input:focus{
-            border-color:#c6ff00;
-            box-shadow:0 0 15px rgba(198,255,0,.2);
+
+            border-color:var(--neon);
+            box-shadow:0 0 18px rgba(57,255,20,.18);
+
         }
 
         .forgot{
+
             text-align:right;
-            margin-top:-5px;
-            margin-bottom:25px;
+            margin-top:-8px;
+            margin-bottom:28px;
+
         }
 
         .forgot a{
-            color:#c6ff00;
-            text-decoration:none;
-            font-size:15px;
+
+            color:var(--neon);
+            font-size:14px;
+
         }
 
         .login-btn{
+
             width:100%;
-            height:68px;
+            height:72px;
             border:none;
-            border-radius:18px;
-            background:#c6ff00;
-            color:#000;
-            font-size:24px;
-            font-weight:700;
+            border-radius:22px;
+            background:var(--neon);
+            color:black;
+            font-size:20px;
+            font-weight:800;
             cursor:pointer;
-            transition:.3s;
+            transition:.35s;
+            box-shadow:0 0 24px rgba(57,255,20,.22);
+
         }
 
         .login-btn:hover{
-            transform:scale(1.02);
-            box-shadow:0 0 25px #c6ff00;
+
+            transform:translateY(-5px);
+
         }
 
+        /* =========================
+           DIVIDER
+        ========================== */
+
         .divider{
+
             margin:35px 0;
             text-align:center;
             position:relative;
-            color:#bbb;
-            font-size:18px;
+            color:#888;
+
         }
 
         .divider::before{
+
             content:'';
             position:absolute;
             left:0;
             top:50%;
-            width:35%;
+            width:40%;
             height:1px;
-            background:#333;
+            background:#222;
+
         }
 
         .divider::after{
+
             content:'';
             position:absolute;
             right:0;
             top:50%;
-            width:35%;
+            width:40%;
             height:1px;
-            background:#333;
+            background:#222;
+
         }
 
+        /* =========================
+           SOCIAL
+        ========================== */
+
         .social-login{
+
             display:grid;
             grid-template-columns:1fr 1fr;
             gap:18px;
+
         }
 
         .social-btn{
-            height:65px;
-            border:2px solid #1f1f1f;
-            border-radius:18px;
+
+            height:66px;
+            border-radius:20px;
+            border:1px solid rgba(57,255,20,.12);
+            background:#111;
             display:flex;
             justify-content:center;
             align-items:center;
-            gap:12px;
-            font-size:18px;
+            gap:10px;
             cursor:pointer;
             transition:.3s;
+
         }
 
         .social-btn:hover{
-            border-color:#c6ff00;
-            color:#c6ff00;
+
+            border-color:var(--neon);
+            transform:translateY(-4px);
+
         }
 
+        /* =========================
+           SIGNUP
+        ========================== */
+
         .signup{
-            margin-top:40px;
+
+            margin-top:35px;
             text-align:center;
-            color:#bbb;
-            font-size:17px;
+            color:#999;
+
         }
 
         .signup a{
-            color:#c6ff00;
-            text-decoration:none;
-            font-weight:600;
+
+            color:var(--neon);
+            font-weight:700;
+
         }
 
-        .bottom-glow{
-            position:absolute;
-            width:250px;
-            height:250px;
-            background:#c6ff00;
-            filter:blur(150px);
-            opacity:.08;
-            bottom:-100px;
-            left:50%;
-            transform:translateX(-50%);
-            pointer-events:none;
+        /* =========================
+           SECURITY BOX
+        ========================== */
+
+        .security-box{
+
+            margin-top:30px;
+            padding:22px;
+            border-radius:24px;
+            background:rgba(57,255,20,.08);
+            border:1px solid rgba(57,255,20,.12);
+
+        }
+
+        .security-box h3{
+
+            color:var(--neon);
+            margin-bottom:12px;
+
+        }
+
+        .security-box p{
+
+            margin:0;
+            color:#bbb;
+            line-height:1.8;
+            font-size:14px;
+
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1200px){
+
+            .main{
+
+                grid-template-columns:1fr;
+
+            }
+
+        }
+
+        @media(max-width:768px){
+
+            .left-panel h1{
+
+                font-size:52px;
+
+            }
+
+            .logo-box{
+
+                width:110px;
+                height:110px;
+                font-size:60px;
+
+            }
+
+            .login-panel{
+
+                padding:28px;
+
+            }
+
+            .social-login{
+
+                grid-template-columns:1fr;
+
+            }
+
         }
 
     </style>
@@ -247,96 +477,208 @@
 
 <body>
 
-<div class="mobile-screen">
+    <section class="main">
 
-    <a href="/food/select-role/" class="back-btn">
-        ←
-    </a>
+        <!-- LEFT -->
 
-    <div class="logo-box">
-        F
-    </div>
+        <div class="left-panel">
 
-    <div class="brand">
+            <div class="logo-box">
 
-        <h1>FUDDO</h1>
+                F
 
-        <p>Eat. Earn. Enjoy.</p>
+            </div>
 
-    </div>
+            <h1>
 
-    <div class="heading">
+                LOGIN TO <span>FUDDO</span>
 
-        <h2>User Login</h2>
+            </h1>
 
-        <p>
-            Login to continue ordering food,
-            shopping & earning cashback rewards.
-        </p>
+            <p>
 
-    </div>
+                Access the futuristic food commerce ecosystem powered by AI recommendations, realtime delivery and cashback rewards.
 
-    <div class="form">
+            </p>
 
-        <div class="input-box">
+            <div class="features">
 
-            <label>Phone Number / Email</label>
+                <div class="feature-card">
 
-            <input type="text" placeholder="Enter phone or email">
+                    <h3>
+
+                        AI
+
+                    </h3>
+
+                    <p>
+
+                        Smart Food Recommendations
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <h3>
+
+                        24/7
+
+                    </h3>
+
+                    <p>
+
+                        Live Delivery Tracking
+
+                    </p>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <h3>
+
+                        ₹
+
+                    </h3>
+
+                    <p>
+
+                        Cashback Rewards Engine
+
+                    </p>
+
+                </div>
+
+            </div>
 
         </div>
 
-        <div class="input-box">
+        <!-- RIGHT -->
 
-            <label>Password</label>
+        <div class="login-panel">
 
-            <input type="password" placeholder="Enter password">
+            <h2>
 
-        </div>
+                USER LOGIN
 
-        <div class="forgot">
+            </h2>
 
-            <a href="#">
-                Forgot Password?
+            <p>
+
+                Securely sign in to continue your cyberpunk ordering experience.
+
+            </p>
+
+            <!-- FORM -->
+
+            <div class="input-box">
+
+                <label>
+
+                    Email / Phone Number
+
+                </label>
+
+                <input type="text" placeholder="Enter email or phone">
+
+            </div>
+
+            <div class="input-box">
+
+                <label>
+
+                    Password
+
+                </label>
+
+                <input type="password" placeholder="Enter password">
+
+            </div>
+
+            <div class="forgot">
+
+                <a href="#">
+
+                    Forgot Password?
+
+                </a>
+
+            </div>
+
+            <a href="/food/home/">
+
+                <button class="login-btn">
+
+                    LOGIN NOW →
+
+                </button>
+
             </a>
 
+            <!-- DIVIDER -->
+
+            <div class="divider">
+
+                OR CONTINUE WITH
+
+            </div>
+
+            <!-- SOCIAL -->
+
+            <div class="social-login">
+
+                <div class="social-btn">
+
+                    🔴 Google
+
+                </div>
+
+                <div class="social-btn">
+
+                    ⚫ Apple
+
+                </div>
+
+            </div>
+
+            <!-- SIGNUP -->
+
+            <div class="signup">
+
+                Don't have an account?
+
+                <a href="/food/user-signup/">
+
+                    Create Account
+
+                </a>
+
+            </div>
+
+            <!-- SECURITY -->
+
+            <div class="security-box">
+
+                <h3>
+
+                    🤖 AI SECURITY ENGINE
+
+                </h3>
+
+                <p>
+
+                    Advanced authentication system continuously protects your account using encrypted cyberpunk security infrastructure.
+
+                </p>
+
+            </div>
+
         </div>
 
-        <button class="login-btn">
-            Login →
-        </button>
-
-    </div>
-
-    <div class="divider">
-        or continue with
-    </div>
-
-    <div class="social-login">
-
-        <div class="social-btn">
-            🔴 Google
-        </div>
-
-        <div class="social-btn">
-            ⚫ Apple
-        </div>
-
-    </div>
-
-    <div class="signup">
-
-        Don't have an account?
-
-        <a href="/food/user-signup/">
-            Sign Up
-        </a>
-
-    </div>
-
-    <div class="bottom-glow"></div>
-
-</div>
+    </section>
 
 </body>
+
 </html>

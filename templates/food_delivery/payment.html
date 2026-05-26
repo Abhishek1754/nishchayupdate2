@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FUDDO - Payment</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FUDDO Payment</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -13,216 +17,451 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
+        }
+
+        :root{
+
+            --neon:#39ff14;
+            --bg:#050505;
+            --card:#0d0d0d;
+            --border:rgba(57,255,20,.15);
+
         }
 
         body{
+
             background:#000;
             color:white;
-            display:flex;
-            justify-content:center;
-            min-height:100vh;
+            font-family:'Poppins',sans-serif;
             overflow-x:hidden;
+
         }
 
-        .mobile-screen{
-            width:100%;
-            max-width:390px;
-            min-height:100vh;
-            background:#000;
-            padding:18px;
-            position:relative;
-            overflow:hidden;
-            padding-bottom:100px;
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#39ff14;
+            filter:blur(180px);
+            top:-220px;
+            left:-220px;
+            opacity:.08;
+            z-index:-1;
+
         }
 
-        .top-bar{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:24px;
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-220px;
+            right:-220px;
+            opacity:.06;
+            z-index:-1;
+
         }
 
-        .back-btn{
-            width:42px;
-            height:42px;
-            border-radius:50%;
-            border:2px solid #c6ff00;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            color:#c6ff00;
+        a{
             text-decoration:none;
-            font-size:20px;
-            box-shadow:0 0 12px rgba(198,255,0,.3);
+            color:inherit;
         }
 
-        .page-title{
-            font-size:22px;
-            font-weight:700;
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar{
+
+            width:100%;
+            height:90px;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:999;
+            backdrop-filter:blur(18px);
+            background:rgba(0,0,0,.7);
+            border-bottom:1px solid rgba(57,255,20,.08);
+
         }
 
-        .secure{
-            color:#c6ff00;
-            font-size:13px;
-        }
+        .nav-container{
 
-        .bill-card{
-            background:#0b0b0b;
-            border:1px solid #1f1f1f;
-            border-radius:24px;
-            padding:22px;
-            margin-bottom:24px;
-            box-shadow:0 0 15px rgba(198,255,0,.08);
-        }
-
-        .bill-title{
-            font-size:20px;
-            margin-bottom:18px;
-        }
-
-        .bill-row{
+            width:92%;
+            max-width:1450px;
+            height:100%;
+            margin:auto;
             display:flex;
             justify-content:space-between;
-            margin-bottom:14px;
-            font-size:14px;
+            align-items:center;
+
         }
 
-        .bill-row span:first-child{
-            color:#aaa;
+        .logo{
+
+            font-size:34px;
+            font-family:'Orbitron',sans-serif;
+            font-weight:800;
+            color:var(--neon);
+            text-shadow:0 0 18px rgba(57,255,20,.7);
+
         }
 
-        .total-row{
-            border-top:1px solid #1f1f1f;
-            padding-top:15px;
-            margin-top:10px;
-            font-size:18px;
+        .nav-links{
+
+            display:flex;
+            align-items:center;
+            gap:34px;
+
+        }
+
+        .nav-links a{
+
+            color:#bbb;
+            transition:.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:var(--neon);
+
+        }
+
+        .active-btn{
+
+            background:var(--neon);
+            color:black !important;
+            padding:12px 24px;
+            border-radius:14px;
             font-weight:700;
-            color:#c6ff00;
+
         }
 
-        .section-title{
-            font-size:20px;
-            margin-bottom:18px;
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main{
+
+            width:92%;
+            max-width:1450px;
+            margin:auto;
+            padding-top:130px;
+            display:grid;
+            grid-template-columns:1.1fr .65fr;
+            gap:35px;
+            margin-bottom:80px;
+
         }
 
-        .payment-options{
+        /* =========================
+           LEFT
+        ========================== */
+
+        .header{
+
+            margin-bottom:35px;
+
+        }
+
+        .header h1{
+
+            font-size:72px;
+            font-family:'Orbitron',sans-serif;
+            margin-bottom:16px;
+
+        }
+
+        .header h1 span{
+
+            color:var(--neon);
+
+        }
+
+        .header p{
+
+            color:#999;
+            line-height:1.9;
+            max-width:700px;
+
+        }
+
+        /* =========================
+           PAYMENT METHODS
+        ========================== */
+
+        .payment-list{
+
             display:flex;
             flex-direction:column;
-            gap:16px;
-            margin-bottom:28px;
+            gap:24px;
+
         }
 
-        .option{
-            background:#0b0b0b;
-            border:1px solid #1f1f1f;
-            border-radius:20px;
-            padding:18px;
+        .payment-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:28px;
             display:flex;
             justify-content:space-between;
             align-items:center;
-            transition:.3s;
+            transition:.35s;
             cursor:pointer;
+
         }
 
-        .option:hover{
-            border-color:#c6ff00;
-            box-shadow:0 0 15px rgba(198,255,0,.15);
+        .payment-card:hover{
+
+            transform:translateY(-5px);
+            border-color:var(--neon);
+            box-shadow:0 0 35px rgba(57,255,20,.12);
+
         }
 
-        .option-left{
+        .selected{
+
+            border-color:var(--neon);
+            box-shadow:0 0 25px rgba(57,255,20,.15);
+
+        }
+
+        .payment-left{
+
             display:flex;
             align-items:center;
-            gap:14px;
+            gap:20px;
+
         }
 
         .payment-icon{
-            width:52px;
-            height:52px;
-            border-radius:16px;
-            background:#161616;
-            border:2px solid #c6ff00;
+
+            width:72px;
+            height:72px;
+            border-radius:22px;
+            background:#111;
+            border:2px solid rgba(57,255,20,.25);
             display:flex;
             justify-content:center;
             align-items:center;
-            font-size:24px;
-            color:#c6ff00;
+            font-size:32px;
+            color:var(--neon);
+
         }
 
-        .payment-details h3{
-            font-size:17px;
-            margin-bottom:4px;
+        .payment-details h2{
+
+            font-size:28px;
+            margin-bottom:8px;
+
         }
 
         .payment-details p{
-            color:#aaa;
-            font-size:12px;
+
+            color:#999;
+            line-height:1.7;
+
         }
 
         .radio{
-            width:22px;
-            height:22px;
+
+            width:28px;
+            height:28px;
             border-radius:50%;
-            border:2px solid #c6ff00;
-            display:flex;
-            justify-content:center;
-            align-items:center;
+            border:2px solid var(--neon);
+            background:var(--neon);
+            box-shadow:0 0 12px rgba(57,255,20,.4);
+
         }
 
-        .radio::before{
-            content:'';
-            width:10px;
-            height:10px;
-            border-radius:50%;
-            background:#c6ff00;
+        /* =========================
+           AI SECURITY
+        ========================== */
+
+        .security-card{
+
+            background:rgba(57,255,20,.08);
+            border:1px solid rgba(57,255,20,.15);
+            border-radius:34px;
+            padding:30px;
+            margin-top:30px;
+
         }
+
+        .security-card h2{
+
+            color:var(--neon);
+            margin-bottom:16px;
+            font-size:32px;
+
+        }
+
+        .security-card p{
+
+            color:#bbb;
+            line-height:1.9;
+
+        }
+
+        /* =========================
+           RIGHT PANEL
+        ========================== */
+
+        .side-panel{
+
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+
+        }
+
+        .summary-card,
+        .cashback-card,
+        .wallet-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:32px;
+
+        }
+
+        .summary-card h2,
+        .cashback-card h2,
+        .wallet-card h2{
+
+            font-size:30px;
+            margin-bottom:24px;
+
+        }
+
+        .summary-row{
+
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:18px;
+            color:#bbb;
+
+        }
+
+        .summary-total{
+
+            margin-top:28px;
+            padding-top:22px;
+            border-top:1px solid rgba(255,255,255,.08);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+        }
+
+        .summary-total h3{
+
+            font-size:28px;
+
+        }
+
+        .total-price{
+
+            font-size:42px;
+            color:var(--neon);
+            font-weight:800;
+
+        }
+
+        .cashback-card{
+
+            background:rgba(57,255,20,.08);
+
+        }
+
+        .cashback-amount{
+
+            font-size:54px;
+            color:var(--neon);
+            font-weight:800;
+            margin-bottom:12px;
+
+        }
+
+        .cashback-card p,
+        .wallet-card p{
+
+            color:#999;
+            line-height:1.8;
+
+        }
+
+        .wallet-balance{
+
+            color:var(--neon);
+            font-size:44px;
+            font-weight:800;
+            margin-bottom:10px;
+
+        }
+
+        /* =========================
+           BUTTON
+        ========================== */
 
         .pay-btn{
-            position:fixed;
-            bottom:15px;
-            width:100%;
-            max-width:360px;
-            left:50%;
-            transform:translateX(-50%);
-            z-index:999;
-        }
 
-        .pay-btn button{
             width:100%;
-            height:58px;
+            height:70px;
             border:none;
-            border-radius:18px;
-            background:#c6ff00;
-            color:#000;
-            font-size:18px;
-            font-weight:700;
+            border-radius:24px;
+            background:var(--neon);
+            color:black;
+            font-size:20px;
+            font-weight:800;
             cursor:pointer;
-            transition:.3s;
-            box-shadow:0 0 18px rgba(198,255,0,.25);
+            margin-top:20px;
+            box-shadow:0 0 24px rgba(57,255,20,.25);
+
         }
 
-        .pay-btn button:hover{
-            transform:scale(1.02);
-            box-shadow:0 0 24px rgba(198,255,0,.45);
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1200px){
+
+            .main{
+
+                grid-template-columns:1fr;
+
+            }
+
         }
 
-        .bottom-glow{
-            position:absolute;
-            width:240px;
-            height:240px;
-            background:#c6ff00;
-            filter:blur(150px);
-            opacity:.08;
-            bottom:-100px;
-            left:50%;
-            transform:translateX(-50%);
-            pointer-events:none;
-        }
+        @media(max-width:768px){
 
-        @media(max-width:480px){
+            .nav-links{
 
-            .mobile-screen{
-                max-width:100%;
+                display:none;
+
+            }
+
+            .header h1{
+
+                font-size:48px;
+
+            }
+
+            .payment-card{
+
+                flex-direction:column;
+                align-items:flex-start;
+                gap:18px;
+
             }
 
         }
@@ -233,177 +472,336 @@
 
 <body>
 
-<div class="mobile-screen">
+    <!-- NAVBAR -->
 
-    <div class="top-bar">
+    <nav class="navbar">
 
-        <a href="/food/address/" class="back-btn">
-            ←
-        </a>
+        <div class="nav-container">
 
-        <div class="page-title">
-            Payment
-        </div>
+            <div class="logo">
 
-        <div class="secure">
-            Secure 🔒
-        </div>
-
-    </div>
-
-    <div class="bill-card">
-
-        <h2 class="bill-title">
-            Bill Summary
-        </h2>
-
-        <div class="bill-row">
-
-            <span>Item Total</span>
-
-            <span>₹448</span>
-
-        </div>
-
-        <div class="bill-row">
-
-            <span>Delivery Fee</span>
-
-            <span>₹25</span>
-
-        </div>
-
-        <div class="bill-row">
-
-            <span>Platform Fee</span>
-
-            <span>₹10</span>
-
-        </div>
-
-        <div class="bill-row total-row">
-
-            <span>Total Amount</span>
-
-            <span>₹483</span>
-
-        </div>
-
-    </div>
-
-    <h2 class="section-title">
-        Payment Options
-    </h2>
-
-    <div class="payment-options">
-
-        <div class="option">
-
-            <div class="option-left">
-
-                <div class="payment-icon">
-                    💰
-                </div>
-
-                <div class="payment-details">
-
-                    <h3>Wallet</h3>
-
-                    <p>
-                        Balance : ₹1,250
-                    </p>
-
-                </div>
+                FUDDO
 
             </div>
 
-            <div class="radio"></div>
+            <div class="nav-links">
 
-        </div>
+                <a href="/food/home/">Home</a>
 
-        <div class="option">
+                <a href="/food/cart/">Cart</a>
 
-            <div class="option-left">
+                <a href="/food/address/">Address</a>
 
-                <div class="payment-icon">
-                    📱
-                </div>
+                <a href="#" class="active-btn">
 
-                <div class="payment-details">
+                    Payment
 
-                    <h3>UPI</h3>
-
-                    <p>
-                        Google Pay / PhonePe / Paytm
-                    </p>
-
-                </div>
+                </a>
 
             </div>
 
         </div>
 
-        <div class="option">
+    </nav>
 
-            <div class="option-left">
+    <!-- MAIN -->
 
-                <div class="payment-icon">
-                    💳
+    <section class="main">
+
+        <!-- LEFT -->
+
+        <div>
+
+            <div class="header">
+
+                <h1>
+
+                    SECURE <span>PAYMENT</span>
+
+                </h1>
+
+                <p>
+
+                    Experience futuristic fintech checkout powered by encrypted AI payment security and realtime transaction infrastructure.
+
+                </p>
+
+            </div>
+
+            <div class="payment-list">
+
+                <!-- WALLET -->
+
+                <div class="payment-card selected">
+
+                    <div class="payment-left">
+
+                        <div class="payment-icon">
+                            💰
+                        </div>
+
+                        <div class="payment-details">
+
+                            <h2>
+
+                                FUDDO Wallet
+
+                            </h2>
+
+                            <p>
+
+                                Wallet Balance : ₹1,250
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="radio"></div>
+
                 </div>
 
-                <div class="payment-details">
+                <!-- UPI -->
 
-                    <h3>Credit / Debit Card</h3>
+                <div class="payment-card">
 
-                    <p>
-                        Visa, MasterCard & RuPay
-                    </p>
+                    <div class="payment-left">
+
+                        <div class="payment-icon">
+                            📱
+                        </div>
+
+                        <div class="payment-details">
+
+                            <h2>
+
+                                UPI Payment
+
+                            </h2>
+
+                            <p>
+
+                                Google Pay • PhonePe • Paytm
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CARD -->
+
+                <div class="payment-card">
+
+                    <div class="payment-left">
+
+                        <div class="payment-icon">
+                            💳
+                        </div>
+
+                        <div class="payment-details">
+
+                            <h2>
+
+                                Credit / Debit Card
+
+                            </h2>
+
+                            <p>
+
+                                Visa • MasterCard • RuPay
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- COD -->
+
+                <div class="payment-card">
+
+                    <div class="payment-left">
+
+                        <div class="payment-icon">
+                            🚚
+                        </div>
+
+                        <div class="payment-details">
+
+                            <h2>
+
+                                Cash On Delivery
+
+                            </h2>
+
+                            <p>
+
+                                Pay securely when order arrives
+
+                            </p>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+            <!-- AI -->
 
-        <div class="option">
+            <div class="security-card">
 
-            <div class="option-left">
+                <h2>
 
-                <div class="payment-icon">
-                    🚚
-                </div>
+                    🤖 AI FRAUD PROTECTION
 
-                <div class="payment-details">
+                </h2>
 
-                    <h3>Cash on Delivery</h3>
+                <p>
 
-                    <p>
-                        Pay when order arrives
-                    </p>
+                    FUDDO AI security engine continuously monitors suspicious activity, encrypted transactions and realtime fraud detection signals.
 
-                </div>
+                </p>
 
             </div>
 
         </div>
 
-    </div>
+        <!-- RIGHT -->
 
-    <div class="bottom-glow"></div>
+        <div class="side-panel">
 
-</div>
+            <!-- SUMMARY -->
 
-<div class="pay-btn">
+            <div class="summary-card">
 
-    <a href="/food/order-confirmation/">
+                <h2>
 
-        <button>
-            Pay Securely ₹483 →
-        </button>
+                    ORDER SUMMARY
 
-    </a>
+                </h2>
 
-</div>
+                <div class="summary-row">
+
+                    <span>Item Total</span>
+
+                    <span>₹448</span>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span>Delivery Fee</span>
+
+                    <span>₹25</span>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span>Platform Fee</span>
+
+                    <span>₹10</span>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span>Cashback Applied</span>
+
+                    <span style="color:#39ff14;">
+                        -₹40
+                    </span>
+
+                </div>
+
+                <div class="summary-total">
+
+                    <h3>
+
+                        Total
+
+                    </h3>
+
+                    <div class="total-price">
+
+                        ₹443
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CASHBACK -->
+
+            <div class="cashback-card">
+
+                <h2>
+
+                    ⚡ CASHBACK BOOST
+
+                </h2>
+
+                <div class="cashback-amount">
+
+                    ₹50
+
+                </div>
+
+                <p>
+
+                    Cashback will be instantly credited to your FUDDO wallet after successful payment.
+
+                </p>
+
+            </div>
+
+            <!-- WALLET -->
+
+            <div class="wallet-card">
+
+                <h2>
+
+                    FUDDO WALLET
+
+                </h2>
+
+                <div class="wallet-balance">
+
+                    ₹1,250
+
+                </div>
+
+                <p>
+
+                    Your wallet has enough balance for this futuristic order experience.
+
+                </p>
+
+            </div>
+
+            <a href="/food/order-tracking/">
+
+                <button class="pay-btn">
+
+                    PAY SECURELY ₹443 →
+
+                </button>
+
+            </a>
+
+        </div>
+
+    </section>
 
 </body>
+
 </html>

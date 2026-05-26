@@ -29,6 +29,8 @@ from .views import (
     live_tracking,
     delivered,
     rewards,
+     profile,
+     wallet,
 
     # RESTAURANT APIs
 
@@ -202,6 +204,12 @@ urlpatterns = [
         rewards,
         name='rewards'
     ),
+    
+    path(
+    'wallet/',
+    wallet,
+    name='wallet'
+),
 
     # =====================================================
     # RESTAURANT APIs
@@ -320,5 +328,12 @@ urlpatterns = [
         live_tracking_api,
         name='live_tracking_api'
     ),
+    
+    
+    path(
+    'profile/',
+    profile,
+    name='profile'
+),
 
 ]

@@ -1,200 +1,715 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FUDDO - Address</title>
+
+    <title>FUDDO Address</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+
         *{
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial, sans-serif;
+        }
+
+        :root{
+
+            --neon:#39ff14;
+            --bg:#050505;
+            --card:#0d0d0d;
+            --border:rgba(57,255,20,.15);
+
         }
 
         body{
+
             background:#000;
             color:white;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            min-height:100vh;
+            font-family:'Poppins',sans-serif;
+            overflow-x:hidden;
+
         }
 
-        .mobile-screen{
-            width:390px;
-            min-height:100vh;
-            background:#000;
-            border:2px solid #b6ff00;
-            border-radius:25px;
-            padding:20px;
-            position:relative;
-            overflow:hidden;
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#39ff14;
+            filter:blur(180px);
+            top:-220px;
+            left:-220px;
+            opacity:.08;
+            z-index:-1;
+
         }
 
-        .top-bar{
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-220px;
+            right:-220px;
+            opacity:.06;
+            z-index:-1;
+
+        }
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar{
+
+            width:100%;
+            height:90px;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:999;
+            backdrop-filter:blur(18px);
+            background:rgba(0,0,0,.7);
+            border-bottom:1px solid rgba(57,255,20,.08);
+
+        }
+
+        .nav-container{
+
+            width:92%;
+            max-width:1450px;
+            height:100%;
+            margin:auto;
             display:flex;
             justify-content:space-between;
             align-items:center;
-            margin-bottom:25px;
+
         }
 
-        .back-btn{
-            color:#b6ff00;
-            font-size:24px;
-            text-decoration:none;
+        .logo{
+
+            font-size:34px;
+            font-family:'Orbitron',sans-serif;
+            font-weight:800;
+            color:var(--neon);
+            text-shadow:0 0 18px rgba(57,255,20,.7);
+
         }
 
-        .title{
-            font-size:24px;
-            font-weight:bold;
-            color:#fff;
+        .nav-links{
+
+            display:flex;
+            align-items:center;
+            gap:34px;
+
         }
 
-        .add-address{
-            color:#b6ff00;
-            font-size:14px;
-            text-decoration:none;
+        .nav-links a{
+
+            color:#bbb;
+            transition:.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:var(--neon);
+
+        }
+
+        .active-btn{
+
+            background:var(--neon);
+            color:black !important;
+            padding:12px 24px;
+            border-radius:14px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main{
+
+            width:92%;
+            max-width:1450px;
+            margin:auto;
+            padding-top:130px;
+            display:grid;
+            grid-template-columns:1.1fr .7fr;
+            gap:35px;
+            margin-bottom:80px;
+
+        }
+
+        /* =========================
+           LEFT PANEL
+        ========================== */
+
+        .header{
+
+            margin-bottom:35px;
+
+        }
+
+        .header h1{
+
+            font-size:72px;
+            font-family:'Orbitron',sans-serif;
+            margin-bottom:16px;
+
+        }
+
+        .header h1 span{
+
+            color:var(--neon);
+
+        }
+
+        .header p{
+
+            color:#999;
+            line-height:1.9;
+            max-width:700px;
+
+        }
+
+        /* =========================
+           ADDRESS CARDS
+        ========================== */
+
+        .address-list{
+
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+
         }
 
         .address-card{
-            background:#111;
-            border:1px solid #222;
-            border-radius:18px;
-            padding:18px;
-            margin-bottom:18px;
-            transition:0.3s;
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:32px;
+            transition:.35s;
+            cursor:pointer;
+            position:relative;
+
         }
 
         .address-card:hover{
-            border-color:#b6ff00;
-            box-shadow:0 0 15px #b6ff00;
+
+            transform:translateY(-6px);
+            border-color:var(--neon);
+            box-shadow:0 0 35px rgba(57,255,20,.12);
+
+        }
+
+        .selected{
+
+            border-color:var(--neon);
+            box-shadow:0 0 25px rgba(57,255,20,.15);
+
         }
 
         .address-top{
+
             display:flex;
             justify-content:space-between;
             align-items:center;
-            margin-bottom:10px;
+            margin-bottom:20px;
+            flex-wrap:wrap;
+            gap:15px;
+
         }
 
         .address-type{
-            font-size:20px;
-            color:#b6ff00;
-            font-weight:bold;
+
+            font-size:30px;
+            color:var(--neon);
+            font-weight:700;
+
         }
 
-        .radio{
-            width:20px;
-            height:20px;
-            border-radius:50%;
-            border:2px solid #b6ff00;
-            background:#b6ff00;
-            box-shadow:0 0 10px #b6ff00;
+        .selected-badge{
+
+            background:var(--neon);
+            color:black;
+            padding:10px 18px;
+            border-radius:14px;
+            font-size:13px;
+            font-weight:700;
+
         }
 
         .address-text{
+
             color:#ccc;
-            line-height:1.6;
-            font-size:15px;
+            line-height:1.9;
+            font-size:16px;
+            margin-bottom:18px;
+
         }
 
         .phone{
-            margin-top:8px;
+
             color:#999;
-            font-size:14px;
+            line-height:1.8;
+
         }
+
+        .add-btn{
+
+            width:100%;
+            height:65px;
+            border:none;
+            border-radius:22px;
+            background:#111;
+            border:1px dashed rgba(57,255,20,.25);
+            color:var(--neon);
+            font-size:16px;
+            font-weight:700;
+            cursor:pointer;
+            margin-top:12px;
+            transition:.3s;
+
+        }
+
+        .add-btn:hover{
+
+            background:rgba(57,255,20,.08);
+
+        }
+
+        /* =========================
+           RIGHT PANEL
+        ========================== */
+
+        .side-panel{
+
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+
+        }
+
+        .map-card,
+        .eta-card,
+        .ai-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:32px;
+
+        }
+
+        .map{
+
+            width:100%;
+            height:260px;
+            border-radius:28px;
+            background:#0a0a0a;
+            position:relative;
+            overflow:hidden;
+            margin-bottom:24px;
+
+        }
+
+        .map::before{
+
+            content:'';
+            position:absolute;
+            inset:0;
+
+            background:
+            linear-gradient(rgba(57,255,20,.08) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(57,255,20,.08) 1px, transparent 1px);
+
+            background-size:40px 40px;
+
+        }
+
+        .location-pin{
+
+            position:absolute;
+            width:80px;
+            height:80px;
+            border-radius:50%;
+            background:var(--neon);
+            color:black;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:38px;
+            left:50%;
+            top:50%;
+            transform:translate(-50%,-50%);
+            box-shadow:0 0 30px rgba(57,255,20,.45);
+
+        }
+
+        .map-card h2,
+        .eta-card h2,
+        .ai-card h2{
+
+            font-size:30px;
+            margin-bottom:16px;
+
+        }
+
+        .map-card p,
+        .eta-card p,
+        .ai-card p{
+
+            color:#999;
+            line-height:1.8;
+
+        }
+
+        .eta-time{
+
+            font-size:54px;
+            color:var(--neon);
+            font-weight:800;
+            margin-bottom:12px;
+
+        }
+
+        /* =========================
+           BUTTON
+        ========================== */
 
         .deliver-btn{
+
             width:100%;
-            padding:16px;
+            height:68px;
             border:none;
-            border-radius:14px;
-            background:#b6ff00;
-            color:#000;
+            border-radius:22px;
+            background:var(--neon);
+            color:black;
             font-size:18px;
-            font-weight:bold;
-            margin-top:25px;
+            font-weight:800;
             cursor:pointer;
-            transition:0.3s;
+            margin-top:20px;
+            box-shadow:0 0 24px rgba(57,255,20,.25);
+
         }
 
-        .deliver-btn:hover{
-            box-shadow:0 0 20px #b6ff00;
-            transform:scale(1.02);
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1200px){
+
+            .main{
+
+                grid-template-columns:1fr;
+
+            }
+
+        }
+
+        @media(max-width:768px){
+
+            .nav-links{
+
+                display:none;
+
+            }
+
+            .header h1{
+
+                font-size:48px;
+
+            }
+
+            .address-top{
+
+                flex-direction:column;
+                align-items:flex-start;
+
+            }
+
         }
 
     </style>
+
 </head>
 
 <body>
 
-<div class="mobile-screen">
+    <!-- NAVBAR -->
 
-    <div class="top-bar">
-        <a href="/food/cart/" class="back-btn">←</a>
-        <div class="title">Select Address</div>
-        <a href="#" class="add-address">+ Add New</a>
-    </div>
+    <nav class="navbar">
 
-    <div class="address-card">
-        <div class="address-top">
-            <div class="address-type">🏠 Home</div>
-            <div class="radio"></div>
+        <div class="nav-container">
+
+            <div class="logo">
+
+                FUDDO
+
+            </div>
+
+            <div class="nav-links">
+
+                <a href="/food/home/">Home</a>
+
+                <a href="/food/restaurants/">Restaurants</a>
+
+                <a href="/food/cart/">Cart</a>
+
+                <a href="#" class="active-btn">
+
+                    Address
+
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="address-text">
-            123 Green Park,<br>
-            New Delhi - 110016
+    </nav>
+
+    <!-- MAIN -->
+
+    <section class="main">
+
+        <!-- LEFT -->
+
+        <div>
+
+            <div class="header">
+
+                <h1>
+
+                    DELIVERY <span>ADDRESS</span>
+
+                </h1>
+
+                <p>
+
+                    Select your futuristic delivery destination powered by AI routing and realtime logistics optimization.
+
+                </p>
+
+            </div>
+
+            <div class="address-list">
+
+                <!-- HOME -->
+
+                <div class="address-card selected">
+
+                    <div class="address-top">
+
+                        <div class="address-type">
+
+                            🏠 Home
+
+                        </div>
+
+                        <div class="selected-badge">
+
+                            SELECTED
+
+                        </div>
+
+                    </div>
+
+                    <div class="address-text">
+
+                        123 Green Park,<br>
+                        New Delhi - 110016
+
+                    </div>
+
+                    <div class="phone">
+
+                        Rohit (You)<br>
+                        +91 9876543210
+
+                    </div>
+
+                </div>
+
+                <!-- OFFICE -->
+
+                <div class="address-card">
+
+                    <div class="address-top">
+
+                        <div class="address-type">
+
+                            🏢 Office
+
+                        </div>
+
+                    </div>
+
+                    <div class="address-text">
+
+                        Cyber City Phase 2,<br>
+                        Gurgaon - 122001
+
+                    </div>
+
+                    <div class="phone">
+
+                        Rohit (Office)<br>
+                        +91 9876543210
+
+                    </div>
+
+                </div>
+
+                <!-- OTHER -->
+
+                <div class="address-card">
+
+                    <div class="address-top">
+
+                        <div class="address-type">
+
+                            📍 Other
+
+                        </div>
+
+                    </div>
+
+                    <div class="address-text">
+
+                        MG Road,<br>
+                        Bangalore - 560034
+
+                    </div>
+
+                    <div class="phone">
+
+                        Rohit<br>
+                        +91 9876543210
+
+                    </div>
+
+                </div>
+
+                <!-- ADD -->
+
+                <button class="add-btn">
+
+                    + ADD NEW ADDRESS
+
+                </button>
+
+            </div>
+
         </div>
 
-        <div class="phone">
-            Rohit (You)<br>
-            9876543210
+        <!-- RIGHT -->
+
+        <div class="side-panel">
+
+            <!-- MAP -->
+
+            <div class="map-card">
+
+                <div class="map">
+
+                    <div class="location-pin">
+                        📍
+                    </div>
+
+                </div>
+
+                <h2>
+
+                    LIVE DELIVERY ZONE
+
+                </h2>
+
+                <p>
+
+                    Your location is inside FUDDO premium realtime delivery network coverage area.
+
+                </p>
+
+            </div>
+
+            <!-- ETA -->
+
+            <div class="eta-card">
+
+                <h2>
+
+                    DELIVERY ETA
+
+                </h2>
+
+                <div class="eta-time">
+
+                    22 mins
+
+                </div>
+
+                <p>
+
+                    AI route engine predicts optimized delivery timing for your selected address.
+
+                </p>
+
+            </div>
+
+            <!-- AI -->
+
+            <div class="ai-card">
+
+                <h2>
+
+                    🤖 AI DELIVERY ENGINE
+
+                </h2>
+
+                <p>
+
+                    Smart routing technology analyzes traffic, rider availability and delivery clusters for faster fulfillment.
+
+                </p>
+
+            </div>
+
+            <a href="/food/payment/">
+
+                <button class="deliver-btn">
+
+                    DELIVER HERE →
+
+                </button>
+
+            </a>
+
         </div>
-    </div>
 
-    <div class="address-card">
-        <div class="address-top">
-            <div class="address-type">🏢 Work</div>
-        </div>
-
-        <div class="address-text">
-            Cyber City Phase 2,<br>
-            Gurgaon - 122001
-        </div>
-
-        <div class="phone">
-            Rohit (Office)<br>
-            9876543210
-        </div>
-    </div>
-
-    <div class="address-card">
-        <div class="address-top">
-            <div class="address-type">📍 Other</div>
-        </div>
-
-        <div class="address-text">
-            MG Road,<br>
-            Bangalore - 560034
-        </div>
-
-        <div class="phone">
-            Rohit<br>
-            9876543210
-        </div>
-    </div>
-
-    <a href="/food/payment/">
-        <button class="deliver-btn">
-            Deliver Here
-        </button>
-    </a>
-
-</div>
+    </section>
 
 </body>
-</html>
+
 </html>

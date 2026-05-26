@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FUDDO Wallet</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        :root{
+
+            --neon:#39ff14;
+            --bg:#050505;
+            --card:#0d0d0d;
+            --border:rgba(57,255,20,.15);
+
+        }
+
+        body{
+
+            background:#000;
+            color:white;
+            font-family:'Poppins',sans-serif;
+            overflow-x:hidden;
+
+        }
+
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#39ff14;
+            filter:blur(180px);
+            top:-220px;
+            left:-220px;
+            opacity:.08;
+            z-index:-1;
+
+        }
+
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:500px;
+            height:500px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-220px;
+            right:-220px;
+            opacity:.06;
+            z-index:-1;
+
+        }
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar{
+
+            width:100%;
+            height:90px;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:999;
+            backdrop-filter:blur(18px);
+            background:rgba(0,0,0,.7);
+            border-bottom:1px solid rgba(57,255,20,.08);
+
+        }
+
+        .nav-container{
+
+            width:92%;
+            max-width:1450px;
+            height:100%;
+            margin:auto;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+        }
+
+        .logo{
+
+            font-size:34px;
+            font-family:'Orbitron',sans-serif;
+            font-weight:800;
+            color:var(--neon);
+            text-shadow:0 0 18px rgba(57,255,20,.7);
+
+        }
+
+        .nav-links{
+
+            display:flex;
+            align-items:center;
+            gap:34px;
+
+        }
+
+        .nav-links a{
+
+            color:#bbb;
+            transition:.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:var(--neon);
+
+        }
+
+        .active-btn{
+
+            background:var(--neon);
+            color:black !important;
+            padding:12px 24px;
+            border-radius:14px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main{
+
+            width:92%;
+            max-width:1450px;
+            margin:auto;
+            padding-top:130px;
+            display:grid;
+            grid-template-columns:1fr .75fr;
+            gap:35px;
+            margin-bottom:80px;
+
+        }
+
+        /* =========================
+           LEFT
+        ========================== */
+
+        .header{
+
+            margin-bottom:35px;
+
+        }
+
+        .header h1{
+
+            font-size:72px;
+            font-family:'Orbitron',sans-serif;
+            margin-bottom:16px;
+
+        }
+
+        .header h1 span{
+
+            color:var(--neon);
+
+        }
+
+        .header p{
+
+            color:#999;
+            line-height:1.9;
+            max-width:700px;
+
+        }
+
+        /* =========================
+           WALLET HERO
+        ========================== */
+
+        .wallet-hero{
+
+            background:linear-gradient(135deg,#39ff14,#00ff95);
+            border-radius:42px;
+            padding:42px;
+            color:black;
+            margin-bottom:35px;
+            position:relative;
+            overflow:hidden;
+
+            box-shadow:
+            0 0 40px rgba(57,255,20,.18);
+
+        }
+
+        .wallet-hero::before{
+
+            content:'';
+            position:absolute;
+            width:260px;
+            height:260px;
+            background:white;
+            opacity:.08;
+            border-radius:50%;
+            right:-100px;
+            top:-100px;
+
+        }
+
+        .wallet-hero h2{
+
+            font-size:24px;
+            margin-bottom:18px;
+
+        }
+
+        .wallet-balance{
+
+            font-size:82px;
+            font-weight:800;
+            margin-bottom:18px;
+            font-family:'Orbitron',sans-serif;
+
+        }
+
+        .wallet-status{
+
+            display:inline-block;
+            background:black;
+            color:var(--neon);
+            padding:14px 22px;
+            border-radius:18px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           ACTIONS
+        ========================== */
+
+        .action-grid{
+
+            display:grid;
+            grid-template-columns:1fr 1fr 1fr;
+            gap:22px;
+            margin-bottom:35px;
+
+        }
+
+        .action-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:30px;
+            padding:30px;
+            text-align:center;
+            transition:.35s;
+            cursor:pointer;
+
+        }
+
+        .action-card:hover{
+
+            transform:translateY(-6px);
+            border-color:var(--neon);
+            box-shadow:0 0 35px rgba(57,255,20,.12);
+
+        }
+
+        .action-icon{
+
+            width:80px;
+            height:80px;
+            border-radius:24px;
+            background:#111;
+            border:2px solid rgba(57,255,20,.22);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:34px;
+            color:var(--neon);
+            margin:auto auto 20px auto;
+
+        }
+
+        .action-card h3{
+
+            margin-bottom:10px;
+            font-size:24px;
+
+        }
+
+        .action-card p{
+
+            color:#999;
+            line-height:1.8;
+            font-size:14px;
+
+        }
+
+        /* =========================
+           TRANSACTIONS
+        ========================== */
+
+        .transaction-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:36px;
+            padding:34px;
+
+        }
+
+        .transaction-card h2{
+
+            font-size:34px;
+            margin-bottom:24px;
+
+        }
+
+        .transaction-list{
+
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+
+        }
+
+        .transaction-item{
+
+            background:#0c0c0c;
+            border-radius:24px;
+            padding:22px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:20px;
+
+        }
+
+        .transaction-left{
+
+            display:flex;
+            align-items:center;
+            gap:18px;
+
+        }
+
+        .transaction-icon{
+
+            width:62px;
+            height:62px;
+            border-radius:20px;
+            background:#111;
+            border:2px solid rgba(57,255,20,.18);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:28px;
+            color:var(--neon);
+
+        }
+
+        .transaction-info h3{
+
+            margin-bottom:6px;
+
+        }
+
+        .transaction-info p{
+
+            color:#888;
+            font-size:14px;
+
+        }
+
+        .amount{
+
+            color:var(--neon);
+            font-size:22px;
+            font-weight:700;
+
+        }
+
+        .debit{
+
+            color:#ff4d4d;
+
+        }
+
+        /* =========================
+           RIGHT PANEL
+        ========================== */
+
+        .side-panel{
+
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+
+        }
+
+        .analytics-card,
+        .recharge-card,
+        .ai-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:36px;
+            padding:34px;
+
+        }
+
+        .analytics-card h2,
+        .recharge-card h2,
+        .ai-card h2{
+
+            font-size:32px;
+            margin-bottom:20px;
+
+        }
+
+        .analytics-grid{
+
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:18px;
+
+        }
+
+        .analytics-item{
+
+            background:#0c0c0c;
+            border-radius:22px;
+            padding:24px;
+
+        }
+
+        .analytics-item h3{
+
+            color:var(--neon);
+            font-size:32px;
+            margin-bottom:10px;
+
+        }
+
+        .analytics-item p{
+
+            color:#999;
+
+        }
+
+        /* =========================
+           RECHARGE
+        ========================== */
+
+        .recharge-input{
+
+            width:100%;
+            height:70px;
+            background:#0c0c0c;
+            border:2px solid #1f1f1f;
+            border-radius:22px;
+            padding:0 24px;
+            color:white;
+            font-size:18px;
+            outline:none;
+            margin-bottom:24px;
+
+        }
+
+        .recharge-input:focus{
+
+            border-color:var(--neon);
+
+        }
+
+        .recharge-btn{
+
+            width:100%;
+            height:68px;
+            border:none;
+            border-radius:22px;
+            background:var(--neon);
+            color:black;
+            font-size:18px;
+            font-weight:800;
+            cursor:pointer;
+
+        }
+
+        .ai-card p{
+
+            color:#999;
+            line-height:1.9;
+
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1200px){
+
+            .main{
+
+                grid-template-columns:1fr;
+
+            }
+
+        }
+
+        @media(max-width:768px){
+
+            .nav-links{
+
+                display:none;
+
+            }
+
+            .header h1{
+
+                font-size:48px;
+
+            }
+
+            .wallet-balance{
+
+                font-size:52px;
+
+            }
+
+            .action-grid{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .analytics-grid{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .transaction-item{
+
+                flex-direction:column;
+                align-items:flex-start;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <div class="logo">
+
+                FUDDO
+
+            </div>
+
+            <div class="nav-links">
+
+                <a href="/food/home/">Home</a>
+
+                <a href="/food/rewards/">Rewards</a>
+
+                <a href="/food/profile/">Profile</a>
+
+                <a href="#" class="active-btn">
+
+                    Wallet
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- MAIN -->
+
+    <section class="main">
+
+        <!-- LEFT -->
+
+        <div>
+
+            <div class="header">
+
+                <h1>
+
+                    DIGITAL <span>WALLET</span>
+
+                </h1>
+
+                <p>
+
+                    Manage your futuristic fintech ecosystem powered by cashback rewards, realtime transactions and AI spending intelligence.
+
+                </p>
+
+            </div>
+
+            <!-- WALLET -->
+
+            <div class="wallet-hero">
+
+                <h2>
+
+                    TOTAL WALLET BALANCE
+
+                </h2>
+
+                <div class="wallet-balance">
+
+                    ₹1,250
+
+                </div>
+
+                <div class="wallet-status">
+
+                    Wallet Synced
+
+                </div>
+
+            </div>
+
+            <!-- ACTIONS -->
+
+            <div class="action-grid">
+
+                <div class="action-card">
+
+                    <div class="action-icon">
+                        ➕
+                    </div>
+
+                    <h3>
+
+                        Add Money
+
+                    </h3>
+
+                    <p>
+
+                        Instantly recharge your wallet balance securely.
+
+                    </p>
+
+                </div>
+
+                <div class="action-card">
+
+                    <div class="action-icon">
+                        🎁
+                    </div>
+
+                    <h3>
+
+                        Cashback
+
+                    </h3>
+
+                    <p>
+
+                        Unlock cashback rewards from food orders.
+
+                    </p>
+
+                </div>
+
+                <div class="action-card">
+
+                    <div class="action-icon">
+                        🚀
+                    </div>
+
+                    <h3>
+
+                        Transfer
+
+                    </h3>
+
+                    <p>
+
+                        Send wallet balance securely inside ecosystem.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- TRANSACTIONS -->
+
+            <div class="transaction-card">
+
+                <h2>
+
+                    RECENT TRANSACTIONS
+
+                </h2>
+
+                <div class="transaction-list">
+
+                    <div class="transaction-item">
+
+                        <div class="transaction-left">
+
+                            <div class="transaction-icon">
+                                🍕
+
+                            </div>
+
+                            <div class="transaction-info">
+
+                                <h3>
+
+                                    Pizza Order
+
+                                </h3>
+
+                                <p>
+
+                                    Today • 8:45 PM
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="amount debit">
+
+                            -₹443
+
+                        </div>
+
+                    </div>
+
+                    <div class="transaction-item">
+
+                        <div class="transaction-left">
+
+                            <div class="transaction-icon">
+                                🎁
+
+                            </div>
+
+                            <div class="transaction-info">
+
+                                <h3>
+
+                                    Cashback Credit
+
+                                </h3>
+
+                                <p>
+
+                                    Today • 8:50 PM
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="amount">
+
+                            +₹50
+
+                        </div>
+
+                    </div>
+
+                    <div class="transaction-item">
+
+                        <div class="transaction-left">
+
+                            <div class="transaction-icon">
+                                👥
+
+                            </div>
+
+                            <div class="transaction-info">
+
+                                <h3>
+
+                                    Referral Reward
+
+                                </h3>
+
+                                <p>
+
+                                    Yesterday • 4:20 PM
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="amount">
+
+                            +₹100
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="side-panel">
+
+            <!-- ANALYTICS -->
+
+            <div class="analytics-card">
+
+                <h2>
+
+                    WALLET ANALYTICS
+
+                </h2>
+
+                <div class="analytics-grid">
+
+                    <div class="analytics-item">
+
+                        <h3>
+
+                            ₹650
+
+                        </h3>
+
+                        <p>
+
+                            Monthly Spending
+
+                        </p>
+
+                    </div>
+
+                    <div class="analytics-item">
+
+                        <h3>
+
+                            ₹250
+
+                        </h3>
+
+                        <p>
+
+                            Cashback Earned
+
+                        </p>
+
+                    </div>
+
+                    <div class="analytics-item">
+
+                        <h3>
+
+                            24
+
+                        </h3>
+
+                        <p>
+
+                            Transactions
+
+                        </p>
+
+                    </div>
+
+                    <div class="analytics-item">
+
+                        <h3>
+
+                            PRO
+
+                        </h3>
+
+                        <p>
+
+                            Wallet Tier
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RECHARGE -->
+
+            <div class="recharge-card">
+
+                <h2>
+
+                    RECHARGE WALLET
+
+                </h2>
+
+                <input
+                    type="text"
+                    class="recharge-input"
+                    placeholder="Enter amount"
+                >
+
+                <button class="recharge-btn">
+
+                    ADD MONEY →
+
+                </button>
+
+            </div>
+
+            <!-- AI -->
+
+            <div class="ai-card">
+
+                <h2>
+
+                    🤖 AI FINANCE ENGINE
+
+                </h2>
+
+                <p>
+
+                    FUDDO AI analyzes your transaction behavior and predicts optimized cashback campaigns, savings opportunities and reward boosts.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>

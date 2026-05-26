@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FUDDO - Cart</title>
+
+    <title>FUDDO Cart</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
 
@@ -11,137 +17,486 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family:Arial, sans-serif;
+        }
+
+        :root{
+
+            --neon:#39ff14;
+            --bg:#050505;
+            --card:#0d0d0d;
+            --border:rgba(57,255,20,.15);
+
         }
 
         body{
+
             background:#000;
             color:white;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            min-height:100vh;
+            font-family:'Poppins',sans-serif;
+            overflow-x:hidden;
+
         }
 
-        .mobile-screen{
-            width:390px;
-            min-height:100vh;
-            background:#000;
-            border:2px solid #b6ff00;
-            border-radius:25px;
-            padding:20px;
+        body::before{
+
+            content:'';
+            position:fixed;
+            width:450px;
+            height:450px;
+            background:#39ff14;
+            filter:blur(180px);
+            top:-180px;
+            left:-180px;
+            opacity:.08;
+            z-index:-1;
+
         }
 
-        .top-bar{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            margin-bottom:25px;
+        body::after{
+
+            content:'';
+            position:fixed;
+            width:450px;
+            height:450px;
+            background:#00ff95;
+            filter:blur(180px);
+            bottom:-180px;
+            right:-180px;
+            opacity:.06;
+            z-index:-1;
+
         }
 
-        .back-btn{
-            color:#b6ff00;
+        a{
             text-decoration:none;
-            font-size:24px;
+            color:inherit;
         }
 
-        .title{
-            font-size:26px;
-            font-weight:bold;
-            color:#fff;
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar{
+
+            width:100%;
+            height:90px;
+            position:fixed;
+            top:0;
+            left:0;
+            z-index:999;
+            backdrop-filter:blur(18px);
+            background:rgba(0,0,0,.7);
+            border-bottom:1px solid rgba(57,255,20,.08);
+
         }
 
-        .cart-box{
-            background:#111;
-            border:1px solid #222;
-            border-radius:18px;
-            padding:18px;
-            margin-bottom:18px;
-            transition:0.3s;
-        }
+        .nav-container{
 
-        .cart-box:hover{
-            border-color:#b6ff00;
-            box-shadow:0 0 15px #b6ff00;
-        }
-
-        .item-row{
+            width:92%;
+            max-width:1450px;
+            height:100%;
+            margin:auto;
             display:flex;
             justify-content:space-between;
             align-items:center;
+
         }
 
-        .item-name{
-            font-size:20px;
-            color:#fff;
-            font-weight:bold;
+        .logo{
+
+            font-size:34px;
+            font-family:'Orbitron',sans-serif;
+            font-weight:800;
+            color:var(--neon);
+            text-shadow:0 0 18px rgba(57,255,20,.7);
+
         }
 
-        .item-price{
-            color:#b6ff00;
-            font-size:18px;
-            margin-top:8px;
+        .nav-links{
+
+            display:flex;
+            align-items:center;
+            gap:34px;
+
+        }
+
+        .nav-links a{
+
+            color:#bbb;
+            transition:.3s;
+
+        }
+
+        .nav-links a:hover{
+
+            color:var(--neon);
+
+        }
+
+        .checkout-btn-nav{
+
+            background:var(--neon);
+            color:black !important;
+            padding:12px 24px;
+            border-radius:14px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           MAIN
+        ========================== */
+
+        .main{
+
+            width:92%;
+            max-width:1450px;
+            margin:auto;
+            padding-top:130px;
+            display:grid;
+            grid-template-columns:1.2fr .55fr;
+            gap:35px;
+            margin-bottom:80px;
+
+        }
+
+        /* =========================
+           CART ITEMS
+        ========================== */
+
+        .cart-header{
+
+            margin-bottom:35px;
+
+        }
+
+        .cart-header h1{
+
+            font-size:72px;
+            font-family:'Orbitron',sans-serif;
+            margin-bottom:16px;
+
+        }
+
+        .cart-header h1 span{
+
+            color:var(--neon);
+
+        }
+
+        .cart-header p{
+
+            color:#999;
+            line-height:1.9;
+            max-width:700px;
+
+        }
+
+        .cart-items{
+
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+
+        }
+
+        .cart-card{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:28px;
+            display:flex;
+            justify-content:space-between;
+            gap:28px;
+            transition:.35s;
+
+        }
+
+        .cart-card:hover{
+
+            transform:translateY(-6px);
+            border-color:var(--neon);
+            box-shadow:0 0 35px rgba(57,255,20,.12);
+
+        }
+
+        .food-left{
+
+            display:flex;
+            gap:24px;
+            flex:1;
+
+        }
+
+        .food-image{
+
+            width:160px;
+            height:160px;
+            border-radius:28px;
+            background:linear-gradient(135deg,#39ff14,#00ff95);
+
+        }
+
+        .food-details{
+
+            flex:1;
+
+        }
+
+        .food-details h2{
+
+            font-size:32px;
+            margin-bottom:14px;
+
+        }
+
+        .food-details p{
+
+            color:#999;
+            line-height:1.8;
+            margin-bottom:20px;
+
+        }
+
+        .price{
+
+            color:var(--neon);
+            font-size:30px;
+            font-weight:700;
+
+        }
+
+        .food-right{
+
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+            align-items:flex-end;
+
+        }
+
+        .remove-btn{
+
+            background:rgba(255,0,0,.1);
+            border:1px solid rgba(255,0,0,.25);
+            color:#ff5555;
+            padding:10px 18px;
+            border-radius:12px;
+            cursor:pointer;
+
         }
 
         .qty-box{
+
             display:flex;
             align-items:center;
-            gap:10px;
-            background:#000;
-            padding:8px 12px;
-            border-radius:10px;
-            border:1px solid #333;
+            gap:16px;
+            background:#111;
+            border:1px solid rgba(57,255,20,.12);
+            padding:14px 18px;
+            border-radius:18px;
+
         }
 
         .qty-btn{
-            width:28px;
-            height:28px;
+
+            width:38px;
+            height:38px;
             border:none;
             border-radius:50%;
-            background:#b6ff00;
-            color:#000;
-            font-weight:bold;
+            background:var(--neon);
+            color:black;
+            font-weight:700;
             cursor:pointer;
+            font-size:18px;
+
         }
 
-        .summary-box{
-            background:#111;
-            border-radius:18px;
-            padding:20px;
-            margin-top:20px;
-            border:1px solid #222;
+        .qty{
+
+            font-size:18px;
+            font-weight:700;
+
+        }
+
+        /* =========================
+           AI CASHBACK
+        ========================== */
+
+        .cashback-box{
+
+            background:rgba(57,255,20,.08);
+            border:1px solid rgba(57,255,20,.15);
+            border-radius:28px;
+            padding:28px;
+            margin-top:35px;
+
+        }
+
+        .cashback-box h2{
+
+            color:var(--neon);
+            margin-bottom:14px;
+            font-size:30px;
+
+        }
+
+        .cashback-box p{
+
+            color:#bbb;
+            line-height:1.8;
+
+        }
+
+        /* =========================
+           SUMMARY PANEL
+        ========================== */
+
+        .summary-panel{
+
+            background:rgba(255,255,255,.03);
+            border:1px solid rgba(57,255,20,.12);
+            border-radius:34px;
+            padding:34px;
+            height:fit-content;
+            position:sticky;
+            top:120px;
+
+        }
+
+        .summary-panel h2{
+
+            font-size:36px;
+            margin-bottom:32px;
+            font-family:'Orbitron',sans-serif;
+
         }
 
         .summary-row{
+
             display:flex;
             justify-content:space-between;
-            margin-bottom:15px;
-            font-size:16px;
+            margin-bottom:22px;
+            color:#bbb;
+
         }
 
-        .total{
-            font-size:24px;
-            color:#b6ff00;
-            font-weight:bold;
+        .summary-total{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:32px;
+            padding-top:28px;
+            border-top:1px solid rgba(255,255,255,.08);
+
         }
 
-        .pay-btn{
+        .summary-total h3{
+
+            font-size:28px;
+
+        }
+
+        .total-price{
+
+            color:var(--neon);
+            font-size:42px;
+            font-weight:800;
+
+        }
+
+        .checkout-btn{
+
             width:100%;
-            padding:16px;
-            background:#b6ff00;
-            color:#000;
+            height:64px;
             border:none;
-            border-radius:14px;
+            border-radius:20px;
+            background:var(--neon);
+            color:black;
             font-size:18px;
-            font-weight:bold;
-            margin-top:25px;
+            font-weight:700;
             cursor:pointer;
-            transition:0.3s;
+            margin-top:35px;
+            box-shadow:0 0 22px rgba(57,255,20,.25);
+
         }
 
-        .pay-btn:hover{
-            transform:scale(1.02);
-            box-shadow:0 0 20px #b6ff00;
+        .secure-box{
+
+            margin-top:26px;
+            padding:18px;
+            border-radius:18px;
+            background:#111;
+            border:1px solid rgba(57,255,20,.12);
+            color:#aaa;
+            line-height:1.8;
+            font-size:14px;
+
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:1200px){
+
+            .main{
+
+                grid-template-columns:1fr;
+
+            }
+
+            .summary-panel{
+
+                position:relative;
+                top:0;
+
+            }
+
+        }
+
+        @media(max-width:768px){
+
+            .nav-links{
+
+                display:none;
+
+            }
+
+            .cart-header h1{
+
+                font-size:46px;
+
+            }
+
+            .cart-card{
+
+                flex-direction:column;
+
+            }
+
+            .food-left{
+
+                flex-direction:column;
+
+            }
+
+            .food-image{
+
+                width:100%;
+                height:220px;
+
+            }
+
+            .food-right{
+
+                flex-direction:row;
+                align-items:center;
+
+            }
+
         }
 
     </style>
@@ -150,85 +505,284 @@
 
 <body>
 
-<div class="mobile-screen">
+    <!-- NAVBAR -->
 
-    <div class="top-bar">
-        <a href="/food/menu/" class="back-btn">←</a>
-        <div class="title">Your Cart</div>
-        <div></div>
-    </div>
+    <nav class="navbar">
 
-    <div class="cart-box">
+        <div class="nav-container">
 
-        <div class="item-row">
+            <div class="logo">
 
-            <div>
-                <div class="item-name">🍕 Margherita Pizza</div>
-                <div class="item-price">₹199</div>
+                FUDDO
+
             </div>
 
-            <div class="qty-box">
-                <button class="qty-btn">-</button>
-                <span>1</span>
-                <button class="qty-btn">+</button>
-            </div>
+            <div class="nav-links">
 
-        </div>
+                <a href="/food/home/">Home</a>
 
-    </div>
+                <a href="/food/restaurants/">Restaurants</a>
 
-    <div class="cart-box">
+                <a href="/food/menu/">Menu</a>
 
-        <div class="item-row">
+                <a href="#">Tracking</a>
 
-            <div>
-                <div class="item-name">🍕 Farm House Pizza</div>
-                <div class="item-price">₹249</div>
-            </div>
+                <a href="#" class="checkout-btn-nav">
 
-            <div class="qty-box">
-                <button class="qty-btn">-</button>
-                <span>1</span>
-                <button class="qty-btn">+</button>
+                    Checkout
+
+                </a>
+
             </div>
 
         </div>
 
-    </div>
+    </nav>
 
-    <div class="summary-box">
+    <!-- MAIN -->
 
-        <div class="summary-row">
-            <span>Item Total</span>
-            <span>₹448</span>
+    <section class="main">
+
+        <!-- LEFT -->
+
+        <div>
+
+            <div class="cart-header">
+
+                <h1>
+
+                    YOUR <span>CART</span>
+
+                </h1>
+
+                <p>
+
+                    Review your futuristic order experience powered by realtime cashback rewards and cyberpunk food commerce.
+
+                </p>
+
+            </div>
+
+            <div class="cart-items">
+
+                <!-- ITEM -->
+
+                <div class="cart-card">
+
+                    <div class="food-left">
+
+                        <div class="food-image"></div>
+
+                        <div class="food-details">
+
+                            <h2>
+
+                                Margherita Pizza
+
+                            </h2>
+
+                            <p>
+
+                                Fresh mozzarella cheese, Italian herbs and premium futuristic sauce.
+
+                            </p>
+
+                            <div class="price">
+
+                                ₹199
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="food-right">
+
+                        <button class="remove-btn">
+
+                            REMOVE
+
+                        </button>
+
+                        <div class="qty-box">
+
+                            <button class="qty-btn">-</button>
+
+                            <div class="qty">
+
+                                1
+
+                            </div>
+
+                            <button class="qty-btn">+</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ITEM -->
+
+                <div class="cart-card">
+
+                    <div class="food-left">
+
+                        <div class="food-image"></div>
+
+                        <div class="food-details">
+
+                            <h2>
+
+                                Farm House Pizza
+
+                            </h2>
+
+                            <p>
+
+                                Loaded with fresh veggies, neon toppings and premium cheese layers.
+
+                            </p>
+
+                            <div class="price">
+
+                                ₹249
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="food-right">
+
+                        <button class="remove-btn">
+
+                            REMOVE
+
+                        </button>
+
+                        <div class="qty-box">
+
+                            <button class="qty-btn">-</button>
+
+                            <div class="qty">
+
+                                1
+
+                            </div>
+
+                            <button class="qty-btn">+</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CASHBACK -->
+
+            <div class="cashback-box">
+
+                <h2>
+
+                    ⚡ AI CASHBACK BOOST
+
+                </h2>
+
+                <p>
+
+                    You unlocked 20% cashback and premium reward points on this order. Invite friends to activate Group Order Rewards.
+
+                </p>
+
+            </div>
+
         </div>
 
-        <div class="summary-row">
-            <span>Delivery Fee</span>
-            <span>₹25</span>
+        <!-- SUMMARY -->
+
+        <div class="summary-panel">
+
+            <h2>
+
+                ORDER SUMMARY
+
+            </h2>
+
+            <div class="summary-row">
+
+                <span>Item Total</span>
+
+                <span>₹448</span>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>Delivery Fee</span>
+
+                <span>₹25</span>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>Platform Fee</span>
+
+                <span>₹10</span>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>Cashback Applied</span>
+
+                <span style="color:#39ff14;">
+                    -₹40
+                </span>
+
+            </div>
+
+            <div class="summary-total">
+
+                <h3>
+
+                    Total
+
+                </h3>
+
+                <div class="total-price">
+
+                    ₹443
+
+                </div>
+
+            </div>
+
+            <a href="/food/address/">
+
+                <button class="checkout-btn">
+
+                    PROCEED TO PAY →
+
+                </button>
+
+            </a>
+
+            <div class="secure-box">
+
+                🔒 Secure encrypted checkout powered by FUDDO realtime commerce infrastructure.
+
+            </div>
+
         </div>
 
-        <div class="summary-row">
-            <span>Platform Fee</span>
-            <span>₹10</span>
-        </div>
-
-        <hr style="border:1px solid #222; margin:15px 0;">
-
-        <div class="summary-row total">
-            <span>Total</span>
-            <span>₹483</span>
-        </div>
-
-    </div>
-
-    <a href="/food/address/">
-        <button class="pay-btn">
-            Proceed to Pay
-        </button>
-    </a>
-
-</div>
+    </section>
 
 </body>
+
 </html>

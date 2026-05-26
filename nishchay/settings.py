@@ -1,5 +1,5 @@
 """
-Django settings for nishchay project.
+Production Ready Django Settings for Nishchay
 """
 
 from pathlib import Path
@@ -17,14 +17,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # =====================================================
 
-SECRET_KEY = 'django-insecure-b83uho$bx8v0-4oh4!83y4=tlbq#&++0&c(wlh9e(=1k)#q4ti'
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "change-this-secret-key-in-production"
+)
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
-
-    '*',
-
+    "nishchay.in",
+    "www.nishchay.in",
+    "98.85.228.253",
+    "localhost",
+    "127.0.0.1",
 ]
 
 
@@ -56,13 +61,9 @@ INSTALLED_APPS = [
     # =================================================
 
     'rest_framework',
-
     'rest_framework_simplejwt',
-
     'corsheaders',
-
     'django_filters',
-
     'channels',
 
     # =================================================
@@ -70,25 +71,15 @@ INSTALLED_APPS = [
     # =================================================
 
     'accounts.apps.AccountsConfig',
-
     'subscription.apps.SubscriptionConfig',
-
     'wallet.apps.WalletConfig',
-
     'roi.apps.RoiConfig',
-
     'ecommerce.apps.EcommerceConfig',
-
     'recharge.apps.RechargeConfig',
-
     'astrology.apps.AstrologyConfig',
-
     'career.apps.CareerConfig',
-
     'food_delivery',
-
     'referral',
-
     'ai_karma',
 
 ]
@@ -239,7 +230,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -261,10 +252,10 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = (
-
     'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 )
+
+WHITENOISE_USE_FINDERS = True
 
 
 # =====================================================
@@ -313,14 +304,18 @@ REST_FRAMEWORK = {
 # =====================================================
 # CHANNEL LAYERS
 # =====================================================
-# LOCALHOST DEVELOPMENT
-# =====================================================
 
 CHANNEL_LAYERS = {
 
     "default": {
 
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+
+        "CONFIG": {
+
+            "hosts": [("127.0.0.1", 6379)],
+
+        },
 
     },
 
@@ -331,7 +326,17 @@ CHANNEL_LAYERS = {
 # CORS SETTINGS
 # =====================================================
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+
+    "http://nishchay.in",
+
+    "https://nishchay.in",
+
+    "http://www.nishchay.in",
+
+    "https://www.nishchay.in",
+
+]
 
 
 # =====================================================
@@ -340,11 +345,56 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
 
-    'http://127.0.0.1:8000',
+    "https://nishchay.in",
 
-    'http://localhost:8000',
+    "https://www.nishchay.in",
 
 ]
+
+
+# =====================================================
+# SECURITY HEADERS
+# =====================================================
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+X_FRAME_OPTIONS = 'DENY'
+
+SECURE_SSL_REDIRECT = False
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+SECURE_HSTS_SECONDS = 31536000
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
+
+
+# =====================================================
+# SESSION SECURITY
+# =====================================================
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_COOKIE_AGE = 86400
+
+
+# =====================================================
+# LOGGING
+# =====================================================
+
+LOGGING = {
+
+    'version': 1,
+
+    'disable_existing_loggers': False,
+
+}
 
 
 # =====================================================
@@ -384,3 +434,44 @@ JAZZMIN_SETTINGS = {
     },
 
 }
+
+
+# =====================================================
+# CACHE
+# =====================================================
+
+CACHES = {
+
+    "default": {
+
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+
+    }
+
+}
+
+
+# =====================================================
+# EMAIL CONFIGURATION
+# =====================================================
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+
+# =====================================================
+# FILE UPLOAD LIMITS
+# =====================================================
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760
