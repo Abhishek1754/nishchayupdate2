@@ -1,75 +1,395 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Nishchay Register</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+
+            background:black;
+
+            color:#ccff00;
+
+            min-height:100vh;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            overflow:hidden;
+
+        }
+
+        .container{
+
+            width:420px;
+
+            background:#050505;
+
+            border:2px solid #b6ff00;
+
+            border-radius:20px;
+
+            padding:40px;
+
+            box-shadow:0 0 40px #aaff00;
+
+        }
+
+        .logo{
+
+            text-align:center;
+
+            font-size:40px;
+
+            font-weight:bold;
+
+            margin-bottom:10px;
+
+            color:#b6ff00;
+
+            text-shadow:0 0 15px #b6ff00;
+
+        }
+
+        .subtitle{
+
+            text-align:center;
+
+            margin-bottom:30px;
+
+            color:white;
+
+        }
+
+        .input-box{
+
+            margin-bottom:18px;
+
+        }
+
+        .input-box input{
+
+            width:100%;
+
+            padding:14px;
+
+            background:black;
+
+            border:1px solid #b6ff00;
+
+            border-radius:10px;
+
+            color:white;
+
+            outline:none;
+
+            font-size:15px;
+
+        }
+
+        .input-box input:focus{
+
+            box-shadow:0 0 15px #b6ff00;
+
+        }
+
+        .register-btn{
+
+            width:100%;
+
+            padding:15px;
+
+            background:#b6ff00;
+
+            border:none;
+
+            border-radius:10px;
+
+            font-size:18px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            margin-top:10px;
+
+            transition:0.3s;
+
+        }
+
+        .register-btn:hover{
+
+            background:black;
+
+            color:#b6ff00;
+
+            border:1px solid #b6ff00;
+
+            box-shadow:0 0 20px #b6ff00;
+
+        }
+
+        .login-link{
+
+            text-align:center;
+
+            margin-top:20px;
+
+            color:white;
+
+        }
+
+        .login-link a{
+
+            color:#b6ff00;
+
+            text-decoration:none;
+
+            font-weight:bold;
+
+        }
+
+        .glow{
+
+            position:absolute;
+
+            width:500px;
+
+            height:500px;
+
+            background:#b6ff00;
+
+            filter:blur(200px);
+
+            opacity:0.15;
+
+            z-index:-1;
+
+        }
+
+        .glow1{
+
+            top:-100px;
+
+            left:-100px;
+
+        }
+
+        .glow2{
+
+            bottom:-100px;
+
+            right:-100px;
+
+        }
+
+    </style>
 
 </head>
 
 <body>
 
-<h1>User Registration</h1>
+<div class="glow glow1"></div>
 
-<input type="text" id="first_name" placeholder="First Name">
+<div class="glow glow2"></div>
 
-<input type="text" id="last_name" placeholder="Last Name">
+<div class="container">
 
-<input type="email" id="email" placeholder="Email">
+    <div class="logo">
 
-<input type="text" id="phone" placeholder="Phone">
+        NISHCHAY
 
-<input type="text" id="state" placeholder="State">
+    </div>
 
-<input type="text" id="pincode" placeholder="Pincode">
+    <div class="subtitle">
 
-<input type="text" id="referral_code" placeholder="Referral Code">
+        Create Your Multiverse Account
 
-<input type="password" id="password" placeholder="Password">
+    </div>
 
-<button onclick="registerUser()">
+    <form onsubmit="registerUser(event)">
 
-    Register
+        <div class="input-box">
 
-</button>
+            <input
+                type="text"
+                id="first_name"
+                placeholder="First Name"
+                required
+            >
+
+        </div>
+
+        <div class="input-box">
+
+            <input
+                type="text"
+                id="last_name"
+                placeholder="Last Name"
+                required
+            >
+
+        </div>
+
+        <div class="input-box">
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email Address"
+                required
+            >
+
+        </div>
+
+        <div class="input-box">
+
+            <input
+                type="text"
+                id="phone"
+                placeholder="Phone Number"
+                required
+            >
+
+        </div>
+
+        <div class="input-box">
+
+            <input
+                type="text"
+                id="state"
+                placeholder="State"
+                required
+            >
+
+        </div>
+
+        <div class="input-box">
+
+            <input
+                type="text"
+                id="pincode"
+                placeholder="Pincode"
+                required
+            >
+
+        </div>
+
+        <div class="input-box">
+
+            <input
+                type="text"
+                id="referral_code"
+                placeholder="Referral Code (Optional)"
+            >
+
+        </div>
+
+        <div class="input-box">
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+            >
+
+        </div>
+
+        <button class="register-btn" type="submit">
+
+            REGISTER
+
+        </button>
+
+    </form>
+
+    <div class="login-link">
+
+        Already have account?
+
+        <a href="/login/">
+
+            Login
+
+        </a>
+
+    </div>
+
+</div>
 
 <script>
 
-async function registerUser(){
+async function registerUser(event){
+
+    event.preventDefault();
+
+    const first_name =
+        document.getElementById('first_name').value;
+
+    const last_name =
+        document.getElementById('last_name').value;
+
+    const email =
+        document.getElementById('email').value;
+
+    const phone =
+        document.getElementById('phone').value;
+
+    const state =
+        document.getElementById('state').value;
+
+    const pincode =
+        document.getElementById('pincode').value;
+
+    const referral_code =
+        document.getElementById('referral_code').value;
+
+    const password =
+        document.getElementById('password').value;
 
     try{
 
-        const response = await fetch('/api/register/', {
+        const response = await fetch(
+            '/api/register/',
+            {
+                method:'POST',
 
-            method: 'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
 
-            headers: {
+                body:JSON.stringify({
 
-                'Content-Type': 'application/json'
+                    first_name:first_name,
+                    last_name:last_name,
+                    email:email,
+                    phone:phone,
+                    state:state,
+                    pincode:pincode,
+                    referral_code:referral_code,
+                    password:password
 
-            },
-
-            body: JSON.stringify({
-
-                first_name: document.getElementById('first_name').value,
-
-                last_name: document.getElementById('last_name').value,
-
-                email: document.getElementById('email').value,
-
-                phone: document.getElementById('phone').value,
-
-                state: document.getElementById('state').value,
-
-                pincode: document.getElementById('pincode').value,
-
-                referral_code: document.getElementById('referral_code').value,
-
-                password: document.getElementById('password').value
-
-            })
-
-        });
+                })
+            }
+        );
 
         const data = await response.json();
 
@@ -77,27 +397,26 @@ async function registerUser(){
 
         if(response.ok){
 
-            alert(data.msg);
+            alert('Registration Successful');
 
-            window.location.href = '/login/';
+            window.location.href='/login/';
+
+        }else{
+
+            alert(
+                JSON.stringify(data)
+            );
 
         }
 
-        else{
-
-            alert(JSON.stringify(data));
-
-        }
-
-    }
-
-    catch(error){
+    }catch(error){
 
         console.log(error);
 
-        alert("Server Error");
+        alert('Server Error');
 
     }
+
 }
 
 </script>
