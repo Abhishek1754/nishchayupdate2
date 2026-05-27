@@ -1148,27 +1148,34 @@ footer{
         id="userSection"
         style="display:none; align-items:center; gap:15px;"
     >
-
-        <span
-            id="welcomeUser"
-            style="
-                color:#b6ff00;
-                font-weight:bold;
-                font-size:16px;
-            "
-        >
-
-        <div
-    id="walletInfo"
+<div
     style="
-        color:white;
-        font-size:14px;
-        margin-top:5px;
+        display:flex;
+        flex-direction:column;
+        gap:4px;
     "
 >
-</div>
 
-        </span>
+    <span
+        id="welcomeUser"
+        style="
+            color:#b6ff00;
+            font-weight:bold;
+            font-size:16px;
+        "
+    >
+    </span>
+
+    <div
+        id="walletInfo"
+        style="
+            color:white;
+            font-size:13px;
+        "
+    >
+    </div>
+
+</div>
 
         <button
             onclick="logoutUser()"
@@ -1612,6 +1619,8 @@ function logoutUser(){
     localStorage.removeItem('wallet_balance');
 
     localStorage.removeItem('referral_code');
+
+    localStorage.removeItem('nishchay_coin');
 
     alert('Logout Successful');
 
