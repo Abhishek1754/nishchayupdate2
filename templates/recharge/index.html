@@ -446,32 +446,16 @@ View All
 
 <script>
 
-const access =
-localStorage.getItem('access');
-
-
 // =====================================================
 // LOAD USER
 // =====================================================
 
 async function loadUser(){
 
-    if(!access){
-        return;
-    }
-
     try{
 
         const response =
-        await fetch(
-            '/api/profile/',
-            {
-                headers:{
-                    'Authorization':
-                    'Bearer ' + access
-                }
-            }
-        );
+        await fetch('/api/profile/');
 
         if(!response.ok){
             return;
@@ -569,13 +553,6 @@ async function loadProviders(){
 
 async function doRecharge(){
 
-    if(!access){
-
-        alert('Please Login First');
-        return;
-
-    }
-
     const provider =
     document.getElementById(
         'provider'
@@ -623,9 +600,7 @@ async function doRecharge(){
 
                 headers:{
                     'Content-Type':
-                    'application/json',
-                    'Authorization':
-                    'Bearer ' + access
+                    'application/json'
                 },
 
                 body:JSON.stringify({
