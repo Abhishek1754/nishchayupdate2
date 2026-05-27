@@ -113,25 +113,68 @@ def recharge_providers(request):
 # DO RECHARGE
 # =====================================================
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
 
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def do_recharge(request):
 
-    user = request.user
+    try:
 
-    provider_id = request.data.get(
-        'provider_id'
-    )
+        mobile_number = request.data.get(
+            'mobile_number'
+        )
 
-    mobile_number = request.data.get(
-        'mobile_number'
-    )
+        amount = request.data.get(
+            'amount'
+        )
 
-    amount = request.data.get(
-        'amount'
-    )
+        provider_id = request.data.get(
+            'provider_id'
+        )
 
+        provider = RechargeProvider.objects.get(
+            id=provider_id
+        )
+
+        recharge = Recharge.objects.create(
+
+            user=None,
+
+            provider=provider,
+
+            mobile_number=mobile_number,
+
+            amount=amount,
+
+            cashback=0,
+
+            status='pending'
+
+        )
+
+        recharge.status = 'success'
+
+        recharge.transaction_id = f"TXN{recharge.id}"
+
+        recharge.save()
+
+        return Response({
+
+            "status": True,
+            "message": "Recharge Successful",
+            "transaction_id": recharge.transaction_id
+
+        })
+
+    except Exception as e:
+
+        return Response({
+
+            "status": False,
+            "message": str(e)
+
+        })
     # =====================================================
     # VALIDATION
     # =====================================================
