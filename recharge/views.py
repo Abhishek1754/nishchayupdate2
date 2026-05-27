@@ -144,7 +144,9 @@ def recharge_providers(request):
             "name": provider.name,
             "service_type": provider.service_type,
             "operator_code": provider.operator_code,
-            "cashback_percentage": provider.cashback_percentage,
+            "cashback_percentage": str(
+                provider.cashback_percentage
+            )
 
         })
 
@@ -460,7 +462,9 @@ def do_recharge(request):
 
             "cashback": cashback,
 
-            "wallet_balance": user.wallet_balance,
+            "wallet_balance": str(
+                user.wallet_balance
+            ),
 
             "api_response": api_data
 
@@ -527,8 +531,8 @@ def my_recharges(request):
             "id": recharge.id,
             "provider": recharge.provider.name,
             "mobile_number": recharge.mobile_number,
-            "amount": recharge.amount,
-            "cashback": recharge.cashback,
+            "amount": str(recharge.amount),
+            "cashback": str(recharge.cashback),
             "status": recharge.status,
             "transaction_id": recharge.transaction_id,
             "operator_reference": recharge.operator_reference,
