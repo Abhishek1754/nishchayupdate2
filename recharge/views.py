@@ -8,6 +8,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
 
 from wallet.utils import create_wallet_transaction
 
@@ -82,17 +85,12 @@ def support_page(request):
 # =====================================================
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def recharge_providers(request):
 
-    service_type = request.GET.get(
-        'service_type',
-        'mobile'
-    )
-
     providers = RechargeProvider.objects.filter(
-        is_active=True,
-        service_type=service_type
-    ).order_by('name')
+        is_active=True
+    )
 
     data = []
 
@@ -111,8 +109,6 @@ def recharge_providers(request):
         })
 
     return Response(data)
-
-
 # =====================================================
 # DO RECHARGE
 # =====================================================
