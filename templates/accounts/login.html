@@ -336,6 +336,11 @@ async function loginUser(event){
                 data.referral_code
             );
 
+            localStorage.setItem(
+            'nishchay_coin',
+            data.nishchay_coin
+            );
+
             alert('Login Successful');
 
             window.location.href='/';

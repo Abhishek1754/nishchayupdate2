@@ -1157,6 +1157,17 @@ footer{
                 font-size:16px;
             "
         >
+
+        <div
+    id="walletInfo"
+    style="
+        color:white;
+        font-size:14px;
+        margin-top:5px;
+    "
+>
+</div>
+
         </span>
 
         <button
@@ -1560,6 +1571,12 @@ footer{
 const userEmail =
     localStorage.getItem('email');
 
+    const wallet =
+    localStorage.getItem('wallet_balance');
+
+const coins =
+    localStorage.getItem('nishchay_coin');
+
 if(userEmail){
 
     document.getElementById(
@@ -1574,6 +1591,13 @@ if(userEmail){
         'welcomeUser'
     ).innerHTML =
         "Welcome " + userEmail;
+
+        document.getElementById(
+            'walletInfo'
+          ).innerHTML =
+
+    "Wallet ₹" + wallet +
+    " | Coins " + coins;
 
 }
 
