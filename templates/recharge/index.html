@@ -20,16 +20,13 @@
 }
 
 body{
-
     background:#000;
     color:white;
     font-family:'Poppins',sans-serif;
     overflow-x:hidden;
-
 }
 
 body::before{
-
     content:'';
     position:fixed;
     width:100%;
@@ -38,70 +35,54 @@ body::before{
     radial-gradient(circle at top left,#b7ff0020,transparent 30%),
     radial-gradient(circle at bottom right,#00ffcc15,transparent 30%);
     z-index:-1;
-
 }
 
 .container{
-
     width:100%;
     padding:40px;
-
 }
 
 .heading{
-
     font-size:58px;
     font-family:'Orbitron',sans-serif;
     color:#b7ff00;
     margin-bottom:10px;
     text-shadow:0 0 20px #b7ff00;
-
 }
 
 .subheading{
-
     color:#aaa;
     margin-bottom:40px;
     font-size:18px;
-
 }
 
 .recharge-box{
-
     background:#050505;
     border:1px solid rgba(183,255,0,.2);
     border-radius:30px;
     padding:40px;
-    box-shadow:
-    0 0 40px rgba(183,255,0,.08);
-
+    box-shadow:0 0 40px rgba(183,255,0,.08);
 }
 
 .tabs{
-
     display:flex;
     gap:30px;
     margin-bottom:35px;
-
+    flex-wrap:wrap;
 }
 
 .tabs label{
-
     font-size:18px;
     color:#fff;
-
 }
 
 .form-grid{
-
     display:grid;
     grid-template-columns:1fr 1fr 1fr 280px;
     gap:20px;
-
 }
 
 .input{
-
     height:70px;
     border-radius:18px;
     border:1px solid rgba(183,255,0,.3);
@@ -111,18 +92,14 @@ body::before{
     font-size:18px;
     outline:none;
     transition:.3s;
-
 }
 
 .input:focus{
-
     border-color:#b7ff00;
     box-shadow:0 0 15px #b7ff0050;
-
 }
 
 .btn{
-
     border:none;
     border-radius:18px;
     background:#b7ff00;
@@ -132,18 +109,14 @@ body::before{
     cursor:pointer;
     transition:.3s;
     font-family:'Orbitron',sans-serif;
-
 }
 
 .btn:hover{
-
     transform:translateY(-3px);
     box-shadow:0 0 25px #b7ff00;
-
 }
 
 .wallet-card{
-
     margin-top:40px;
     background:#050505;
     border:1px solid rgba(183,255,0,.2);
@@ -152,74 +125,59 @@ body::before{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
+    flex-wrap:wrap;
+    gap:20px;
 }
 
 .wallet-title{
-
     color:#aaa;
     font-size:18px;
-
 }
 
 .wallet-balance{
-
     font-size:42px;
     color:#b7ff00;
     font-family:'Orbitron',sans-serif;
     text-shadow:0 0 15px #b7ff00;
-
 }
 
 .section{
-
     margin-top:40px;
     background:#050505;
     border-radius:30px;
     padding:35px;
     border:1px solid rgba(183,255,0,.2);
-
 }
 
 .section-top{
-
     display:flex;
     justify-content:space-between;
     margin-bottom:30px;
-
+    align-items:center;
 }
 
 .section-top h2{
-
     color:#b7ff00;
     font-size:40px;
     font-family:'Orbitron',sans-serif;
-
 }
 
 .section-top span{
-
     color:#fff;
     cursor:pointer;
-
 }
 
 .operator-grid{
-
     display:grid;
     grid-template-columns:repeat(5,1fr);
     gap:25px;
-
 }
 
 .operator{
-
     text-align:center;
-
 }
 
 .operator-circle{
-
     width:100px;
     height:100px;
     border-radius:50%;
@@ -232,47 +190,68 @@ body::before{
     color:#b7ff00;
     margin-bottom:15px;
     transition:.3s;
-
 }
 
 .operator-circle:hover{
-
     transform:scale(1.08);
     box-shadow:0 0 25px #b7ff00;
-
 }
 
 .operator p{
-
     font-size:18px;
-
 }
 
 .glow{
-
     color:#b7ff00;
     text-shadow:0 0 15px #b7ff00;
+}
 
+.offer-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.offer-card{
+    background:#000;
+    border:1px solid rgba(183,255,0,.2);
+    border-radius:25px;
+    padding:25px;
+    transition:.3s;
+}
+
+.offer-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px rgba(183,255,0,.25);
+}
+
+.offer-card h3{
+    color:#b7ff00;
+    margin-bottom:15px;
+    font-size:28px;
+}
+
+.offer-card p{
+    color:#aaa;
+    line-height:1.7;
 }
 
 @media(max-width:1200px){
 
 .form-grid{
-
     grid-template-columns:1fr;
-
 }
 
 .operator-grid{
-
     grid-template-columns:repeat(2,1fr);
+}
 
+.offer-grid{
+    grid-template-columns:1fr;
 }
 
 .heading{
-
     font-size:40px;
-
 }
 
 }
@@ -334,7 +313,7 @@ class="input"
 >
 
 <option value="">
-Select Operator
+Loading Operators...
 </option>
 
 </select>
@@ -427,6 +406,42 @@ View All
 
 </div>
 
+<div class="section">
+
+<div class="section-top">
+
+<h2>Exclusive Offers</h2>
+
+<span>View All</span>
+
+</div>
+
+<div class="offer-grid">
+
+<div class="offer-card">
+<h3>Flat ₹20 Cashback</h3>
+<p>Recharge above ₹299 and get instant cashback directly in wallet.</p>
+</div>
+
+<div class="offer-card">
+<h3>5% Cashback</h3>
+<p>Special cashback on Airtel and Jio recharges for premium users.</p>
+</div>
+
+<div class="offer-card">
+<h3>Flat ₹50 Cashback</h3>
+<p>First recharge bonus available for new users today only.</p>
+</div>
+
+<div class="offer-card">
+<h3>10% Cashback</h3>
+<p>Limited period recharge reward with bonus coins.</p>
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 <script>
@@ -434,7 +449,16 @@ View All
 const access =
 localStorage.getItem('access');
 
+
+// =====================================================
+// LOAD USER
+// =====================================================
+
 async function loadUser(){
+
+    if(!access){
+        return;
+    }
 
     try{
 
@@ -448,6 +472,10 @@ async function loadUser(){
                 }
             }
         );
+
+        if(!response.ok){
+            return;
+        }
 
         const data =
         await response.json();
@@ -470,6 +498,11 @@ async function loadUser(){
 
 }
 
+
+// =====================================================
+// LOAD PROVIDERS
+// =====================================================
+
 async function loadProviders(){
 
     try{
@@ -489,22 +522,37 @@ async function loadProviders(){
             'provider'
         );
 
-        providerSelect.innerHTML =
-        `<option value="">
-            Select Operator
-        </option>`;
+        providerSelect.innerHTML = '';
 
-        data.forEach(provider => {
+        providerSelect.innerHTML += `
+        <option value="">
+            Select Operator
+        </option>
+        `;
+
+        if(Array.isArray(data)){
+
+            data.forEach(provider => {
+
+                providerSelect.innerHTML += `
+
+                <option value="${provider.id}">
+                    ${provider.name}
+                </option>
+
+                `;
+
+            });
+
+        }else{
 
             providerSelect.innerHTML += `
-
-            <option value="${provider.id}">
-                ${provider.name}
+            <option value="">
+                No Providers Found
             </option>
-
             `;
 
-        });
+        }
 
     }catch(error){
 
@@ -514,7 +562,19 @@ async function loadProviders(){
 
 }
 
+
+// =====================================================
+// DO RECHARGE
+// =====================================================
+
 async function doRecharge(){
+
+    if(!access){
+
+        alert('Please Login First');
+        return;
+
+    }
 
     const provider =
     document.getElementById(
@@ -586,14 +646,16 @@ async function doRecharge(){
 
         if(response.ok){
 
-            alert('Recharge Successful');
+            alert(
+                data.message ||
+                'Recharge Successful'
+            );
 
             window.location.reload();
 
         }else{
 
             alert(
-                data.error ||
                 data.message ||
                 'Recharge Failed'
             );
@@ -609,6 +671,11 @@ async function doRecharge(){
     }
 
 }
+
+
+// =====================================================
+// WINDOW LOAD
+// =====================================================
 
 window.onload = function(){
 

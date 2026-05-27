@@ -12,13 +12,11 @@ from rest_framework.decorators import permission_classes
 from wallet.utils import create_wallet_transaction
 
 from .models import (
-
     RechargeProvider,
     Recharge,
     RechargeLevelIncome,
     RechargeLevelSetting,
     RechargeCashbackHistory,
-
 )
 
 from accounts.models import User
@@ -36,103 +34,65 @@ API_TOKEN = "b12418e1-7d26-4c68-b968-d2a0a368f082"
 # =====================================================
 
 def recharge_home(request):
-
-    return render(
-        request,
-        'recharge/index.html'
-    )
+    return render(request, 'recharge/index.html')
 
 
 def mobile_recharge(request):
-
-    return render(
-        request,
-        'recharge/mobile.html'
-    )
+    return render(request, 'recharge/mobile.html')
 
 
 def recharge_payment(request):
-
-    return render(
-        request,
-        'recharge/payment/index.html'
-    )
+    return render(request, 'recharge/payment/index.html')
 
 
 def recharge_success(request):
-
-    return render(
-        request,
-        'recharge/success/index.html'
-    )
+    return render(request, 'recharge/success/index.html')
 
 
 def transaction_history(request):
-
-    return render(
-        request,
-        'recharge/transactions/index.html'
-    )
+    return render(request, 'recharge/transactions/index.html')
 
 
 def refer_earn(request):
-
-    return render(
-        request,
-        'recharge/refer/index.html'
-    )
+    return render(request, 'recharge/refer/index.html')
 
 
 def profile_page(request):
-
-    return render(
-        request,
-        'recharge/profile/index.html'
-    )
+    return render(request, 'recharge/profile/index.html')
 
 
 def withdraw_page(request):
-
-    return render(
-        request,
-        'recharge/withdraw/index.html'
-    )
+    return render(request, 'recharge/withdraw/index.html')
 
 
 def offers_page(request):
-
-    return render(
-        request,
-        'recharge/offers/index.html'
-    )
+    return render(request, 'recharge/offers/index.html')
 
 
 def notifications_page(request):
-
-    return render(
-        request,
-        'recharge/notifications/index.html'
-    )
+    return render(request, 'recharge/notifications/index.html')
 
 
 def support_page(request):
-
-    return render(
-        request,
-        'recharge/support/index.html'
-    )
+    return render(request, 'recharge/support/index.html')
 
 
 # =====================================================
-# ALL PROVIDERS
+# ALL PROVIDERS API
 # =====================================================
 
 @api_view(['GET'])
 def recharge_providers(request):
 
-    providers = RechargeProvider.objects.filter(
-        is_active=True
+    service_type = request.GET.get(
+        'service_type',
+        'mobile'
     )
+
+    providers = RechargeProvider.objects.filter(
+        is_active=True,
+        service_type=service_type
+    ).order_by('name')
 
     data = []
 
@@ -142,8 +102,8 @@ def recharge_providers(request):
 
             "id": provider.id,
             "name": provider.name,
-            "service_type": provider.service_type,
             "operator_code": provider.operator_code,
+            "service_type": provider.service_type,
             "cashback_percentage": str(
                 provider.cashback_percentage
             )
@@ -154,7 +114,7 @@ def recharge_providers(request):
 
 
 # =====================================================
-# RECHARGE API
+# DO RECHARGE
 # =====================================================
 
 @api_view(['POST'])
@@ -176,11 +136,16 @@ def do_recharge(request):
         'amount'
     )
 
+    # =====================================================
+    # VALIDATION
+    # =====================================================
+
     if not provider_id:
 
         return Response({
 
-            "error": "provider_id required"
+            "status": "failed",
+            "message": "Provider required"
 
         }, status=400)
 
@@ -188,7 +153,8 @@ def do_recharge(request):
 
         return Response({
 
-            "error": "mobile number required"
+            "status": "failed",
+            "message": "Mobile number required"
 
         }, status=400)
 
@@ -196,11 +162,12 @@ def do_recharge(request):
 
         return Response({
 
-            "error": "amount required"
+            "status": "failed",
+            "message": "Amount required"
 
         }, status=400)
 
-    amount = Decimal(amount)
+    amount = Decimal(str(amount))
 
     try:
 
@@ -213,7 +180,8 @@ def do_recharge(request):
 
         return Response({
 
-            "error": "Provider not found"
+            "status": "failed",
+            "message": "Provider not found"
 
         }, status=404)
 
@@ -225,21 +193,21 @@ def do_recharge(request):
 
         return Response({
 
-            "error": "Insufficient Wallet Balance"
+            "status": "failed",
+            "message": "Insufficient wallet balance"
 
         }, status=400)
 
     # =====================================================
-    # CREATE UNIQUE TXN ID
+    # UNIQUE TRANSACTION ID
     # =====================================================
 
-    request_txn_id = str(uuid.uuid4()).replace(
-        '-',
-        ''
-    )[:15]
+    request_txn_id = str(
+        uuid.uuid4()
+    ).replace('-', '')[:15]
 
     # =====================================================
-    # RECHARGE API URL
+    # API URL
     # =====================================================
 
     recharge_url = (
@@ -255,42 +223,43 @@ def do_recharge(request):
 
     try:
 
-        api_request = requests.get(
+        response = requests.get(
             recharge_url,
             timeout=30
         )
 
-        api_data = api_request.json()
+        api_data = response.json()
 
     except Exception as e:
 
         return Response({
 
-            "error": "Recharge Server Error",
-            "details": str(e)
+            "status": "failed",
+            "message": "Recharge server error",
+            "error": str(e)
 
         }, status=500)
 
     # =====================================================
-    # API STATUS
+    # API RESPONSE
     # =====================================================
 
-    status_value = str(
-        api_data.get("STATUS")
+    api_status = str(
+        api_data.get('STATUS')
     )
 
-    message = api_data.get(
-        "MESSAGE",
-        ""
+    api_message = api_data.get(
+        'MESSAGE',
+        'Recharge Failed'
     )
 
     # =====================================================
     # SUCCESS
     # =====================================================
 
-    if status_value == "1":
+    if api_status == "1":
 
-        # DEDUCT WALLET
+        # DEDUCT USER WALLET
 
         user.wallet_balance -= amount
 
@@ -300,7 +269,9 @@ def do_recharge(request):
 
             amount *
 
-            Decimal(provider.cashback_percentage)
+            Decimal(
+                provider.cashback_percentage
+            )
 
         ) / Decimal(100)
 
@@ -308,7 +279,9 @@ def do_recharge(request):
 
         user.save()
 
+        # =====================================================
         # WALLET HISTORY
+        # =====================================================
 
         create_wallet_transaction(
 
@@ -340,7 +313,9 @@ def do_recharge(request):
 
             )
 
+        # =====================================================
         # SAVE RECHARGE
+        # =====================================================
 
         recharge = Recharge.objects.create(
 
@@ -362,13 +337,13 @@ def do_recharge(request):
                 "OPTXNID"
             ),
 
-            api_response=json.dumps(
-                api_data
-            ),
+            api_response=json.dumps(api_data)
 
         )
 
+        # =====================================================
         # CASHBACK HISTORY
+        # =====================================================
 
         RechargeCashbackHistory.objects.create(
 
@@ -378,7 +353,7 @@ def do_recharge(request):
 
             cashback_percentage=provider.cashback_percentage,
 
-            cashback_amount=cashback,
+            cashback_amount=cashback
 
         )
 
@@ -444,7 +419,7 @@ def do_recharge(request):
 
                     percentage=percentage,
 
-                    amount=income,
+                    amount=income
 
                 )
 
@@ -456,11 +431,11 @@ def do_recharge(request):
 
             "status": "success",
 
-            "message": message,
+            "message": api_message,
 
             "recharge_id": recharge.id,
 
-            "cashback": cashback,
+            "cashback": str(cashback),
 
             "wallet_balance": str(
                 user.wallet_balance
@@ -474,39 +449,35 @@ def do_recharge(request):
     # FAILED
     # =====================================================
 
-    else:
+    Recharge.objects.create(
 
-        Recharge.objects.create(
+        user=user,
 
-            user=user,
+        provider=provider,
 
-            provider=provider,
+        mobile_number=mobile_number,
 
-            mobile_number=mobile_number,
+        amount=amount,
 
-            amount=amount,
+        cashback=0,
 
-            cashback=0,
+        status='failed',
 
-            status='failed',
+        transaction_id=request_txn_id,
 
-            transaction_id=request_txn_id,
+        api_response=json.dumps(api_data)
 
-            api_response=json.dumps(
-                api_data
-            ),
+    )
 
-        )
+    return Response({
 
-        return Response({
+        "status": "failed",
 
-            "status": "failed",
+        "message": api_message,
 
-            "message": message,
+        "api_response": api_data
 
-            "api_response": api_data
-
-        }, status=400)
+    }, status=400)
 
 
 # =====================================================
