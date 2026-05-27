@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from decimal import Decimal
+import requests
+import uuid
+import json
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -22,7 +25,14 @@ from accounts.models import User
 
 
 # =====================================================
-# ==================== UI PAGES =======================
+# API TOKEN
+# =====================================================
+
+API_TOKEN = "b12418e1-7d26-4c68-b968-d2a0a368f082"
+
+
+# =====================================================
+# UI PAGES
 # =====================================================
 
 def recharge_home(request):
@@ -114,13 +124,8 @@ def support_page(request):
 
 
 # =====================================================
-# ======================= APIs ========================
+# ALL PROVIDERS
 # =====================================================
-
-
-# =========================
-# ALL PROVIDERS API
-# =========================
 
 @api_view(['GET'])
 def recharge_providers(request):
@@ -136,11 +141,9 @@ def recharge_providers(request):
         data.append({
 
             "id": provider.id,
-
             "name": provider.name,
-
             "service_type": provider.service_type,
-
+            "operator_code": provider.operator_code,
             "cashback_percentage": provider.cashback_percentage,
 
         })
@@ -148,9 +151,9 @@ def recharge_providers(request):
     return Response(data)
 
 
-# =========================
+# =====================================================
 # RECHARGE API
-# =========================
+# =====================================================
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -171,15 +174,11 @@ def do_recharge(request):
         'amount'
     )
 
-    # =========================
-    # VALIDATION
-    # =========================
-
     if not provider_id:
 
         return Response({
 
-            "error": "provider_id is required"
+            "error": "provider_id required"
 
         }, status=400)
 
@@ -187,7 +186,7 @@ def do_recharge(request):
 
         return Response({
 
-            "error": "mobile_number is required"
+            "error": "mobile number required"
 
         }, status=400)
 
@@ -195,15 +194,11 @@ def do_recharge(request):
 
         return Response({
 
-            "error": "amount is required"
+            "error": "amount required"
 
         }, status=400)
 
     amount = Decimal(amount)
-
-    # =========================
-    # PROVIDER CHECK
-    # =========================
 
     try:
 
@@ -220,214 +215,299 @@ def do_recharge(request):
 
         }, status=404)
 
-    # =========================
+    # =====================================================
     # CHECK WALLET
-    # =========================
+    # =====================================================
 
-    if Decimal(user.wallet_balance) < amount:
+    if user.wallet_balance < amount:
 
         return Response({
 
-            "error": "Insufficient wallet balance"
+            "error": "Insufficient Wallet Balance"
 
         }, status=400)
 
-    # =========================
-    # DEDUCT WALLET
-    # =========================
+    # =====================================================
+    # CREATE UNIQUE TXN ID
+    # =====================================================
 
-    user.wallet_balance -= amount
+    request_txn_id = str(uuid.uuid4()).replace(
+        '-',
+        ''
+    )[:15]
 
-    # =========================
-    # CASHBACK CALCULATION
-    # =========================
+    # =====================================================
+    # RECHARGE API URL
+    # =====================================================
 
-    cashback = (
+    recharge_url = (
 
-        amount *
-
-        Decimal(provider.cashback_percentage)
-
-    ) / Decimal(100)
-
-    # CREDIT CASHBACK
-
-    user.wallet_balance += cashback
-
-    user.save()
-
-    # =========================
-    # WALLET HISTORY
-    # =========================
-
-    create_wallet_transaction(
-
-        user=user,
-
-        transaction_type='debit',
-
-        source='recharge',
-
-        amount=amount,
-
-        remark='Recharge Payment'
+        f"https://ultra.myfinpaypro.co.in/api/Service/Recharge2?"
+        f"ApiToken={API_TOKEN}"
+        f"&MobileNo={mobile_number}"
+        f"&Amount={amount}"
+        f"&OpId={provider.operator_code}"
+        f"&RefTxnId={request_txn_id}"
 
     )
 
-    # =========================
-    # CASHBACK HISTORY
-    # =========================
+    try:
 
-    if cashback > 0:
+        api_request = requests.get(
+            recharge_url,
+            timeout=30
+        )
+
+        api_data = api_request.json()
+
+    except Exception as e:
+
+        return Response({
+
+            "error": "Recharge Server Error",
+            "details": str(e)
+
+        }, status=500)
+
+    # =====================================================
+    # API STATUS
+    # =====================================================
+
+    status_value = str(
+        api_data.get("STATUS")
+    )
+
+    message = api_data.get(
+        "MESSAGE",
+        ""
+    )
+
+    # =====================================================
+    # SUCCESS
+    # =====================================================
+
+    if status_value == "1":
+
+        # DEDUCT WALLET
+
+        user.wallet_balance -= amount
+
+        # CASHBACK
+
+        cashback = (
+
+            amount *
+
+            Decimal(provider.cashback_percentage)
+
+        ) / Decimal(100)
+
+        user.wallet_balance += cashback
+
+        user.save()
+
+        # WALLET HISTORY
 
         create_wallet_transaction(
 
             user=user,
 
-            transaction_type='credit',
+            transaction_type='debit',
 
             source='recharge',
 
-            amount=cashback,
+            amount=amount,
 
-            remark='Recharge Cashback'
+            remark='Recharge Successful'
 
         )
 
-    # =========================
-    # CREATE RECHARGE ENTRY
-    # =========================
-
-    recharge = Recharge.objects.create(
-
-        user=user,
-
-        provider=provider,
-
-        mobile_number=mobile_number,
-
-        amount=amount,
-
-        cashback=cashback,
-
-        status='success',
-
-        transaction_id='TEMP12345',
-
-        api_response='Recharge Success',
-
-    )
-
-    # =========================
-    # SAVE CASHBACK HISTORY
-    # =========================
-
-    RechargeCashbackHistory.objects.create(
-
-        recharge=recharge,
-
-        user=user,
-
-        cashback_percentage=provider.cashback_percentage,
-
-        cashback_amount=cashback,
-
-    )
-
-    # =========================
-    # LEVEL INCOME DISTRIBUTION
-    # =========================
-
-    current_user = user.referred_by
-
-    current_level = 1
-
-    while current_user and current_level <= 3:
-
-        try:
-
-            level_setting = RechargeLevelSetting.objects.get(
-                level=current_level
-            )
-
-            percentage = level_setting.percentage
-
-        except RechargeLevelSetting.DoesNotExist:
-
-            percentage = Decimal(0)
-
-        # LEVEL INCOME
-
-        income = (
-
-            amount *
-
-            percentage
-
-        ) / Decimal(100)
-
-        if income > 0:
-
-            # CREDIT WALLET
-
-            current_user.wallet_balance += income
-
-            current_user.save()
-
-            # WALLET HISTORY
+        if cashback > 0:
 
             create_wallet_transaction(
 
-                user=current_user,
+                user=user,
 
                 transaction_type='credit',
 
                 source='recharge',
 
-                amount=income,
+                amount=cashback,
 
-                remark=f'Level {current_level} Recharge Income'
-
-            )
-
-            # SAVE LEVEL HISTORY
-
-            RechargeLevelIncome.objects.create(
-
-                recharge=recharge,
-
-                user=current_user,
-
-                from_user=user,
-
-                level=current_level,
-
-                percentage=percentage,
-
-                amount=income,
+                remark='Recharge Cashback'
 
             )
 
-        # NEXT LEVEL
+        # SAVE RECHARGE
 
-        current_user = current_user.referred_by
+        recharge = Recharge.objects.create(
 
-        current_level += 1
+            user=user,
 
-    return Response({
+            provider=provider,
 
-        "msg": "Recharge Successful",
+            mobile_number=mobile_number,
 
-        "recharge_id": recharge.id,
+            amount=amount,
 
-        "cashback": cashback,
+            cashback=cashback,
 
-    })
+            status='success',
+
+            transaction_id=request_txn_id,
+
+            operator_reference=api_data.get(
+                "OPTXNID"
+            ),
+
+            api_response=json.dumps(
+                api_data
+            ),
+
+        )
+
+        # CASHBACK HISTORY
+
+        RechargeCashbackHistory.objects.create(
+
+            recharge=recharge,
+
+            user=user,
+
+            cashback_percentage=provider.cashback_percentage,
+
+            cashback_amount=cashback,
+
+        )
+
+        # =====================================================
+        # LEVEL INCOME
+        # =====================================================
+
+        current_user = user.referred_by
+
+        current_level = 1
+
+        while current_user and current_level <= 3:
+
+            try:
+
+                level_setting = RechargeLevelSetting.objects.get(
+                    level=current_level
+                )
+
+                percentage = level_setting.percentage
+
+            except RechargeLevelSetting.DoesNotExist:
+
+                percentage = Decimal(0)
+
+            income = (
+
+                amount *
+
+                percentage
+
+            ) / Decimal(100)
+
+            if income > 0:
+
+                current_user.wallet_balance += income
+
+                current_user.save()
+
+                create_wallet_transaction(
+
+                    user=current_user,
+
+                    transaction_type='credit',
+
+                    source='recharge',
+
+                    amount=income,
+
+                    remark=f'Level {current_level} Recharge Income'
+
+                )
+
+                RechargeLevelIncome.objects.create(
+
+                    recharge=recharge,
+
+                    user=current_user,
+
+                    from_user=user,
+
+                    level=current_level,
+
+                    percentage=percentage,
+
+                    amount=income,
+
+                )
+
+            current_user = current_user.referred_by
+
+            current_level += 1
+
+        return Response({
+
+            "status": "success",
+
+            "message": message,
+
+            "recharge_id": recharge.id,
+
+            "cashback": cashback,
+
+            "wallet_balance": user.wallet_balance,
+
+            "api_response": api_data
+
+        })
+
+    # =====================================================
+    # FAILED
+    # =====================================================
+
+    else:
+
+        Recharge.objects.create(
+
+            user=user,
+
+            provider=provider,
+
+            mobile_number=mobile_number,
+
+            amount=amount,
+
+            cashback=0,
+
+            status='failed',
+
+            transaction_id=request_txn_id,
+
+            api_response=json.dumps(
+                api_data
+            ),
+
+        )
+
+        return Response({
+
+            "status": "failed",
+
+            "message": message,
+
+            "api_response": api_data
+
+        }, status=400)
 
 
-# =========================
-# MY RECHARGES API
-# =========================
+# =====================================================
+# MY RECHARGES
+# =====================================================
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -445,19 +525,13 @@ def my_recharges(request):
         data.append({
 
             "id": recharge.id,
-
             "provider": recharge.provider.name,
-
             "mobile_number": recharge.mobile_number,
-
             "amount": recharge.amount,
-
             "cashback": recharge.cashback,
-
             "status": recharge.status,
-
             "transaction_id": recharge.transaction_id,
-
+            "operator_reference": recharge.operator_reference,
             "created_at": recharge.created_at,
 
         })

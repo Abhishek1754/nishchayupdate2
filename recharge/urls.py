@@ -2,7 +2,9 @@ from django.urls import path
 
 from .views import (
 
+    # =====================================================
     # UI PAGES
+    # =====================================================
 
     recharge_home,
     mobile_recharge,
@@ -16,7 +18,9 @@ from .views import (
     notifications_page,
     support_page,
 
+    # =====================================================
     # APIs
+    # =====================================================
 
     recharge_providers,
     do_recharge,
