@@ -1166,14 +1166,15 @@ footer{
     >
     </span>
 
-    <div
-        id="walletInfo"
-        style="
-            color:white;
-            font-size:13px;
-        "
-    >
-    </div>
+   <div
+    id="walletInfo"
+    style="
+        color:white;
+        font-size:13px;
+        line-height:1.7;
+    "
+>
+</div>
 
 </div>
 
@@ -1584,6 +1585,9 @@ const userEmail =
 const coins =
     localStorage.getItem('nishchay_coin');
 
+const referral =
+    localStorage.getItem('referral_code');
+
 if(userEmail){
 
     document.getElementById(
@@ -1603,8 +1607,9 @@ if(userEmail){
             'walletInfo'
           ).innerHTML =
 
-    "Wallet ₹" + wallet +
-    " | Coins " + coins;
+   "Wallet ₹" + wallet +
+" | Coins " + coins +
+"<br>Referral: " + referral;
 
 }
 
