@@ -103,9 +103,11 @@ class Recharge(models.Model):
     )
 
     user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE
-    )
+    User,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+)
 
     provider = models.ForeignKey(
         RechargeProvider,
