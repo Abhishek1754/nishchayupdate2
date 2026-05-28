@@ -8,11 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-
-
-from wallet.utils import create_wallet_transaction
 
 from .models import (
     RechargeProvider,
@@ -109,11 +105,11 @@ def recharge_providers(request):
         })
 
     return Response(data)
+
+
 # =====================================================
 # DO RECHARGE
 # =====================================================
-
-
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -133,134 +129,69 @@ def do_recharge(request):
             'provider_id'
         )
 
+        # =====================================================
+        # VALIDATION
+        # =====================================================
+
+        if not provider_id:
+
+            return Response({
+
+                "status": False,
+                "message": "Provider required"
+
+            }, status=400)
+
+        if not mobile_number:
+
+            return Response({
+
+                "status": False,
+                "message": "Mobile number required"
+
+            }, status=400)
+
+        if not amount:
+
+            return Response({
+
+                "status": False,
+                "message": "Amount required"
+
+            }, status=400)
+
         provider = RechargeProvider.objects.get(
             id=provider_id
         )
 
-        recharge = Recharge.objects.create(
+        # =====================================================
+        # CREATE TRANSACTION ID
+        # =====================================================
 
-            user=None,
+        transaction_id = str(
+            uuid.uuid4()
+        ).replace('-', '')[:15]
 
-            provider=provider,
+        # =====================================================
+        # API URL
+        # =====================================================
 
-            mobile_number=mobile_number,
+        recharge_url = (
 
-            amount=amount,
-
-            cashback=0,
-
-            status='pending'
+            f"https://ultra.myfinpaypro.co.in/api/Service/Recharge2?"
+            f"ApiToken={API_TOKEN}"
+            f"&MobileNo={mobile_number}"
+            f"&Amount={amount}"
+            f"&OpId={provider.operator_code}"
+            f"&RefTxnId={transaction_id}"
 
         )
 
-        recharge.status = 'success'
+        print(recharge_url)
 
-        recharge.transaction_id = f"TXN{recharge.id}"
-
-        recharge.save()
-
-        return Response({
-
-            "status": True,
-            "message": "Recharge Successful",
-            "transaction_id": recharge.transaction_id
-
-        })
-
-    except Exception as e:
-
-        return Response({
-
-            "status": False,
-            "message": str(e)
-
-        })
-    # =====================================================
-    # VALIDATION
-    # =====================================================
-
-    if not provider_id:
-
-        return Response({
-
-            "status": "failed",
-            "message": "Provider required"
-
-        }, status=400)
-
-    if not mobile_number:
-
-        return Response({
-
-            "status": "failed",
-            "message": "Mobile number required"
-
-        }, status=400)
-
-    if not amount:
-
-        return Response({
-
-            "status": "failed",
-            "message": "Amount required"
-
-        }, status=400)
-
-    amount = Decimal(str(amount))
-
-    try:
-
-        provider = RechargeProvider.objects.get(
-            id=provider_id,
-            is_active=True
-        )
-
-    except RechargeProvider.DoesNotExist:
-
-        return Response({
-
-            "status": "failed",
-            "message": "Provider not found"
-
-        }, status=404)
-
-    # =====================================================
-    # CHECK WALLET
-    # =====================================================
-
-    if user.wallet_balance < amount:
-
-        return Response({
-
-            "status": "failed",
-            "message": "Insufficient wallet balance"
-
-        }, status=400)
-
-    # =====================================================
-    # UNIQUE TRANSACTION ID
-    # =====================================================
-
-    request_txn_id = str(
-        uuid.uuid4()
-    ).replace('-', '')[:15]
-
-    # =====================================================
-    # API URL
-    # =====================================================
-
-    recharge_url = (
-
-        f"https://ultra.myfinpaypro.co.in/api/Service/Recharge2?"
-        f"ApiToken={API_TOKEN}"
-        f"&MobileNo={mobile_number}"
-        f"&Amount={amount}"
-        f"&OpId={provider.operator_code}"
-        f"&RefTxnId={request_txn_id}"
-
-    )
-
-    try:
+        # =====================================================
+        # API CALL
+        # =====================================================
 
         response = requests.get(
             recharge_url,
@@ -269,254 +200,108 @@ def do_recharge(request):
 
         api_data = response.json()
 
-    except Exception as e:
-
-        return Response({
-
-            "status": "failed",
-            "message": "Recharge server error",
-            "error": str(e)
-
-        }, status=500)
-
-    # =====================================================
-    # API RESPONSE
-    # =====================================================
-
-    api_status = str(
-        api_data.get('STATUS')
-    )
-
-    api_message = api_data.get(
-        'MESSAGE',
-        'Recharge Failed'
-    )
-
-    # =====================================================
-    # SUCCESS
-    # =====================================================
-
-    if api_status == "1":
-
-        # DEDUCT USER WALLET
-
-        user.wallet_balance -= amount
-
-        # CASHBACK
-
-        cashback = (
-
-            amount *
-
-            Decimal(
-                provider.cashback_percentage
-            )
-
-        ) / Decimal(100)
-
-        user.wallet_balance += cashback
-
-        user.save()
+        print(api_data)
 
         # =====================================================
-        # WALLET HISTORY
+        # STATUS
         # =====================================================
 
-        create_wallet_transaction(
-
-            user=user,
-
-            transaction_type='debit',
-
-            source='recharge',
-
-            amount=amount,
-
-            remark='Recharge Successful'
-
+        api_status = str(
+            api_data.get('STATUS')
         )
 
-        if cashback > 0:
+        api_message = api_data.get(
+            'MESSAGE',
+            'Recharge Failed'
+        )
 
-            create_wallet_transaction(
+        # =====================================================
+        # SUCCESS
+        # =====================================================
 
-                user=user,
+        if api_status == "1":
 
-                transaction_type='credit',
+            recharge = Recharge.objects.create(
 
-                source='recharge',
+                user=None,
 
-                amount=cashback,
+                provider=provider,
 
-                remark='Recharge Cashback'
+                mobile_number=mobile_number,
+
+                amount=Decimal(amount),
+
+                cashback=0,
+
+                status='success',
+
+                transaction_id=transaction_id,
+
+                operator_reference=api_data.get(
+                    "OPTXNID"
+                ),
+
+                api_response=json.dumps(api_data)
 
             )
 
+            return Response({
+
+                "status": True,
+
+                "message": api_message,
+
+                "transaction_id": transaction_id,
+
+                "api_response": api_data
+
+            })
+
         # =====================================================
-        # SAVE RECHARGE
+        # FAILED
         # =====================================================
 
-        recharge = Recharge.objects.create(
+        Recharge.objects.create(
 
-            user=user,
+            user=None,
 
             provider=provider,
 
             mobile_number=mobile_number,
 
-            amount=amount,
+            amount=Decimal(amount),
 
-            cashback=cashback,
+            cashback=0,
 
-            status='success',
+            status='failed',
 
-            transaction_id=request_txn_id,
-
-            operator_reference=api_data.get(
-                "OPTXNID"
-            ),
+            transaction_id=transaction_id,
 
             api_response=json.dumps(api_data)
 
         )
 
-        # =====================================================
-        # CASHBACK HISTORY
-        # =====================================================
-
-        RechargeCashbackHistory.objects.create(
-
-            recharge=recharge,
-
-            user=user,
-
-            cashback_percentage=provider.cashback_percentage,
-
-            cashback_amount=cashback
-
-        )
-
-        # =====================================================
-        # LEVEL INCOME
-        # =====================================================
-
-        current_user = user.referred_by
-
-        current_level = 1
-
-        while current_user and current_level <= 3:
-
-            try:
-
-                level_setting = RechargeLevelSetting.objects.get(
-                    level=current_level
-                )
-
-                percentage = level_setting.percentage
-
-            except RechargeLevelSetting.DoesNotExist:
-
-                percentage = Decimal(0)
-
-            income = (
-
-                amount *
-
-                percentage
-
-            ) / Decimal(100)
-
-            if income > 0:
-
-                current_user.wallet_balance += income
-
-                current_user.save()
-
-                create_wallet_transaction(
-
-                    user=current_user,
-
-                    transaction_type='credit',
-
-                    source='recharge',
-
-                    amount=income,
-
-                    remark=f'Level {current_level} Recharge Income'
-
-                )
-
-                RechargeLevelIncome.objects.create(
-
-                    recharge=recharge,
-
-                    user=current_user,
-
-                    from_user=user,
-
-                    level=current_level,
-
-                    percentage=percentage,
-
-                    amount=income
-
-                )
-
-            current_user = current_user.referred_by
-
-            current_level += 1
-
         return Response({
 
-            "status": "success",
+            "status": False,
 
             "message": api_message,
 
-            "recharge_id": recharge.id,
-
-            "cashback": str(cashback),
-
-            "wallet_balance": str(
-                user.wallet_balance
-            ),
-
             "api_response": api_data
 
-        })
+        }, status=400)
 
-    # =====================================================
-    # FAILED
-    # =====================================================
+    except Exception as e:
 
-    Recharge.objects.create(
+        print(str(e))
 
-        user=user,
+        return Response({
 
-        provider=provider,
+            "status": False,
 
-        mobile_number=mobile_number,
+            "message": str(e)
 
-        amount=amount,
-
-        cashback=0,
-
-        status='failed',
-
-        transaction_id=request_txn_id,
-
-        api_response=json.dumps(api_data)
-
-    )
-
-    return Response({
-
-        "status": "failed",
-
-        "message": api_message,
-
-        "api_response": api_data
-
-    }, status=400)
+        }, status=500)
 
 
 # =====================================================
@@ -525,7 +310,6 @@ def do_recharge(request):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-
 def my_recharges(request):
 
     recharges = Recharge.objects.filter(
