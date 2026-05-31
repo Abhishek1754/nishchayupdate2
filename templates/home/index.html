@@ -1033,6 +1033,7 @@ footer{
     }
 }
 
+
 @media(max-width:768px){
 
     .navbar{
@@ -1042,33 +1043,135 @@ footer{
         flex-direction:column;
 
         gap:20px;
+
     }
 
     .main-logo{
+
         width:180px;
+
     }
 
     .nav-links{
 
-        flex-wrap:wrap;
+        display:grid;
+
+        grid-template-columns:1fr 1fr;
+
+        gap:10px;
+
+        width:100%;
+
+    }
+
+    .nav-links a{
+
+        text-align:center;
+
+        padding:10px;
+
+        background:rgba(182,255,0,.05);
+
+        border-radius:10px;
+
+    }
+
+    .nav-btns{
+
+        width:100%;
 
         justify-content:center;
+
+        flex-wrap:wrap;
+
     }
 
     .hero{
+
         padding:30px 20px;
+
+        grid-template-columns:1fr;
+
+    }
+
+    .hero-left{
+
+        text-align:center;
+
     }
 
     .hero-left h1{
-        font-size:42px;
+
+        font-size:34px;
+
+    }
+
+    .hero-btns{
+
+        flex-direction:column;
+
+    }
+
+    .stats{
+
+        justify-content:center;
+
+    }
+
+    .floating-card{
+
+        display:none;
+
+    }
+
+    .orb{
+
+        width:250px;
+
+        height:250px;
+
+    }
+
+    .orb-inner{
+
+        width:140px;
+
+        height:140px;
+
+    }
+
+    .portal{
+
+        padding:20px;
+
+    }
+
+    .portal-title{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        text-align:center;
+
     }
 
     .apps{
+
         padding:20px;
+
     }
 
     .apps-grid{
+
         grid-template-columns:1fr;
+
+    }
+
+    .section-title h2{
+
+        font-size:32px;
+
     }
 
     .cta{
@@ -1078,20 +1181,69 @@ footer{
         flex-direction:column;
 
         text-align:center;
+
+        padding:30px 20px;
+
     }
 
     .cta h2{
+
         font-size:36px;
+
+    }
+
+    .cta-buttons{
+
+        flex-direction:column;
+
+        width:100%;
+
+    }
+
+    .cta-buttons a{
+
+        text-align:center;
+
     }
 
     footer{
+
         padding:40px 20px;
+
     }
 
     .footer-grid{
+
         grid-template-columns:1fr;
+
     }
+
+    .newsletter{
+
+        flex-direction:column;
+
+        gap:10px;
+
+    }
+
+    .newsletter input{
+
+        border-radius:12px;
+
+    }
+
+    .newsletter button{
+
+        width:100%;
+
+        height:50px;
+
+        border-radius:12px;
+
+    }
+
 }
+
 
 </style>
 
@@ -1358,7 +1510,34 @@ footer{
     </div>
 
 </section>
+<section id="about" class="apps">
 
+<div class="section-title">
+
+<h2>
+ABOUT
+<span> NISHCHAY</span>
+</h2>
+
+</div>
+
+<div style="
+max-width:1000px;
+margin:auto;
+text-align:center;
+line-height:2;
+color:#aaa;
+font-size:18px;
+">
+
+Nishchay Multiverse Innovation is a next-generation digital ecosystem
+bringing Recharge, ROI Investment, E-commerce and Food Delivery
+under one powerful platform. Our mission is to create opportunities,
+financial growth and digital empowerment for every user.
+
+</div>
+
+</section>
 <section class="apps">
 
     <div class="section-title">
@@ -1475,7 +1654,54 @@ footer{
     </div>
 
 </section>
+<section class="apps" id="team">
 
+<div class="section-title">
+
+<h2>
+
+OUR
+<span> TEAM</span>
+
+</h2>
+
+</div>
+
+<div class="apps-grid">
+
+<div class="app-card">
+<div class="app-icon">👨</div>
+<h3>Amit kumar</h3>
+<p>Founder & CEO</p>
+</div>
+
+<div class="app-card">
+<div class="app-icon">👨</div>
+<h3>AayushiAditi Amit Verma</h3>
+<p>Director $Chief Operation</p>
+</div>
+
+<div class="app-card">
+<div class="app-icon">👨</div>
+<h3>Abhishek mahendra</h3>
+<p>Technical Lead</p>
+</div>
+
+<div class="app-card">
+<div class="app-icon">👨</div>
+<h3>Sultan Jafri</h3>
+<p>CO-Founder</p>
+</div>
+
+<div class="app-card">
+<div class="app-icon">👨</div>
+<h3>Amiya kumar</h3>
+<p>Director</p>
+</div>
+
+</div>
+
+</section>
 <section class="cta">
 
     <div>
@@ -1502,7 +1728,44 @@ footer{
     </div>
 
 </section>
+<section
+id="contact"
+class="apps"
+>
 
+<div class="section-title">
+
+<h2>
+
+CONTACT
+<span> US</span>
+
+</h2>
+
+</div>
+
+<div style="
+text-align:center;
+font-size:18px;
+line-height:2;
+color:#aaa;
+">
+
+<p>
+📧 support@nishchay.in
+</p>
+
+<p>
+📞 +91 9594777373
+</p>
+
+<p>
+📍 India
+</p>
+
+</div>
+
+</section>
 <footer>
 
     <div class="footer-grid">
@@ -1526,10 +1789,10 @@ footer{
             <h3>Quick Links</h3>
 
             <a href="#">Home</a>
-            <a href="#">About</a>
+            <a href="#about">ABOUT</a>
             <a href="#">Apps</a>
             <a href="#">Pricing</a>
-            <a href="#">Contact</a>
+           <a href="#contact">CONTACT</a>
 
         </div>
 

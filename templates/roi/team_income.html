@@ -345,47 +345,32 @@ View Full Tree →
 
 <table class="table">
 
+<thead>
+
 <tr>
+
+<th>From User</th>
 <th>Level</th>
-<th>Members</th>
+<th>%</th>
 <th>Income</th>
-<th>Total</th>
+
 </tr>
 
-<tr>
-<td>1</td>
-<td>3</td>
-<td>10%</td>
-<td class="green">₹2500</td>
-</tr>
+</thead>
+
+<tbody id="incomeTable">
 
 <tr>
-<td>2</td>
-<td>9</td>
-<td>5%</td>
-<td class="green">₹2250</td>
+
+<td colspan="4">
+
+Loading...
+
+</td>
+
 </tr>
 
-<tr>
-<td>3</td>
-<td>21</td>
-<td>2%</td>
-<td class="green">₹2100</td>
-</tr>
-
-<tr>
-<td>4</td>
-<td>68</td>
-<td>1%</td>
-<td class="green">₹1680</td>
-</tr>
-
-<tr>
-<td>5</td>
-<td>192</td>
-<td>0.5%</td>
-<td class="green">₹1215</td>
-</tr>
+</tbody>
 
 </table>
 
@@ -395,7 +380,12 @@ View Full Tree →
 
 <h3>Total Level Income</h3>
 
-<div class="big">₹9,745</div>
+<div
+class="big"
+id="totalLevelIncome"
+>
+₹0
+</div>
 
 </div>
 
@@ -483,6 +473,109 @@ Share Now
 <div class="nav">Profile</div>
 
 </div>
+<script>
 
+async function loadTeamIncome(){
+
+    try{
+
+        const token =
+        localStorage.getItem(
+            "access"
+        );
+
+        const response =
+        await fetch(
+            "/roi/api/team-income/",
+            {
+                headers:{
+                    Authorization:
+                    `Bearer ${token}`
+                }
+            }
+        );
+
+        const data =
+        await response.json();
+
+        let html = "";
+
+        let total = 0;
+
+        if(data.length === 0){
+
+            html = `
+
+            <tr>
+
+            <td colspan="4">
+
+            No Team Income
+
+            </td>
+
+            </tr>
+
+            `;
+
+        }
+
+        data.forEach(item => {
+
+            total +=
+            parseFloat(
+                item.amount
+            );
+
+            html += `
+
+            <tr>
+
+            <td>
+            ${item.from_user}
+            </td>
+
+            <td>
+            ${item.level}
+            </td>
+
+            <td>
+            ${item.percentage}%
+            </td>
+
+            <td class="green">
+            ₹${item.amount}
+            </td>
+
+            </tr>
+
+            `;
+
+        });
+
+        document.getElementById(
+            "incomeTable"
+        ).innerHTML =
+        html;
+
+        document.getElementById(
+            "totalLevelIncome"
+        ).innerText =
+        "₹" +
+        total.toFixed(2);
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadTeamIncome();
+
+</script>
 </body>
 </html>

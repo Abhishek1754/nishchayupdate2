@@ -321,7 +321,12 @@ grid-template-columns:1fr 1fr;
 
 <h2>Available Income Balance</h2>
 
-<h1 class="green">₹ 5,680</h1>
+<h1
+class="green"
+id="availableBalance"
+>
+₹ 0
+</h1>
 
 <p>Total Withdrawal Till Now ₹ 24,560</p>
 
@@ -431,7 +436,11 @@ Enter Amount (₹)
 
 <div class="input-box">
 
-<input type="text" value="5680">
+<input
+type="number"
+id="withdrawAmount"
+placeholder="Enter Amount"
+>
 
 <div class="max">
 Max
@@ -465,7 +474,10 @@ Daily Limit: ₹ 20,000
 
 </div>
 
-<button class="submit-btn">
+<button
+class="submit-btn"
+onclick="submitWithdraw()"
+>
 Submit Withdrawal Request
 </button>
 
@@ -484,6 +496,120 @@ Submit Withdrawal Request
 <div class="nav active-nav">Profile</div>
 
 </div>
+<script>
 
+let walletBalance = 0;
+
+async function loadWallet(){
+
+    try{
+
+        const token =
+        localStorage.getItem(
+            "access"
+        );
+
+        const response =
+        await fetch(
+            "/accounts/api/profile/",
+            {
+                headers:{
+                    Authorization:
+                    `Bearer ${token}`
+                }
+            }
+        );
+
+        const data =
+        await response.json();
+
+        walletBalance =
+        data.wallet_balance || 0;
+
+        document.getElementById(
+            "availableBalance"
+        ).innerText =
+        "₹ " + walletBalance;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+async function submitWithdraw(){
+
+    try{
+
+        const token =
+        localStorage.getItem(
+            "access"
+        );
+
+        const amount =
+        document.getElementById(
+            "withdrawAmount"
+        ).value;
+
+        if(!amount){
+
+            alert(
+                "Enter amount"
+            );
+
+            return;
+
+        }
+
+        const response =
+        await fetch(
+            "/roi/api/withdraw/",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":
+                    "application/json",
+                    Authorization:
+                    `Bearer ${token}`
+                },
+                body:JSON.stringify({
+
+                    amount:amount
+
+                })
+            }
+        );
+
+        const data =
+        await response.json();
+
+       alert(
+    data.msg || data.error
+);
+
+        if(response.ok){
+
+            window.location.href =
+            "/roi/withdraw-success/";
+
+        }
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadWallet();
+
+</script>
 </body>
 </html>

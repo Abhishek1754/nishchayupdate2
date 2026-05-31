@@ -1,3 +1,5 @@
+
+from recharge.models import RechargeWallet
 from django.shortcuts import render
 from django.http import JsonResponse
 
@@ -186,24 +188,31 @@ def login(request):
 @api_view(['GET'])
 def profile(request):
 
-    user = request.user
+    wallet, created = RechargeWallet.objects.get_or_create(
+        user=request.user
+    )
 
     return Response({
 
-        "email": user.email,
+        "email": request.user.email,
 
-        "phone": user.phone,
+        "phone": request.user.phone,
 
-        "wallet_balance": user.wallet_balance,
+        "wallet_balance": str(wallet.balance),
 
-        "nishchay_coin": user.nishchay_coin,
+        "total_added": str(wallet.total_added),
 
-        "referral_code": user.referral_code,
+        "total_spent": str(wallet.total_spent),
 
-        "subscription": user.is_subscribed,
+        "total_cashback": str(wallet.total_cashback),
+
+        "nishchay_coin": request.user.nishchay_coin,
+
+        "referral_code": request.user.referral_code,
+
+        "subscription": request.user.is_subscribed,
 
     })
-
 
 # =========================
 # DASHBOARD VIEW

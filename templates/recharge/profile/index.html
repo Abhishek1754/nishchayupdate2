@@ -296,7 +296,7 @@ Profile Overview
 </h1>
 
 <div class="wallet">
-Wallet ₹55
+Wallet ₹<span id="walletBalance">0</span>
 </div>
 
 </div>
@@ -309,24 +309,27 @@ Wallet ₹55
 
 <div class="profile-top">
 
-<div class="avatar">
+<div class="avatar" id="avatar">
 A
 </div>
 
 <div class="info">
 
-<div class="name">
-Ankit Kumar
+<div class="name" id="fullName">
+Loading...
 </div>
 
 <div class="verify">
 Verified
 </div>
 
-<p>📞 +91 9876543210</p>
-<p>✉ ankitkumar@gmail.com</p>
-<p>📅 Member Since : 12 May 2024</p>
-<p>🎁 Referral Code : ANKIT100</p>
+<p>📞 <span id="phone"></span></p>
+
+<p>✉ <span id="email"></span></p>
+
+<p>📅 Member Since : {{ user_obj.created_at|date:"d M Y" }}</p>
+
+<p>🎁 Referral Code : <span id="referralCode"></span></p>
 
 <p class="green">
 ● Account Active
@@ -348,24 +351,25 @@ Personal Information
 
 <div class="pref">
 <h4>Full Name</h4>
-<p>Ankit Kumar</p>
+<p id="profileFullName"></p>
 </div>
 
 <div class="pref">
 <h4>Mobile Number</h4>
-<p>+91 9876543210</p>
+<p id="profilePhone"></p>
+
 </div>
 
 <div class="pref">
 <h4>Email Address</h4>
-<p>ankitkumar@gmail.com</p>
+<p id="profileEmail"></p>
+
 </div>
 
 <div class="pref">
 <h4>Referral Code</h4>
-<p>ANKIT100</p>
+<p id="profileReferral"></p>
 </div>
-
 </div>
 
 </div>
@@ -410,22 +414,22 @@ Preferences
 
 <div class="summary-card">
 <h3>Wallet Balance</h3>
-<h1>₹55</h1>
+<h1>₹<span id="walletBalance2">0</span></h1>
 </div>
 
 <div class="summary-card">
 <h3>Cashback</h3>
-<h1>₹135</h1>
+<h1>₹{{ wallet.total_cashback }}</h1>
 </div>
 
 <div class="summary-card">
 <h3>Referral</h3>
-<h1>₹100</h1>
+<h1>₹{{ total_income }}</h1>
 </div>
 
 <div class="summary-card">
 <h3>Transactions</h3>
-<h1>24</h1>
+<h1>{{ total_transactions }}</h1>
 </div>
 
 </div>
@@ -472,15 +476,104 @@ Refer & Earn
 
 </div>
 
-</div>
 
-</div>
+<script>
 
-</div>
+async function loadProfile() {
 
-</div>
+    try {
 
-</div>
+        const token =
+        localStorage.getItem("access");
 
+        const response =
+        await fetch(
+            "/api/profile/",
+            {
+                headers:{
+                    Authorization:
+                    `Bearer ${token}`
+                }
+            }
+        );
+
+        const data =
+        await response.json();
+
+        console.log("Profile:", data);
+
+        // Wallet
+        document.getElementById(
+            "walletBalance"
+        ).innerText =
+        data.wallet_balance;
+
+        document.getElementById(
+            "walletBalance2"
+        ).innerText =
+        data.wallet_balance;
+
+        // Email
+        document.getElementById(
+            "email"
+        ).innerText =
+        data.email;
+
+        // Phone
+        document.getElementById(
+            "phone"
+        ).innerText =
+        data.phone;
+
+        // Referral Code
+        document.getElementById(
+            "referralCode"
+        ).innerText =
+        data.referral_code;
+
+
+        document.getElementById(
+    "profileFullName"
+).innerText =
+data.email.split("@")[0];
+
+document.getElementById(
+    "profilePhone"
+).innerText =
+data.phone;
+
+document.getElementById(
+    "profileEmail"
+).innerText =
+data.email;
+
+document.getElementById(
+    "profileReferral"
+).innerText =
+data.referral_code;
+
+      
+        // Avatar
+        document.getElementById(
+            "avatar"
+        ).innerText =
+        data.email.charAt(0).toUpperCase();
+
+    }
+
+    catch(error){
+
+        console.log(
+            "Profile Error:",
+            error
+        );
+
+    }
+
+}
+
+loadProfile();
+
+</script>
 </body>
 </html>

@@ -309,125 +309,17 @@ body{
 
     <div class="left-section">
 
-        <h1 class="section-title">CHOOSE A PLAN</h1>
+       <h1 class="section-title">
+CHOOSE A PLAN
+</h1>
 
-        <!-- PLAN 1 -->
+<div id="plansContainer">
 
-        <div class="plan-card active-plan">
+Loading Plans...
 
-            <div class="plan-left">
+</div>
 
-                <h2>Plan 1</h2>
-
-                <div class="roi">1.5%</div>
-
-                <p>Daily ROI</p>
-
-            </div>
-
-            <div class="plan-center">📈</div>
-
-            <div class="plan-right">
-
-                <h3>Min Amount : <span>₹500</span></h3>
-
-                <h3>Max Amount : <span>₹4,999</span></h3>
-
-                <h3>Validity : <span>30 Days</span></h3>
-
-                <h3>Maturity : <span>₹645 - ₹6,498</span></h3>
-
-            </div>
-
-        </div>
-
-        <!-- PLAN 2 -->
-
-        <div class="plan-card">
-
-            <div class="plan-left">
-
-                <h2>Plan 2</h2>
-
-                <div class="roi">2%</div>
-
-                <p>Daily ROI</p>
-
-            </div>
-
-            <div class="plan-center">🟢</div>
-
-            <div class="plan-right">
-
-                <h3>Min Amount : <span>₹5,000</span></h3>
-
-                <h3>Max Amount : <span>₹19,999</span></h3>
-
-                <h3>Validity : <span>40 Days</span></h3>
-
-                <h3>Maturity : <span>₹9,000 - ₹35,999</span></h3>
-
-            </div>
-
-        </div>
-
-        <!-- PLAN 3 -->
-
-        <div class="plan-card">
-
-            <div class="plan-left">
-
-                <h2>Plan 3</h2>
-
-                <div class="roi">2.5%</div>
-
-                <p>Daily ROI</p>
-
-            </div>
-
-            <div class="plan-center">🪙</div>
-
-            <div class="plan-right">
-
-                <h3>Min Amount : <span>₹20,000</span></h3>
-
-                <h3>Max Amount : <span>₹49,999</span></h3>
-
-                <h3>Validity : <span>50 Days</span></h3>
-
-                <h3>Maturity : <span>₹27,500 - ₹71,249</span></h3>
-
-            </div>
-
-        </div>
-
-        <!-- PLAN 4 -->
-
-        <div class="plan-card">
-
-            <div class="plan-left">
-
-                <h2>Plan 4</h2>
-
-                <div class="roi">3%</div>
-
-                <p>Daily ROI</p>
-
-            </div>
-
-            <div class="plan-center">🏦</div>
-
-            <div class="plan-right">
-
-                <h3>Min Amount : <span>₹50,000+</span></h3>
-
-                <h3>Max Amount : <span>Unlimited</span></h3>
-
-                <h3>Validity : <span>60 Days</span></h3>
-
-                <h3>Maturity : <span>₹84,000+</span></h3>
-
-            </div>
+       
 
         </div>
 
@@ -534,6 +426,118 @@ onclick="window.location.href='/roi/plan-details/'">
 </button>
 
 </div>
+<script>
 
+async function loadPlans(){
+
+    try{
+
+        const response =
+        await fetch(
+            "/roi/api/plans/"
+        );
+
+        const plans =
+        await response.json();
+
+        let html = "";
+
+        plans.forEach(plan => {
+
+            html += `
+
+            <div
+            class="plan-card"
+            >
+
+                <div class="plan-left">
+
+                    <h2>
+                        ${plan.name}
+                    </h2>
+
+                    <div class="roi">
+                        ${plan.percentage}%
+                    </div>
+
+                    <p>
+                        Daily ROI
+                    </p>
+
+                </div>
+
+                <div class="plan-center">
+                    📈
+                </div>
+
+                <div class="plan-right">
+
+                    <h3>
+                    Amount :
+                    <span>
+                    ₹${plan.amount}
+                    </span>
+                    </h3>
+
+                    <h3>
+                    Validity :
+                    <span>
+                    ${plan.maturity_days}
+                    Days
+                    </span>
+                    </h3>
+
+                    <h3>
+                    Maturity :
+                    <span>
+                    ₹${plan.maturity_amount}
+                    </span>
+                    </h3>
+
+                    <br>
+
+                    <button
+                    class="footer-btn"
+                    onclick="
+                    localStorage.setItem(
+                    'roi_plan_id',
+                    '${plan.id}'
+                    );
+
+                    window.location.href=
+                    '/roi/invest-now/';
+                    "
+                    >
+
+                    Invest Now
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+        document.getElementById(
+            "plansContainer"
+        ).innerHTML =
+        html;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadPlans();
+
+</script>
 </body>
 </html>

@@ -231,7 +231,9 @@ font-size:24px;
 <a href="/roi/plan-details/" class="back">←</a>
 
 <div class="title">
-<h1>INVEST IN PLAN 1</h1>
+<h1 id="planName">
+INVEST PLAN
+</h1>
 <p>Enter investment amount and proceed to payment</p>
 </div>
 
@@ -247,16 +249,25 @@ font-size:24px;
 
 <div class="plan-box">
 <h2>Plan 1</h2>
-<p class="green">1.5% Daily ROI</p>
+<p class="green" id="planROI">
+0% Daily ROI
+</p>
 </div>
 
 <div class="plan-box">
-<h2>30 Days</h2>
+<h2 id="planDays">
+0 Days
+</h2>
 <p>Validity</p>
 </div>
 
 <div class="plan-box">
-<h2 class="green">₹645 - ₹6,498</h2>
+<h2
+class="green"
+id="maturityAmount"
+>
+₹0
+</h2>
 <p>Maturity</p>
 </div>
 
@@ -266,7 +277,12 @@ font-size:24px;
 
 <h2 class="amount-title">ENTER INVESTMENT AMOUNT</h2>
 
-<input type="text" class="amount-input" value="₹ 2,000">
+<input
+type="number"
+id="investAmount"
+class="amount-input"
+value="500"
+>
 
 <div class="quick-btns">
 
@@ -368,7 +384,10 @@ By continuing, you agree to our
 </div>
 
 <button class="pay-btn"
-onclick="window.location.href='/roi/payment/'">
+<button
+class="pay-btn"
+onclick="investNow()"
+>
 
 Continue to Payment →
 
@@ -379,6 +398,125 @@ Continue to Payment →
 </div>
 
 </div>
+<script>
 
+let selectedPlan = null;
+
+async function loadPlan(){
+
+    const planId =
+    localStorage.getItem(
+        "roi_plan_id"
+    );
+
+    if(!planId){
+        alert("Select Plan First");
+        location.href="/roi/plans/";
+        return;
+    }
+
+    const response =
+    await fetch(
+        "/roi/api/plans/"
+    );
+
+    const plans =
+    await response.json();
+
+    selectedPlan =
+    plans.find(
+        p => p.id == planId
+    );
+
+    if(!selectedPlan){
+        return;
+    }
+
+    document.getElementById(
+        "planName"
+    ).innerText =
+    selectedPlan.name;
+
+    document.getElementById(
+        "planROI"
+    ).innerText =
+    selectedPlan.percentage +
+    "% Daily ROI";
+
+    document.getElementById(
+        "planDays"
+    ).innerText =
+    selectedPlan.maturity_days +
+    " Days";
+
+    document.getElementById(
+        "maturityAmount"
+    ).innerText =
+    "₹" +
+    selectedPlan.maturity_amount;
+
+}
+
+async function investNow(){
+
+    try{
+
+        const token =
+        localStorage.getItem(
+            "access"
+        );
+
+        const amount =
+        document.getElementById(
+            "investAmount"
+        ).value;
+
+        const response =
+        await fetch(
+            "/roi/api/invest/",
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":
+                    "application/json",
+                    Authorization:
+                    `Bearer ${token}`
+                },
+                body:JSON.stringify({
+                    plan_id:
+                    selectedPlan.id,
+                    amount:
+                    amount
+                })
+            }
+        );
+
+        const data =
+        await response.json();
+
+        alert(
+            data.message
+        );
+
+        if(response.ok){
+
+            window.location.href =
+            "/roi/payment-success/";
+
+        }
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadPlan();
+
+</script>
 </body>
 </html>

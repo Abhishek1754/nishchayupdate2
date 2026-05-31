@@ -268,7 +268,11 @@ grid-template-columns:1fr 1fr;
 
 <h2 class="heading">MY INVESTMENTS</h2>
 
-<div class="invest-box">
+<div id="investmentContainer">
+
+Loading Investments...
+
+</div>
 
 <div class="invest-top">
 
@@ -304,7 +308,11 @@ grid-template-columns:1fr 1fr;
 
 </div>
 
-<div class="invest-box">
+<div id="investmentContainer">
+
+Loading Investments...
+
+</div>
 
 <div class="invest-top">
 
@@ -501,6 +509,136 @@ View Full Tree →
 <div class="nav-box">Profile</div>
 
 </div>
+<script>
+<script>
 
+async function loadInvestments(){
+
+    try{
+
+        const token =
+        localStorage.getItem(
+            "access"
+        );
+
+        const response =
+        await fetch(
+            "/roi/api/my-investments/",
+            {
+                headers:{
+                    Authorization:
+                    `Bearer ${token}`
+                }
+            }
+        );
+
+        const investments =
+        await response.json();
+
+        let html = "";
+
+        if(investments.length === 0){
+
+            html = `
+
+            <div class="invest-box">
+
+                <h2>
+                No Investments Found
+                </h2>
+
+            </div>
+
+            `;
+
+        }
+
+        investments.forEach(item => {
+
+            html += `
+
+            <div class="invest-box">
+
+                <div class="invest-top">
+
+                    <h2>
+                    ${item.plan}
+                    </h2>
+
+                    <span class="active">
+                    ${item.status}
+                    </span>
+
+                </div>
+
+                <div class="row">
+                    <span>
+                    Invested Amount
+                    </span>
+                    <span>
+                    ₹${item.amount}
+                    </span>
+                </div>
+
+                <div class="row">
+                    <span>
+                    Daily Income
+                    </span>
+                    <span>
+                    ₹${item.daily_income}
+                    </span>
+                </div>
+
+                <div class="row">
+                    <span>
+                    Total Earned
+                    </span>
+                    <span>
+                    ₹${item.total_earned}
+                    </span>
+                </div>
+
+                <div class="row">
+                    <span>
+                    Start Date
+                    </span>
+                    <span>
+                    ${item.start_date}
+                    </span>
+                </div>
+
+                <div class="row">
+                    <span>
+                    End Date
+                    </span>
+                    <span>
+                    ${item.end_date}
+                    </span>
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+        document.getElementById(
+            "investmentContainer"
+        ).innerHTML =
+        html;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadInvestments();
+
+</script>
 </body>
 </html>

@@ -9,658 +9,686 @@
 
 <title>Nishchay Recharge</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link
+href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet"
+>
 
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    background:#000;
-    color:white;
-    font-family:'Poppins',sans-serif;
-    overflow-x:hidden;
-}
-
-body::before{
-    content:'';
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:
-    radial-gradient(circle at top left,#b7ff0020,transparent 30%),
-    radial-gradient(circle at bottom right,#00ffcc15,transparent 30%);
-    z-index:-1;
-}
-
-.container{
-    width:100%;
-    padding:40px;
-}
-
-.heading{
-    font-size:58px;
-    font-family:'Orbitron',sans-serif;
-    color:#b7ff00;
-    margin-bottom:10px;
-    text-shadow:0 0 20px #b7ff00;
-}
-
-.subheading{
-    color:#aaa;
-    margin-bottom:40px;
-    font-size:18px;
-}
-
-.recharge-box{
-    background:#050505;
-    border:1px solid rgba(183,255,0,.2);
-    border-radius:30px;
-    padding:40px;
-    box-shadow:0 0 40px rgba(183,255,0,.08);
-}
-
-.tabs{
-    display:flex;
-    gap:30px;
-    margin-bottom:35px;
-    flex-wrap:wrap;
-}
-
-.tabs label{
-    font-size:18px;
-    color:#fff;
-}
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr 280px;
-    gap:20px;
-}
-
-.input{
-    height:70px;
-    border-radius:18px;
-    border:1px solid rgba(183,255,0,.3);
-    background:#000;
-    color:white;
-    padding:0 25px;
-    font-size:18px;
-    outline:none;
-    transition:.3s;
-}
-
-.input:focus{
-    border-color:#b7ff00;
-    box-shadow:0 0 15px #b7ff0050;
-}
-
-.btn{
-    border:none;
-    border-radius:18px;
-    background:#b7ff00;
-    color:#000;
-    font-size:22px;
-    font-weight:700;
-    cursor:pointer;
-    transition:.3s;
-    font-family:'Orbitron',sans-serif;
-}
-
-.btn:hover{
-    transform:translateY(-3px);
-    box-shadow:0 0 25px #b7ff00;
-}
-
-.wallet-card{
-    margin-top:40px;
-    background:#050505;
-    border:1px solid rgba(183,255,0,.2);
-    border-radius:25px;
-    padding:30px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:20px;
-}
-
-.wallet-title{
-    color:#aaa;
-    font-size:18px;
-}
-
-.wallet-balance{
-    font-size:42px;
-    color:#b7ff00;
-    font-family:'Orbitron',sans-serif;
-    text-shadow:0 0 15px #b7ff00;
-}
-
-.section{
-    margin-top:40px;
-    background:#050505;
-    border-radius:30px;
-    padding:35px;
-    border:1px solid rgba(183,255,0,.2);
-}
-
-.section-top{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:30px;
-    align-items:center;
-}
-
-.section-top h2{
-    color:#b7ff00;
-    font-size:40px;
-    font-family:'Orbitron',sans-serif;
-}
-
-.section-top span{
-    color:#fff;
-    cursor:pointer;
-}
-
-.operator-grid{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:25px;
-}
-
-.operator{
-    text-align:center;
-}
-
-.operator-circle{
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    border:2px solid rgba(183,255,0,.4);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:auto;
-    font-size:36px;
-    color:#b7ff00;
-    margin-bottom:15px;
-    transition:.3s;
-}
-
-.operator-circle:hover{
-    transform:scale(1.08);
-    box-shadow:0 0 25px #b7ff00;
-}
-
-.operator p{
-    font-size:18px;
-}
-
-.glow{
-    color:#b7ff00;
-    text-shadow:0 0 15px #b7ff00;
-}
-
-.offer-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-}
-
-.offer-card{
-    background:#000;
-    border:1px solid rgba(183,255,0,.2);
-    border-radius:25px;
-    padding:25px;
-    transition:.3s;
-}
-
-.offer-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 0 20px rgba(183,255,0,.25);
-}
-
-.offer-card h3{
-    color:#b7ff00;
-    margin-bottom:15px;
-    font-size:28px;
-}
-
-.offer-card p{
-    color:#aaa;
-    line-height:1.7;
-}
-
-@media(max-width:1200px){
-
-.form-grid{
-    grid-template-columns:1fr;
-}
-
-.operator-grid{
-    grid-template-columns:repeat(2,1fr);
-}
-
-.offer-grid{
-    grid-template-columns:1fr;
-}
-
-.heading{
-    font-size:40px;
-}
-
-}
-
-</style>
+<link
+rel="stylesheet"
+href="{% static 'css/recharge.css' %}"
+>
 
 </head>
 
 <body>
 
-<div class="container">
+<!-- BACKGROUND -->
 
-<h1 class="heading">
-NISHCHAY RECHARGE
+<div class="bg-glow bg1"></div>
+<div class="bg-glow bg2"></div>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+<div class="logo">
+
+<div class="logo-icon">
+⚡
+</div>
+
+<h1>
+<span>Nishchay</span> Recharge
 </h1>
-
-<p class="subheading">
-Fast • Secure • Cashback Enabled
-</p>
-
-<div class="recharge-box">
-
-<div class="tabs">
-
-<label>
-<input type="radio" checked>
-Mobile
-</label>
-
-<label>
-<input type="radio">
-DTH
-</label>
-
-<label>
-<input type="radio">
-Electricity
-</label>
-
-<label>
-<input type="radio">
-Fastag
-</label>
 
 </div>
 
-<div class="form-grid">
+<div class="nav-links">
+
+<a href="/recharge/">
+Home</a>
+
+<a href="/recharge/profile/">
+Profile
+</a>
+
+<a href="/recharge/transactions/">
+Transactions
+</a>
+
+<a href="/recharge/wallet-history/">
+Wallet
+</a>
+
+<a href="/recharge/refer/">
+Refer & Earn
+</a>
+
+<a href="/recharge/withdraw/">
+Withdraw
+</a>
+
+<a href="/recharge/offers/">
+Offers
+</a>
+
+</div>
+
+</div>
+
+<div class="top-right">
+
+<div class="wallet-top">
+₹ <span id="walletBalance">0</span>
+</div>
+
+<a
+href="/recharge/profile/"
+class="profile-box"
+style="text-decoration:none;"
+>
+👤
+</a>
+
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero-section">
+
+<div class="hero-left">
+
+<div class="hero-badge">
+⚡ India's AI Powered Recharge Platform
+</div>
+
+<h1>
+Recharge.<br>
+Pay Bills.<br>
+<span>Earn Cashback.</span>
+</h1>
+
+<p>
+Experience futuristic recharge technology with instant cashback,
+wallet rewards, AI offers and lightning fast transactions.
+</p>
+
+<div class="hero-buttons">
+
+<button class="primary-btn">
+Start Recharge
+</button>
+
+<button class="secondary-btn">
+Explore Offers
+</button>
+
+</div>
+
+<div class="hero-features">
+
+<div class="feature-card">
+⚡ Instant Recharge
+</div>
+
+<div class="feature-card">
+🎁 Cashback Rewards
+</div>
+
+<div class="feature-card">
+🛡 Secure Payments
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT PHONE -->
+
+<div class="hero-right">
+
+<div class="phone-glow"></div>
+
+<div class="phone">
+
+<div class="phone-top"></div>
+
+<div class="phone-wallet">
+
+<p>
+Wallet Balance
+</p>
+
+<h2>
+₹ <span id="walletBalance2">0</span>
+</h2>
+
+</div>
+
+<div class="phone-grid">
+
+<div class="phone-service">
+📱
+<p>Mobile</p>
+</div>
+
+<div class="phone-service">
+📺
+<p>DTH</p>
+</div>
+
+<div class="phone-service">
+⚡
+<p>Electricity</p>
+</div>
+
+<div class="phone-service">
+🚗
+<p>Fastag</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- LIVE TICKER -->
+
+<!-- LIVE TICKER -->
+
+<div class="live-ticker">
+
+    <div
+        class="ticker-track"
+        id="liveActivityText"
+    >
+
+        ⚡ Welcome to Nishchay Recharge
+
+    </div>
+
+
+</div>
+
+
+
+<!-- QUICK RECHARGE -->
+
+<section class="glass-section">
+
+<div class="section-head">
+
+<h2>
+Quick Recharge
+</h2>
+
+</div>
+
+<div class="quick-tabs">
+
+<div class="tab active">
+📱 Mobile
+</div>
+
+<div class="tab">
+📺 DTH
+</div>
+
+<div class="tab">
+⚡ Electricity
+</div>
+
+<div class="tab">
+🚗 Fastag
+</div>
+
+</div>
+
+<div class="recharge-box">
+
+<div class="input-group">
+
+<label>
+Mobile Number
+</label>
 
 <input
 type="text"
 id="mobile"
-class="input"
 placeholder="Enter Mobile Number"
+class="input"
 >
+
+</div>
+
+<div class="input-group">
+
+<label>
+Select Operator
+</label>
 
 <select
 id="provider"
 class="input"
 >
 
-<option value="">
+<option>
 Loading Operators...
 </option>
 
 </select>
 
+</div>
+
+<div class="input-group">
+
+<label>
+Recharge Amount
+</label>
+
 <input
 type="number"
 id="amount"
-class="input"
 placeholder="Enter Amount"
+class="input"
 >
 
+</div>
+
+<div class="input-group">
+
+<label>
+Recharge
+</label>
+
 <button
-class="btn"
+class="recharge-btn"
 onclick="doRecharge()"
 >
-Recharge
+⚡ Recharge Now
 </button>
 
 </div>
 
 </div>
 
-<div class="wallet-card">
+</section>
 
-<div>
+<!-- OPERATORS -->
 
-<p class="wallet-title">
-Wallet Balance
-</p>
+<section class="glass-section">
 
-<h2 class="wallet-balance">
-₹ <span id="walletBalance">0</span>
+<div class="section-head">
+
+<h2>
+Popular Operators
 </h2>
-
-</div>
-
-<div>
-
-<h2 class="glow">
-Welcome,
-<span id="username">
-User
-</span>
-</h2>
-
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="section-top">
-
-<h2>Popular Operators</h2>
-
-<span>
-View All
-</span>
 
 </div>
 
 <div class="operator-grid">
 
-<div class="operator">
-<div class="operator-circle">J</div>
-<p>Jio</p>
-</div>
+<div class="operator-card">
 
-<div class="operator">
-<div class="operator-circle">A</div>
-<p>Airtel</p>
-</div>
+<div class="operator-ring"></div>
 
-<div class="operator">
-<div class="operator-circle">V</div>
-<p>Vi</p>
-</div>
+<img
+src="{% static 'images/operators/jio.png' %}"
+alt="Jio"
+>
 
-<div class="operator">
-<div class="operator-circle">B</div>
-<p>BSNL</p>
-</div>
+<h3>
+Jio
+</h3>
 
-<div class="operator">
-<div class="operator-circle">D</div>
-<p>DTH</p>
-</div>
+<p>
+5G Recharge
+</p>
 
 </div>
 
-</div>
+<div class="operator-card">
 
-<div class="section">
+<div class="operator-ring"></div>
 
-<div class="section-top">
+<img
+src="{% static 'images/operators/airtel.png' %}"
+alt="Airtel"
+>
 
-<h2>Exclusive Offers</h2>
+<h3>
+Airtel
+</h3>
 
-<span>View All</span>
-
-</div>
-
-<div class="offer-grid">
-
-<div class="offer-card">
-<h3>Flat ₹20 Cashback</h3>
-<p>Recharge above ₹299 and get instant cashback directly in wallet.</p>
-</div>
-
-<div class="offer-card">
-<h3>5% Cashback</h3>
-<p>Special cashback on Airtel and Jio recharges for premium users.</p>
-</div>
-
-<div class="offer-card">
-<h3>Flat ₹50 Cashback</h3>
-<p>First recharge bonus available for new users today only.</p>
-</div>
-
-<div class="offer-card">
-<h3>10% Cashback</h3>
-<p>Limited period recharge reward with bonus coins.</p>
-</div>
+<p>
+Fast Recharge
+</p>
 
 </div>
 
+<div class="operator-card">
+
+<div class="operator-ring"></div>
+
+<img
+src="{% static 'images/operators/vi.png' %}"
+alt="VI"
+>
+
+<h3>
+VI
+</h3>
+
+<p>
+Cashback Offers
+</p>
+
+</div>
+
+<div class="operator-card">
+
+<div class="operator-ring"></div>
+
+<img
+src="{% static 'images/operators/bsnl.png' %}"
+alt="BSNL"
+>
+
+<h3>
+BSNL
+</h3>
+
+<p>
+Best Plans
+</p>
+
 </div>
 
 </div>
 
-<script>
+</section>
 
-// =====================================================
-// LOAD USER
-// =====================================================
+<!-- OFFERS -->
 
-async function loadUser(){
+<section class="glass-section">
 
-    try{
+<div class="section-head">
 
-        const response =
-        await fetch('/api/profile/');
+<h2>
+Exclusive Cashback Offers
+</h2>
 
-        if(!response.ok){
-            return;
-        }
+</div>
 
-        const data =
-        await response.json();
+<div
+class="coupon-grid"
+id="couponContainer"
+>
 
-        document.getElementById(
-            'walletBalance'
-        ).innerText =
-        data.wallet_balance || 0;
+<!-- API COUPONS LOAD HERE -->
 
-        document.getElementById(
-            'username'
-        ).innerText =
-        data.first_name || 'User';
+</div>
 
-    }catch(error){
+</section>
 
-        console.log(error);
+<!-- WALLET SECTION -->
 
-    }
+<section class="glass-section wallet-section">
 
-}
+<div class="section-head">
 
+<h2>
+Wallet Recharge
+</h2>
 
-// =====================================================
-// LOAD PROVIDERS
-// =====================================================
+</div>
 
-async function loadProviders(){
+<div class="wallet-grid">
 
-    try{
+<!-- LEFT -->
 
-        const response =
-        await fetch(
-            '/recharge/api/providers/'
-        );
+<div class="wallet-left">
 
-        const data =
-        await response.json();
+<div class="wallet-card-big">
 
-        console.log(data);
+<h3>
+Add Money To Wallet
+</h3>
 
-        const providerSelect =
-        document.getElementById(
-            'provider'
-        );
+<p>
+Recharge your Nishchay wallet instantly using QR or UPI.
+</p>
 
-        providerSelect.innerHTML = '';
+</div>
 
-        providerSelect.innerHTML += `
-        <option value="">
-            Select Operator
-        </option>
-        `;
+<div class="input-group">
 
-        if(Array.isArray(data)){
+<label>
+Amount
+</label>
 
-            data.forEach(provider => {
+<input
+type="number"
+id="addAmount"
+placeholder="Enter Amount"
+class="input"
+>
 
-                providerSelect.innerHTML += `
+</div>
 
-                <option value="${provider.id}">
-                    ${provider.name}
-                </option>
+<div class="input-group">
 
-                `;
+<label>
+UTR Number
+</label>
 
-            });
+<input
+type="text"
+id="utr"
+placeholder="Enter UTR Number"
+class="input"
+>
 
-        }else{
+</div>
 
-            providerSelect.innerHTML += `
-            <option value="">
-                No Providers Found
-            </option>
-            `;
+<div class="input-group">
 
-        }
+<label>
+Upload Screenshot
+</label>
 
-    }catch(error){
+<input
+type="file"
+id="screenshot"
+class="input"
+>
 
-        console.log(error);
+</div>
 
-    }
+<button
+class="recharge-btn wallet-submit-btn"
+onclick="submitAddMoney()"
+>
+💰 Submit Payment
+</button>
 
-}
+</div>
 
+<!-- RIGHT -->
 
-// =====================================================
-// DO RECHARGE
-// =====================================================
+<div class="wallet-right">
 
-async function doRecharge(){
+<div class="scan-box">
 
-    const provider =
-    document.getElementById(
-        'provider'
-    ).value;
+<div class="scan-line"></div>
 
-    const mobile =
-    document.getElementById(
-        'mobile'
-    ).value;
+<h3>
+📲 Scan & Pay
+</h3>
 
-    const amount =
-    document.getElementById(
-        'amount'
-    ).value;
+{% if gateway.qr_code %}
 
-    if(!provider){
+<div class="qr-wrapper">
 
-        alert('Select Operator');
-        return;
+<img
+src="{{ gateway.qr_code.url }}"
+class="qr-image"
+>
 
-    }
+</div>
 
-    if(!mobile){
+{% else %}
 
-        alert('Enter Mobile Number');
-        return;
+<div class="dummy-qr">
 
-    }
+<div class="dummy-inner">
+QR NOT UPLOADED
+</div>
 
-    if(!amount){
+</div>
 
-        alert('Enter Amount');
-        return;
+{% endif %}
 
-    }
+</div>
 
-    try{
+<div class="upi-box">
 
-        const response =
-        await fetch(
-            '/recharge/api/do-recharge/',
-            {
+<p>
+UPI ID
+</p>
 
-                method:'POST',
+<h4 id="upiText">
+{{ gateway.upi_id|default:"nishchay@upi" }}
+</h4>
 
-                headers:{
-                    'Content-Type':
-                    'application/json'
-                },
+<button
+class="copy-btn"
+onclick="copyUPI()"
+>
+Copy UPI
+</button>
 
-                body:JSON.stringify({
+</div>
 
-                    provider_id:provider,
-                    mobile_number:mobile,
-                    amount:amount
+<div class="payment-note">
 
-                })
+⚠️ Payment will be manually verified by admin.
+Wallet balance updates automatically after approval.
 
-            }
-        );
+</div>
 
-        const data =
-        await response.json();
+</div>
 
-        console.log(data);
+</div>
 
-        if(response.ok){
+</section>
 
-            alert(
-                data.message ||
-                'Recharge Successful'
-            );
+<!-- LIVE ACTIVITY -->
 
-            window.location.reload();
+<section class="glass-section">
 
-        }else{
+<div class="section-head">
 
-            alert(
-                data.message ||
-                'Recharge Failed'
-            );
+<h2>
+Live Activity
+</h2>
 
-        }
+</div>
 
-    }catch(error){
+<div class="activity-grid">
 
-        console.log(error);
+<div class="activity-card">
 
-        alert('Server Error');
+<div class="activity-icon">
+⚡
+</div>
 
-    }
+<div>
 
-}
+<h4>
+Recharge Success
+</h4>
 
+<p>
+Airtel recharge completed successfully
+</p>
 
-// =====================================================
-// WINDOW LOAD
-// =====================================================
+</div>
 
-window.onload = function(){
+</div>
 
-    loadUser();
+<div class="activity-card">
 
-    loadProviders();
+<div class="activity-icon">
+🎁
+</div>
 
-}
+<div>
 
-</script>
+<h4>
+Cashback Received
+</h4>
+
+<p>
+₹25 cashback credited to wallet
+</p>
+
+</div>
+
+</div>
+
+<div class="activity-card">
+
+<div class="activity-icon">
+💰
+</div>
+
+<div>
+
+<h4>
+Wallet Updated
+</h4>
+
+<p>
+Money added successfully
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="footer-logo">
+
+⚡ Nishchay Recharge
+
+</div>
+
+<p>
+India's futuristic recharge ecosystem powered by cashback,
+wallet technology and AI automation.
+</p>
+
+<div class="footer-bottom">
+© 2026 Nishchay Recharge. All Rights Reserved.
+</div>
+
+</footer>
+
+<script src="{% static 'js/recharge.js' %}"></script>
 
 </body>
 </html>

@@ -39,6 +39,7 @@ class RechargeProvider(models.Model):
         ('mobile', 'Mobile'),
         ('dth', 'DTH'),
         ('electricity', 'Electricity'),
+        ('fastag', 'Fastag'),
         ('gas', 'Gas'),
         ('water', 'Water'),
 
@@ -52,8 +53,6 @@ class RechargeProvider(models.Model):
         max_length=30,
         choices=SERVICE_TYPES
     )
-
-    # REAL PROVIDER OPERATOR CODE
 
     operator_code = models.CharField(
         max_length=50,
@@ -87,6 +86,232 @@ class RechargeProvider(models.Model):
 
 
 # =====================================================
+# USER RECHARGE WALLET
+# =====================================================
+
+class RechargeWallet(models.Model):
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    balance = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    total_added = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    total_spent = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    total_cashback = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} Wallet"
+
+
+# =====================================================
+# ADD MONEY REQUEST
+# =====================================================
+
+class AddMoneyRequest(models.Model):
+
+    STATUS_CHOICES = (
+
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+
+    )
+
+    PAYMENT_METHODS = (
+
+        ('upi', 'UPI'),
+        ('qr', 'QR'),
+        ('bank', 'Bank Transfer'),
+
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    payment_method = models.CharField(
+        max_length=20,
+        choices=PAYMENT_METHODS
+    )
+
+    utr_number = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    screenshot = models.ImageField(
+        upload_to='recharge/payment_screenshots/',
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+
+    admin_note = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    approved_at = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - {self.amount}"
+
+
+# =====================================================
+# ADMIN PAYMENT SETTINGS
+# =====================================================
+
+class RechargePaymentGateway(models.Model):
+
+    upi_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    qr_code = models.ImageField(
+        upload_to='recharge/qr/',
+        blank=True,
+        null=True
+    )
+
+    account_name = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    bank_name = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    account_number = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    ifsc_code = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    def __str__(self):
+
+        return "Recharge Payment Settings"
+
+
+# =====================================================
+# COUPON SYSTEM
+# =====================================================
+
+class RechargeCoupon(models.Model):
+
+    code = models.CharField(
+        max_length=50,
+        unique=True
+    )
+
+    title = models.CharField(
+        max_length=255
+    )
+
+    description = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    cashback_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0
+    )
+
+    max_cashback = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    minimum_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    expiry_date = models.DateTimeField()
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return self.code
+
+
+# =====================================================
 # RECHARGE TRANSACTION
 # =====================================================
 
@@ -103,11 +328,11 @@ class Recharge(models.Model):
     )
 
     user = models.ForeignKey(
-    User,
-    on_delete=models.CASCADE,
-    null=True,
-    blank=True
-)
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
 
     provider = models.ForeignKey(
         RechargeProvider,
@@ -129,7 +354,12 @@ class Recharge(models.Model):
         default=0
     )
 
-    # UNIQUE INTERNAL TXN
+    coupon = models.ForeignKey(
+        RechargeCoupon,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
 
     transaction_id = models.CharField(
         max_length=100,
@@ -137,23 +367,17 @@ class Recharge(models.Model):
         blank=True
     )
 
-    # PROVIDER TXN
-
     operator_reference = models.CharField(
         max_length=100,
         blank=True,
         null=True
     )
 
-    # PROVIDER REQUEST ID
-
     request_txn_id = models.CharField(
         max_length=100,
         blank=True,
         null=True
     )
-
-    # API RESPONSE
 
     api_response = models.TextField(
         blank=True,
@@ -166,13 +390,9 @@ class Recharge(models.Model):
         default='pending'
     )
 
-    # REFUND STATUS
-
     refund_processed = models.BooleanField(
         default=False
     )
-
-    # FAILURE MESSAGE
 
     failure_message = models.TextField(
         blank=True,
@@ -186,8 +406,6 @@ class Recharge(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
-
-    # AUTO GENERATE TXN ID
 
     def save(self, *args, **kwargs):
 
@@ -285,7 +503,7 @@ class RechargeCashbackHistory(models.Model):
 
 
 # =====================================================
-# WALLET TRANSACTION HISTORY
+# WALLET HISTORY
 # =====================================================
 
 class RechargeWalletHistory(models.Model):
@@ -309,14 +527,14 @@ class RechargeWalletHistory(models.Model):
         blank=True
     )
 
-    transaction_type = models.CharField(
-        max_length=20,
-        choices=TRANSACTION_TYPES
-    )
-
     amount = models.DecimalField(
         max_digits=12,
         decimal_places=2
+    )
+
+    transaction_type = models.CharField(
+        max_length=20,
+        choices=TRANSACTION_TYPES
     )
 
     message = models.CharField(
@@ -330,3 +548,76 @@ class RechargeWalletHistory(models.Model):
     def __str__(self):
 
         return f"{self.user.email} - {self.transaction_type}"
+    
+    
+    
+# =====================================================
+# WITHDRAW REQUEST
+# =====================================================
+
+class RechargeWithdrawRequest(models.Model):
+
+    STATUS_CHOICES = (
+
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+
+    )
+
+    METHOD_CHOICES = (
+
+        ('upi', 'UPI'),
+        ('bank', 'Bank'),
+        ('paytm', 'Paytm'),
+        ('gpay', 'Google Pay'),
+
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2
+    )
+
+    withdraw_method = models.CharField(
+        max_length=20,
+        choices=METHOD_CHOICES
+    )
+
+    account_name = models.CharField(
+        max_length=255
+    )
+
+    account_details = models.CharField(
+        max_length=255
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+
+    admin_remark = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    approved_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+
+        return f"{self.user.email} - ₹{self.amount}"
+

@@ -4,6 +4,8 @@ from .views import (
 
     roi_dashboard,
     roi_plans,
+     
+     
     plan_details,
     invest_now_page,
     payment_page,
@@ -20,6 +22,7 @@ from .views import (
     my_investments,
     withdraw_request,
     run_daily_roi,
+    team_income_api,
 
 )
 
@@ -133,6 +136,12 @@ urlpatterns = [
     'api/run-daily-roi/',
     run_daily_roi,
     name='run_daily_roi'
+),
+    
+    path(
+    'api/team-income/',
+    team_income_api,
+    name='team_income_api'
 ),
 
 ]

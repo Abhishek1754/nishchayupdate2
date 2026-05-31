@@ -17,6 +17,8 @@ from .views import (
     offers_page,
     notifications_page,
     support_page,
+    wallet_history_page,
+    withdraw_request,
 
     # =====================================================
     # APIs
@@ -26,12 +28,21 @@ from .views import (
     do_recharge,
     my_recharges,
 
+    wallet_details,
+    wallet_history,
+
+    add_money_request,
+
+    recharge_coupons,
+    team_page,
+    my_team
+
 )
 
 urlpatterns = [
 
     # =====================================================
-    # ==================== UI PAGES =======================
+    # UI PAGES
     # =====================================================
 
     path(
@@ -63,6 +74,13 @@ urlpatterns = [
         transaction_history,
         name='transaction_history'
     ),
+    
+    
+    path(
+    'wallet-history/',
+    wallet_history_page,
+    name='wallet_history_page'
+),
 
     path(
         'refer/',
@@ -99,9 +117,21 @@ urlpatterns = [
         support_page,
         name='support_page'
     ),
+    
+    path(
+    'api/withdraw/',
+    withdraw_request,
+    name='withdraw_request'
+),
+    
+    path(
+    'team/',
+    team_page,
+    name='team_page'
+),
 
     # =====================================================
-    # ======================= APIs ========================
+    # APIs
     # =====================================================
 
     path(
@@ -121,5 +151,47 @@ urlpatterns = [
         my_recharges,
         name='my_recharges'
     ),
+
+    # =====================================================
+    # WALLET
+    # =====================================================
+
+    path(
+        'api/wallet/',
+        wallet_details,
+        name='wallet_details'
+    ),
+
+    path(
+        'api/wallet-history/',
+        wallet_history,
+        name='wallet_history'
+    ),
+
+    # =====================================================
+    # ADD MONEY
+    # =====================================================
+
+    path(
+        'api/add-money/',
+        add_money_request,
+        name='add_money_request'
+    ),
+
+    # =====================================================
+    # COUPONS
+    # =====================================================
+
+    path(
+        'api/coupons/',
+        recharge_coupons,
+        name='recharge_coupons'
+    ),
+    
+    path(
+    'api/team/',
+    my_team,
+    name='my_team'
+),
 
 ]

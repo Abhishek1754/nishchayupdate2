@@ -301,6 +301,9 @@ Withdraw
 <a href="/recharge/refer/">
 Refer & Earn
 </a>
+<a href="/recharge/team/">
+My Team
+</a>
 
 <a href="/">
 Back Home
@@ -319,7 +322,7 @@ Withdraw Funds
 </h1>
 
 <div class="wallet">
-Wallet ₹55
+Wallet ₹<span id="walletBalance">0</span>
 </div>
 
 </div>
@@ -334,12 +337,12 @@ Wallet ₹55
 
 <div class="balance-box">
 <h3>Available Balance</h3>
-<h1>₹55</h1>
+<h1>₹<span id="availableBalance">0</span></h1>
 </div>
 
 <div class="balance-box">
 <h3>Withdrawable</h3>
-<h1>₹55</h1>
+<h1>₹<span id="withdrawableBalance">0</span></h1>
 </div>
 
 <div class="balance-box">
@@ -375,11 +378,20 @@ Google Pay
 
 </div>
 
-<input class="input" placeholder="Enter UPI ID">
+<input
+id="upiId"
+class="input"
+placeholder="Enter UPI ID">
 
-<input class="input" placeholder="Enter Name">
+<input
+id="holderName"
+class="input"
+placeholder="Enter Name">
 
-<input class="input" placeholder="Enter Amount">
+<input
+id="withdrawAmount"
+class="input"
+placeholder="Enter Amount">
 
 <div class="quick">
 
@@ -394,7 +406,7 @@ Google Pay
 
 <div class="summary-box">
 <p>You Receive</p>
-<h2>₹55</h2>
+<h2>₹<span id="receiveAmount">0</span></h2>
 </div>
 
 <div class="summary-box">
@@ -409,9 +421,12 @@ Google Pay
 
 </div>
 
-<button class="withdraw-btn">
+<button
+class="withdraw-btn"
+onclick="submitWithdraw()"
+>
 Withdraw Now
-</button>
+</button>>
 
 </div>
 
@@ -469,6 +484,138 @@ Remaining : ₹10,000
 </div>
 
 </div>
+<script>
 
+async function loadWallet(){
+
+    try{
+
+        const token =
+        localStorage.getItem("access");
+
+        const response =
+        await fetch(
+            "/recharge/api/wallet/",
+            {
+                headers:{
+                    Authorization:
+                    `Bearer ${token}`
+                }
+            }
+        );
+
+        const data =
+        await response.json();
+
+        document.getElementById(
+            "walletBalance"
+        ).innerText =
+        data.balance;
+
+        document.getElementById(
+            "availableBalance"
+        ).innerText =
+        data.balance;
+
+        document.getElementById(
+            "withdrawableBalance"
+        ).innerText =
+        data.balance;
+
+        document.getElementById(
+            "receiveAmount"
+        ).innerText =
+        data.balance;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadWallet();
+
+
+async function submitWithdraw(){
+
+    try{
+
+        const amount =
+        document.getElementById(
+            "withdrawAmount"
+        ).value;
+
+        const accountName =
+        document.getElementById(
+            "holderName"
+        ).value;
+
+        const accountDetails =
+        document.getElementById(
+            "upiId"
+        ).value;
+
+        const token =
+        localStorage.getItem(
+            "access"
+        );
+
+        const response =
+        await fetch(
+            "/recharge/api/withdraw/",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json",
+
+                    Authorization:
+                    `Bearer ${token}`
+                },
+
+                body:JSON.stringify({
+
+                    amount: amount,
+
+                    withdraw_method:"upi",
+
+                    account_name:
+                    accountName,
+
+                    account_details:
+                    accountDetails
+
+                })
+
+            }
+        );
+
+        const data =
+        await response.json();
+
+        alert(data.message);
+
+        if(data.status){
+
+            loadWallet();
+
+        }
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+</script>
 </body>
 </html>

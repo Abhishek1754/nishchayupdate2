@@ -10,6 +10,17 @@ from .models import (
     RechargeLevelSetting,
     RechargeCashbackHistory,
 
+    RechargeWallet,
+    RechargeWalletHistory,
+
+    RechargeCoupon,
+
+    AddMoneyRequest,
+
+    RechargePaymentGateway,
+    
+    RechargeWithdrawRequest,
+
 )
 
 
@@ -25,6 +36,7 @@ class RechargeProviderAdmin(admin.ModelAdmin):
         'id',
         'name',
         'service_type',
+        'operator_code',
         'cashback_percentage',
         'is_active',
         'created_at',
@@ -61,12 +73,6 @@ class RechargeLevelSettingAdmin(admin.ModelAdmin):
 
     )
 
-    search_fields = (
-
-        'level',
-
-    )
-
 
 # =====================================================
 # RECHARGE ADMIN
@@ -91,7 +97,6 @@ class RechargeAdmin(admin.ModelAdmin):
 
     search_fields = (
 
-        'user__email',
         'mobile_number',
         'transaction_id',
 
@@ -124,19 +129,6 @@ class RechargeLevelIncomeAdmin(admin.ModelAdmin):
 
     )
 
-    search_fields = (
-
-        'user__email',
-        'from_user__email',
-
-    )
-
-    list_filter = (
-
-        'level',
-
-    )
-
 
 # =====================================================
 # RECHARGE CASHBACK HISTORY ADMIN
@@ -155,8 +147,230 @@ class RechargeCashbackHistoryAdmin(admin.ModelAdmin):
 
     )
 
+
+# =====================================================
+# RECHARGE WALLET ADMIN
+# =====================================================
+
+@admin.register(RechargeWallet, site=admin_site)
+class RechargeWalletAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'balance',
+        'total_added',
+        'total_spent',
+        'total_cashback',
+        'updated_at',
+
+    )
+
+
+# =====================================================
+# WALLET HISTORY ADMIN
+# =====================================================
+
+@admin.register(RechargeWalletHistory, site=admin_site)
+class RechargeWalletHistoryAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'transaction_type',
+        'amount',
+        'message',
+        'created_at',
+
+    )
+
     search_fields = (
 
-        'user__email',
+        'message',
 
+    )
+
+
+# =====================================================
+# RECHARGE COUPON ADMIN
+# =====================================================
+
+@admin.register(RechargeCoupon, site=admin_site)
+class RechargeCouponAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'code',
+        'title',
+        'cashback_percentage',
+        'max_cashback',
+        'minimum_amount',
+        'is_active',
+        'expiry_date',
+
+    )
+
+
+# =====================================================
+# PAYMENT GATEWAY ADMIN
+# =====================================================
+
+@admin.register(RechargePaymentGateway, site=admin_site)
+class RechargePaymentGatewayAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'upi_id',
+        'account_name',
+        'bank_name',
+        'is_active',
+
+    )
+
+
+# =====================================================
+# ADD MONEY REQUEST ADMIN
+# =====================================================
+
+@admin.register(AddMoneyRequest, site=admin_site)
+class AddMoneyRequestAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'amount',
+        'payment_method',
+        'utr_number',
+        'status',
+        'created_at',
+
+    )
+
+    actions = [
+
+        'approve_requests',
+
+    ]
+
+    def approve_requests(
+        self,
+        request,
+        queryset
+    ):
+
+        for obj in queryset:
+
+            if obj.status != 'approved':
+
+                wallet, created = RechargeWallet.objects.get_or_create(
+                    user=obj.user
+                )
+
+                wallet.balance += obj.amount
+
+                wallet.total_added += obj.amount
+
+                wallet.save()
+
+                RechargeWalletHistory.objects.create(
+
+                    user=obj.user,
+
+                    amount=obj.amount,
+
+                    transaction_type='credit',
+
+                    message='Wallet Topup Approved'
+
+                )
+
+                obj.status = 'approved'
+
+                obj.save()
+
+    approve_requests.short_description = "Approve selected requests"
+    
+    
+    # =====================================================
+# WITHDRAW REQUEST ADMIN
+# =====================================================
+
+@admin.register(RechargeWithdrawRequest, site=admin_site)
+class RechargeWithdrawRequestAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        'id',
+        'user',
+        'amount',
+        'withdraw_method',
+        'account_name',
+        'status',
+        'created_at',
+
+    )
+
+    list_filter = (
+
+        'status',
+        'withdraw_method',
+
+    )
+
+    search_fields = (
+
+        'account_name',
+        'account_details',
+
+    )
+
+    actions = [
+
+        'approve_withdrawals',
+
+    ]
+
+    def approve_withdrawals(
+        self,
+        request,
+        queryset
+    ):
+
+        for obj in queryset:
+
+            if obj.status == 'pending':
+
+                wallet, created = RechargeWallet.objects.get_or_create(
+                    user=obj.user
+                )
+
+                if wallet.balance >= obj.amount:
+
+                    wallet.balance -= obj.amount
+
+                    wallet.save()
+
+                    RechargeWalletHistory.objects.create(
+
+                        user=obj.user,
+
+                        amount=obj.amount,
+
+                        transaction_type='debit',
+
+                        message='Withdrawal Approved'
+
+                    )
+
+                    obj.status = 'approved'
+
+                    obj.save()
+
+    approve_withdrawals.short_description = (
+        "Approve selected withdrawals"
     )

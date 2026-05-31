@@ -1,0 +1,178 @@
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nishchay Wallet History</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet"
+>
+
+<link
+rel="stylesheet"
+href="{% static 'css/wallet_history.css' %}"
+>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="sidebar">
+
+        <div class="logo">
+            Nishchay
+        </div>
+
+        <div class="menu">
+
+            <a href="/recharge/">
+                Recharge Dashboard
+            </a>
+
+            <a href="/recharge/transactions/">
+                Transactions
+            </a>
+
+            <a
+            class="active"
+            href="/recharge/wallet-history/"
+            >
+                Wallet History
+            </a>
+
+            <a href="/recharge/refer/">
+                Refer & Earn
+            </a>
+
+            <a href="/recharge/offers/">
+                Offers
+            </a>
+
+            <a href="/">
+                Back Home
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="heading">
+            Wallet History
+        </div>
+
+        <!-- SUMMARY -->
+
+        <div class="summary">
+
+            <div class="card">
+
+                <h3>
+                    Wallet Balance
+                </h3>
+
+                <h2 id="walletBalance">
+                    ₹0
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    Total Credits
+                </h3>
+
+                <h2 id="totalCredits">
+                    ₹0
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    Total Debits
+                </h3>
+
+                <h2 id="totalDebits">
+                    ₹0
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    Cashback Earned
+                </h3>
+
+                <h2 id="cashbackEarned">
+                    ₹0
+                </h2>
+
+            </div>
+
+        </div>
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+            type="text"
+            id="searchInput"
+            placeholder="Search transaction..."
+            onkeyup="searchWalletHistory()"
+            >
+
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="table-box">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody
+                id="walletTableBody"
+                >
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{% static 'js/wallet_history.js' %}"></script>
+
+</body>
+</html>
+```

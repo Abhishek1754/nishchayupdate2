@@ -357,7 +357,9 @@ ROI
 <div class="topbar">
 
 <div class="welcome">
-<h1>Welcome back, Rohit Kumar 👋</h1>
+<h1 id="welcomeUser">
+Welcome Back 👋
+</h1>
 <p>Here is your account overview</p>
 </div>
 
@@ -374,26 +376,26 @@ ROI
 
 <div class="card purple">
 <h2>Total Balance</h2>
-<h1>₹25,680</h1>
+<h1 id="walletBalance">₹0</h1>
 <p>Available Balance</p>
 </div>
 
 <div class="card green">
 <h2>Total Investment</h2>
-<h1>₹60,000</h1>
+<h1 id="totalInvestment">₹0</h1>
 <p>Active Investment</p>
 </div>
 
 <div class="card blue">
 <h2>Total ROI Earned</h2>
-<h1>₹15,430</h1>
+<h1 id="totalEarned">₹0</h1>
 <p>Total ROI Earned</p>
 </div>
 
 <div class="card orange">
 <h2>Total Withdrawn</h2>
-<h1>₹10,250</h1>
-<p>Total Withdrawn</p>
+<h1 id="activePlans">0</h1>
+<h2>Active Plans</h2>
 </div>
 
 </div>
@@ -474,7 +476,11 @@ ROI
 <h1>Grow Your Wealth With ROI System</h1>
 <p>Invest in our plans and earn daily ROI</p>
 
-<button>Invest Now</button>
+<button
+onclick="window.location.href='/roi/plans/'"
+>
+Invest Now
+</button>
 </div>
 
 <div>
@@ -568,7 +574,14 @@ ROI
 <strong>₹120</strong>
 </div>
 
-<button>View Plan Details</button>
+<button
+onclick="
+window.location.href=
+'/roi/my-investment/'
+"
+>
+View Plan Details
+</button>
 
 </div>
 
@@ -577,6 +590,117 @@ ROI
 </div>
 
 </div>
+<script>
 
+async function loadDashboard(){
+
+    try{
+
+        const token =
+        localStorage.getItem(
+            "access"
+        );
+
+        // USER PROFILE
+
+        const profileResponse =
+        await fetch(
+            "/accounts/api/profile/",
+            {
+                headers:{
+                    Authorization:
+                    `Bearer ${token}`
+                }
+            }
+        );
+
+        const profile =
+        await profileResponse.json();
+
+        document.getElementById(
+            "welcomeUser"
+        ).innerText =
+        "Welcome Back, " +
+        profile.email.split("@")[0] +
+        " 👋";
+
+        document.getElementById(
+            "walletBalance"
+        ).innerText =
+        "₹" +
+        profile.wallet_balance;
+
+        // INVESTMENTS
+
+        const investmentResponse =
+        await fetch(
+            "/roi/api/my-investments/",
+            {
+                headers:{
+                    Authorization:
+                    `Bearer ${token}`
+                }
+            }
+        );
+
+        const investments =
+        await investmentResponse.json();
+
+        let totalInvestment = 0;
+        let totalEarned = 0;
+        let activePlans = 0;
+
+        investments.forEach(item => {
+
+            totalInvestment +=
+            parseFloat(
+                item.amount
+            );
+
+            totalEarned +=
+            parseFloat(
+                item.total_earned
+            );
+
+            if(
+                item.status === "active"
+            ){
+                activePlans++;
+            }
+
+        });
+
+        document.getElementById(
+            "totalInvestment"
+        ).innerText =
+        "₹" +
+        totalInvestment.toFixed(2);
+
+        document.getElementById(
+            "totalEarned"
+        ).innerText =
+        "₹" +
+        totalEarned.toFixed(2);
+
+        document.getElementById(
+            "activePlans"
+        ).innerText =
+        activePlans;
+
+    }
+
+    catch(error){
+
+        console.log(
+            error
+        );
+
+    }
+
+}
+
+loadDashboard();
+
+</script>
 </body>
 </html>

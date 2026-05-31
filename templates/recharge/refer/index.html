@@ -276,6 +276,10 @@ Transactions
 Refer & Earn
 </a>
 
+<a href="/recharge/team/">
+My Team
+</a>
+
 <a href="/">
 Back Home
 </a>
@@ -293,7 +297,7 @@ Refer & Earn
 </h1>
 
 <div class="wallet">
-Wallet ₹55
+Wallet ₹<span id="walletBalance">0</span>
 </div>
 
 </div>
@@ -307,14 +311,20 @@ Invite friends and earn cashback instantly.
 </p>
 
 <div class="referral-box">
-ANKIT100
+{{ referral_code }}
 </div>
 
 <div class="share-buttons">
 
-<button>WhatsApp</button>
-<button>Telegram</button>
-<button>Copy Link</button>
+<button onclick="shareWhatsapp()">
+WhatsApp
+</button>
+<button onclick="shareTelegram()">
+Telegram
+</button>
+<button onclick="copyReferral()">
+Copy Code
+</button>
 
 </div>
 
@@ -328,48 +338,60 @@ ANKIT100
 
 <div class="stat-box">
 <p>Total Earnings</p>
-<h2>₹135</h2>
+<h2>₹{{ total_income }}</h2>
 </div>
 
 <div class="stat-box">
-<p>Pending</p>
-<h2>₹50</h2>
+<p>Today's Income</p>
+<h2>₹{{ today_income }}</h2>
 </div>
 
 <div class="stat-box">
 <p>Total Referrals</p>
-<h2>12</h2>
+<h2>{{ direct_team }}</h2>
 </div>
 
 <div class="stat-box">
-<p>Success</p>
-<h2>7</h2>
-</div>
+<p>Level Income Entries</p>
+<h2>{{ recent_income|length }}</h2>
 
 </div>
 
-<a href="#" class="btn">
+</div>
+
+<a
+href="/recharge/withdraw/"
+class="btn"
+>
 Withdraw Earnings
 </a>
 
 <div class="referral-list">
 
-<div class="user">
-<span>Rahul Kumar</span>
-<span class="success">+₹100</span>
-</div>
+{% for item in recent_income %}
 
 <div class="user">
-<span>Sunil Sharma</span>
-<span class="success">+₹100</span>
+
+<span>
+{{ item.from_user.email }}
+(Level {{ item.level }})
+</span>
+
+<span class="success">
++₹{{ item.amount }}
+</span>
+
 </div>
+
+{% empty %}
 
 <div class="user">
-<span>Pooja Verma</span>
-<span class="success">+₹100</span>
-</div>
+
+<span>No referral income yet</span>
 
 </div>
+
+{% endfor %}
 
 </div>
 
@@ -400,6 +422,113 @@ Withdraw Earnings
 </div>
 
 </div>
+<script>
+
+async function loadWallet(){
+
+    try{
+
+        const token =
+        localStorage.getItem("access");
+
+        const response =
+        await fetch(
+            "/recharge/api/wallet/",
+            {
+                headers:{
+                    Authorization:
+                    `Bearer ${token}`
+                }
+            }
+        );
+
+        const data =
+        await response.json();
+
+        document.getElementById(
+            "walletBalance"
+        ).innerText =
+        data.balance;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+loadWallet();
+
+</script>
+
+<script>
+
+function getReferralCode(){
+
+    return document.querySelector(
+        ".referral-box"
+    ).innerText.trim();
+
+}
+
+function copyReferral(){
+
+    const code =
+    getReferralCode();
+
+    navigator.clipboard.writeText(
+        code
+    );
+
+    alert(
+        "Referral Code Copied"
+    );
+
+}
+
+function shareWhatsapp(){
+
+    const code =
+    getReferralCode();
+
+    const text =
+
+    `Join Nishchay Recharge using my referral code: ${code}`;
+
+    window.open(
+
+        `https://wa.me/?text=${encodeURIComponent(text)}`,
+
+        "_blank"
+
+    );
+
+}
+
+function shareTelegram(){
+
+    const code =
+    getReferralCode();
+
+    const text =
+
+    `Join Nishchay Recharge using my referral code: ${code}`;
+
+    window.open(
+
+        `https://t.me/share/url?text=${encodeURIComponent(text)}`,
+
+        "_blank"
+
+    );
+
+}
+
+</script>
+
 
 </body>
 </html>
