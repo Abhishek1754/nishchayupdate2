@@ -58,19 +58,21 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 
         .logo{
 
-            text-align:center;
+    text-align:center;
 
-            font-size:42px;
+    margin-bottom:20px;
 
-            font-weight:bold;
+}
 
-            color:#c6ff00;
+.logo img{
 
-            text-shadow:0 0 15px #c6ff00;
+    width:220px;
 
-            margin-bottom:10px;
+    max-width:100%;
 
-        }
+    height:auto;
+
+}
 
         .subtitle{
 
@@ -239,7 +241,12 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 
     <div class="logo">
 
-        NISHCHAY
+    <img
+        src="{% static 'images/logo.png' %}"
+        alt="Nishchay Logo"
+    >
+
+</div>
 
     </div>
 
