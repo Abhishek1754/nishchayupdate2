@@ -1092,7 +1092,7 @@ footer{
 
 }
 
-    .navbar{
+   .navbar{
 
     padding:15px;
 
@@ -1105,6 +1105,16 @@ footer{
     align-items:center;
 
     position:relative;
+
+    flex-wrap:wrap;
+
+}
+
+.nav-btns{
+
+    width:100%;
+
+    margin-top:15px;
 
 }
 
@@ -1132,16 +1142,31 @@ footer{
 
 #guestButtons{
 
-    display:flex;
+    display:grid;
 
-    flex-wrap:wrap;
-
-    justify-content:center;
+    grid-template-columns:1fr 1fr;
 
     gap:10px;
 
+    width:100%;
+
+    margin-top:15px;
+
 }
 
+#guestButtons .btn{
+
+    width:100%;
+
+    text-align:center;
+
+}
+
+#guestButtons .btn.active{
+
+    grid-column:1 / span 2;
+
+}
     .hero{
 
         padding:30px 20px;
