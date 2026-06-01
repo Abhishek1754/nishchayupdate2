@@ -5,7 +5,9 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>Nishchay Login</title>
 
@@ -36,21 +38,23 @@
 
         }
 
-        .container{
+       .container{
 
-            width:400px;
+    width:90%;
 
-            background:#050505;
+    max-width:400px;
 
-            border:2px solid #c6ff00;
+    background:#050505;
 
-            border-radius:20px;
+    border:2px solid #c6ff00;
 
-            padding:40px;
+    border-radius:20px;
 
-            box-shadow:0 0 40px #c6ff00;
+    padding:40px;
 
-        }
+    box-shadow:0 0 40px #c6ff00;
+
+}
 
         .logo{
 
@@ -98,7 +102,7 @@
 
             color:white;
 
-            font-size:15px;
+            font-size:16px;
 
             outline:none;
 
@@ -197,6 +201,29 @@
             right:-100px;
 
         }
+        @media(max-width:768px){
+
+    .container{
+
+        width:90%;
+
+        padding:30px 20px;
+
+    }
+
+    .logo{
+
+        font-size:34px;
+
+    }
+
+    .subtitle{
+
+        font-size:14px;
+
+    }
+
+}
 
     </style>
 
