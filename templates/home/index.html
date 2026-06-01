@@ -120,6 +120,18 @@ body{
 
     border-bottom:1px solid rgba(182,255,0,.15);
 }
+
+.hamburger{
+
+    display:none;
+
+    font-size:32px;
+
+    color:#b6ff00;
+
+    cursor:pointer;
+
+}
 .logo{
 
     display:flex;
@@ -1035,16 +1047,63 @@ footer{
 
 
 @media(max-width:768px){
+    .hamburger{
+
+    display:block;
+
+}
+
+.nav-links{
+
+    display:none;
+
+    flex-direction:column;
+
+    width:100%;
+
+    gap:10px;
+
+    margin-top:10px;
+
+}
+
+.nav-links.active{
+
+    display:flex;
+
+}
+
+.nav-links a{
+
+    width:100%;
+
+    text-align:center;
+
+    padding:12px;
+
+    background:rgba(182,255,0,.05);
+
+    border-radius:10px;
+
+}
+
+.navbar{
+
+    align-items:center;
+
+}
 
     .navbar{
 
-        padding:20px;
+    padding:20px;
 
-        flex-direction:column;
+    flex-direction:row;
 
-        gap:20px;
+    justify-content:space-between;
 
-    }
+    align-items:center;
+
+}
 
     .main-logo{
 
@@ -1052,29 +1111,7 @@ footer{
 
     }
 
-    .nav-links{
-
-        display:grid;
-
-        grid-template-columns:1fr 1fr;
-
-        gap:10px;
-
-        width:100%;
-
-    }
-
-    .nav-links a{
-
-        text-align:center;
-
-        padding:10px;
-
-        background:rgba(182,255,0,.05);
-
-        border-radius:10px;
-
-    }
+    
 
     .nav-btns{
 
@@ -1262,15 +1299,19 @@ footer{
 
     </div>
 
+    <div class="hamburger" onclick="toggleMenu()">
+    ☰
+</div>
+
     <div class="nav-links">
 
-        <a href="#">HOME</a>
-        <a href="#">ABOUT</a>
+         <a href="/">HOME</a>
+        <a href="#about">ABOUT</a>
         <a href="#">APPS</a>
         <a href="#">FEATURES</a>
         <a href="#">PRICING</a>
         <a href="#">BLOG</a>
-        <a href="#">CONTACT</a>
+       <a href="#contact">CONTACT</a>
 
     </div>
 
@@ -1678,7 +1719,7 @@ OUR
 <div class="app-card">
 <div class="app-icon">👨</div>
 <h3>AayushiAditi Amit Verma</h3>
-<p>Director $Chief Operation</p>
+<p>Director & Chief Operations
 </div>
 
 <div class="app-card">
@@ -1896,7 +1937,18 @@ function logoutUser(){
 }
 
 </script>
+<script>
 
+function toggleMenu(){
+
+    document
+    .querySelector(".nav-links")
+    .classList
+    .toggle("active");
+
+}
+
+</script>
 </body>
 </html>
 
