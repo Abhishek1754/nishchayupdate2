@@ -1053,37 +1053,35 @@ footer{
 
 }
 
+
+
 .nav-links{
 
     display:none;
 
-    flex-direction:column;
+    position:absolute;
+
+    top:80px;
+
+    left:0;
 
     width:100%;
 
-    gap:10px;
+    background:#050505;
 
-    margin-top:10px;
+    padding:20px;
+
+    z-index:999;
+
+    flex-direction:column;
+
+    gap:10px;
 
 }
 
 .nav-links.active{
 
     display:flex;
-
-}
-
-.nav-links a{
-
-    width:100%;
-
-    text-align:center;
-
-    padding:12px;
-
-    background:rgba(182,255,0,.05);
-
-    border-radius:10px;
 
 }
 
@@ -1095,13 +1093,17 @@ footer{
 
     .navbar{
 
-    padding:20px;
+    padding:15px;
+
+    display:flex;
 
     flex-direction:row;
 
     justify-content:space-between;
 
     align-items:center;
+
+    position:relative;
 
 }
 
@@ -1115,13 +1117,9 @@ footer{
 
     .nav-btns{
 
-        width:100%;
+    display:none;
 
-        justify-content:center;
-
-        flex-wrap:wrap;
-
-    }
+}
 
     .hero{
 
@@ -1312,83 +1310,74 @@ footer{
         <a href="#">PRICING</a>
         <a href="#">BLOG</a>
        <a href="#contact">CONTACT</a>
+       <a href="/login/">USER LOGIN</a>
+<a href="/register/">REGISTER</a>
+<a href="#">SHOP LOGIN</a>
 
     </div>
-
-    <div class="nav-btns">
-
-    <!-- GUEST BUTTONS -->
+<div class="nav-btns">
 
     <div id="guestButtons">
 
         <a href="/login/" class="btn">
-
             User Login
-
         </a>
 
         <a href="/register/" class="btn">
-
             Register
-
         </a>
-
-    </div>
-
-    <!-- USER SECTION -->
-
-    <div
-        id="userSection"
-        style="display:none; align-items:center; gap:15px;"
-    >
-<div
-    style="
-        display:flex;
-        flex-direction:column;
-        gap:4px;
-    "
->
-
-    <span
-        id="welcomeUser"
-        style="
-            color:#b6ff00;
-            font-weight:bold;
-            font-size:16px;
-        "
-    >
-    </span>
-
-   <div
-    id="walletInfo"
-    style="
-        color:white;
-        font-size:13px;
-        line-height:1.7;
-    "
->
-</div>
-
-</div>
-
-        <button
-            onclick="logoutUser()"
-            class="btn"
-        >
-
-            Logout
-
-        </button>
-
-    </div>
-
-</div>
 
         <a href="#" class="btn active">
             Shop Login
         </a>
 
     </div>
+
+    <div
+        id="userSection"
+        style="display:none; align-items:center; gap:15px;"
+    >
+
+        <div
+            style="
+                display:flex;
+                flex-direction:column;
+                gap:4px;
+            "
+        >
+
+            <span
+                id="welcomeUser"
+                style="
+                    color:#b6ff00;
+                    font-weight:bold;
+                    font-size:16px;
+                "
+            >
+            </span>
+
+            <div
+                id="walletInfo"
+                style="
+                    color:white;
+                    font-size:13px;
+                    line-height:1.7;
+                "
+            >
+            </div>
+
+        </div>
+
+        <button
+            onclick="logoutUser()"
+            class="btn"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</div>
 
 </nav>
 
@@ -1719,7 +1708,7 @@ OUR
 <div class="app-card">
 <div class="app-icon">👨</div>
 <h3>AayushiAditi Amit Verma</h3>
-<p>Director & Chief Operations
+<p>Director & Chief Operations</p>
 </div>
 
 <div class="app-card">
@@ -1731,7 +1720,7 @@ OUR
 <div class="app-card">
 <div class="app-icon">👨</div>
 <h3>Sultan Jafri</h3>
-<p>CO-Founder</p>
+<p>Co-Founder</p>
 </div>
 
 <div class="app-card">
