@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import permission_classes
 
 from wallet.utils import create_wallet_transaction
@@ -174,6 +174,7 @@ def withdraw_success(request):
 # =========================
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def roi_plans_api(request):
 
     plans = ROIPlan.objects.filter(
