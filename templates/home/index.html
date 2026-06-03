@@ -186,8 +186,7 @@ body{
 
 .main-logo{
 
-    width:240px;
-
+    width:180px;
     height:auto;
 
     object-fit:contain;
@@ -234,7 +233,27 @@ body{
 
     display:flex;
 
-    gap:15px;
+    gap:10px;
+
+    align-items:center;
+}
+
+#guestButtons{
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+}
+
+#guestButtons .btn{
+
+    min-width:140px;
+
+    text-align:center;
+
+    white-space:nowrap;
 }
 
 .btn{
@@ -1402,23 +1421,7 @@ footer{
 <a href="#">SHOP LOGIN</a>
 
     </div>
-<div class="nav-btns">
 
-    <div id="guestButtons">
-
-        <a href="/login/" class="btn">
-            User Login
-        </a>
-
-        <a href="/register/" class="btn">
-            Register
-        </a>
-
-        <a href="#" class="btn active">
-            Shop Login
-        </a>
-
-    </div>
 
     <div
         id="userSection"
