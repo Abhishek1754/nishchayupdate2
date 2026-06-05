@@ -69,6 +69,22 @@ def homepage(request):
         request,
         'home/index.html'
     )
+    
+def team_page(request):
+
+        return render(
+        request,
+        'home/team.html'
+    )
+        
+def privacy_policy(request):
+         return render(request, 'home/privacy-policy.html')
+
+def terms_conditions(request):
+         return render(request, 'home/terms-and-conditions.html')
+
+def refund_policy(request):
+    return render(request, 'home/refund-policy.html')
 
 
 # =====================================================
@@ -86,6 +102,12 @@ urlpatterns = [
         homepage,
         name='home'
     ),
+    
+    path(
+    'team/',
+    team_page,
+    name='team'
+),
 
     # =====================================================
     # DASHBOARD
@@ -140,6 +162,26 @@ urlpatterns = [
         dashboard_api,
         name='dashboard_api'
     ),
+    
+    path(
+    'privacy-policy/',
+    privacy_policy,
+    name='privacy_policy'
+),
+
+path(
+    'terms-and-conditions/',
+    terms_conditions,
+    name='terms_conditions'
+),
+
+path(
+    'refund-policy/',
+    refund_policy,
+    name='refund_policy'
+),
+    
+    
 
     # =====================================================
     # APPS

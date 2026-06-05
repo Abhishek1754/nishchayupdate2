@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Our Team | Nishchay Multiverse
+</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#000;
+overflow:hidden;
+}
+
+/* Back Button */
+
+.back-btn{
+
+position:fixed;
+
+top:20px;
+right:20px;
+
+padding:12px 20px;
+
+background:#b6ff00;
+
+color:#000;
+
+font-weight:bold;
+
+text-decoration:none;
+
+border-radius:10px;
+
+z-index:9999;
+}
+
+/* Full Screen Video */
+
+.team-video{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<a href="/"
+class="back-btn">
+
+← Back To Home
+
+</a>
+
+<video
+class="team-video"
+autoplay
+muted
+loop
+playsinline>
+
+<source
+src="{% static 'videos/team-bg.mp4' %}"
+type="video/mp4">
+
+</video>
+
+</body>
+
+</html>

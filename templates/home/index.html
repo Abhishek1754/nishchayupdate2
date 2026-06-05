@@ -1163,60 +1163,35 @@ footer{
 }
 
 .nav-btns{
-
-    width:100%;
-
-    margin-top:15px;
-
-}
-
-    .main-logo{
-
-    width:150px;
-
-}
-
-    
-
-   .nav-btns{
-
+    position:absolute;
+    top:18px;
+    right:55px;
     display:flex;
-
-    justify-content:center;
-
-    flex-wrap:wrap;
-
-    gap:10px;
-
-    margin-top:15px;
-
+    gap:4px;
+    z-index:1000;
 }
 
 #guestButtons{
 
-    display:grid;
+    display:flex;
 
-    grid-template-columns:1fr 1fr;
+    gap:6px;
 
-    gap:10px;
+    width:auto;
 
-    width:100%;
-
-    margin-top:15px;
+    margin-top:0;
 
 }
 
 #guestButtons .btn{
 
-    width:100%;
+    min-width:80px;
+
+    padding:8px 10px;
+
+    font-size:11px;
 
     text-align:center;
-
-}
-
-#guestButtons .btn.active{
-
-    grid-column:1 / span 2;
 
 }
     .hero{
@@ -1409,20 +1384,36 @@ footer{
 
     <div class="nav-links">
 
-         <a href="/">HOME</a>
-        <a href="#about">ABOUT</a>
-        <a href="#">APPS</a>
-        <a href="#">FEATURES</a>
-        <a href="#">PRICING</a>
-        <a href="#">BLOG</a>
-       <a href="#contact">CONTACT</a>
-       <a href="/login/">USER LOGIN</a>
-<a href="/register/">REGISTER</a>
-<a href="#">SHOP LOGIN</a>
+<a href="/">HOME</a>
+<a href="#about">ABOUT</a>
+<a href="#">APPS</a>
+<a href="#">FEATURES</a>
+<a href="#">PRICING</a>
+<a href="#">BLOG</a>
+<a href="#contact">CONTACT</a>
 <a href="/team/">OUR TEAM</a>
 
-    </div>
+</div>
 
+<div class="nav-btns">
+
+<div id="guestButtons">
+
+<a href="/login/" class="btn">
+User Login
+</a>
+
+<a href="/register/" class="btn">
+Register
+</a>
+
+<a href="#" class="btn active">
+Shop Login
+</a>
+
+</div>
+
+</div>
 
     <div
         id="userSection"
@@ -1775,18 +1766,6 @@ financial growth and digital empowerment for every user.
     </div>
 
 </section>
-<section class="apps" id="team">
-
-<div class="section-title">
-
-<h2>
-
-OUR
-<span> TEAM</span>
-
-</h2>
-
-</div>
 
 <section class="cta">
 
@@ -1870,17 +1849,27 @@ color:#aaa;
 
         </div>
 
-        <div class="footer-box">
+       <div class="footer-box">
 
-            <h3>Quick Links</h3>
+    <h3>Quick Links</h3>
 
-            <a href="#">Home</a>
-            <a href="#about">ABOUT</a>
-            <a href="#">Apps</a>
-            <a href="#">Pricing</a>
-           <a href="#contact">CONTACT</a>
+    <a href="/">Home</a>
+    <a href="#about">ABOUT</a>
+    <a href="#contact">CONTACT</a>
 
-        </div>
+    <a href="{% url 'privacy_policy' %}">
+        Privacy Policy
+    </a>
+
+    <a href="{% url 'terms_conditions' %}">
+        Terms & Conditions
+    </a>
+
+    <a href="{% url 'refund_policy' %}">
+        Refund Policy
+    </a>
+
+</div>
 
         <div class="footer-box">
 
@@ -1916,10 +1905,31 @@ color:#aaa;
 
     <div class="copyright">
 
-        © 2026 Nishchay Multiverse Innovation.
-      All Rights Reserved.
+© 2026 Nishchay Multiverse Innovation.
+All Rights Reserved.
 
-    </div>
+<br><br>
+
+<a href="{% url 'privacy_policy' %}"
+style="color:#b6ff00;text-decoration:none;">
+Privacy Policy
+</a>
+
+&nbsp; | &nbsp;
+
+<a href="{% url 'terms_conditions' %}"
+style="color:#b6ff00;text-decoration:none;">
+Terms & Conditions
+</a>
+
+&nbsp; | &nbsp;
+
+<a href="{% url 'refund_policy' %}"
+style="color:#b6ff00;text-decoration:none;">
+Refund Policy
+</a>
+
+</div>
 
 </footer>
 
