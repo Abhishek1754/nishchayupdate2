@@ -158,11 +158,13 @@ body{
 
     display:none;
 
-    font-size:32px;
+    font-size:42px;
 
     color:#b6ff00;
 
     cursor:pointer;
+
+    margin-left:5px;
 
 }
 .logo{
@@ -233,18 +235,28 @@ body{
 
     display:flex;
 
+    align-items:center;
+
+    justify-content:center;
+
     gap:10px;
 
-    align-items:center;
+    width:100%;
+
+    margin-top:15px;
+
 }
 
-#guestButtons{
+#guestButtons .btn{
 
-    display:flex;
+    min-width:95px;
 
-    gap:10px;
+    padding:10px 12px;
 
-    align-items:center;
+    font-size:12px;
+
+    text-align:center;
+
 }
 
 #guestButtons .btn{
@@ -1378,9 +1390,7 @@ footer{
 
     </div>
 
-    <div class="hamburger" onclick="toggleMenu()">
-    ☰
-</div>
+    
 
     <div class="nav-links">
 
@@ -1410,6 +1420,11 @@ Register
 <a href="#" class="btn active">
 Shop Login
 </a>
+
+<div class="hamburger" onclick="toggleMenu()">
+☰
+</div>
+
 
 </div>
 
