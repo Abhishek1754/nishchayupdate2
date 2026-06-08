@@ -96,6 +96,41 @@ admin_site = NishchayAdminSite(name='nishchay_admin')
 # =======================
 @admin.register(User, site=admin_site)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email', 'phone', 'wallet_balance', 'nishchay_coin')
-    search_fields = ('email', 'phone')
-    list_filter = ('is_subscribed',)
+
+    list_display = (
+
+        'id',
+
+        'email',
+
+        'phone',
+
+        'plan',
+
+        'wallet_balance',
+
+        'nishchay_coin'
+
+    )
+
+    search_fields = (
+
+        'email',
+
+        'phone'
+
+    )
+
+    list_filter = (
+
+        'plan',
+
+        'role',
+
+        'is_verified',
+
+        'is_blocked',
+
+        'is_subscription_active'
+
+    )

@@ -39,17 +39,11 @@ class User(AbstractUser):
     )
 
     referred_by = models.ForeignKey(
-
         'self',
-
         null=True,
-
         blank=True,
-
         on_delete=models.SET_NULL,
-
         related_name='team_members'
-
     )
 
     # =====================================================
@@ -57,76 +51,40 @@ class User(AbstractUser):
     # =====================================================
 
     wallet_balance = models.DecimalField(
-
         max_digits=12,
-
         decimal_places=2,
-
         default=0
-
     )
-
-    # ROI WALLET
 
     roi_wallet = models.DecimalField(
-
         max_digits=12,
-
         decimal_places=2,
-
         default=0
-
     )
-
-    # RECHARGE WALLET
 
     recharge_wallet = models.DecimalField(
-
         max_digits=12,
-
         decimal_places=2,
-
         default=0
-
     )
-
-    # ECOMMERCE WALLET
 
     ecommerce_wallet = models.DecimalField(
-
         max_digits=12,
-
         decimal_places=2,
-
         default=0
-
     )
-
-    # TOTAL EARNINGS
 
     total_earnings = models.DecimalField(
-
         max_digits=12,
-
         decimal_places=2,
-
         default=0
-
     )
-
-    # TOTAL WITHDRAW
 
     total_withdraw = models.DecimalField(
-
         max_digits=12,
-
         decimal_places=2,
-
         default=0
-
     )
-
-    # NISHCHAY COIN
 
     nishchay_coin = models.IntegerField(
         default=0
@@ -136,13 +94,30 @@ class User(AbstractUser):
     # SUBSCRIPTION
     # =====================================================
 
-    is_subscribed = models.BooleanField(
-        default=False
+    PLAN_CHOICES = (
+        ('FREE', 'Free'),
+        ('PREMIUM', 'Premium'),
+    )
+
+    plan = models.CharField(
+        max_length=20,
+        choices=PLAN_CHOICES,
+        default='FREE'
+    )
+
+    subscription_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
     )
 
     subscription_date = models.DateTimeField(
         null=True,
         blank=True
+    )
+
+    is_subscription_active = models.BooleanField(
+        default=False
     )
 
     # =====================================================
@@ -158,27 +133,17 @@ class User(AbstractUser):
     )
 
     ROLE_CHOICES = (
-
         ('admin', 'Admin'),
-
         ('staff', 'Staff'),
-
         ('user', 'User'),
-
         ('shop', 'Shop'),
-
         ('delivery', 'Delivery'),
-
     )
 
     role = models.CharField(
-
         max_length=20,
-
         choices=ROLE_CHOICES,
-
         default='user'
-
     )
 
     # =====================================================
@@ -211,26 +176,15 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
 
-        # AUTO REFERRAL CODE
-
         if not self.referral_code:
-
             self.referral_code = (
-
                 str(uuid.uuid4())
-
                 .replace('-', '')[:8]
-
                 .upper()
-
             )
 
-        # AUTO ADMIN ROLE
-
         if self.is_superuser:
-
             self.is_admin = True
-
             self.role = 'admin'
 
         super().save(*args, **kwargs)
@@ -241,7 +195,6 @@ class User(AbstractUser):
 
     @property
     def total_team(self):
-
         return self.team_members.count()
 
     # =====================================================
@@ -249,5 +202,4 @@ class User(AbstractUser):
     # =====================================================
 
     def __str__(self):
-
         return self.email

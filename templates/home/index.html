@@ -156,15 +156,25 @@ body{
 
 .hamburger{
 
-    display:none;
+    display:flex;
 
-    font-size:38px;
+    justify-content:center;
+
+    align-items:center;
+
+    width:55px;
+
+    height:42px;
+
+    border:1px solid #b6ff00;
+
+    border-radius:12px;
 
     color:#b6ff00;
 
-    cursor:pointer;
+    font-size:28px;
 
-    margin-left:10px;
+    cursor:pointer;
 
 }
 .logo{
@@ -1187,23 +1197,31 @@ footer{
 
 #guestButtons{
 
-    display:flex;
+    display:grid;
 
-    align-items:center;
+    grid-template-columns:1fr 1fr auto;
 
     gap:8px;
+
+    align-items:center;
 
 }
 
 #guestButtons .btn{
 
-    min-width:85px;
+    min-width:auto;
 
     padding:8px 10px;
 
     font-size:11px;
 
     text-align:center;
+
+}
+
+#guestButtons .btn.active{
+
+    grid-column:1 / span 2;
 
 }
     .hero{
@@ -1411,24 +1429,23 @@ footer{
 
 <div id="guestButtons">
 
-<a href="/login/" class="btn">
-User Login
-</a>
+    <a href="/login/" class="btn">
+        User Login
+    </a>
 
-<a href="/register/" class="btn">
-Register
-</a>
+    <a href="/register/" class="btn">
+        Register
+    </a>
 
-<a href="#" class="btn active">
-Shop Login
-</a>
+    <div class="hamburger" onclick="toggleMenu()">
+        ☰
+    </div>
+
+    <a href="#" class="btn active">
+        Shop Login
+    </a>
 
 </div>
-
-<div class="hamburger" onclick="toggleMenu()">
-☰
-</div>
-
 </div>
 
 </div>
