@@ -226,10 +226,6 @@ def team_page(request):
 # GET WALLET
 # =====================================================
 
-# =====================================================
-# GET WALLET
-# =====================================================
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def wallet_details(request):

@@ -352,6 +352,11 @@ async function loginUser(event){
             );
 
             localStorage.setItem(
+               'username',
+               data.username
+            );
+
+            localStorage.setItem(
                 'wallet_balance',
                 data.wallet_balance
             );

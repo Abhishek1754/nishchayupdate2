@@ -86,6 +86,13 @@ def terms_conditions(request):
 def refund_policy(request):
     return render(request, 'home/refund-policy.html')
 
+def shipping_policy(request):
+
+    return render(
+        request,
+        'home/shipping-policy.html'
+    )
+
 
 # =====================================================
 # URL PATTERNS
@@ -180,6 +187,14 @@ path(
     refund_policy,
     name='refund_policy'
 ),
+
+path(
+    'shipping-policy/',
+    shipping_policy,
+    name='shipping_policy'
+),
+
+
     
     
 

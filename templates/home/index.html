@@ -1852,6 +1852,10 @@ color:#aaa;
         Refund Policy
     </a>
 
+    <a href="/shipping-policy/">
+    Shipping Policy
+    </a>
+
 </div>
 
         <div class="footer-box">
@@ -1923,6 +1927,9 @@ Refund Policy
 const userEmail =
     localStorage.getItem('email');
 
+    const username =
+    localStorage.getItem('username');
+
     const wallet =
     localStorage.getItem('wallet_balance');
 
@@ -1938,14 +1945,14 @@ if(userEmail){
         'guestButtons'
     ).style.display = 'none';
 
-    document.getElementById(
-        'userSection'
-    ).style.display = 'flex';
+   document.getElementById(
+    'userSection'
+).style.display = 'flex';
 
-    document.getElementById(
-        'welcomeUser'
-    ).innerHTML =
-        "Welcome " + userEmail;
+document.getElementById(
+    'welcomeUser'
+).innerHTML =
+    "Welcome " + username;
 
         document.getElementById(
             'walletInfo'

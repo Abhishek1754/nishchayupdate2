@@ -80,15 +80,15 @@ def register(request):
 
     user = User.objects.create(
 
-        username=data['email'],
+    username=data['first_name'],
 
-        email=data['email'],
+    email=data['email'],
 
-        phone=data['phone'],
+    phone=data['phone'],
 
-        first_name=data['first_name'],
+    first_name=data['first_name'],
 
-        last_name=data['last_name'],
+    last_name=data['last_name'],
 
         state=data['state'],
 
@@ -166,19 +166,21 @@ def login(request):
 
     return Response({
 
-        "access": str(token.access_token),
+    "access": str(token.access_token),
 
-        "refresh": str(token),
+    "refresh": str(token),
 
-        "email": user.email,
+    "username": user.first_name,
 
-        "wallet_balance": user.wallet_balance,
+    "email": user.email,
 
-        "nishchay_coin": user.nishchay_coin,
+    "wallet_balance": user.wallet_balance,
 
-        "referral_code": user.referral_code,
+    "nishchay_coin": user.nishchay_coin,
 
-    })
+    "referral_code": user.referral_code,
+
+})
 
 
 # =========================
