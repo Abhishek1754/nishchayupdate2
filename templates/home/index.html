@@ -1003,6 +1003,93 @@ body{
     transform:translateY(-4px);
 }
 
+.referral-card{
+
+    max-width:450px;
+
+    margin:auto;
+
+    background:rgba(8,8,8,.9);
+
+    border:1px solid #b6ff00;
+
+    border-radius:25px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:
+    0 0 25px rgba(182,255,0,.25);
+
+}
+
+.referral-card h3{
+
+    color:#b6ff00;
+
+    margin-bottom:20px;
+
+    font-size:28px;
+
+}
+
+#referralCodeText{
+
+    font-size:32px;
+
+    font-family:'Orbitron',sans-serif;
+
+    letter-spacing:4px;
+
+    color:white;
+
+    margin-bottom:30px;
+
+}
+
+.ref-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+}
+
+.ref-buttons button{
+
+    background:#b6ff00;
+
+    color:black;
+
+    border:none;
+
+    padding:15px 25px;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.3s;
+
+}
+
+.ref-buttons button:hover{
+
+    background:black;
+
+    color:#b6ff00;
+
+    border:1px solid #b6ff00;
+
+    box-shadow:0 0 15px #b6ff00;
+
+}
+
 /* FOOTER */
 
 footer{
@@ -1605,6 +1692,40 @@ footer{
 
 
 </section>
+
+<section class="apps">
+
+    <div class="section-title">
+
+        <h2>
+            REFER &
+            <span>EARN</span>
+        </h2>
+
+    </div>
+
+    <div class="referral-card">
+
+        <h3>Your Referral Code</h3>
+
+        <div id="referralCodeText">
+        </div>
+
+        <div class="ref-buttons">
+
+            <button onclick="copyReferral()">
+                📋 Copy
+            </button>
+
+            <button onclick="shareReferral()">
+                📤 Share
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
 <section id="about" class="apps">
 
 <div class="section-title">
@@ -1959,8 +2080,51 @@ document.getElementById(
           ).innerHTML =
 
    "Wallet ₹" + wallet +
-" | Coins " + coins +
-"<br>Referral: " + referral;
+" | Coins " + coins;
+
+
+}
+
+document.getElementById(
+    'referralCodeText'
+).innerHTML = referral;
+
+
+function copyReferral(){
+
+    navigator.clipboard.writeText(referral);
+
+    alert("Referral code copied!");
+
+}
+
+
+function shareReferral(){
+
+    const message =
+        "Join Nishchay Multiverse using my referral code: "
+        + referral +
+        "\nhttps://nishchay.in/register/";
+
+    if(navigator.share){
+
+        navigator.share({
+
+            title:"Nishchay",
+
+            text:message
+
+        });
+
+    }
+
+    else{
+
+        navigator.clipboard.writeText(message);
+
+        alert("Referral link copied!");
+
+    }
 
 }
 
