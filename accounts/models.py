@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
@@ -157,31 +158,31 @@ class User(AbstractUser):
     is_blocked = models.BooleanField(
         default=False
     )
-    
+
     # =====================================================
-# PASSWORD RESET OTP
-# =====================================================
+    # PASSWORD RESET OTP
+    # =====================================================
 
     password_reset_otp = models.CharField(
-    max_length=6,
-    blank=True,
-    null=True
+        max_length=6,
+        null=True,
+        blank=True
     )
 
-otp_created_at = models.DateTimeField(
-    blank=True,
-    null=True
-)
+    otp_created_at = models.DateTimeField(
+        null=True,
+        blank=True
+    )
 
     # =====================================================
     # TIMESTAMPS
     # =====================================================
 
-created_at = models.DateTimeField(
+    created_at = models.DateTimeField(
         auto_now_add=True
     )
 
-updated_at = models.DateTimeField(
+    updated_at = models.DateTimeField(
         auto_now=True
     )
 
@@ -189,7 +190,7 @@ updated_at = models.DateTimeField(
     # SAVE METHOD
     # =====================================================
 
-def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
 
         if not self.referral_code:
             self.referral_code = (
@@ -208,13 +209,13 @@ def save(self, *args, **kwargs):
     # TEAM COUNT
     # =====================================================
 
-@property
-def total_team(self):
+    @property
+    def total_team(self):
         return self.team_members.count()
 
     # =====================================================
     # STRING METHOD
     # =====================================================
 
-def __str__(self):
+    def __str__(self):
         return self.email
