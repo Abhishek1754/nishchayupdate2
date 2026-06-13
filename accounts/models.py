@@ -157,16 +157,31 @@ class User(AbstractUser):
     is_blocked = models.BooleanField(
         default=False
     )
+    
+    # =====================================================
+# PASSWORD RESET OTP
+# =====================================================
+
+    password_reset_otp = models.CharField(
+    max_length=6,
+    blank=True,
+    null=True
+    )
+
+otp_created_at = models.DateTimeField(
+    blank=True,
+    null=True
+)
 
     # =====================================================
     # TIMESTAMPS
     # =====================================================
 
-    created_at = models.DateTimeField(
+created_at = models.DateTimeField(
         auto_now_add=True
     )
 
-    updated_at = models.DateTimeField(
+updated_at = models.DateTimeField(
         auto_now=True
     )
 
@@ -174,7 +189,7 @@ class User(AbstractUser):
     # SAVE METHOD
     # =====================================================
 
-    def save(self, *args, **kwargs):
+def save(self, *args, **kwargs):
 
         if not self.referral_code:
             self.referral_code = (
@@ -193,13 +208,13 @@ class User(AbstractUser):
     # TEAM COUNT
     # =====================================================
 
-    @property
-    def total_team(self):
+@property
+def total_team(self):
         return self.team_members.count()
 
     # =====================================================
     # STRING METHOD
     # =====================================================
 
-    def __str__(self):
+def __str__(self):
         return self.email

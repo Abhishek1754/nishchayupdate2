@@ -15,6 +15,12 @@ from .views import (
 
     user_login_page,
     user_register_page,
+    forgot_password_page,
+    verify_otp_page,
+    reset_password_page,
+    send_reset_otp,
+    verify_reset_otp,
+    reset_password,
 
 )
 
@@ -77,5 +83,57 @@ urlpatterns = [
         ai_karma_dashboard,
         name='ai_karma'
     ),
+    
+    path(
+    'forgot-password/',
+    forgot_password_page,
+    name='forgot_password'
+),
+
+path(
+    'verify-otp/',
+    verify_otp_page,
+    name='verify_otp'
+),
+
+path(
+    'reset-password/',
+    reset_password_page,
+    name='reset_password'
+),
+
+path(
+
+    'api/send-reset-otp/',
+
+    send_reset_otp,
+
+    name='send_reset_otp'
+
+),
+
+path(
+
+    'api/verify-reset-otp/',
+
+    verify_reset_otp,
+
+    name='verify_reset_otp'
+
+),
+
+path(
+
+    'api/reset-password/',
+
+    reset_password,
+
+    name='reset_password'
+
+),
+
+
+    
+    
 
 ]

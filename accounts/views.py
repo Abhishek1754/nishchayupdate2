@@ -27,6 +27,14 @@ from ecommerce.models import Product, Order
 
 from ai_karma.models import RiskScore, FraudAlert
 
+import random
+
+from django.core.mail import send_mail
+
+from django.conf import settings
+
+from django.utils import timezone
+
 
 # =========================
 # REGISTER API
@@ -569,3 +577,317 @@ def user_register_page(request):
         request,
         'accounts/register.html'
     )
+    
+# =========================
+# FORGOT PASSWORD PAGE
+# =========================
+
+def forgot_password_page(request):
+
+    return render(
+        request,
+        'accounts/forgot_password.html'
+    )
+
+
+# =========================
+# VERIFY OTP PAGE
+# =========================
+
+def verify_otp_page(request):
+
+    return render(
+        request,
+        'accounts/verify_otp.html'
+    )
+
+
+# =========================
+# RESET PASSWORD PAGE
+# =========================
+
+def reset_password_page(request):
+
+    return render(
+        request,
+        'accounts/reset_password.html'
+    )
+    
+    
+# =========================
+# SEND RESET OTP
+# =========================
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def send_reset_otp(request):
+
+    email = request.data.get(
+        'email'
+    )
+
+    try:
+
+        user = User.objects.get(
+            email=email
+        )
+
+    except User.DoesNotExist:
+
+        return Response(
+
+            {
+
+                "error":
+
+                "Email not found"
+
+            },
+
+            status=400
+
+        )
+
+    # Generate 6-digit OTP
+
+    otp = str(
+
+        random.randint(
+
+            100000,
+
+            999999
+
+        )
+
+    )
+
+    # Save OTP
+
+    user.password_reset_otp = otp
+
+    user.otp_created_at = timezone.now()
+
+    user.save()
+
+    # Send Email
+
+    send_mail(
+
+        subject='Nishchay Password Reset OTP',
+
+        message=
+
+        f'''
+
+Hello {user.first_name},
+
+Your password reset OTP is:
+
+{otp}
+
+This OTP is valid for 10 minutes.
+
+Regards,
+
+Nishchay Multiverse
+
+https://nishchay.in
+
+''',
+
+        from_email=settings.EMAIL_HOST_USER,
+
+        recipient_list=[email],
+
+        fail_silently=False
+
+    )
+
+    return Response(
+
+        {
+
+            "message":
+
+            "OTP sent successfully"
+
+        }
+
+    )
+    
+    
+    # =========================
+# VERIFY RESET OTP
+# =========================
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def verify_reset_otp(request):
+
+    email = request.data.get(
+        'email'
+    )
+
+    otp = request.data.get(
+        'otp'
+    )
+
+    try:
+
+        user = User.objects.get(
+            email=email
+        )
+
+    except User.DoesNotExist:
+
+        return Response(
+
+            {
+
+                "error":
+
+                "User not found"
+
+            },
+
+            status=400
+
+        )
+
+    if user.password_reset_otp != otp:
+
+        return Response(
+
+            {
+
+                "error":
+
+                "Invalid OTP"
+
+            },
+
+            status=400
+
+        )
+
+    # Check expiry
+
+    if timezone.now() > (
+
+        user.otp_created_at +
+
+        timedelta(minutes=10)
+
+    ):
+
+        return Response(
+
+            {
+
+                "error":
+
+                "OTP expired"
+
+            },
+
+            status=400
+
+        )
+
+    return Response(
+
+        {
+
+            "message":
+
+            "OTP verified successfully"
+
+        }
+
+    )
+    
+    # =========================
+# RESET PASSWORD
+# =========================
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def reset_password(request):
+
+    email = request.data.get(
+        'email'
+    )
+
+    new_password = request.data.get(
+        'new_password'
+    )
+
+    confirm_password = request.data.get(
+        'confirm_password'
+    )
+
+    try:
+
+        user = User.objects.get(
+            email=email
+        )
+
+    except User.DoesNotExist:
+
+        return Response(
+
+            {
+
+                "error":
+
+                "User not found"
+
+            },
+
+            status=400
+
+        )
+
+    if new_password != confirm_password:
+
+        return Response(
+
+            {
+
+                "error":
+
+                "Passwords do not match"
+
+            },
+
+            status=400
+
+        )
+
+    # Set new password
+
+    user.set_password(
+        new_password
+    )
+
+    # Clear OTP
+
+    user.password_reset_otp = None
+
+    user.otp_created_at = None
+
+    user.save()
+
+    return Response(
+
+        {
+
+            "message":
+
+            "Password changed successfully"
+
+        }
+
+    )
+    

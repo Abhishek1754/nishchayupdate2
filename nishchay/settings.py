@@ -5,6 +5,12 @@ Production Ready Django Settings for Nishchay
 from pathlib import Path
 import os
 
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
+
+
 
 # =====================================================
 # BASE DIRECTORY
@@ -22,7 +28,7 @@ SECRET_KEY = os.environ.get(
     "change-this-secret-key-in-production"
 )
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "nishchay.in",
@@ -462,9 +468,9 @@ EMAIL_PORT = 587
 
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_USER ='nishchaymultiverse@gmail.com'
 
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_PASSWORD = 'wmdemvfxfnfxlxor'
 
 
 # =====================================================
@@ -474,3 +480,4 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760
+
