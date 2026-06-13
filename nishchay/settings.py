@@ -5,9 +5,7 @@ Production Ready Django Settings for Nishchay
 from pathlib import Path
 import os
 
-import ssl
 
-ssl._create_default_https_context = ssl._create_unverified_context
 
 
 
@@ -470,7 +468,7 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER ='nishchaymultiverse@gmail.com'
 
-EMAIL_HOST_PASSWORD = 'wmdemvfxfnfxlxor'
+EMAIL_HOST_PASSWORD = 'mxbunbybqzjoufko'
 
 
 # =====================================================
