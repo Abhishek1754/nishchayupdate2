@@ -88,7 +88,7 @@ def register(request):
 
     user = User.objects.create(
 
-    username=data['first_name'],
+    username=data['email'],
 
     email=data['email'],
 
