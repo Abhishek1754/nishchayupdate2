@@ -625,36 +625,23 @@ Settings
 
 <div class="category-row">
 
-<div class="category">
-<i class="fa-solid fa-grip"></i>
-<p>All</p>
-</div>
+
+
+{% for category in categories %}
 
 <div class="category">
-<i class="fa-solid fa-tv"></i>
-<p>Electronics</p>
+
+<i class="fa-solid fa-layer-group"></i>
+
+<p>{{ category.name }}</p>
+
+
+
 </div>
 
-<div class="category">
-<i class="fa-solid fa-shirt"></i>
-<p>Fashion</p>
-</div>
+{% endfor %}
 
-<div class="category">
-<i class="fa-solid fa-couch"></i>
-<p>Home</p>
 </div>
-
-<div class="category">
-<i class="fa-solid fa-pump-soap"></i>
-<p>Beauty</p>
-</div>
-
-<div class="category">
-<i class="fa-solid fa-ellipsis"></i>
-<p>More</p>
-</div>
-
 </div>
 
 <!-- FLASH DEAL -->
@@ -668,119 +655,56 @@ Settings
 
 <div class="products">
 
+
+
+{% for product in products %}
+
 <div class="product">
 
-<div class="discount">40% OFF</div>
+<div class="discount">
 
-<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+{{ product.cashback_percentage }}% Cashback
 
-<h3>Fire-Boltt Ninja Pro</h3>
-
-<div class="price">
-₹ 2,999
-<span class="old">₹ 4,999</span>
 </div>
 
-<div class="progress">
-<div class="bar"></div>
+{% if product.images.first %}
+<img src="{{ product.images.first.image.url }}">
+{% endif %}
+
+<h3>
+
+{{ product.name }}
+
+</h3>
+
+<div class="price">
+
+₹ {{ product.price }}
+
 </div>
 
 <div class="buy">
 
-<p>Sold 120/200</p>
+<p>
+
+Stock :
+
+{{ product.quantity }}
+
+</p>
 
 <div class="cart">
+
 <i class="fa-solid fa-cart-shopping"></i>
-</div>
 
-</div>
-
-</div>
-
-<div class="product">
-
-<div class="discount">46% OFF</div>
-
-<img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
-
-<h3>boAt Airdopes 141</h3>
-
-<div class="price">
-₹ 1,299
-<span class="old">₹ 2,399</span>
-</div>
-
-<div class="progress">
-<div class="bar"></div>
-</div>
-
-<div class="buy">
-
-<p>Sold 98/150</p>
-
-<div class="cart">
-<i class="fa-solid fa-cart-shopping"></i>
 </div>
 
 </div>
 
 </div>
 
-<div class="product">
+{% endfor %}
 
-<div class="discount">40% OFF</div>
-
-<img src="https://cdn-icons-png.flaticon.com/512/2589/2589903.png">
-
-<h3>Puma Running Shoes</h3>
-
-<div class="price">
-₹ 1,799
-<span class="old">₹ 2,999</span>
-</div>
-
-<div class="progress">
-<div class="bar"></div>
-</div>
-
-<div class="buy">
-
-<p>Sold 150/250</p>
-
-<div class="cart">
-<i class="fa-solid fa-cart-shopping"></i>
-</div>
-
-</div>
-
-</div>
-
-<div class="product">
-
-<div class="discount">25% OFF</div>
-
-<img src="https://cdn-icons-png.flaticon.com/512/3659/3659898.png">
-
-<h3>iPhone 14</h3>
-
-<div class="price">
-₹ 48,999
-<span class="old">₹ 59,900</span>
-</div>
-
-<div class="progress">
-<div class="bar"></div>
-</div>
-
-<div class="buy">
-
-<p>Sold 75/100</p>
-
-<div class="cart">
-<i class="fa-solid fa-cart-shopping"></i>
-</div>
-
-</div>
 
 </div>
 

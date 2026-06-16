@@ -83,7 +83,7 @@ INSTALLED_APPS = [
     'astrology.apps.AstrologyConfig',
     'career.apps.CareerConfig',
     'food_delivery',
-    'referral',
+    'referral.apps.ReferralConfig',
     'ai_karma',
 
 ]

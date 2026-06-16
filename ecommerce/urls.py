@@ -37,10 +37,10 @@ urlpatterns = [
     ),
 
     path(
-        'product-details/',
-        product_details,
-        name='product_details'
-    ),
+    'product-details/<int:id>/',
+    product_details,
+    name='product_details'
+),
 
     path(
         'cart/',

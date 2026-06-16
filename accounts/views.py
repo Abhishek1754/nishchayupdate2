@@ -49,6 +49,24 @@ from django.utils import timezone
 def register(request):
 
     data = request.data
+    
+    
+    password = data.get('password')
+    confirm_password = data.get('confirm_password')
+
+    if password != confirm_password:
+
+        return Response(
+
+            {
+
+                "error": "Passwords do not match"
+
+            },
+
+            status=400
+
+        )
 
     # =========================
     # VALIDATIONS
@@ -103,8 +121,8 @@ def register(request):
         pincode=data['pincode'],
 
         password=make_password(
-            data['password']
-        ),
+    password
+    ),
 
         referred_by=ref_user
 

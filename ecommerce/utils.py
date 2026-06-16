@@ -3,11 +3,13 @@ from decimal import Decimal
 from django.utils import timezone
 
 from wallet.utils import create_wallet_transaction
+from referral.models import (
+    SmartShareSetting,
+    SmartShareTransaction,
+)
 
 from .models import (
 
-    SmartSharePlan,
-    SmartShareIncome,
 
     ShopCashbackPlan,
     ShopPurchase,
@@ -52,7 +54,7 @@ def distribute_smart_share_income(user):
 
         plan_type = 'free'
 
-    plan = SmartSharePlan.objects.filter(
+    plan = SmartShareSetting.objects.filter(
 
         plan_type=plan_type,
         is_active=True
@@ -99,7 +101,7 @@ def distribute_smart_share_income(user):
 
         )
 
-        SmartShareIncome.objects.create(
+        SmartShareTransaction.objects.create(
 
             plan=plan,
 

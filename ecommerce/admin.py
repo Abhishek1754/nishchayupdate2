@@ -13,8 +13,7 @@ from .models import (
 
     Shop,
 
-    SmartSharePlan,
-    SmartShareIncome,
+   
 
     ShopCashbackPlan,
     ShopPurchase,
@@ -210,81 +209,7 @@ class ShopAdmin(admin.ModelAdmin):
     )
 
 
-# =========================
-# SMART SHARE PLAN ADMIN
-# =========================
 
-@admin.register(SmartSharePlan, site=admin_site)
-class SmartSharePlanAdmin(admin.ModelAdmin):
-
-    list_display = (
-
-        'id',
-        'name',
-        'plan_type',
-
-        'level_1_income',
-        'level_2_income',
-        'level_3_income',
-        'level_4_income',
-        'level_5_income',
-
-        'coin_free',
-        'coin_paid',
-
-        'shop_coin_free',
-        'shop_coin_paid',
-
-        'is_active',
-
-    )
-
-    search_fields = (
-
-        'name',
-
-    )
-
-    list_filter = (
-
-        'plan_type',
-        'is_active',
-
-    )
-
-
-# =========================
-# SMART SHARE INCOME ADMIN
-# =========================
-
-@admin.register(SmartShareIncome, site=admin_site)
-class SmartShareIncomeAdmin(admin.ModelAdmin):
-
-    list_display = (
-
-        'id',
-        'user',
-        'from_user',
-        'plan',
-        'level',
-        'amount',
-        'created_at',
-
-    )
-
-    search_fields = (
-
-        'user__email',
-        'from_user__email',
-
-    )
-
-    list_filter = (
-
-        'level',
-        'plan',
-
-    )
 
 
 # =========================

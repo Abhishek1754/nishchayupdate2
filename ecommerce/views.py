@@ -32,20 +32,55 @@ from .models import (
 # ==================== UI PAGES =======================
 # =====================================================
 
+from .models import Category, Product
+
+from .models import Category, Product
+
 def ecommerce_dashboard(request):
 
-    return render(
-        request,
-        'eccomerce/dashboard.html'
+    categories = Category.objects.all()
+
+    products = Product.objects.filter(
+        is_active=True
     )
 
+    return render(
+        request,
+        'eccomerce/dashboard.html',
+        {
+            'categories': categories,
+            'products': products
+        }
+    )
+    
+    
+    from .models import Product
 
-def product_details(request):
+def product_details(request, id):
+
+    product = Product.objects.get(
+        id=id
+    )
+
+    related_products = Product.objects.filter(
+        category=product.category,
+        is_active=True
+    ).exclude(
+        id=product.id
+    )[:3]
 
     return render(
         request,
-        'eccomerce/product_details.html'
+        'eccomerce/product_details.html',
+        {
+            'product': product,
+            'related_products': related_products
+        }
     )
+    
+    
+
+    
 
 
 def cart_page(request):

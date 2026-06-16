@@ -372,6 +372,7 @@ margin-bottom:20px;
 font-size:34px;
 }
 
+
 .description p{
 font-size:22px;
 line-height:1.8;
@@ -527,29 +528,28 @@ grid-template-columns:1fr;
 
 <div class="thumbs">
 
-<div class="thumb active">
-<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
-</div>
+{% for image in product.images.all %}
 
 <div class="thumb">
-<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
-</div>
 
-<div class="thumb">
-<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
-</div>
-
-<div class="thumb">
-<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
-</div>
+<img src="{{ image.image.url }}">
 
 </div>
+
+{% endfor %}
+
+</div>
+
 
 <!-- MAIN IMAGE -->
 
 <div class="main-image">
 
-<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+{% if product.images.first %}
+
+<img src="{{ product.images.first.image.url }}">
+
+{% endif %}
 
 </div>
 
@@ -557,7 +557,11 @@ grid-template-columns:1fr;
 
 <div class="details">
 
-<h1>Fire-Boltt Ninja Pro Max Smart Watch</h1>
+<h1>
+
+{{ product.name }}
+
+</h1>
 
 <div class="rating">
 <i class="fa-solid fa-star"></i>
@@ -565,9 +569,15 @@ grid-template-columns:1fr;
 </div>
 
 <div class="price">
-₹ 2,999
-<span class="old">₹ 4,999</span>
-<span class="offer">40% OFF</span>
+
+₹ {{ product.price }}
+
+<span class="offer">
+
+{{ product.cashback_percentage }}% Cashback
+
+</span>
+
 </div>
 
 <div class="warranty">
@@ -694,15 +704,54 @@ ADD TO CART
 <h2>Product Description</h2>
 
 <p>
-Fire-Boltt Ninja Pro Max is packed with advanced features
-to track your fitness and keep you connected on the go.
+
+{{ product.description }}
+
 </p>
+
+<br>
+
+<h3>
+
+Category :
+{{ product.category.name }}
+
+</h3>
+
+<br>
+
+<h3>
+
+Sub Category :
+{{ product.sub_category.name }}
+
+</h3>
+
+<br>
+
+<h3>
+
+Child Category :
+{{ product.child_category.name }}
+
+</h3>
+
+<br>
+
+<h3>
+
+Stock :
+{{ product.quantity }}
+
+</h3>
 
 <div class="view-more">
 View More ↓
 </div>
 
 </div>
+
+
 
 <!-- SPECS -->
 
@@ -712,37 +761,8 @@ View More ↓
 
 <div class="spec-grid">
 
-<div class="spec">
-<i class="fa-solid fa-tv"></i>
-<div>
-<h3>Display</h3>
-<p>1.69 HD Display</p>
-</div>
-</div>
 
-<div class="spec">
-<i class="fa-brands fa-bluetooth"></i>
-<div>
-<h3>Bluetooth</h3>
-<p>v5.3</p>
-</div>
-</div>
 
-<div class="spec">
-<i class="fa-solid fa-battery-full"></i>
-<div>
-<h3>Battery</h3>
-<p>Up to 7 Days</p>
-</div>
-</div>
-
-<div class="spec">
-<i class="fa-solid fa-droplet"></i>
-<div>
-<h3>Water Resistant</h3>
-<p>IP68</p>
-</div>
-</div>
 
 <div class="spec">
 <i class="fa-solid fa-mobile-screen"></i>
@@ -764,7 +784,6 @@ View More ↓
 
 </div>
 
-</div>
 
 <!-- FREQUENTLY -->
 
@@ -781,51 +800,71 @@ View More ↓
 <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
 
 <div>
-<h3>boAt Airdopes 141</h3>
-<p>₹ 1,299</p>
-</div>
 
-</div>
+    <div class="frequently">
 
-<div class="add">+</div>
+<h2>
 
-</div>
+Frequently Bought Together
+
+</h2>
+
+<div class="frequent-grid">
+
+{% for p in related_products %}
+<!-- FREQUENTLY -->
+
+<div class="frequently">
+
+<h2>
+
+Frequently Bought Together
+
+</h2>
+
+<div class="frequent-grid">
+
+{% for p in related_products %}
 
 <div class="frequent-card">
 
 <div class="frequent-left">
 
-<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
+{% if p.images.first %}
+
+<img src="{{ p.images.first.image.url }}">
+
+{% endif %}
 
 <div>
-<h3>Screen Protector</h3>
-<p>₹ 199</p>
-</div>
 
-</div>
+<h3>
 
-<div class="add">+</div>
+{{ p.name }}
 
-</div>
+</h3>
 
-<div class="frequent-card">
+<p>
 
-<div class="frequent-left">
+₹ {{ p.price }}
 
-<img src="https://cdn-icons-png.flaticon.com/512/3079/3079165.png">
-
-<div>
-<h3>Extra Strap</h3>
-<p>₹ 299</p>
-</div>
-
-</div>
-
-<div class="add">+</div>
+</p>
 
 </div>
 
 </div>
+
+<a
+href="/ecommerce/product-details/{{ p.id }}/"
+class="add">
+
++
+
+</a>
+
+</div>
+
+{% endfor %}
 
 </div>
 
