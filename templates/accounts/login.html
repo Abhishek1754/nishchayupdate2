@@ -11,6 +11,9 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 
     <title>Nishchay Login</title>
 
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
 
         *{
@@ -112,6 +115,30 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
             box-shadow:0 0 15px #c6ff00;
 
         }
+
+        .password-box{
+
+    position:relative;
+
+}
+
+.password-box i{
+
+    position:absolute;
+
+    right:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#c6ff00;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
 
         .login-btn{
 
@@ -260,16 +287,21 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 
         </div>
 
-        <div class="input-box">
+        <div class="input-box password-box">
 
-            <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                required
-            >
+    <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required
+    >
 
-        </div>
+    <i
+        class="fa-regular fa-eye"
+        id="togglePassword"
+    ></i>
+
+</div>
 
         <button
             class="login-btn"
@@ -317,6 +349,50 @@ text-align:center;
 </div>
 
 <script>
+
+    const togglePassword =
+document.getElementById("togglePassword");
+
+const password =
+document.getElementById("password");
+
+togglePassword.addEventListener(
+
+    "click",
+
+    function(){
+
+        if(password.type === "password"){
+
+            password.type = "text";
+
+            this.classList.remove(
+                "fa-eye"
+            );
+
+            this.classList.add(
+                "fa-eye-slash"
+            );
+
+        }
+
+        else{
+
+            password.type = "password";
+
+            this.classList.remove(
+                "fa-eye-slash"
+            );
+
+            this.classList.add(
+                "fa-eye"
+            );
+
+        }
+
+    }
+
+);
 
 async function loginUser(event){
 
