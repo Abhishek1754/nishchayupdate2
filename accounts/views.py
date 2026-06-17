@@ -138,17 +138,7 @@ def register(request):
 
     user.save()
 
-    # =========================
-    # REFERRAL BONUS
-    # =========================
-
-    if ref_user:
-
-        ref_user.wallet_balance += 1
-
-        ref_user.nishchay_coin += 1
-
-        ref_user.save()
+   
 
     # =========================
     # RESPONSE
