@@ -217,7 +217,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelI
 
     width:100% !important;
 
-    padding:12px !important;
+    padding-top:12px !important;
+
+    padding-bottom:12px !important;
+
+    padding-right:12px !important;
+
+    padding-left:95px !important;
 
     background:black !important;
 
@@ -241,10 +247,23 @@ href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelI
 
 .iti__selected-flag{
 
-    background:black;
+    background:transparent !important;
 
 }
 
+.iti__flag-container{
+
+    padding-left:10px;
+
+}
+
+.iti__country-list{
+
+    background:#050505;
+
+    color:white;
+
+}
     </style>
 
 </head>
@@ -402,9 +421,11 @@ window.intlTelInput(phoneInput, {
 
     initialCountry: "in",
 
-    preferredCountries: ["in", "us", "gb"],
+    preferredCountries: ["in"],
 
-    separateDialCode: true
+    separateDialCode: true,
+
+    nationalMode: true
 
 });
 

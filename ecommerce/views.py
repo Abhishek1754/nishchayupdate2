@@ -54,7 +54,7 @@ def ecommerce_dashboard(request):
     )
     
     
-    from .models import Product
+    
 
 def product_details(request, id):
 
