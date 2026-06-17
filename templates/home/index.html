@@ -2101,10 +2101,15 @@ function copyReferral(){
 
 function shareReferral(){
 
+    const referralLink =
+        "https://nishchay.in/register/?ref=" +
+        referral;
+
     const message =
         "Join Nishchay Multiverse using my referral code: "
         + referral +
-        "\nhttps://nishchay.in/register/";
+        "\n\n" +
+        referralLink;
 
     if(navigator.share){
 
@@ -2120,7 +2125,9 @@ function shareReferral(){
 
     else{
 
-        navigator.clipboard.writeText(message);
+        navigator.clipboard.writeText(
+            referralLink
+        );
 
         alert("Referral link copied!");
 
