@@ -326,10 +326,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelI
         <div class="input-box">
 
     <input
-        type="tel"
-        id="phone"
-        required
-    >
+    type="tel"
+    id="phone"
+    maxlength="10"
+    required
+>
 
      </div>
 
@@ -417,7 +418,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelI
 
 const phoneInput = document.querySelector("#phone");
 
-window.intlTelInput(phoneInput, {
+const iti = window.intlTelInput(phoneInput, {
 
     initialCountry: "in",
 
@@ -426,6 +427,21 @@ window.intlTelInput(phoneInput, {
     separateDialCode: true,
 
     nationalMode: true
+
+});
+
+
+phoneInput.addEventListener("input", function () {
+
+    // allow only digits
+    this.value = this.value.replace(/\D/g, "");
+
+    // maximum 10 digits
+    if(this.value.length > 10){
+
+        this.value = this.value.slice(0,10);
+
+    }
 
 });
 
@@ -459,7 +475,15 @@ async function registerUser(event){
         document.getElementById('email').value;
 
     const phone =
-        document.getElementById('phone').value;
+    document.getElementById('phone').value;
+
+if(phone.length !== 10){
+
+    alert("Please enter a valid 10 digit mobile number");
+
+    return;
+
+}
 
     const state =
         document.getElementById('state').value;
