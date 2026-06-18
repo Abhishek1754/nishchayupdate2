@@ -250,9 +250,15 @@ opacity:.2;
     box-shadow:none;
 }
 
+.logo{
+margin-bottom:8px;
+}
+
+
+
 .main-logo{
 
-    width:180px;
+    width:150px;
     height:auto;
 
     object-fit:contain;
@@ -1440,8 +1446,15 @@ footer{
 @media(max-width:768px){
     .hamburger{
 
-    display:block;
-    }
+display:flex;
+
+width:50px;
+
+height:42px;
+
+font-size:24px;
+
+}
 
     .future-network{
 
@@ -1643,56 +1656,46 @@ width:100px;
 
 }
 
-  .navbar{
+.navbar{
 
-    padding:15px;
+padding:10px 15px;
 
-    display:flex;
+display:flex;
 
-    flex-wrap:wrap;
+flex-direction:column;
 
-    justify-content:center;
+align-items:center;
 
-    align-items:center;
+gap:12px;
 
 }
 .nav-btns{
 
-    width:100%;
+width:auto;
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:10px;
-
-    margin-top:12px;
+margin-top:0;
 
 }
 
 #guestButtons{
 
-    display:grid;
+display:flex;
 
-    grid-template-columns:1fr 1fr auto;
+flex-wrap:wrap;
 
-    gap:8px;
+justify-content:center;
 
-    align-items:center;
+gap:10px;
 
 }
 
 #guestButtons .btn{
 
-    min-width:auto;
+padding:10px 16px;
 
-    padding:8px 10px;
+font-size:13px;
 
-    font-size:11px;
-
-    text-align:center;
+min-width:120px;
 
 }
 
