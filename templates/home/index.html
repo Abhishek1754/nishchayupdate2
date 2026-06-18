@@ -127,6 +127,61 @@ body{
     z-index:-1;
 }
 
+/* PARTICLES */
+
+.particle{
+    position:fixed;
+    width:10px;
+    height:10px;
+    background:#b6ff00;
+    border-radius:50%;
+    box-shadow:0 0 20px #b6ff00;
+    opacity:.6;
+    z-index:-1;
+    animation:floatParticle 12s linear infinite;
+}
+
+.p1{
+    left:10%;
+    top:80%;
+}
+
+.p2{
+    left:25%;
+    top:60%;
+}
+
+.p3{
+    left:70%;
+    top:75%;
+}
+
+.p4{
+    left:85%;
+    top:40%;
+}
+
+.p5{
+    left:50%;
+    top:20%;
+}
+
+@keyframes floatParticle{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-120px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
 /* NAVBAR */
 
 .navbar{
@@ -1005,24 +1060,40 @@ body{
 
 .referral-card{
 
-    max-width:450px;
+    max-width:500px;
 
     margin:auto;
 
-    background:rgba(8,8,8,.9);
-
-    border:1px solid #b6ff00;
-
-    border-radius:25px;
-
-    padding:35px;
+    padding:40px;
 
     text-align:center;
 
+    border-radius:30px;
+
+    background:rgba(8,8,8,.88);
+
+    border:1px solid rgba(182,255,0,.3);
+
+    backdrop-filter:blur(20px);
+
     box-shadow:
-    0 0 25px rgba(182,255,0,.25);
+
+    0 0 30px rgba(182,255,0,.15),
+
+    0 0 60px rgba(182,255,0,.08);
+
+    transition:.4s;
 
 }
+
+.referral-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#b6ff00;
+
+}
+
 
 .referral-card h3{
 
@@ -1036,15 +1107,19 @@ body{
 
 #referralCodeText{
 
-    font-size:32px;
+    font-size:40px;
 
-    font-family:'Orbitron',sans-serif;
+    letter-spacing:6px;
 
-    letter-spacing:4px;
+    color:#b6ff00;
 
-    color:white;
+    margin-bottom:25px;
 
-    margin-bottom:30px;
+    font-weight:bold;
+
+    text-shadow:
+
+    0 0 15px rgba(182,255,0,.4);
 
 }
 
@@ -1487,6 +1562,12 @@ footer{
 <div class="glow1"></div>
 <div class="glow2"></div>
 
+<div class="particle p1"></div>
+<div class="particle p2"></div>
+<div class="particle p3"></div>
+<div class="particle p4"></div>
+<div class="particle p5"></div>
+
 <nav class="navbar">
 
     <div class="logo">
@@ -1619,28 +1700,28 @@ footer{
 
         <div class="stats">
 
-            <div class="stat">
-                <h2>50K+</h2>
-                <p>Happy Users</p>
-            </div>
 
-            <div class="stat">
-                <h2>99.9%</h2>
-                <p>Secure</p>
-            </div>
+    <div class="stat">
+        <h2 id="usersCounter">0</h2>
+        <p>Happy Users</p>
+    </div>
 
-            <div class="stat">
-                <h2>24/7</h2>
-                <p>Support</p>
-            </div>
+    <div class="stat">
+        <h2 id="secureCounter">0</h2>
+        <p>Secure</p>
+    </div>
 
-            <div class="stat">
-                <h2>100%</h2>
-                <p>Reliable</p>
-            </div>
+    <div class="stat">
+        <h2>24/7</h2>
+        <p>Support</p>
+    </div>
+
+    <div class="stat">
+        <h2 id="reliableCounter">0</h2>
+        <p>Reliable</p>
+    </div>
 
         </div>
-
     </div>
 
    <div class="hero-center">
@@ -1706,20 +1787,43 @@ footer{
 
     <div class="referral-card">
 
-        <h3>Your Referral Code</h3>
+<h3>
 
-        <div id="referralCodeText">
-        </div>
+✨ YOUR REFERRAL CODE ✨
 
-        <div class="ref-buttons">
+</h3>
 
-            <button onclick="copyReferral()">
-                📋 Copy
-            </button>
+<div id="referralCodeText">
 
-            <button onclick="shareReferral()">
-                📤 Share
-            </button>
+</div>
+
+<div style="
+color:#aaa;
+margin-bottom:25px;
+font-size:14px;
+">
+
+Invite friends and earn rewards
+
+</div>
+
+<div class="ref-buttons">
+
+<button onclick="copyReferral()">
+
+📋 Copy
+
+</button>
+
+<button onclick="shareReferral()">
+
+🚀 Share
+
+</button>
+
+</div>
+
+</div>
 
         </div>
 
@@ -2165,6 +2269,53 @@ function toggleMenu(){
     .toggle("active");
 
 }
+
+</script>
+
+<script>
+
+function animateCounter(id,target,suffix){
+
+    let count=0;
+
+    let increment=target/100;
+
+    let interval=setInterval(function(){
+
+        count+=increment;
+
+        if(count>=target){
+
+            count=target;
+
+            clearInterval(interval);
+
+        }
+
+        document.getElementById(id).innerHTML=
+        Math.floor(count)+suffix;
+
+    },20);
+
+}
+
+animateCounter(
+"usersCounter",
+50,
+"K+"
+);
+
+animateCounter(
+"secureCounter",
+99,
+".9%"
+);
+
+animateCounter(
+"reliableCounter",
+100,
+"%"
+);
 
 </script>
 
