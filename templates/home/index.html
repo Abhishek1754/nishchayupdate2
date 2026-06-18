@@ -195,7 +195,7 @@ opacity:.2;
 
     align-items:center;
 
-    position:sticky;
+    position:relative;
 
     top:0;
 
@@ -2555,7 +2555,33 @@ animateValue("reliableCounter",100,"%");
 
 </script>
 
+<script>
 
+let lastScroll = 0;
+
+window.addEventListener("scroll", function(){
+
+    const navbar = document.querySelector(".navbar");
+
+    let currentScroll = window.pageYOffset;
+
+    if(currentScroll > lastScroll && currentScroll > 100){
+
+        navbar.style.transform = "translateY(-100%)";
+
+    }
+
+    else{
+
+        navbar.style.transform = "translateY(0)";
+
+    }
+
+    lastScroll = currentScroll;
+
+});
+
+</script>
 
 </body>
 
