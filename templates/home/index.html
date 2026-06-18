@@ -127,6 +127,60 @@ body{
     z-index:-1;
 }
 
+.star{
+
+position:fixed;
+
+width:3px;
+
+height:3px;
+
+background:#b6ff00;
+
+border-radius:50%;
+
+box-shadow:
+
+0 0 10px #b6ff00;
+
+animation:starMove linear infinite;
+
+opacity:.6;
+
+z-index:-1;
+
+}
+
+@keyframes starMove{
+
+0%{
+
+transform:
+
+translateY(0);
+
+opacity:.2;
+
+}
+
+50%{
+
+opacity:1;
+
+}
+
+100%{
+
+transform:
+
+translateY(100vh);
+
+opacity:.2;
+
+}
+
+}
+
 /* NAVBAR */
 
 .navbar{
@@ -476,153 +530,243 @@ body{
 
 /* CENTER */
 
-.hero-center{
+.multiverse-core{
 
     position:relative;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    min-height:500px;
-}
-
-.orb{
-
-    width:350px;
-
+    width:700px;
     height:350px;
 
-    border-radius:50%;
-
-    background:
-    radial-gradient(circle,#b6ff00 0%,#567700 45%,transparent 70%);
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
 
-    position:relative;
-
-    animation:float 4s ease-in-out infinite;
-
-    box-shadow:0 0 120px rgba(182,255,0,.35);
 }
 
-.orb-inner{
+.core-logo{
 
-    width:180px;
-
-    height:180px;
+    width:200px;
+    height:200px;
 
     border-radius:50%;
-
-    border:4px solid #b6ff00;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
     background:#000;
 
-    overflow:hidden;
+    border:3px solid #b6ff00;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    box-shadow:
+    0 0 40px rgba(182,255,0,.5),
+    0 0 100px rgba(182,255,0,.2);
+    animation:pulseCore 3s infinite;
+
 }
 
-.orb-inner img{
-
-    width:170px;
-
-    height:auto;
-
-    object-fit:contain;
-
-}
-
-.floating-card{
-
-    position:absolute;
+.core-logo img{
 
     width:150px;
 
-    background:rgba(8,8,8,.88);
+    filter:
+    drop-shadow(0 0 20px #b6ff00);
 
-    border:1px solid rgba(182,255,0,.25);
+}
 
-    border-radius:20px;
+.energy-line{
 
-    padding:18px;
+    position:absolute;
+
+    width:140px;
+
+    height:3px;
+
+    overflow:hidden;
+
+    background:rgba(182,255,0,.15);
+
+    border-radius:10px;
+
+};
+
+
+.energy-line::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:40px;
+
+    height:100%;
+
+    background:#b6ff00;
+
+    box-shadow:
+
+    0 0 20px #b6ff00,
+
+    0 0 40px #b6ff00;
+
+    animation:flowEnergy 2s linear infinite;
+
+}
+
+    box-shadow:
+    0 0 20px #b6ff00;
+
+}
+
+.left-line{
+
+    left:100px;
+
+}
+
+.right-line{
+
+    right:100px;
+
+}
+
+.node{
+
+    position:absolute;
+
+    width:180px;
+
+    padding:30px;
+
+    border-radius:25px;
+
+    background:rgba(8,8,8,.92);
+
+    border:1px solid rgba(182,255,0,.3);
 
     text-align:center;
 
-    backdrop-filter:blur(10px);
+    transition:.5s;
 
-    box-shadow:0 0 20px rgba(182,255,0,.12);
+backdrop-filter:blur(25px);
 
-    transition:.3s;
+overflow:hidden;
+
 }
 
-.floating-card:hover{
+.node:hover{
 
-    transform:translateY(-6px);
+transform:translateY(-15px) scale(1.03);
 
-    border-color:#b6ff00;
+border-color:#b6ff00;
+
+box-shadow:
+0 0 40px rgba(182,255,0,.4);
+
 }
 
-.floating-card h3{
+.node:hover::before{
+
+    opacity:.3;
+
+}
+
+.node::before{
+
+content:"";
+
+position:absolute;
+
+inset:-2px;
+
+border-radius:25px;
+
+background:linear-gradient(
+45deg,
+transparent,
+rgba(182,255,0,.8),
+transparent
+);
+
+opacity:0;
+
+transition:.5s;
+
+}
+
+.ecommerce-node{
+
+    left:0;
+
+}
+
+.fuddo-node{
+
+    right:0;
+
+}
+
+.node-icon{
+
+    font-size:45px;
+
+    margin-bottom:15px;
+
+}
+
+.node h2{
 
     color:#b6ff00;
 
-    margin-bottom:8px;
+    margin-bottom:12px;
 
-    font-size:18px;
 }
 
-.floating-card p{
+.node p{
 
     color:#aaa;
 
-    font-size:12px;
+    line-height:1.8;
+
 }
 
-.card1{
-    top:-20px;
-    left:-40px;
+
+@keyframes pulseCore{
+
+0%,100%{
+
+transform:scale(1);
+
+box-shadow:
+0 0 40px rgba(182,255,0,.5),
+0 0 100px rgba(182,255,0,.2);
+
 }
 
-.card2{
-    top:-20px;
-    right:-40px;
+50%{
+
+transform:scale(1.05);
+
+box-shadow:
+0 0 80px rgba(182,255,0,.8),
+0 0 160px rgba(182,255,0,.3);
+
 }
 
-.card3{
-    bottom:-20px;
-    left:-40px;
 }
 
-.card4{
-    bottom:-20px;
-    right:-40px;
+@keyframes flowEnergy{
+
+0%{
+
+left:-40px;
+
 }
 
-@keyframes float{
+100%{
 
-    0%{
-        transform:translateY(0px);
-    }
+left:180px;
 
-    50%{
-        transform:translateY(-15px);
-    }
+}
 
-    100%{
-        transform:translateY(0px);
-    }
 }
 
 /* PORTAL */
@@ -789,11 +933,16 @@ body{
 
 .apps-grid{
 
+    max-width:1200px;
+
+    margin:auto;
+
     display:grid;
 
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(2,1fr);
 
-    gap:25px;
+    gap:35px;
+
 }
 
 .app-card{
@@ -802,28 +951,71 @@ body{
 
     border:1px solid rgba(182,255,0,.18);
 
-    border-radius:28px;
+    border-radius:30px;
 
-    padding:28px;
+    padding:40px;
 
     transition:.4s;
 
     position:relative;
 
-    overflow:hidden;
+    backdrop-filter:blur(30px);
 
-    backdrop-filter:blur(10px);
 }
+
+.app-card::before{
+
+content:"";
+
+position:absolute;
+
+top:-100%;
+
+left:-100%;
+
+width:250%;
+
+height:250%;
+
+background:
+
+linear-gradient(
+
+45deg,
+
+transparent,
+
+rgba(182,255,0,.08),
+
+transparent
+
+);
+
+transform:rotate(20deg);
+
+transition:.7s;
+
+}
+
 
 .app-card:hover{
 
-    transform:translateY(-8px);
+    transform:translateY(-10px);
+    scale(1.02);
 
     border-color:#b6ff00;
 
     box-shadow:
     0 0 20px rgba(182,255,0,.15),
     0 0 40px rgba(182,255,0,.08);
+}
+
+.app-card:hover::before{
+
+top:-20%;
+
+left:-20%;
+
 }
 
 .app-number{
@@ -1211,8 +1403,60 @@ footer{
     .hamburger{
 
     display:block;
+    }
+
+    .multiverse-core{
+
+    width:100%;
+    height:auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
 
 }
+
+.energy-line{
+
+    display:none;
+
+}
+
+.core-logo{
+
+    width:160px;
+
+    height:160px;
+
+}
+
+.core-logo img{
+
+    width:120px;
+
+}
+
+.node{
+
+    position:relative;
+
+    width:100%;
+
+    max-width:260px;
+
+}
+
+.ecommerce-node,
+.fuddo-node{
+
+    left:auto;
+
+    right:auto;
+
+}
+
 
 
 .nav-links{
@@ -1341,28 +1585,6 @@ footer{
 
     }
 
-    .floating-card{
-
-        display:none;
-
-    }
-
-    .orb{
-
-    width:280px;
-
-    height:280px;
-
-}
-
-   .orb-inner{
-
-    width:180px;
-
-    height:180px;
-
-}
-
     .portal{
 
         padding:20px;
@@ -1387,9 +1609,11 @@ footer{
 
     .apps-grid{
 
-        grid-template-columns:1fr;
+    grid-template-columns:1fr;
 
-    }
+    gap:25px;
+
+}
 
     .section-title h2{
 
@@ -1483,6 +1707,13 @@ footer{
 <div class="glow1"></div>
 <div class="glow2"></div>
 
+<div class="star" style="left:10%;animation-duration:7s;"></div>
+<div class="star" style="left:25%;animation-duration:9s;"></div>
+<div class="star" style="left:40%;animation-duration:6s;"></div>
+<div class="star" style="left:55%;animation-duration:8s;"></div>
+<div class="star" style="left:70%;animation-duration:10s;"></div>
+<div class="star" style="left:85%;animation-duration:7s;"></div>
+
 <nav class="navbar">
 
     <div class="logo">
@@ -1508,7 +1739,6 @@ footer{
 
 <div class="nav-btns">
 
-<div class="nav-btns">
 
 <div id="guestButtons">
 
@@ -1616,74 +1846,76 @@ footer{
         <div class="stats">
 
             <div class="stat">
-                <h2>50K+</h2>
+                <h2 id="usersCounter">0</h2>
                 <p>Happy Users</p>
             </div>
 
             <div class="stat">
-                <h2>99.9%</h2>
+                <h2 id="secureCounter">0%</h2>
                 <p>Secure</p>
             </div>
 
             <div class="stat">
-                <h2>24/7</h2>
+                <h2 id="supportCounter">0</h2>
                 <p>Support</p>
             </div>
 
             <div class="stat">
-                <h2>100%</h2>
+                <h2 id="reliableCounter">0%</h2>
                 <p>Reliable</p>
             </div>
 
         </div>
 
     </div>
+<div class="hero-center">
 
-   <div class="hero-center">
+    <div class="multiverse-core">
 
-   <!-- <div class="floating-card card1">
+        <div class="energy-line left-line"></div>
 
-        <h3>Recharge</h3>
+        <div class="core-logo">
 
-        <p>Fast. Secure. Reliable.</p>
+            <img src="{% static 'images/logo.png' %}">
 
-    </div>-->
+        </div>
 
-    <div class="floating-card card2">
+        <div class="energy-line right-line"></div>
 
-        <h3>Ecommerce</h3>
+        <div class="node ecommerce-node">
 
-        <p>Shop Smart. Live Better.</p>
+            <div class="node-icon">
+                🛒
+            </div>
 
-    </div>
+            <h2>Ecommerce</h2>
 
-    <!--<div class="floating-card card3">
+            <p>
+                Shop Smart.
+                Live Better.
+            </p>
 
-        <h3>ROI</h3>
+        </div>
 
-        <p>Invest Smart. Earn More.</p>
+        <div class="node fuddo-node">
 
-    </div>-->
+            <div class="node-icon">
+                🍔
+            </div>
 
-    <div class="floating-card card4">
+            <h2>Fuddo</h2>
 
-        <h3>Fuddo</h3>
-
-        <p>Delicious Food Delivered.</p>
-
-    </div>
-
-    <div class="orb">
-
-        <div class="orb-inner">
-
-            <img src="{% static 'images/logo.png' %}" alt="Nishchay">
+            <p>
+                Delicious Food Delivered.
+            </p>
 
         </div>
 
     </div>
 
 </div>
+
+
 
 
 </section>
@@ -2156,6 +2388,44 @@ function toggleMenu(){
     .toggle("active");
 
 }
+
+</script>
+
+<script>
+
+function animateValue(id,end,suffix=""){
+
+let current=0;
+
+const speed=end/100;
+
+const timer=setInterval(()=>{
+
+current+=speed;
+
+if(current>=end){
+
+current=end;
+
+clearInterval(timer);
+
+}
+
+document.getElementById(id).innerHTML=
+
+Math.floor(current)+suffix;
+
+},20);
+
+}
+
+animateValue("usersCounter",50000,"+");
+
+animateValue("secureCounter",99,"%");
+
+animateValue("supportCounter",24);
+
+animateValue("reliableCounter",100,"%");
 
 </script>
 
