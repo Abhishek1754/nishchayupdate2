@@ -530,204 +530,162 @@ opacity:.2;
 
 /* CENTER */
 
-.multiverse-core{
 
-    position:relative;
-    width:700px;
-    height:350px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+/* FUTURE NETWORK */
 
-}
+.future-network{
 
-.core-logo{
+display:flex;
 
-    width:200px;
-    height:200px;
+align-items:center;
 
-    border-radius:50%;
-    background:#000;
+justify-content:center;
 
-    border:3px solid #b6ff00;
+gap:30px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    box-shadow:
-    0 0 40px rgba(182,255,0,.5),
-    0 0 100px rgba(182,255,0,.2);
-    animation:pulseCore 3s infinite;
+position:relative;
 
 }
 
-.core-logo img{
+.future-box{
 
-    width:150px;
+width:180px;
 
-    filter:
-    drop-shadow(0 0 20px #b6ff00);
+height:180px;
 
-}
+background:rgba(8,8,8,.9);
 
-.energy-line{
+border:1px solid rgba(182,255,0,.25);
 
-    position:absolute;
+border-radius:30px;
 
-    width:140px;
+display:flex;
 
-    height:3px;
+flex-direction:column;
 
-    overflow:hidden;
+justify-content:center;
 
-    background:rgba(182,255,0,.15);
+align-items:center;
 
-    border-radius:10px;
+text-align:center;
 
-};
-
-
-.energy-line::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:40px;
-
-    height:100%;
-
-    background:#b6ff00;
-
-    box-shadow:
-
-    0 0 20px #b6ff00,
-
-    0 0 40px #b6ff00;
-
-    animation:flowEnergy 2s linear infinite;
-
-}
-
-    box-shadow:
-    0 0 20px #b6ff00;
-
-}
-
-.left-line{
-
-    left:100px;
-
-}
-
-.right-line{
-
-    right:100px;
-
-}
-
-.node{
-
-    position:absolute;
-
-    width:180px;
-
-    padding:30px;
-
-    border-radius:25px;
-
-    background:rgba(8,8,8,.92);
-
-    border:1px solid rgba(182,255,0,.3);
-
-    text-align:center;
-
-    transition:.5s;
-
-backdrop-filter:blur(25px);
-
-overflow:hidden;
-
-}
-
-.node:hover{
-
-transform:translateY(-15px) scale(1.03);
-
-border-color:#b6ff00;
-
-box-shadow:
-0 0 40px rgba(182,255,0,.4);
-
-}
-
-.node:hover::before{
-
-    opacity:.3;
-
-}
-
-.node::before{
-
-content:"";
-
-position:absolute;
-
-inset:-2px;
-
-border-radius:25px;
-
-background:linear-gradient(
-45deg,
-transparent,
-rgba(182,255,0,.8),
-transparent
-);
-
-opacity:0;
+backdrop-filter:blur(20px);
 
 transition:.5s;
 
 }
 
-.ecommerce-node{
+.future-box:hover{
 
-    left:0;
+transform:translateY(-10px);
 
-}
-
-.fuddo-node{
-
-    right:0;
+box-shadow:
+0 0 40px rgba(182,255,0,.5);
 
 }
 
-.node-icon{
+.future-icon{
 
-    font-size:45px;
+font-size:60px;
 
-    margin-bottom:15px;
-
-}
-
-.node h2{
-
-    color:#b6ff00;
-
-    margin-bottom:12px;
+margin-bottom:20px;
 
 }
 
-.node p{
+.future-box h2{
 
-    color:#aaa;
+color:#b6ff00;
 
-    line-height:1.8;
+margin-bottom:15px;
 
 }
 
+.future-box p{
+
+color:#aaa;
+
+line-height:1.8;
+
+}
+
+.future-core{
+
+width:170px;
+height:170px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+border-radius:50%;
+
+background:#050505;
+
+border:2px solid #b6ff00;
+
+box-shadow:
+0 0 25px rgba(182,255,0,.4);
+
+animation:pulseCore 3s infinite;
+
+}
+
+.future-core img{
+
+width:120px;
+
+filter:drop-shadow(0 0 15px #b6ff00);
+
+}
+
+
+
+.energy-flow{
+
+width:90px;
+height:3px;
+
+background:rgba(182,255,0,.15);
+
+border-radius:20px;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.energy-flow::before{
+
+content:"";
+
+position:absolute;
+
+width:30px;
+height:100%;
+
+background:#b6ff00;
+
+box-shadow:
+0 0 20px #b6ff00,
+0 0 40px #b6ff00;
+
+animation:flowEnergy 1.5s linear infinite;
+
+}
+
+@keyframes flowEnergy{
+
+0%{
+left:-40px;
+}
+
+100%{
+left:120px;
+}
+
+}
 
 @keyframes pulseCore{
 
@@ -736,8 +694,7 @@ transition:.5s;
 transform:scale(1);
 
 box-shadow:
-0 0 40px rgba(182,255,0,.5),
-0 0 100px rgba(182,255,0,.2);
+0 0 30px rgba(182,255,0,.3);
 
 }
 
@@ -746,24 +703,7 @@ box-shadow:
 transform:scale(1.05);
 
 box-shadow:
-0 0 80px rgba(182,255,0,.8),
-0 0 160px rgba(182,255,0,.3);
-
-}
-
-}
-
-@keyframes flowEnergy{
-
-0%{
-
-left:-40px;
-
-}
-
-100%{
-
-left:180px;
+0 0 60px rgba(182,255,0,.6);
 
 }
 
@@ -1115,6 +1055,104 @@ left:-20%;
     color:#000;
 }
 
+.dual-universe{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+gap:100px;
+
+flex-wrap:wrap;
+
+margin-top:70px;
+
+}
+
+.app-circle{
+
+width:260px;
+
+height:260px;
+
+border-radius:50%;
+
+background:rgba(8,8,8,.92);
+
+border:1px solid rgba(182,255,0,.3);
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+transition:.5s;
+
+backdrop-filter:blur(25px);
+
+}
+
+.app-circle:hover{
+
+transform:translateY(-10px) scale(1.05);
+
+border-color:#b6ff00;
+
+box-shadow:
+
+0 0 40px rgba(182,255,0,.5);
+
+}
+
+.circle-icon{
+
+font-size:55px;
+
+margin-bottom:20px;
+
+}
+
+.app-circle h2{
+
+color:#b6ff00;
+
+margin-bottom:15px;
+
+}
+
+.app-circle p{
+
+color:#aaa;
+
+line-height:1.8;
+
+margin-bottom:20px;
+
+}
+
+.app-circle a{
+
+padding:12px 22px;
+
+border:1px solid #b6ff00;
+
+border-radius:15px;
+
+color:#b6ff00;
+
+text-decoration:none;
+
+}
+
+
+
 /* CTA */
 
 .cta{
@@ -1405,6 +1443,80 @@ footer{
     display:block;
     }
 
+    .future-network{
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.energy-bar{
+
+    width:3px;
+    height:60px;
+
+}
+
+.future-box{
+
+    width:100%;
+    max-width:250px;
+
+    height:180px;
+
+}
+
+.future-core{
+
+    width:120px;
+    height:120px;
+
+}
+
+.future-core img{
+
+    width:80px;
+
+}
+
+.energy-flow{
+
+width:90px;
+height:3px;
+
+background:rgba(182,255,0,.15);
+
+border-radius:20px;
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.energy-flow::before{
+
+content:"";
+
+position:absolute;
+
+width:25px;
+
+height:100%;
+
+background:#b6ff00;
+
+box-shadow:
+
+0 0 20px #b6ff00,
+
+0 0 40px #b6ff00;
+
+animation:flowEnergy 1.5s linear infinite;
+
+}
+
     .multiverse-core{
 
     width:100%;
@@ -1415,6 +1527,42 @@ footer{
     flex-direction:column;
 
     gap:30px;
+
+}
+
+.dual-universe{
+
+gap:40px;
+
+}
+
+.app-circle{
+
+width:220px;
+
+height:220px;
+
+}
+
+.center-core{
+
+width:220px;
+
+height:220px;
+
+}
+
+.core-logo2{
+
+width:140px;
+
+height:140px;
+
+}
+
+.core-logo2 img{
+
+width:100px;
 
 }
 
@@ -1870,50 +2018,47 @@ footer{
     </div>
 <div class="hero-center">
 
-    <div class="multiverse-core">
+    <div class="future-network">
 
-        <div class="energy-line left-line"></div>
+    <div class="future-box ecommerce-box">
 
-        <div class="core-logo">
+        <div class="future-icon">🛒</div>
 
-            <img src="{% static 'images/logo.png' %}">
+        <h2>Ecommerce</h2>
 
-        </div>
+        <p>
+            Shop Smart.<br>
+            Live Better.
+        </p>
 
-        <div class="energy-line right-line"></div>
+    </div>
 
-        <div class="node ecommerce-node">
+    <div class="energy-flow"></div>
 
-            <div class="node-icon">
-                🛒
-            </div>
+    <div class="future-core">
 
-            <h2>Ecommerce</h2>
+        <img src="{% static 'images/logo.png' %}">
 
-            <p>
-                Shop Smart.
-                Live Better.
-            </p>
+    </div>
 
-        </div>
+    <div class="energy-flow"></div>
 
-        <div class="node fuddo-node">
+    <div class="future-box fuddo-box">
 
-            <div class="node-icon">
-                🍔
-            </div>
+        <div class="future-icon">🍔</div>
 
-            <h2>Fuddo</h2>
+        <h2>Fuddo</h2>
 
-            <p>
-                Delicious Food Delivered.
-            </p>
-
-        </div>
+        <p>
+            Delicious Food<br>
+            Delivered Fast.
+        </p>
 
     </div>
 
 </div>
+</div>
+
 
 
 
@@ -1992,109 +2137,49 @@ financial growth and digital empowerment for every user.
 
     </div>
 
-    <div class="apps-grid">
+    <div class="dual-universe">
 
-        <!--<div class="app-card">
+    <div class="app-circle">
 
-            <div class="app-number">01</div>
-
-            <div class="app-icon">⚡</div>
-
-            <h3>Recharge App</h3>
-
-            <p>
-                Instant recharge system for mobile, DTH,
-                electricity and more.
-            </p>
-
-            <ul>
-
-                <li>Fast Recharge</li>
-                <li>Secure Transactions</li>
-                <li>Cashback Benefits</li>
-
-            </ul>
-
-           <a href="{% url 'recharge_home' %}">Explore Recharge</a>-->
-
+        <div class="circle-icon">
+            <img src="{% static 'images/cart.svg' %}">
         </div>
 
-        <div class="app-card">
+        <h2>Ecommerce</h2>
 
-            <div class="app-number">02</div>
+        <p>
+            Smart Shopping<br>
+            Cashback System
+        </p>
 
-            <div class="app-icon">🛒</div>
-
-            <h3>Ecommerce</h3>
-
-            <p>
-                Shop smart with cashback and
-                multi-level income system.
-            </p>
-
-            <ul>
-
-                <li>Smart Cashback</li>
-                <li>Multi Vendor</li>
-                <li>Secure Shopping</li>
-
-            </ul>
-
-           <a href="{% url 'ecommerce_dashboard' %}">Explore Ecommerce</a>
-
-        </div>
-
-       <!-- <div class="app-card">
-
-            <div class="app-number">03</div>
-
-            <div class="app-icon">📈</div>
-
-            <!--<h3>ROI</h3>
-
-            <p>
-                Powerful investment platform with
-                daily ROI and referral income.
-            </p>
-
-            <ul>
-
-                <li>Daily ROI</li>
-                <li>5 Level Income</li>
-                <li>Secure Investment</li>
-
-            </ul>
-
-            <a href="{% url 'roi_dashboard' %}">Explore ROI</a>-->
-
-        </div>
-
-        <div class="app-card">
-
-            <div class="app-number">04</div>
-
-            <div class="app-icon">🍔</div>
-
-            <h3>Nishchay Fuddo</h3>
-
-            <p>
-                Food delivery ecosystem with
-                fast and secure ordering.
-            </p>
-
-            <ul>
-
-                <li>Fast Delivery</li>
-                <li>Restaurant System</li>
-                <li>Live Tracking</li>
-
-            </ul>
-
-           <a href="{% url 'fuddo_intro' %}">Explore Fuddo</a>
-
-        </div>
+        <a href="{% url 'ecommerce_dashboard' %}">
+            Explore →
+        </a>
 
     </div>
+
+
+
+    <div class="app-circle">
+
+        <div class="circle-icon">
+            🍔
+        </div>
+
+        <h2>Nishchay Fuddo</h2>
+
+        <p>
+            Delicious Food<br>
+            Delivered Fast
+        </p>
+
+        <a href="{% url 'fuddo_intro' %}">
+            Explore →
+        </a>
+
+    </div>
+
+</div>
 
 </section>
 
@@ -2152,7 +2237,7 @@ color:#aaa;
 </p>
 
 <p>
-📞 +91 9594777373
+📞 +91 9324648999
 </p>
 
 <p>
