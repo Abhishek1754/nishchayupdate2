@@ -1330,37 +1330,56 @@ text-decoration:none;
 
 footer{
 
-    border-top:1px solid rgba(182,255,0,.12);
+padding:80px 70px;
 
-    padding:60px 70px;
+background:
 
-    background:#050505;
+linear-gradient(
+
+180deg,
+
+rgba(5,5,5,.6),
+
+rgba(0,0,0,.95)
+
+);
+
+border-top:
+
+1px solid rgba(182,255,0,.15);
+
+position:relative;
+
+overflow:hidden;
+
 }
 
 .footer-grid{
 
-    display:grid;
+display:grid;
 
-    grid-template-columns:2fr 1fr 1fr 1fr;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
 
-    gap:40px;
+gap:30px;
+
 }
 
-.footer-box h3{
+.footer-card h3{
 
     color:#b6ff00;
 
     margin-bottom:20px;
 }
 
-.footer-box p{
+.footer-card p{
 
     color:#999;
 
     line-height:1.8;
 }
 
-.footer-box a{
+.footer-card a{
 
     display:block;
 
@@ -1373,7 +1392,7 @@ footer{
     transition:.3s;
 }
 
-.footer-box a:hover{
+.footer-card a:hover{
 
     color:#b6ff00;
 }
@@ -1415,6 +1434,26 @@ footer{
     border-radius:0 12px 12px 0;
 
     cursor:pointer;
+}
+
+.footer-power{
+
+text-align:center;
+
+font-size:18px;
+
+font-weight:600;
+
+color:#b6ff00;
+
+margin-bottom:30px;
+
+letter-spacing:2px;
+
+text-shadow:
+
+0 0 20px #b6ff00;
+
 }
 
 .copyright{
@@ -1854,6 +1893,34 @@ border-radius:12px;
 
     }
 
+    .footer-card{
+
+background:rgba(8,8,8,.75);
+
+border:1px solid rgba(182,255,0,.15);
+
+border-radius:25px;
+
+padding:35px;
+
+backdrop-filter:blur(25px);
+
+transition:.5s;
+
+}
+
+.footer-card:hover{
+
+transform:translateY(-8px);
+
+border-color:#b6ff00;
+
+box-shadow:
+
+0 0 40px rgba(182,255,0,.25);
+
+}
+
     .newsletter{
 
         flex-direction:column;
@@ -2292,7 +2359,7 @@ color:#aaa;
 
     <div class="footer-grid">
 
-        <div class="footer-box">
+        <div class="footer-card">
 
             <img src="{% static 'images/logo.png' %}"
                  width="200">
@@ -2306,7 +2373,7 @@ color:#aaa;
 
         </div>
 
-       <div class="footer-box">
+       <div class="footer-card">
 
     <h3>Quick Links</h3>
 
@@ -2332,7 +2399,7 @@ color:#aaa;
 
 </div>
 
-        <div class="footer-box">
+        <div class="footer-card">
 
             <h3>Our Apps</h3>
 
@@ -2343,7 +2410,7 @@ color:#aaa;
 
         </div>
 
-        <div class="footer-box">
+        <div class="footer-card">
 
             <h3>Newsletter</h3>
 
@@ -2365,6 +2432,12 @@ color:#aaa;
     </div>
 
     <div class="copyright">
+
+        <div class="footer-power">
+
+⚡ POWERED BY NISHCHAY MULTIVERSE Innovation
+
+</div>
 
 © 2026 Nishchay Multiverse Innovation.
 All Rights Reserved.
