@@ -1564,7 +1564,7 @@ color:#888;
 
 .aditi-chat{
 
-height:170px;
+height:250px;
 
 overflow-y:auto;
 
@@ -1583,6 +1583,54 @@ padding:15px;
 border-radius:18px;
 
 line-height:1.7;
+
+}
+
+.user-message{
+
+background:#b6ff00;
+
+color:black;
+
+padding:15px;
+
+border-radius:18px;
+
+margin-top:15px;
+
+margin-bottom:15px;
+
+margin-left:40px;
+
+font-weight:600;
+
+}
+
+.typing{
+
+color:#888;
+
+font-size:13px;
+
+margin-top:15px;
+
+animation:blinkTyping 1s infinite;
+
+}
+
+@keyframes blinkTyping{
+
+0%,100%{
+
+opacity:.3;
+
+}
+
+50%{
+
+opacity:1;
+
+}
 
 }
 
@@ -3043,7 +3091,8 @@ Fuddo
 <input
 type="text"
 placeholder="Ask Aditi..."
-id="aditiInput">
+id="aditiInput"
+onkeypress="if(event.key==='Enter')aditiReply()">
 
 <button onclick="aditiReply()">
 
@@ -3077,31 +3126,62 @@ aditiReply();
 
 function aditiReply(){
 
-let msg =
+let input =
+document.getElementById("aditiInput");
+
+let msg = input.value;
+
+if(msg=="") return;
+
 document.getElementById(
-"aditiInput"
-).value.toLowerCase();
+"aditiText"
+).innerHTML +=
+
+"<div class='user-message'>"+
+msg+
+"</div>";
+
+input.value="";
+
+document.getElementById(
+"aditiText"
+).innerHTML +=
+
+"<div class='typing' id='typingMsg'>Aditi is typing...</div>";
+
+setTimeout(function(){
+
+document.getElementById(
+"typingMsg"
+).remove();
 
 let reply="✨ Aditi AI is learning.";
 
-if(msg.includes("register")){
+if(msg.toLowerCase().includes("register")){
 
 reply=
 "🚀 Register and start your journey with Nishchay.";
 
 }
 
-else if(msg.includes("ecommerce")){
+else if(msg.toLowerCase().includes("ecommerce")){
 
 reply=
-"🛒 Ecommerce offers cashback and smart shopping.";
+"🛒 Ecommerce provides cashback and smart shopping.";
 
 }
 
-else if(msg.includes("fuddo")){
+else if(msg.toLowerCase().includes("fuddo")){
 
 reply=
 "🍔 Fuddo delivers delicious food quickly.";
+
+}
+
+else if(msg.toLowerCase().includes("roi")){
+
+reply=
+"📈 ROI helps users earn daily income.";
 
 }
 
@@ -3112,6 +3192,15 @@ document.getElementById(
 "<div class='bot-message'>"+
 reply+
 "</div>";
+
+document.getElementById(
+"aditiText"
+).scrollTop=
+document.getElementById(
+"aditiText"
+).scrollHeight;
+
+},1000);
 
 }
 
