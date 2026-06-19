@@ -1482,6 +1482,265 @@ text-shadow:
     }
 }
 
+.aditi-popup{
+
+position:fixed;
+
+bottom:110px;
+
+right:25px;
+
+width:320px;
+
+background:rgba(8,8,8,.97);
+
+border:1px solid #b6ff00;
+
+border-radius:25px;
+
+padding:25px;
+
+display:none;
+
+backdrop-filter:blur(25px);
+
+box-shadow:
+0 0 40px rgba(182,255,0,.35);
+
+z-index:99999;
+
+}
+
+.aditi-header{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.aditi-avatar{
+
+width:55px;
+height:55px;
+
+border-radius:50%;
+
+background:black;
+
+border:2px solid #b6ff00;
+
+display:flex;
+
+justify-content:center;
+align-items:center;
+
+font-size:28px;
+
+box-shadow:
+0 0 20px #b6ff00;
+
+}
+
+.aditi-header h2{
+
+color:#b6ff00;
+
+margin-bottom:3px;
+
+}
+
+.aditi-header span{
+
+font-size:12px;
+
+color:#888;
+
+}
+
+.aditi-chat{
+
+height:170px;
+
+overflow-y:auto;
+
+margin-bottom:20px;
+
+}
+
+.bot-message{
+
+background:rgba(182,255,0,.1);
+
+border:1px solid rgba(182,255,0,.2);
+
+padding:15px;
+
+border-radius:18px;
+
+line-height:1.7;
+
+}
+
+.quick-buttons{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:20px;
+
+}
+
+.quick-buttons button{
+
+flex:1;
+
+height:40px;
+
+border:none;
+
+background:#111;
+
+color:#b6ff00;
+
+border-radius:12px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.quick-buttons button:hover{
+
+background:#b6ff00;
+
+color:black;
+
+}
+
+.aditi-input-box{
+
+display:flex;
+
+gap:10px;
+
+}
+
+.aditi-input-box input{
+
+flex:1;
+
+height:50px;
+
+background:#111;
+
+border:none;
+
+padding:0 15px;
+
+color:white;
+
+border-radius:15px;
+
+}
+
+.aditi-input-box button{
+
+width:55px;
+
+border:none;
+
+background:#b6ff00;
+
+color:black;
+
+font-size:20px;
+
+border-radius:15px;
+
+cursor:pointer;
+
+}
+
+.showPopup{
+display:block !important;
+animation:popupShow .3s ease;
+}
+
+@keyframes popupShow{
+
+from{
+opacity:0;
+transform:translateY(30px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+.aditi-popup h2{
+
+color:#b6ff00;
+
+margin-bottom:20px;
+
+}
+
+.aditi-popup p{
+
+line-height:1.8;
+
+margin-bottom:20px;
+
+}
+
+.aditi-popup input{
+
+width:100%;
+
+height:50px;
+
+background:#111;
+
+border:none;
+
+color:white;
+
+padding:0 15px;
+
+border-radius:15px;
+
+margin-bottom:15px;
+
+}
+
+.aditi-popup button{
+
+width:100%;
+
+height:50px;
+
+border:none;
+
+border-radius:15px;
+
+background:#b6ff00;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
 @media(max-width:768px){
     .hamburger{
 
@@ -1947,7 +2206,73 @@ box-shadow:
 
 }
 
+/* ADITI AI */
+
+.aditi-ai{
+
+position:fixed;
+
+bottom:25px;
+
+right:25px;
+
+width:70px;
+
+height:70px;
+
+border-radius:50%;
+
+background:#050505;
+
+border:2px solid #b6ff00;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+cursor:pointer;
+
+box-shadow:
+
+0 0 25px rgba(182,255,0,.5),
+
+0 0 50px rgba(182,255,0,.25);
+
+animation:aditiPulse 3s infinite;
+
+z-index:9999;
+
+}
+
+@keyframes aditiPulse{
+
+0%,100%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.08);
+
+}
+
+}
+
+.aditi-ai img{
+
+width:40px;
+
+filter:drop-shadow(0 0 10px #b6ff00);
+
+}
+
 </style>
+
+
 
 </head>
 
@@ -2557,6 +2882,8 @@ function shareReferral(){
 
 }
 
+
+
 function logoutUser(){
 
     localStorage.removeItem('access');
@@ -2653,6 +2980,140 @@ window.addEventListener("scroll", function(){
     lastScroll = currentScroll;
 
 });
+
+</script>
+
+<!-- ADITI AI -->
+
+<div class="aditi-ai" onclick="openAditi()">
+
+<img src="{% static 'images/logo.png' %}">
+
+</div>
+
+<div class="aditi-popup" id="aditiPopup">
+
+<div class="aditi-header">
+
+<div class="aditi-avatar">
+🤖
+</div>
+
+<div>
+
+<h2>ADITI AI</h2>
+
+<span>BETA</span>
+
+</div>
+
+</div>
+
+
+<div class="aditi-chat" id="aditiText">
+
+<div class="bot-message">
+
+👋 Welcome to Nishchay Universe
+
+</div>
+
+</div>
+
+
+<div class="quick-buttons">
+
+<button onclick="quickReply('register')">
+Register
+</button>
+
+<button onclick="quickReply('ecommerce')">
+Ecommerce
+</button>
+
+<button onclick="quickReply('fuddo')">
+Fuddo
+</button>
+
+</div>
+
+
+<div class="aditi-input-box">
+
+<input
+type="text"
+placeholder="Ask Aditi..."
+id="aditiInput">
+
+<button onclick="aditiReply()">
+
+➜
+
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function openAditi(){
+
+document.getElementById("aditiPopup")
+.classList.toggle("showPopup");
+
+}
+
+function quickReply(type){
+
+document.getElementById(
+"aditiInput"
+).value=type;
+
+aditiReply();
+
+}
+
+function aditiReply(){
+
+let msg =
+document.getElementById(
+"aditiInput"
+).value.toLowerCase();
+
+let reply="✨ Aditi AI is learning.";
+
+if(msg.includes("register")){
+
+reply=
+"🚀 Register and start your journey with Nishchay.";
+
+}
+
+else if(msg.includes("ecommerce")){
+
+reply=
+"🛒 Ecommerce offers cashback and smart shopping.";
+
+}
+
+else if(msg.includes("fuddo")){
+
+reply=
+"🍔 Fuddo delivers delicious food quickly.";
+
+}
+
+document.getElementById(
+"aditiText"
+).innerHTML +=
+
+"<div class='bot-message'>"+
+reply+
+"</div>";
+
+}
 
 </script>
 
