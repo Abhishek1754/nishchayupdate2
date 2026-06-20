@@ -11,6 +11,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+
 <style>
 
 *{
@@ -1486,11 +1487,11 @@ text-shadow:
 
 position:fixed;
 
-bottom:110px;
+bottom:105px;
 
 right:25px;
 
-width:320px;
+width:360px;
 
 background:rgba(8,8,8,.97);
 
@@ -1562,13 +1563,42 @@ color:#888;
 
 }
 
+.close-aditi{
+
+margin-left:auto;
+
+font-size:20px;
+
+cursor:pointer;
+
+color:#888;
+
+transition:.3s;
+
+}
+
+.close-aditi:hover{
+
+color:#b6ff00;
+
+transform:rotate(90deg);
+
+}
+
+
 .aditi-chat{
 
-height:250px;
+height:300px;
 
 overflow-y:auto;
 
-margin-bottom:20px;
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+scroll-behavior:smooth;
 
 }
 
@@ -1584,6 +1614,8 @@ border-radius:18px;
 
 line-height:1.7;
 
+max-width:80%;
+
 }
 
 .user-message{
@@ -1596,11 +1628,9 @@ padding:15px;
 
 border-radius:18px;
 
-margin-top:15px;
+margin-left:auto;
 
-margin-bottom:15px;
-
-margin-left:40px;
+max-width:80%;
 
 font-weight:600;
 
@@ -1702,6 +1732,8 @@ border-radius:15px;
 
 width:55px;
 
+height:50px;
+
 border:none;
 
 background:#b6ff00;
@@ -1713,6 +1745,16 @@ font-size:20px;
 border-radius:15px;
 
 cursor:pointer;
+
+transition:.3s;
+
+}
+
+.aditi-input-box button:hover{
+
+box-shadow:
+
+0 0 20px #b6ff00;
 
 }
 
@@ -2251,6 +2293,37 @@ box-shadow:
         border-radius:12px;
 
     }
+    .aditi-popup{
+
+width:95%;
+
+right:10px;
+
+left:10px;
+
+bottom:95px;
+
+}
+
+.aditi-alert{
+
+display:none;
+
+}
+
+.aditi-ai{
+
+width:60px;
+
+height:60px;
+
+}
+
+.aditi-ai img{
+
+width:35px;
+
+}
 
 }
 
@@ -2315,6 +2388,50 @@ transform:scale(1.08);
 width:40px;
 
 filter:drop-shadow(0 0 10px #b6ff00);
+
+}
+
+.aditi-alert{
+
+position:fixed;
+
+bottom:110px;
+
+right:110px;
+
+background:rgba(8,8,8,.95);
+
+border:1px solid #b6ff00;
+
+padding:15px 20px;
+
+border-radius:20px;
+
+color:white;
+
+box-shadow:
+
+0 0 30px rgba(182,255,0,.3);
+
+animation:floatAlert 3s infinite;
+
+z-index:9998;
+
+}
+
+@keyframes floatAlert{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-8px);
+
+}
 
 }
 
@@ -3033,6 +3150,12 @@ window.addEventListener("scroll", function(){
 
 <!-- ADITI AI -->
 
+<div class="aditi-alert">
+
+👋 Need help? Ask Aditi AI
+
+</div>
+
 <div class="aditi-ai" onclick="openAditi()">
 
 <img src="{% static 'images/logo.png' %}">
@@ -3052,6 +3175,13 @@ window.addEventListener("scroll", function(){
 <h2>ADITI AI</h2>
 
 <span>BETA</span>
+
+</div>
+
+<div class="close-aditi"
+onclick="openAditi()">
+
+✖
 
 </div>
 
@@ -3093,6 +3223,12 @@ type="text"
 placeholder="Ask Aditi..."
 id="aditiInput"
 onkeypress="if(event.key==='Enter')aditiReply()">
+
+<button onclick="startVoice()">
+
+🎤
+
+</button>
 
 <button onclick="aditiReply()">
 
@@ -3157,33 +3293,160 @@ document.getElementById(
 
 let reply="✨ Aditi AI is learning.";
 
-if(msg.toLowerCase().includes("register")){
+msg = msg.toLowerCase();
+
+if(
+msg.includes("register") ||
+msg.includes("registration") ||
+msg.includes("signup") ||
+msg.includes("sign up") ||
+msg.includes("create account")
+){
 
 reply=
-"🚀 Register and start your journey with Nishchay.";
+"🚀 To register, click Register on the homepage. Fill in your details and create your Nishchay account.";
 
 }
 
-else if(msg.toLowerCase().includes("ecommerce")){
+else if(
+msg.includes("login") ||
+msg.includes("sign in")
+){
 
 reply=
-"🛒 Ecommerce provides cashback and smart shopping.";
+"🔐 Use your registered email ID or mobile number and password to login.";
 
 }
 
-else if(msg.toLowerCase().includes("fuddo")){
+else if(
+msg.includes("forgot password")
+){
 
 reply=
-"🍔 Fuddo delivers delicious food quickly.";
+"🔑 Click Forgot Password on the login page to reset your password.";
 
 }
 
-else if(msg.toLowerCase().includes("roi")){
+else if(
+msg.includes("referral")
+){
 
 reply=
-"📈 ROI helps users earn daily income.";
+"🤝 Share your referral code with friends and grow your network.";
 
 }
+
+else if(
+msg.includes("smart share") ||
+msg.includes("smartshare")
+){
+
+reply=
+"🌟 Smart Share is Nishchay's multi-level reward system that distributes rewards across different levels.";
+
+}
+
+else if(
+msg.includes("wallet")
+){
+
+reply=
+"💰 Wallet stores your earnings, rewards and transactions.";
+
+}
+
+else if(
+msg.includes("coin")
+){
+
+reply=
+"🪙 Nishchay Coins are reward points used inside the ecosystem.";
+
+}
+
+else if(
+msg.includes("subscription")
+){
+
+reply=
+"⭐ Subscription plans unlock premium benefits and opportunities.";
+
+}
+
+else if(
+msg.includes("ecommerce")
+){
+
+reply=
+"🛒 Ecommerce provides cashback and smart shopping experiences.";
+
+}
+
+else if(
+msg.includes("fuddo")
+){
+
+reply=
+"🍔 Fuddo delivers delicious food quickly and conveniently.";
+
+}
+
+else if(
+msg.includes("cashback")
+){
+
+reply=
+"💵 Cashback rewards are available on eligible purchases.";
+
+}
+
+else if(
+msg.includes("withdraw")
+){
+
+reply=
+"🏦 Withdrawal options are available through the wallet section.";
+
+}
+
+else if(
+msg.includes("support") ||
+msg.includes("help")
+){
+
+reply=
+"☎️ Contact Nishchay support through email, phone or WhatsApp.";
+
+}
+
+else if(
+msg.includes("hello") ||
+msg.includes("hi")
+){
+
+reply=
+"👋 Hello, I am ADITI AI. Welcome to Nishchay Multiverse.";
+
+}
+
+else{
+
+reply=
+"✨ I can help you with Registration, Login, Smart Share, Referral, Wallet, Ecommerce and Fuddo.";
+
+}
+let speech =
+new SpeechSynthesisUtterance(reply);
+
+speech.rate = 1;
+
+speech.pitch = 1;
+
+speech.volume = 1;
+
+speech.lang = "en-IN";
+
+window.speechSynthesis.speak(speech);
 
 document.getElementById(
 "aditiText"
@@ -3203,6 +3466,40 @@ document.getElementById(
 },1000);
 
 }
+
+const recognition =
+new(window.SpeechRecognition ||
+window.webkitSpeechRecognition)();
+
+recognition.lang = "en-IN";
+
+recognition.continuous = false;
+
+recognition.interimResults = false;
+
+function startVoice(){
+
+recognition.start();
+
+}
+
+recognition.onresult = function(event){
+
+let voiceText =
+event.results[0][0].transcript;
+
+document.getElementById(
+"aditiInput"
+).value = voiceText;
+
+aditiReply();
+
+};
+
+
+
+
+
 
 </script>
 
