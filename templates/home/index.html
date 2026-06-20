@@ -3243,239 +3243,575 @@ onkeypress="if(event.key==='Enter')aditiReply()">
 
 <script>
 
+/*==========================
+ADITI AI V5 CORE
+==========================*/
+
+let previousTopic="";
+
 function openAditi(){
 
-document.getElementById("aditiPopup")
-.classList.toggle("showPopup");
+document
+.getElementById("aditiPopup")
+.classList
+.toggle("showPopup");
 
 }
 
 function quickReply(type){
 
-document.getElementById(
-"aditiInput"
-).value=type;
+document
+.getElementById("aditiInput")
+.value=type;
 
 aditiReply();
 
 }
 
+
+/*==========================
+LANGUAGE DETECTOR
+==========================*/
+
+function detectLanguage(msg){
+
+msg=msg.toLowerCase();
+
+if(
+
+msg.includes("kaise") ||
+msg.includes("kya") ||
+msg.includes("hai") ||
+msg.includes("mera")
+
+){
+
+return "hi";
+
+}
+
+if(
+
+msg.includes("bhai") ||
+msg.includes("karun") ||
+msg.includes("bera")
+
+){
+
+return "haryanvi";
+
+}
+
+if(
+
+msg.includes("kive") ||
+msg.includes("veer")
+
+){
+
+return "punjabi";
+
+}
+
+if(
+
+msg.includes("ami") ||
+
+msg.includes("kemon")
+
+){
+
+return "bengali";
+
+}
+
+
+if(
+
+msg.includes("majha") ||
+
+msg.includes("kasa")
+
+){
+
+return "marathi";
+
+}
+
+
+if(
+
+msg.includes("kem") ||
+
+msg.includes("tame")
+
+){
+
+return "gujarati";
+
+}
+
+return "en";
+
+}
+
+
+/*==========================
+KNOWLEDGE BASE
+==========================*/
+
+const knowledgeBase={
+
+register:{
+
+en:
+"🚀 To register, click Register and fill in your details.",
+
+hi:
+"🚀 Register button par click karke apni details bhariye aur account banaiye.",
+
+haryanvi:
+"🚀 Register pe click kar aur apni details bhar ke account bana le bhai.",
+
+punjabi:
+"🚀 Register te click karke apni details bhar ke account banao."
+
+},
+
+login:{
+
+en:
+"🔐 Login using your registered email or phone number.",
+
+hi:
+"🔐 Apne registered email ya mobile number se login kariye.",
+
+haryanvi:
+"🔐 Apne mobile number ya email te login kar le bhai.",
+
+punjabi:
+"🔐 Apne registered mobile number ya email naal login karo."
+
+},
+
+wallet:{
+
+en:
+"💰 Wallet stores earnings and rewards.",
+
+hi:
+"💰 Wallet mein aapki earning aur rewards store hote hain.",
+
+haryanvi:
+"💰 Wallet mein teri earning aur reward pade rahenge.",
+
+punjabi:
+"💰 Wallet vich tuhadi earning te rewards store hunde ne."
+
+},
+
+smartshare:{
+
+en:
+"🌟 Smart Share is Nishchay's reward distribution system.",
+
+hi:
+"🌟 स्मार्ट शेयर निश्‍चय का रिवार्ड वितरण सिस्टम है।",
+
+haryanvi:
+"🌟 Smart Share Nishchay ka reward system se bhai.",
+
+punjabi:
+"🌟 Smart Share Nishchay da reward system hai.",
+
+bengali:
+"🌟 Smart Share হল Nishchay-এর reward system।",
+
+marathi:
+"🌟 Smart Share हे Nishchay चे reward system आहे.",
+
+gujarati:
+"🌟 Smart Share Nishchay nu reward system chhe."
+
+},
+
+referral:{
+
+en:
+"🤝 Share your referral code and grow your network.",
+
+hi:
+"🤝 अपना रेफरल कोड शेयर करके अपना नेटवर्क बढ़ाइए।",
+
+haryanvi:
+"🤝 Apna referral code share kar aur network badha le bhai.",
+
+punjabi:
+"🤝 Apna referral code share karke network vadhao.",
+
+bengali:
+"🤝 Referral code share kore network baran.",
+
+marathi:
+"🤝 Referral code share karun network vadhva.",
+
+gujarati:
+"🤝 Referral code share kari ne network vadharo."
+
+},
+
+subscription:{
+
+en:
+"💎 After free access period users need an active subscription to enjoy all services.",
+
+hi:
+"💎 फ्री अवधि के बाद सभी सेवाओं के लिए सक्रिय सब्सक्रिप्शन आवश्यक है।"
+
+},
+
+coins:{
+
+en:
+"🪙 Nishchay Coins are reward points that can later be converted according to company rules.",
+
+hi:
+"🪙 निश्‍चय कॉइन रिवार्ड पॉइंट्स हैं जिन्हें कंपनी के नियमों के अनुसार उपयोग किया जा सकता है।"
+
+},
+
+ecommerce:{
+
+en:
+"🛒 Ecommerce allows users to shop and enjoy cashback benefits.",
+
+hi:
+"🛒 ईकॉमर्स सेक्शन में शॉपिंग और कैशबैक की सुविधा उपलब्ध है।"
+
+},
+
+fuddo:{
+
+en:
+"🍔 Fuddo is Nishchay's food delivery platform.",
+
+hi:
+"🍔 फुड्डो निश्‍चय का फूड डिलीवरी प्लेटफॉर्म है।"
+
+},
+
+support:{
+
+en:
+"☎️ For help contact support@nishchay.in",
+
+hi:
+"☎️ सहायता के लिए support@nishchay.in पर संपर्क करें।"
+
+},
+
+};
+
+
+/*==========================
+GET REPLY
+==========================*/
+
+function getReply(msg,lang){
+
+msg=msg.toLowerCase();
+
+if(
+
+msg.includes("register") ||
+msg.includes("registration") ||
+msg.includes("signup")
+
+){
+
+previousTopic="register";
+
+return knowledgeBase.register[lang];
+
+}
+
+if(
+
+msg.includes("login")
+
+){
+
+previousTopic="login";
+
+return knowledgeBase.login[lang];
+
+}
+
+if(
+
+msg.includes("wallet")
+
+){
+
+previousTopic="wallet";
+
+return knowledgeBase.wallet[lang];
+
+}
+
+if(
+
+msg.includes("smart share") ||
+
+msg.includes("smartshare")
+
+){
+
+previousTopic="smartshare";
+
+return knowledgeBase.smartshare[lang];
+
+}
+
+
+if(
+msg.includes("referral")
+){
+
+previousTopic="referral";
+
+return knowledgeBase.referral[lang];
+
+}
+
+
+if(
+msg.includes("subscription")
+){
+
+previousTopic="subscription";
+
+return knowledgeBase.subscription[lang];
+
+}
+
+
+if(
+msg.includes("coin")
+){
+
+previousTopic="coins";
+
+return knowledgeBase.coins[lang];
+
+}
+
+
+if(
+msg.includes("ecommerce")
+){
+
+previousTopic="ecommerce";
+
+return knowledgeBase.ecommerce[lang];
+
+}
+
+
+if(
+msg.includes("fuddo")
+){
+
+previousTopic="fuddo";
+
+return knowledgeBase.fuddo[lang];
+
+}
+
+
+if(
+msg.includes("support")
+){
+
+previousTopic="support";
+
+return knowledgeBase.support[lang];
+
+}
+
+
+
+/* MEMORY */
+
+if(
+
+msg.includes("uske baad") ||
+
+msg.includes("then")
+
+){
+
+if(previousTopic=="register"){
+
+return "✅ After registration you can login and access Nishchay.";
+
+}
+
+}
+
+
+/* DEFAULT */
+
+return
+
+"✨ I can help with Registration, Login, Wallet, Smart Share, Ecommerce and Fuddo.";
+
+}
+
+
+
+/*==========================
+MAIN FUNCTION
+==========================*/
+
 function aditiReply(){
 
-let input =
-document.getElementById("aditiInput");
+let input=
+document.getElementById(
+"aditiInput"
+);
 
-let msg = input.value;
+let msg=input.value;
 
 if(msg=="") return;
 
+
 document.getElementById(
 "aditiText"
-).innerHTML +=
+).innerHTML+=
 
 "<div class='user-message'>"+
 msg+
 "</div>";
 
+
 input.value="";
+
 
 document.getElementById(
 "aditiText"
-).innerHTML +=
+).innerHTML+=
 
 "<div class='typing' id='typingMsg'>Aditi is typing...</div>";
 
+
 setTimeout(function(){
 
-document.getElementById(
+document
+.getElementById(
 "typingMsg"
-).remove();
+)
+.remove();
 
-let reply="✨ Aditi AI is learning.";
 
-msg = msg.toLowerCase();
+let language=
 
-if(
-msg.includes("register") ||
-msg.includes("registration") ||
-msg.includes("signup") ||
-msg.includes("sign up") ||
-msg.includes("create account")
-){
+detectLanguage(msg);
 
-reply=
-"🚀 To register, click Register on the homepage. Fill in your details and create your Nishchay account.";
 
-}
+let reply=
 
-else if(
-msg.includes("login") ||
-msg.includes("sign in")
-){
+getReply(
+msg,
+language
+);
 
-reply=
-"🔐 Use your registered email ID or mobile number and password to login.";
+let speech =
+new SpeechSynthesisUtterance(reply);
+
+if(language=="hi"){
+
+speech.lang="hi-IN";
 
 }
 
-else if(
-msg.includes("forgot password")
-){
+else if(language=="punjabi"){
 
-reply=
-"🔑 Click Forgot Password on the login page to reset your password.";
+speech.lang="pa-IN";
 
 }
 
-else if(
-msg.includes("referral")
-){
+else if(language=="bengali"){
 
-reply=
-"🤝 Share your referral code with friends and grow your network.";
+speech.lang="bn-IN";
 
 }
 
-else if(
-msg.includes("smart share") ||
-msg.includes("smartshare")
-){
+else if(language=="marathi"){
 
-reply=
-"🌟 Smart Share is Nishchay's multi-level reward system that distributes rewards across different levels.";
+speech.lang="mr-IN";
 
 }
 
-else if(
-msg.includes("wallet")
-){
+else if(language=="gujarati"){
 
-reply=
-"💰 Wallet stores your earnings, rewards and transactions.";
-
-}
-
-else if(
-msg.includes("coin")
-){
-
-reply=
-"🪙 Nishchay Coins are reward points used inside the ecosystem.";
-
-}
-
-else if(
-msg.includes("subscription")
-){
-
-reply=
-"⭐ Subscription plans unlock premium benefits and opportunities.";
-
-}
-
-else if(
-msg.includes("ecommerce")
-){
-
-reply=
-"🛒 Ecommerce provides cashback and smart shopping experiences.";
-
-}
-
-else if(
-msg.includes("fuddo")
-){
-
-reply=
-"🍔 Fuddo delivers delicious food quickly and conveniently.";
-
-}
-
-else if(
-msg.includes("cashback")
-){
-
-reply=
-"💵 Cashback rewards are available on eligible purchases.";
-
-}
-
-else if(
-msg.includes("withdraw")
-){
-
-reply=
-"🏦 Withdrawal options are available through the wallet section.";
-
-}
-
-else if(
-msg.includes("support") ||
-msg.includes("help")
-){
-
-reply=
-"☎️ Contact Nishchay support through email, phone or WhatsApp.";
-
-}
-
-else if(
-msg.includes("hello") ||
-msg.includes("hi")
-){
-
-reply=
-"👋 Hello, I am ADITI AI. Welcome to Nishchay Multiverse.";
+speech.lang="gu-IN";
 
 }
 
 else{
 
-reply=
-"✨ I can help you with Registration, Login, Smart Share, Referral, Wallet, Ecommerce and Fuddo.";
+speech.lang="en-IN";
 
 }
-let speech =
-new SpeechSynthesisUtterance(reply);
 
-speech.rate = 1;
+speech.rate=1;
 
-speech.pitch = 1;
+speech.pitch=1;
 
-speech.volume = 1;
-
-speech.lang = "en-IN";
+speech.volume=1;
 
 window.speechSynthesis.speak(speech);
 
+
 document.getElementById(
 "aditiText"
-).innerHTML +=
+).innerHTML+=
 
 "<div class='bot-message'>"+
 reply+
 "</div>";
 
+
 document.getElementById(
 "aditiText"
 ).scrollTop=
+
 document.getElementById(
 "aditiText"
 ).scrollHeight;
+
 
 },1000);
 
 }
 
+/*==========================
+VOICE ASSISTANT
+==========================*/
+
 const recognition =
-new(window.SpeechRecognition ||
-window.webkitSpeechRecognition)();
+new (
+window.SpeechRecognition ||
+window.webkitSpeechRecognition
+)();
 
-recognition.lang = "en-IN";
+recognition.lang="en-IN";
 
-recognition.continuous = false;
+recognition.continuous=false;
 
-recognition.interimResults = false;
+recognition.interimResults=false;
+
 
 function startVoice(){
 
@@ -3483,23 +3819,40 @@ recognition.start();
 
 }
 
-recognition.onresult = function(event){
 
-let voiceText =
+recognition.onstart=function(){
+
+document
+.getElementById("aditiInput")
+.placeholder="🎤 Listening...";
+
+}
+
+
+recognition.onend=function(){
+
+document
+.getElementById("aditiInput")
+.placeholder="Ask Aditi...";
+
+}
+
+
+recognition.onresult=function(event){
+
+let voiceText=
+
 event.results[0][0].transcript;
 
-document.getElementById(
-"aditiInput"
-).value = voiceText;
+
+document
+.getElementById("aditiInput")
+.value=voiceText;
+
 
 aditiReply();
 
 };
-
-
-
-
-
 
 </script>
 
