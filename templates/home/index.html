@@ -3508,7 +3508,7 @@ en:
 hi:
 "☎️ सहायता के लिए support@nishchay.in पर संपर्क करें।"
 
-},
+}
 
 };
 
@@ -3520,6 +3520,184 @@ GET REPLY
 function getReply(msg,lang){
 
 msg=msg.toLowerCase();
+
+/* GREETINGS */
+
+if(
+
+msg=="hi" ||
+
+msg=="hello" ||
+
+msg=="hey" ||
+
+msg=="namaste" ||
+msg=="ram ram" ||
+msg=="sat sri akal"
+
+){
+
+if(lang=="hi")
+return "👋 नमस्ते! मैं अदिति AI हूँ। मैं आपकी कैसे सहायता कर सकती हूँ?";
+
+if(lang=="haryanvi")
+return "👋 राम राम भैया! मैं अदिति AI सूं, बता के मदद चाहिये?";
+
+if(lang=="punjabi")
+return "👋 ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! ਮੈਂ Aditi AI ਹਾਂ। ਮੈਂ ਤੁਹਾਡੀ ਕਿਵੇਂ ਮਦਦ ਕਰ ਸਕਦੀ ਹਾਂ?";
+
+if(lang=="bengali")
+return "👋 নমস্কার! আমি Aditi AI। আমি কিভাবে সাহায্য করতে পারি?";
+
+if(lang=="marathi")
+return "👋 नमस्कार! मी Aditi AI आहे. मी तुमची कशी मदत करू शकते?";
+
+if(lang=="gujarati")
+return "👋 નમસ્તે! હું Aditi AI છું. હું તમારી કેવી રીતે મદદ કરી શકું?";
+
+return "👋 Hello! I am Aditi AI. How can I help you today?";
+}
+
+if(
+msg.includes("good morning")
+){
+
+if(lang=="hi")
+return "☀️ सुप्रभात! आपका दिन शुभ हो।";
+
+if(lang=="haryanvi")
+return "☀️ राम राम भैया! दिन बढ़िया जावे।";
+
+if(lang=="punjabi")
+return "☀️ ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! ਤੁਹਾਡਾ ਦਿਨ ਵਧੀਆ ਲੰਘੇ।";
+
+if(lang=="bengali")
+return "☀️ সুপ্রভাত! আপনার দিন শুভ হোক।";
+
+if(lang=="marathi")
+return "☀️ शुभ प्रभात! तुमचा दिवस आनंदी जावो.";
+
+if(lang=="gujarati")
+return "☀️ સુપ્રભાત! તમારો દિવસ શુભ રહે.";
+
+return "☀️ Good morning! Have a wonderful day.";
+
+}
+
+/* THANK YOU */
+
+if(
+msg.includes("thank") ||
+msg.includes("thanks")
+){
+
+if(lang=="hi")
+return "😊 आपका स्वागत है। आपकी सहायता करके खुशी हुई।";
+
+if(lang=="haryanvi")
+return "😊 कोई बात ना भैया, मदद करके खुशी हुई।";
+
+if(lang=="punjabi")
+return "😊 ਤੁਹਾਡਾ ਸਵਾਗਤ ਹੈ। ਮਦਦ ਕਰਕੇ ਖੁਸ਼ੀ ਹੋਈ।";
+
+if(lang=="bengali")
+return "😊 আপনাকে সাহায্য করে ভালো লাগলো।";
+
+if(lang=="marathi")
+return "😊 तुमची मदत करून आनंद झाला.";
+
+if(lang=="gujarati")
+return "😊 તમારી મદદ કરીને આનંદ થયો.";
+
+return "😊 You're welcome. Happy to help!";
+}
+
+/* HOW ARE YOU */
+
+if(
+msg.includes("how are you")
+){
+
+if(lang=="hi")
+return "😊 मैं बिल्कुल ठीक हूँ। पूछने के लिए धन्यवाद।";
+
+if(lang=="haryanvi")
+return "😊 मैं बढ़िया सूं भैया, तू बता?";
+
+if(lang=="punjabi")
+return "😊 ਮੈਂ ਬਿਲਕੁਲ ਵਧੀਆ ਹਾਂ। ਤੁਸੀਂ ਦੱਸੋ?";
+
+if(lang=="bengali")
+return "😊 আমি ভালো আছি। আপনি কেমন আছেন?";
+
+if(lang=="marathi")
+return "😊 मी ठीक आहे. तुम्ही कसे आहात?";
+
+if(lang=="gujarati")
+return "😊 હું બરાબર છું. તમે કેમ છો?";
+
+return "😊 I'm doing great. Thank you for asking!";
+}
+
+/* WHO ARE YOU */
+
+if(
+
+msg.includes("who are you") ||
+
+msg.includes("tum kaun ho") ||
+
+msg.includes("aap kaun ho")
+
+){
+
+if(lang=="hi")
+return "🤖 मैं अदिति AI हूँ, निश्‍चय की बहुभाषी सहायक।";
+
+if(lang=="haryanvi")
+return "🤖 मैं अदिति AI सूं, निश्‍चय की स्मार्ट सहायक।";
+
+if(lang=="punjabi")
+return "🤖 ਮੈਂ Aditi AI ਹਾਂ, Nishchay ਦੀ ਸਹਾਇਕ।";
+
+if(lang=="bengali")
+return "🤖 আমি Aditi AI, Nishchay-এর সহকারী।";
+
+if(lang=="marathi")
+return "🤖 मी Aditi AI आहे, Nishchay ची सहाय्यक.";
+
+if(lang=="gujarati")
+return "🤖 હું Aditi AI છું, Nishchay ની સહાયક.";
+
+return "🤖 I am Aditi AI, your multilingual Nishchay assistant.";
+}
+
+/* JOKE */
+
+if(
+msg.includes("joke")
+){
+
+if(lang=="hi")
+return "😂 प्रोग्रामर प्रकृति को पसंद क्यों नहीं करते? क्योंकि वहाँ बहुत bugs होते हैं।";
+
+if(lang=="haryanvi")
+return "😂 Programmer jungle में ना जावें, क्यूंकि वहां बहुत bugs हों सैं।";
+
+if(lang=="punjabi")
+return "😂 Programmer nature ਨੂੰ ਪਸੰਦ ਨਹੀਂ ਕਰਦੇ, ਕਿਉਂਕਿ ਉੱਥੇ ਬਹੁਤ bugs ਹੁੰਦੇ ਨੇ।";
+
+if(lang=="bengali")
+return "😂 প্রোগ্রামাররা প্রকৃতি পছন্দ করে না, কারণ সেখানে অনেক bugs আছে।";
+
+if(lang=="marathi")
+return "😂 प्रोग्रामर्सना निसर्ग आवडत नाही कारण तिथे खूप bugs असतात.";
+
+if(lang=="gujarati")
+return "😂 Programmers ને કુદરત ગમતી નથી કારણ કે ત્યાં ઘણા bugs હોય છે.";
+
+return "😂 Why don't programmers like nature? Because it has too many bugs.";
+}
 
 if(
 
@@ -3662,9 +3840,9 @@ return "✅ After registration you can login and access Nishchay.";
 
 /* DEFAULT */
 
-return
 
-"✨ I can help with Registration, Login, Wallet, Smart Share, Ecommerce and Fuddo.";
+
+return "✨ I can help with Registration, Login, Wallet, Smart Share, Ecommerce and Fuddo.";
 
 }
 
@@ -3728,6 +3906,8 @@ language
 
 let speech =
 new SpeechSynthesisUtterance(reply);
+window.speechSynthesis.cancel();
+
 
 if(language=="hi"){
 
@@ -3770,6 +3950,32 @@ speech.rate=1;
 speech.pitch=1;
 
 speech.volume=1;
+let voices=
+window.speechSynthesis.getVoices();
+
+for(let i=0;i<voices.length;i++){
+
+    if(
+
+        voices[i].name.includes("Female")
+
+        ||
+
+        voices[i].name.includes("Google UK English Female")
+
+        ||
+
+        voices[i].name.includes("Microsoft Zira")
+
+    ){
+
+        speech.voice=voices[i];
+
+        break;
+
+    }
+
+}   // closes FOR loop
 
 window.speechSynthesis.speak(speech);
 
@@ -3800,6 +4006,8 @@ document.getElementById(
 VOICE ASSISTANT
 ==========================*/
 
+
+let voiceMode=false;
 const recognition =
 new (
 window.SpeechRecognition ||
@@ -3808,14 +4016,23 @@ window.webkitSpeechRecognition
 
 recognition.lang="en-IN";
 
-recognition.continuous=false;
+recognition.continuous=true;
 
 recognition.interimResults=false;
 
 
 function startVoice(){
 
+try{
+
 recognition.start();
+
+}
+catch(err){
+
+console.log("Already listening");
+
+}
 
 }
 
@@ -3832,17 +4049,48 @@ document
 recognition.onend=function(){
 
 document
-.getElementById("aditiInput")
+.getElementById(
+"aditiInput"
+)
 .placeholder="Ask Aditi...";
 
 }
+
+
+
 
 
 recognition.onresult=function(event){
 
 let voiceText=
 
-event.results[0][0].transcript;
+event.results[
+event.results.length-1
+][0].transcript;
+
+voiceText=
+voiceText.toLowerCase();
+
+
+if(
+
+voiceText.includes("hello aditi")
+
+||
+
+voiceText.includes("hey aditi")
+
+){
+
+document
+.getElementById(
+"aditiInput"
+)
+.placeholder="👋 Yes, I am listening...";
+
+return;
+
+}
 
 
 document
