@@ -3277,12 +3277,17 @@ function detectLanguage(msg){
 
 msg=msg.toLowerCase();
 
+
+/* HINDI */
+
 if(
 
 msg.includes("kaise") ||
 msg.includes("kya") ||
 msg.includes("hai") ||
-msg.includes("mera")
+msg.includes("mera") ||
+msg.includes("karen") ||
+msg.includes("bataye")
 
 ){
 
@@ -3290,11 +3295,16 @@ return "hi";
 
 }
 
+
+/* HARYANVI */
+
 if(
 
+msg.includes("bera") ||
+msg.includes("ke se") ||
 msg.includes("bhai") ||
-msg.includes("karun") ||
-msg.includes("bera")
+msg.includes("karu") ||
+msg.includes("ram ram")
 
 ){
 
@@ -3302,10 +3312,16 @@ return "haryanvi";
 
 }
 
+
+/* PUNJABI */
+
 if(
 
 msg.includes("kive") ||
-msg.includes("veer")
+msg.includes("ki haal") ||
+msg.includes("veer") ||
+msg.includes("sat sri akal") ||
+msg.includes("karna")
 
 ){
 
@@ -3313,11 +3329,15 @@ return "punjabi";
 
 }
 
+
+/* BENGALI */
+
 if(
 
 msg.includes("ami") ||
-
-msg.includes("kemon")
+msg.includes("kemon") ||
+msg.includes("ki kore") ||
+msg.includes("nomoskar")
 
 ){
 
@@ -3326,11 +3346,14 @@ return "bengali";
 }
 
 
+/* MARATHI */
+
 if(
 
+msg.includes("kasa") ||
 msg.includes("majha") ||
-
-msg.includes("kasa")
+msg.includes("kay") ||
+msg.includes("karaycha")
 
 ){
 
@@ -3339,11 +3362,14 @@ return "marathi";
 }
 
 
+/* GUJARATI */
+
 if(
 
 msg.includes("kem") ||
-
-msg.includes("tame")
+msg.includes("tame") ||
+msg.includes("shu") ||
+msg.includes("kem cho")
 
 ){
 
@@ -3364,153 +3390,187 @@ const knowledgeBase={
 
 register:{
 
-en:
-"🚀 To register, click Register and fill in your details.",
+en:"🚀 To register, click Register and fill in your details.",
 
-hi:
-"🚀 Register button par click karke apni details bhariye aur account banaiye.",
+hi:"🚀 Register button par click karke apni details bhariye aur account banaiye.",
 
-haryanvi:
-"🚀 Register pe click kar aur apni details bhar ke account bana le bhai.",
+haryanvi:"🚀 Register pe click kar aur apni details bhar ke account bana le bhai.",
 
-punjabi:
-"🚀 Register te click karke apni details bhar ke account banao."
+punjabi:"🚀 Register te click karke apni details bhar ke account banao.",
+
+bengali:"🚀 Register e click kore details diye account toiri korun.",
+
+marathi:"🚀 Register वर क्लिक करून माहिती भरून खाते तयार करा.",
+
+gujarati:"🚀 Register પર ક્લિક કરીને વિગતો ભરીને એકાઉન્ટ બનાવો."
 
 },
 
 login:{
 
-en:
-"🔐 Login using your registered email or phone number.",
+en:"🔐 Login using your registered email or phone number.",
 
-hi:
-"🔐 Apne registered email ya mobile number se login kariye.",
+hi:"🔐 Apne registered email ya mobile number se login kariye.",
 
-haryanvi:
-"🔐 Apne mobile number ya email te login kar le bhai.",
+haryanvi:"🔐 Apne mobile number ya email te login kar le bhai.",
 
-punjabi:
-"🔐 Apne registered mobile number ya email naal login karo."
+punjabi:"🔐 Apne registered mobile number ya email naal login karo.",
+
+bengali:"🔐 Registered email ba mobile number diye login korun.",
+
+marathi:"🔐 तुमच्या नोंदणीकृत ईमेल किंवा मोबाईलने लॉगिन करा.",
+
+gujarati:"🔐 તમારા રજિસ્ટર્ડ મોબાઇલ અથવા ઇમેલથી લોગિન કરો."
 
 },
 
 wallet:{
 
-en:
-"💰 Wallet stores earnings and rewards.",
+en:"💰 Wallet stores earnings and rewards.",
 
-hi:
-"💰 Wallet mein aapki earning aur rewards store hote hain.",
+hi:"💰 Wallet mein aapki earning aur rewards store hote hain.",
 
-haryanvi:
-"💰 Wallet mein teri earning aur reward pade rahenge.",
+haryanvi:"💰 Wallet mein teri earning aur reward pade rahenge.",
 
-punjabi:
-"💰 Wallet vich tuhadi earning te rewards store hunde ne."
+punjabi:"💰 Wallet vich tuhadi earning te rewards store hunde ne.",
+
+bengali:"💰 Wallet e apnar earning aar rewards thake.",
+
+marathi:"💰 वॉलेटमध्ये तुमची कमाई आणि रिवॉर्ड्स जमा होतात.",
+
+gujarati:"💰 વોલેટમાં તમારી કમાણી અને રિવોર્ડ્સ સંગ્રહિત થાય છે."
 
 },
 
 smartshare:{
 
-en:
-"🌟 Smart Share is Nishchay's reward distribution system.",
+en:"🌟 Smart Share is Nishchay's reward distribution system.",
 
-hi:
-"🌟 स्मार्ट शेयर निश्‍चय का रिवार्ड वितरण सिस्टम है।",
+hi:"🌟 स्मार्ट शेयर निश्‍चय का रिवार्ड वितरण सिस्टम है।",
 
-haryanvi:
-"🌟 Smart Share Nishchay ka reward system se bhai.",
+haryanvi:"🌟 Smart Share Nishchay ka reward system se bhai.",
 
-punjabi:
-"🌟 Smart Share Nishchay da reward system hai.",
+punjabi:"🌟 Smart Share Nishchay da reward system hai.",
 
-bengali:
-"🌟 Smart Share হল Nishchay-এর reward system।",
+bengali:"🌟 Smart Share holo Nishchay-er reward system.",
 
-marathi:
-"🌟 Smart Share हे Nishchay चे reward system आहे.",
+marathi:"🌟 Smart Share हे Nishchay चे reward system आहे.",
 
-gujarati:
-"🌟 Smart Share Nishchay nu reward system chhe."
+gujarati:"🌟 Smart Share Nishchay nu reward system chhe."
 
 },
 
 referral:{
 
-en:
-"🤝 Share your referral code and grow your network.",
+en:"🤝 Share your referral code and grow your network.",
 
-hi:
-"🤝 अपना रेफरल कोड शेयर करके अपना नेटवर्क बढ़ाइए।",
+hi:"🤝 Apna referral code share karke apna network badhaiye.",
 
-haryanvi:
-"🤝 Apna referral code share kar aur network badha le bhai.",
+haryanvi:"🤝 Apna referral code share kar aur network badha le bhai.",
 
-punjabi:
-"🤝 Apna referral code share karke network vadhao.",
+punjabi:"🤝 Apna referral code share karke network vadhao.",
 
-bengali:
-"🤝 Referral code share kore network baran.",
+bengali:"🤝 Referral code share kore network baran.",
 
-marathi:
-"🤝 Referral code share karun network vadhva.",
+marathi:"🤝 Referral code share karun network vadhva.",
 
-gujarati:
-"🤝 Referral code share kari ne network vadharo."
+gujarati:"🤝 Referral code share kari ne network vadharo."
 
 },
 
 subscription:{
 
-en:
-"💎 After free access period users need an active subscription to enjoy all services.",
+en:"💎 After free access period users need an active subscription to enjoy all services.",
 
-hi:
-"💎 फ्री अवधि के बाद सभी सेवाओं के लिए सक्रिय सब्सक्रिप्शन आवश्यक है।"
+hi:"💎 Free period ke baad active subscription zaruri hai.",
+
+haryanvi:"💎 Free time ke baad subscription lena padega bhai.",
+
+punjabi:"💎 Free period to baad active subscription zaroori hai.",
+
+bengali:"💎 Free period sesh hole active subscription lagbe.",
+
+marathi:"💎 मोफत कालावधीनंतर सक्रिय सबस्क्रिप्शन आवश्यक आहे.",
+
+gujarati:"💎 ફ્રી સમય બાદ એક્ટિવ સબ્સ્ક્રિપ્શન જરૂરી છે."
 
 },
 
 coins:{
 
-en:
-"🪙 Nishchay Coins are reward points that can later be converted according to company rules.",
+en:"🪙 Nishchay Coins are reward points.",
 
-hi:
-"🪙 निश्‍चय कॉइन रिवार्ड पॉइंट्स हैं जिन्हें कंपनी के नियमों के अनुसार उपयोग किया जा सकता है।"
+hi:"🪙 Nishchay Coins reward points hain.",
+
+haryanvi:"🪙 Nishchay coin reward point se bhai.",
+
+punjabi:"🪙 Nishchay Coins reward points ne.",
+
+bengali:"🪙 Nishchay Coins holo reward points.",
+
+marathi:"🪙 Nishchay Coins हे reward points आहेत.",
+
+gujarati:"🪙 Nishchay Coins reward points છે."
 
 },
 
 ecommerce:{
 
-en:
-"🛒 Ecommerce allows users to shop and enjoy cashback benefits.",
+en:"🛒 Ecommerce allows users to shop and enjoy cashback benefits.",
 
-hi:
-"🛒 ईकॉमर्स सेक्शन में शॉपिंग और कैशबैक की सुविधा उपलब्ध है।"
+hi:"🛒 Ecommerce section mein shopping aur cashback ki suvidha hai.",
+
+haryanvi:"🛒 Ecommerce te shopping kar aur cashback le.",
+
+punjabi:"🛒 Ecommerce section vich shopping te cashback mil da hai.",
+
+bengali:"🛒 Ecommerce e shopping aar cashback subidha ache.",
+
+marathi:"🛒 Ecommerce मध्ये शॉपिंग आणि cashback सुविधा आहे.",
+
+gujarati:"🛒 Ecommerce માં shopping અને cashback સુવિધા છે."
 
 },
 
 fuddo:{
 
-en:
-"🍔 Fuddo is Nishchay's food delivery platform.",
+en:"🍔 Fuddo is Nishchay's food delivery platform.",
 
-hi:
-"🍔 फुड्डो निश्‍चय का फूड डिलीवरी प्लेटफॉर्म है।"
+hi:"🍔 Fuddo Nishchay ka food delivery platform hai.",
+
+haryanvi:"🍔 Fuddo Nishchay ka food delivery app se.",
+
+punjabi:"🍔 Fuddo Nishchay da food delivery platform hai.",
+
+bengali:"🍔 Fuddo holo Nishchay-er food delivery platform.",
+
+marathi:"🍔 Fuddo हे Nishchay चे food delivery platform आहे.",
+
+gujarati:"🍔 Fuddo Nishchay નું food delivery platform છે."
 
 },
 
 support:{
 
-en:
-"☎️ For help contact support@nishchay.in",
+en:"☎️ For help contact support@nishchay.in",
 
-hi:
-"☎️ सहायता के लिए support@nishchay.in पर संपर्क करें।"
+hi:"☎️ Sahayata ke liye support@nishchay.in par sampark karein.",
+
+haryanvi:"☎️ Madad ke liye support@nishchay.in pe baat kar le.",
+
+punjabi:"☎️ Madad lai support@nishchay.in te sampark karo.",
+
+bengali:"☎️ Sahayotar jonno support@nishchay.in e jogajog korun.",
+
+marathi:"☎️ मदतीसाठी support@nishchay.in वर संपर्क करा.",
+
+gujarati:"☎️ મદદ માટે support@nishchay.in પર સંપર્ક કરો."
 
 }
 
 };
+
+
 
 
 /*==========================
@@ -3975,7 +4035,7 @@ for(let i=0;i<voices.length;i++){
 
     }
 
-}   // closes FOR loop
+}  
 
 window.speechSynthesis.speak(speech);
 
@@ -4003,25 +4063,38 @@ document.getElementById(
 }
 
 /*==========================
-VOICE ASSISTANT
+VOICE ASSISTANT V2
 ==========================*/
 
-
+let recognition;
 let voiceMode=false;
-const recognition =
-new (
+
+if(
+window.SpeechRecognition ||
+window.webkitSpeechRecognition
+){
+
+recognition = new (
 window.SpeechRecognition ||
 window.webkitSpeechRecognition
 )();
 
 recognition.lang="en-IN";
 
-recognition.continuous=true;
+recognition.continuous=false;
 
 recognition.interimResults=false;
 
+}
+
+
+/* START VOICE */
 
 function startVoice(){
+
+if(!recognition) return;
+
+voiceMode=true;
 
 try{
 
@@ -4037,30 +4110,23 @@ console.log("Already listening");
 }
 
 
+/* LISTENING */
+
 recognition.onstart=function(){
-
-document
-.getElementById("aditiInput")
-.placeholder="🎤 Listening...";
-
-}
-
-
-recognition.onend=function(){
 
 document
 .getElementById(
 "aditiInput"
 )
-.placeholder="Ask Aditi...";
+.placeholder="🎤 Listening...";
 
-}
-
-
+};
 
 
+/* RESULT */
 
 recognition.onresult=function(event){
+    recognition.stop();
 
 let voiceText=
 
@@ -4071,36 +4137,59 @@ event.results.length-1
 voiceText=
 voiceText.toLowerCase();
 
+document
+.getElementById(
+"aditiInput"
+)
+.value=
+voiceText;
 
-if(
+aditiReply();
 
-voiceText.includes("hello aditi")
+};
 
-||
 
-voiceText.includes("hey aditi")
+/* RESTART */
 
-){
+recognition.onend=function(){
 
 document
 .getElementById(
 "aditiInput"
 )
-.placeholder="👋 Yes, I am listening...";
+.placeholder=
+"Ask Aditi...";
 
-return;
+if(voiceMode){
+
+setTimeout(function(){
+
+try{
+
+recognition.start();
+
+}
+catch(err){
 
 }
 
+},1000);
 
-document
-.getElementById("aditiInput")
-.value=voiceText;
-
-
-aditiReply();
+}
 
 };
+
+
+/* STOP */
+
+function stopVoice(){
+
+voiceMode=false;
+
+recognition.stop();
+
+}
+
 
 </script>
 
