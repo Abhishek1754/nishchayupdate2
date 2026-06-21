@@ -3876,6 +3876,45 @@ return "🚀 Logging you in...";
 
 }
 
+/* INTRODUCTION */
+
+if(
+
+msg.includes("introduce yourself")
+
+||
+
+msg.includes("who are you")
+
+||
+
+msg.includes("about aditi")
+
+||
+
+msg.includes("tell me about yourself")
+
+)
+
+{
+
+return "👋 Hello! I am Aditi AI, Nishchay's smart multilingual assistant. I understand Indian speech patterns and can communicate in English, Hindi, Haryanvi, Punjabi, Bengali, Marathi and Gujarati. I can help you with registration, login, wallet, smart share, ecommerce, Fuddo and many other services. You can even talk to me naturally in your own language.";
+
+}
+
+if(
+msg.includes("tum kaun ho")
+||
+msg.includes("apne bare mein batao")
+||
+msg.includes("aditi kaun hai")
+)
+{
+
+return "👋 नमस्ते! मैं अदिति AI हूँ। मैं निश्‍चय की स्मार्ट बहुभाषी सहायक हूँ। मैं हिन्दी, हरियाणवी, पंजाबी, बंगाली, मराठी, गुजराती और अंग्रेजी समझ सकती हूँ। आप मुझसे सामान्य बातचीत कर सकते हैं और मैं रजिस्ट्रेशन, लॉगिन, वॉलेट, स्मार्ट शेयर, ईकॉमर्स और फुड्डो में आपकी सहायता कर सकती हूँ।";
+
+}
+
 
 /* GREETINGS */
 
@@ -4438,6 +4477,22 @@ voiceText.toLowerCase();
 /* EMAIL SYMBOL FIX */
 
 lowerVoiceText = lowerVoiceText
+.replace(/mera account banao/gi,"register me")
+.replace(/naya account banao/gi,"register me")
+.replace(/registration karo/gi,"register me")
+.replace(/mujhe register karo/gi,"register me")
+.replace(/login kara do/gi,"login me")
+.replace(/mujhe login karao/gi,"login me")
+.replace(/sign in karo/gi,"login me")
+.replace(/open registration page/gi,"registration page")
+.replace(/register page kholo/gi,"registration page")
+.replace(/registration page kholo/gi,"registration page")
+.replace(/open login page/gi,"login page")
+.replace(/login page kholo/gi,"login page")
+.replace(/dashboard kholo/gi,"dashboard")
+.replace(/wallet dikhao/gi,"wallet")
+.replace(/smart share kya hai/gi,"smart share")
+.replace(/fuddo kya hai/gi,"fuddo")
 .replace(/at the rate/gi,"@")
 .replace(/at rate/gi,"@")
 .replace(/attherate/gi,"@")
