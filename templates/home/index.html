@@ -3577,9 +3577,305 @@ gujarati:"☎️ મદદ માટે support@nishchay.in પર સંપર�
 GET REPLY
 ==========================*/
 
+/*==========================
+AI REGISTER + LOGIN
+==========================*/
+
+let registerMode=false;
+let loginMode=false;
+
+let registerStep=0;
+let loginStep=0;
+
+let regData={
+
+first_name:"",
+last_name:"",
+email:"",
+phone:"",
+state:"",
+pincode:"",
+referral_code:"",
+password:"",
+confirm_password:""
+
+};
+
+let loginData={
+
+email:"",
+password:""
+
+};
+
 function getReply(msg,lang){
 
 msg=msg.toLowerCase();
+
+if(
+msg.includes("open login page")
+||
+msg.includes("login page")
+){
+
+window.location.href="/login/";
+
+return "Opening login page.";
+
+}
+
+if(
+msg.includes("open registration page")
+||
+msg.includes("register page")
+){
+
+window.location.href="/register/";
+
+return "Opening registration page.";
+
+}
+/* START REGISTRATION */
+
+if(
+
+msg.includes("register me")
+
+||
+
+msg.includes("create account")
+
+||
+
+msg.includes("new account")
+
+){
+
+registerMode=true;
+
+registerStep=1;
+
+return "😊 Please tell me your First Name.";
+
+}
+
+/* START LOGIN */
+
+if(
+
+msg.includes("login me")
+
+||
+
+msg.includes("sign in")
+
+||
+
+msg.includes("log me in")
+
+){
+
+loginMode=true;
+
+loginStep=1;
+
+return "😊 Please tell your Email or Mobile Number.";
+
+}
+
+/*==========================
+REGISTRATION CONVERSATION
+==========================*/
+
+if(registerMode){
+
+if(registerStep==1){
+
+regData.first_name=msg;
+
+registerStep=2;
+
+return "😊 Please tell your Last Name.";
+
+}
+
+
+if(registerStep==2){
+
+regData.last_name=msg;
+
+registerStep=3;
+
+return "📧 Please tell your Email Address.";
+
+}
+
+
+if(registerStep==3){
+
+regData.email=msg;
+
+registerStep=4;
+
+return "📱 Please tell your Mobile Number.";
+
+}
+
+
+if(registerStep==4){
+
+regData.phone=msg;
+
+registerStep=5;
+
+return "🌍 Please tell your State.";
+
+}
+
+
+if(registerStep==5){
+
+regData.state=msg;
+
+registerStep=6;
+
+return "📮 Please tell your Pincode.";
+
+}
+
+
+if(registerStep==6){
+
+regData.pincode=msg;
+
+registerStep=7;
+
+return "🤝 Do you have a referral code? Type NO if you don't have one.";
+
+}
+
+
+if(registerStep==7){
+
+if(msg=="no"){
+
+regData.referral_code="";
+
+}
+else{
+
+regData.referral_code=msg;
+
+}
+
+registerStep=8;
+
+return "🔐 Please create your Password.";
+
+}
+
+
+if(registerStep==8){
+
+regData.password=
+document.getElementById(
+"aditiInput"
+).value;
+
+registerStep=9;
+
+return "🔐 Please confirm your Password.";
+
+}
+
+
+if(registerStep==9){
+
+regData.confirm_password=
+document.getElementById(
+"aditiInput"
+).value;
+
+registerMode=false;
+
+registerStep=0;
+
+return "✅ Information collected successfully.\n\nType CONFIRM to create account.";
+
+}
+
+}
+
+/*==========================
+LOGIN CONVERSATION
+==========================*/
+
+if(loginMode){
+
+if(loginStep==1){
+
+loginData.email=msg;
+
+loginStep=2;
+
+return "🔐 Please tell your Password.";
+
+}
+
+if(loginStep==2){
+
+loginData.password=voiceText;
+
+loginMode=false;
+
+loginStep=0;
+
+return "✅ Login information collected.\n\nType LOGINCONFIRM.";
+
+}
+
+}
+
+/*==========================
+CREATE ACCOUNT
+==========================*/
+
+if(
+
+msg=="confirm"
+
+&&
+
+regData.first_name!=""
+
+){
+
+createAccount();
+
+return "🚀 Creating your account...";
+
+}
+
+/*==========================
+LOGIN CONFIRM
+==========================*/
+
+if(
+
+msg=="loginconfirm"
+
+&&
+
+loginData.email!=""
+
+){
+
+loginAccount();
+
+return "🚀 Logging you in...";
+
+}
+
 
 /* GREETINGS */
 
@@ -4080,6 +4376,9 @@ window.webkitSpeechRecognition
 )();
 
 recognition.lang="en-IN";
+recognition.maxAlternatives=5;
+recognition.continuous=false;
+recognition.interimResults=true;
 
 recognition.continuous=false;
 
@@ -4134,15 +4433,40 @@ event.results[
 event.results.length-1
 ][0].transcript;
 
-voiceText=
+let lowerVoiceText =
 voiceText.toLowerCase();
+/* EMAIL SYMBOL FIX */
 
-document
-.getElementById(
+lowerVoiceText = lowerVoiceText
+.replace(/at the rate/gi,"@")
+.replace(/at rate/gi,"@")
+.replace(/attherate/gi,"@")
+.replace(/dot com/gi,".com")
+.replace(/dotco/gi,".co")
+.replace(/dot in/gi,".in")
+.replace(/dot org/gi,".org")
+.replace(/dot net/gi,".net")
+.replace(/underscore/gi,"_")
+.replace(/hyphen/gi,"-");
+/* NUMBER FIX */
+
+lowerVoiceText = lowerVoiceText
+.replaceAll(" zero ","0")
+.replaceAll(" one ","1")
+.replaceAll(" two ","2")
+.replaceAll(" three ","3")
+.replaceAll(" four ","4")
+.replaceAll(" five ","5")
+.replaceAll(" six ","6")
+.replaceAll(" seven ","7")
+.replaceAll(" eight ","8")
+.replaceAll(" nine ","9");
+
+
+document.getElementById(
 "aditiInput"
-)
-.value=
-voiceText;
+).value=
+lowerVoiceText;
 
 aditiReply();
 
@@ -4189,6 +4513,145 @@ voiceMode=false;
 recognition.stop();
 
 }
+
+/*==========================
+REGISTER API
+==========================*/
+
+function createAccount(){
+
+fetch(
+
+"/api/register/",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+first_name:regData.first_name,
+last_name:regData.last_name,
+email:regData.email,
+phone:regData.phone,
+state:regData.state,
+pincode:regData.pincode,
+referral_code:regData.referral_code,
+password:regData.password,
+confirm_password:regData.confirm_password
+
+})
+
+}
+
+)
+
+.then(response=>response.json())
+
+.then(data=>{
+
+document.getElementById(
+"aditiText"
+).innerHTML+=
+
+"<div class='bot-message'>🎉 Account created successfully.</div>";
+
+})
+
+.catch(error=>{
+
+document.getElementById(
+"aditiText"
+).innerHTML+=
+
+"<div class='bot-message'>❌ Registration failed.</div>";
+
+});
+
+}
+
+/*==========================
+LOGIN API
+==========================*/
+
+function loginAccount(){
+
+fetch(
+
+"/api/login/",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+email:loginData.email,
+password:loginData.password
+
+})
+
+}
+
+)
+
+.then(response=>response.json())
+
+.then(data=>{
+
+if(data.access){
+
+localStorage.setItem("access",data.access);
+localStorage.setItem("refresh",data.refresh);
+
+document.getElementById(
+"aditiText"
+).innerHTML+=
+
+"<div class='bot-message'>🎉 Login successful.</div>";
+
+setTimeout(function(){
+
+window.location.href="/dashboard/";
+
+},1500);
+
+}
+
+else{
+
+document.getElementById(
+"aditiText"
+).innerHTML+=
+
+"<div class='bot-message'>❌ Invalid credentials.</div>";
+
+}
+
+})
+
+.catch(error=>{
+
+document.getElementById(
+"aditiText"
+).innerHTML+=
+
+"<div class='bot-message'>❌ Login failed.</div>";
+
+});
+
+}
+
+
+
 
 
 </script>
