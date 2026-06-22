@@ -1,0 +1,79 @@
+[33m1b60771[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: commit: Subscription Introduced
+[33m38a94b3[m HEAD@{1}: reset: moving to HEAD~1
+[33md80b84c[m HEAD@{2}: commit: Subscription Introduced
+[33m38a94b3[m HEAD@{3}: commit: Aditi AI Speech Improvement
+[33mee03f5b[m HEAD@{4}: commit: Aditi AI latest Improvement
+[33m8cd3d22[m HEAD@{5}: commit: Aditi AI New progress Improvement
+[33m6d036c4[m HEAD@{6}: commit: Aditi AI New Improvement
+[33m9666651[m HEAD@{7}: commit: Aditi AI Improvement with multi language
+[33ma7641bb[m HEAD@{8}: commit: Aditi AI Improvement
+[33m867cf73[m HEAD@{9}: commit: Innovation changes to Innovations
+[33mc9ff8f2[m HEAD@{10}: commit: Aditi AI improvement
+[33m1a8e9e8[m HEAD@{11}: commit: Aditi AI introduction
+[33m691b366[m HEAD@{12}: commit: Homepage footer changed
+[33m7caf655[m HEAD@{13}: commit: Homepage hero section changed
+[33m7f77853[m HEAD@{14}: commit: Homepage mobile version size changed
+[33me880a05[m HEAD@{15}: commit: Homepage mobile version changed
+[33mb2f069a[m HEAD@{16}: commit: Homepage changes new introduction
+[33m7390949[m HEAD@{17}: commit: Homepage changes and remove orb
+[33m7c7a3e9[m HEAD@{18}: commit: Homepage changes
+[33m0489605[m HEAD@{19}: commit: Orb removed
+[33md2367e4[m HEAD@{20}: commit: Changes in homepage
+[33m95c5eef[m HEAD@{21}: commit: Maximum 10 digit in phone number
+[33md1671b1[m HEAD@{22}: commit: Removed duplicate referral reward
+[33m08d8c40[m HEAD@{23}: commit: Changes in home index.html
+[33mceff82b[m HEAD@{24}: commit: Registration overlapping solved
+[33m0f0e474[m HEAD@{25}: commit: Toggle button added in login to see password
+[33m84a6c1a[m HEAD@{26}: commit: Registration page changes and smart share now in referral
+[33mbd004e9[m HEAD@{27}: commit: Login problem solved
+[33m0cfd297[m HEAD@{28}: commit: Verified otp modified
+[33md3e2411[m HEAD@{29}: commit: Forget password modified
+[33m609c97a[m HEAD@{30}: commit: Forget password introduction
+[33m35c3a29[m HEAD@{31}: commit: Refer and Earn positioning
+[33m18e9555[m HEAD@{32}: commit: added shipping policy
+[33me84a454[m HEAD@{33}: commit: shop login portal removed
+[33m3353cba[m HEAD@{34}: commit: Changes in homepage
+[33mecec58d[m HEAD@{35}: commit: new position modified hamberger menu
+[33m55b249f[m HEAD@{36}: commit: new position hamberger menu
+[33mf70bb62[m HEAD@{37}: commit: add login outside of hamberger menu
+[33m377a0e5[m HEAD@{38}: commit: Removed team section from homepage
+[33m6fbaaf9[m HEAD@{39}: commit: Fixed navbar overlap and cleaned homepage navigation
+[33m2137447[m HEAD@{40}: commit: Remove ROI and Recharge from homepage
+[33m4007fb5[m HEAD@{41}: commit: Hide ROI and Recharge from homepage
+[33mcdfe0ce[m HEAD@{42}: commit: Updated homepage background video
+[33ma1579c2[m HEAD@{43}: commit: Updated homepage background video
+[33m1dd598e[m HEAD@{44}: commit: Added homepage background video
+[33mf2e88eb[m HEAD@{45}: commit: Added homepage video background
+[33md8c4f40[m HEAD@{46}: commit: Fix login layout
+[33m29d9c19[m HEAD@{47}: commit: Revert login logo changes
+[33m75f1791[m HEAD@{48}: commit: Updated Nishchay logo
+[33mb33eed8[m HEAD@{49}: commit: Improve mobile login page
+[33mec5cef3[m HEAD@{50}: commit: Homepage mobile navbar improvements
+[33mf154284[m HEAD@{51}: commit: Homepage mobile responsive and team section update
+[33mea9511b[m HEAD@{52}: commit: Fixed mobile navbar
+[33mbf6aa51[m HEAD@{53}: commit: Homepage mobile responsive and hamburger menu
+[33m7ceb470[m HEAD@{54}: Branch: renamed refs/heads/main to refs/heads/main
+[33m7ceb470[m HEAD@{56}: commit: Nishchay Recharge and ROI Integration Complete
+[33m70e1788[m HEAD@{57}: commit: Fixed recharge module and provider API
+[33mfd49cce[m HEAD@{58}: commit: Recharge module fixed and production ready
+[33ma7ddd49[m HEAD@{59}: commit: Fixed recharge UI and API
+[33m8bd2da4[m HEAD@{60}: commit: fixed recharge api auth
+[33m8c7acb9[m HEAD@{61}: commit: fixed provider auth
+[33m7dd4ae8[m HEAD@{62}: commit: final recharge ui and provider fix
+[33m2669858[m HEAD@{63}: commit: updated recharge cyberpunk ui
+[33m814eb26[m HEAD@{64}: commit: fixed recharge providers api
+[33mefeb4c8[m HEAD@{65}: commit: fixed recharge provider dropdown api
+[33mb78ca6a[m HEAD@{66}: commit: added live recharge api integration
+[33mfb700a8[m HEAD@{67}: commit: added referral code and wallet info in navbar
+[33m33650a4[m HEAD@{68}: commit: fixed navbar wallet section
+[33me0ea23c[m HEAD@{69}: commit: added live wallet session and homepage user system
+[33mba6c722[m HEAD@{70}: commit: completed live auth system and homepage session ui
+[33m8506866[m HEAD@{71}: commit: completed auth system and cyberpunk ui
+[33m226f531[m HEAD@{72}: commit: completed auth system
+[33m6c71e16[m HEAD@{73}: commit: added roi cron system
+[33mc49728e[m HEAD@{74}: commit: fixed production settings and static files
+[33m81972fb[m HEAD@{75}: commit: Added realtime websocket infrastructure and FUDDO live tracking
+[33md068124[m HEAD@{76}: commit: Added realtime websocket infrastructure for FUDDO
+[33m0842647[m HEAD@{77}: commit: Added FUDDO live delivery infrastructure
+[33m9e7a823[m HEAD@{78}: commit: Added monthly coupon eligibility engine
+[33m7138554[m HEAD@{79}: commit: Added Regional Connect franchise revenue system

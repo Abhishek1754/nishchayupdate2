@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Payment Successful</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:black;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+min-height:100vh;
+
+overflow:hidden;
+
+color:#c6ff00;
+
+}
+
+.container{
+
+width:420px;
+
+background:#050505;
+
+border:2px solid #c6ff00;
+
+border-radius:20px;
+
+padding:40px;
+
+box-shadow:0 0 40px #c6ff00;
+
+text-align:center;
+
+}
+
+.success{
+
+font-size:70px;
+
+margin-bottom:20px;
+
+}
+
+.title{
+
+font-size:32px;
+
+font-weight:bold;
+
+margin-bottom:25px;
+
+text-shadow:0 0 15px #c6ff00;
+
+}
+
+.message{
+
+color:white;
+
+font-size:18px;
+
+line-height:35px;
+
+margin-bottom:40px;
+
+}
+
+.btn{
+
+display:block;
+
+width:100%;
+
+padding:16px;
+
+background:#c6ff00;
+
+color:black;
+
+text-decoration:none;
+
+border-radius:10px;
+
+font-size:20px;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+.btn:hover{
+
+background:black;
+
+color:#c6ff00;
+
+border:1px solid #c6ff00;
+
+box-shadow:0 0 20px #c6ff00;
+
+}
+
+.glow{
+
+position:absolute;
+
+width:500px;
+
+height:500px;
+
+background:#c6ff00;
+
+filter:blur(200px);
+
+opacity:.12;
+
+z-index:-1;
+
+}
+
+.glow1{
+
+top:-100px;
+
+left:-100px;
+
+}
+
+.glow2{
+
+bottom:-100px;
+
+right:-100px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+
+<div class="container">
+
+<div class="success">
+
+✅
+
+</div>
+
+<div class="title">
+
+PAYMENT SUCCESSFUL
+
+</div>
+
+<div class="message">
+
+Premium Membership Activated
+
+<br><br>
+
+Validity : 365 Days
+
+<br><br>
+
+Welcome To Nishchay Premium
+
+</div>
+
+<a
+href="/"
+class="btn">
+
+GO TO HOME PAGE
+
+</a>
+
+</div>
+
+<script>
+
+setTimeout(function(){
+
+    window.location.href="/";
+
+},5000);
+
+</script>
+
+</body>
+
+</html>

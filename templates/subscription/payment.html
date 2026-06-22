@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Nishchay Premium</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:#000;
+
+color:#c6ff00;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+min-height:100vh;
+
+overflow:hidden;
+
+position:relative;
+
+}
+
+/* Background Glow */
+
+.glow{
+
+position:absolute;
+
+width:500px;
+
+height:500px;
+
+background:#c6ff00;
+
+filter:blur(200px);
+
+opacity:.08;
+
+z-index:-1;
+
+}
+
+.glow1{
+
+top:-100px;
+
+left:-100px;
+
+}
+
+.glow2{
+
+bottom:-100px;
+
+right:-100px;
+
+}
+
+/* Card */
+
+.container{
+
+width:420px;
+
+max-width:90%;
+
+background:rgba(5,5,5,.95);
+
+border:2px solid #c6ff00;
+
+border-radius:25px;
+
+padding:40px;
+
+text-align:center;
+
+box-shadow:
+
+0 0 15px #c6ff00,
+
+0 0 30px #c6ff00;
+
+}
+
+/* Logo */
+
+.logo{
+
+font-size:42px;
+
+font-weight:bold;
+
+letter-spacing:3px;
+
+text-shadow:
+
+0 0 10px #c6ff00,
+
+0 0 25px #c6ff00;
+
+margin-bottom:25px;
+
+}
+
+/* Plan */
+
+.plan{
+
+font-size:28px;
+
+font-weight:bold;
+
+margin-bottom:25px;
+
+}
+
+/* Price */
+
+.price{
+
+font-size:60px;
+
+font-weight:bold;
+
+text-shadow:
+
+0 0 10px #c6ff00,
+
+0 0 25px #c6ff00;
+
+margin-bottom:20px;
+
+}
+
+/* Validity */
+
+.validity{
+
+font-size:18px;
+
+color:white;
+
+margin-bottom:35px;
+
+line-height:35px;
+
+}
+
+/* Benefits */
+
+.benefits{
+
+text-align:left;
+
+margin-bottom:35px;
+
+color:white;
+
+line-height:40px;
+
+font-size:17px;
+
+}
+
+.benefits span{
+
+color:#c6ff00;
+
+font-weight:bold;
+
+}
+
+/* Button */
+
+.pay-btn{
+
+width:100%;
+
+padding:18px;
+
+font-size:20px;
+
+font-weight:bold;
+
+background:#c6ff00;
+
+color:black;
+
+border:none;
+
+border-radius:15px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.pay-btn:hover{
+
+background:black;
+
+color:#c6ff00;
+
+border:1px solid #c6ff00;
+
+box-shadow:
+
+0 0 15px #c6ff00,
+
+0 0 30px #c6ff00;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+
+<div class="container">
+
+<div class="logo">
+
+NISHCHAY
+
+</div>
+
+<div class="plan">
+
+PREMIUM MEMBERSHIP
+
+</div>
+
+<div class="price">
+
+₹{{ plan.price }}
+
+</div>
+
+<div class="validity">
+
+Valid For <b>{{ plan.validity_days }}</b> Days
+
+</div>
+
+<div class="benefits">
+
+✅ <span>365 Days</span> Premium Access<br>
+
+✅ <span>₹2</span> Welcome Reward<br>
+
+✅ <span>10 Nishchay Coins</span><br>
+
+✅ Premium Smart Share Benefits<br>
+
+✅ Premium Level Income Benefits
+
+</div>
+
+<button
+class="pay-btn"
+onclick="payNow()">
+
+PAY NOW
+
+</button>
+
+</div>
+
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+
+<script>
+
+const cashfree = Cashfree({
+mode:"production"
+});
+
+async function payNow(){
+
+try{
+
+const response = await fetch(
+
+"/api/subscription/create-order/",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+}
+
+}
+
+);
+
+const data = await response.json();
+
+console.log(data);
+
+alert(JSON.stringify(data));
+
+cashfree.checkout({
+    paymentSessionId: data.payment_session_id,
+    redirectTarget: "_self"
+});
+
+}
+
+catch(error){
+
+alert(
+
+"Unable to start payment."
+
+);
+
+console.log(error);
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
