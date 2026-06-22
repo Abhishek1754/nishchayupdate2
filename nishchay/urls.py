@@ -160,9 +160,9 @@ urlpatterns = [
     ),
 
     path(
-        'api/subscription/',
-        get_plan
-    ),
+    'api/subscription/',
+    include('subscription.urls')
+),
 
     path(
         'api/dashboard/',

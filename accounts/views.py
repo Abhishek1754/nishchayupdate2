@@ -137,16 +137,29 @@ def register(request):
     user.nishchay_coin += 2
 
     user.save()
-
-   
-
-    # =========================
+    
+    
+        # =========================
     # RESPONSE
     # =========================
 
+    membership = data.get(
+        'membership',
+        'FREE'
+    )
+
+    if membership == "PREMIUM":
+
+        redirect_url = "/api/subscription/payment/"
+
+    else:
+
+        redirect_url = "/login/"
+
+
     return Response({
 
-        "msg": "Registration Successful",
+        "message": "Registration Successful",
 
         "wallet_balance": user.wallet_balance,
 
@@ -154,7 +167,16 @@ def register(request):
 
         "referral_code": user.referral_code,
 
+        "redirect_url": redirect_url
+
     }, status=201)
+    
+
+    
+
+   
+
+
 # =========================
 # LOGIN API
 # =========================

@@ -366,7 +366,86 @@ href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelI
                 placeholder="Referral Code (Optional)"
             >
 
+            <h3
+style="
+color:#b6ff00;
+margin-bottom:15px;
+text-align:center;
+">
+
+Choose Membership
+
+</h3>
+
+<div
+style="
+display:flex;
+gap:15px;
+margin-bottom:20px;
+">
+
+<label
+style="
+flex:1;
+padding:15px;
+border:1px solid #b6ff00;
+border-radius:10px;
+color:white;
+cursor:pointer;
+text-align:center;
+">
+
+<input
+type="radio"
+name="membership"
+value="FREE"
+checked
+>
+
+<br>
+
+FREE
+
+</label>
+
+
+<label
+style="
+flex:1;
+padding:15px;
+border:1px solid #b6ff00;
+border-radius:10px;
+color:white;
+cursor:pointer;
+text-align:center;
+">
+
+<input
+type="radio"
+name="membership"
+value="PREMIUM"
+>
+
+<br>
+
+PREMIUM
+
+<br><br>
+
+<small>
+
+365 Days Validity
+
+</small>
+
+</label>
+
+</div>
+
+
         </div>
+
+        
 
         <div class="input-box">
 
@@ -494,6 +573,11 @@ if(phone.length !== 10){
     const referral_code =
         document.getElementById('referral_code').value;
 
+  const membership =
+document.querySelector(
+'input[name="membership"]:checked'
+).value;
+
     const password =
         document.getElementById('password').value;
 
@@ -521,15 +605,16 @@ if(phone.length !== 10){
 
                 body:JSON.stringify({
 
-                    first_name:first_name,
-                    last_name:last_name,
-                    email:email,
-                    phone:phone,
-                    state:state,
-                    pincode:pincode,
-                    referral_code:referral_code,
-                    password:password,
-                    confirm_password:confirm_password
+                   first_name:first_name,
+last_name:last_name,
+email:email,
+phone:phone,
+state:state,
+pincode:pincode,
+referral_code:referral_code,
+membership:membership,
+password:password,
+confirm_password:confirm_password
 
                 })
             }
@@ -539,11 +624,12 @@ if(phone.length !== 10){
 
         if(response.ok){
 
-            alert('Registration Successful');
+    alert(data.message);
 
-            window.location.href='/login/';
+    window.location.href =
+    data.redirect_url;
 
-        }else{
+}else{
 
             alert(JSON.stringify(data));
 
