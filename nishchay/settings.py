@@ -479,3 +479,16 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760
 
+# =====================================================
+# CASHFREE PAYMENT GATEWAY
+# =====================================================
+
+CASHFREE_APP_ID = os.environ.get(
+    "CASHFREE_APP_ID"
+)
+
+CASHFREE_SECRET_KEY = os.environ.get(
+    "CASHFREE_SECRET_KEY"
+)
+
+CASHFREE_ENVIRONMENT = "PRODUCTION"
