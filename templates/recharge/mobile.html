@@ -209,10 +209,91 @@ margin-top:30px;
 background:#d0ff4b;
 }
 
-@media(max-width:1100px){
+@media(max-width:768px){
+
+.container{
+padding:12px;
+}
+
+/* Navbar */
+
+.navbar{
+flex-direction:column;
+align-items:flex-start;
+padding:15px;
+gap:15px;
+}
+
+.logo h1{
+font-size:28px;
+}
+
+.logo-circle{
+width:45px;
+height:45px;
+font-size:20px;
+}
+
+.right-nav{
+width:100%;
+display:flex;
+justify-content:space-between;
+gap:10px;
+}
+
+.wallet{
+flex:1;
+padding:12px;
+text-align:center;
+}
+
+.profile{
+flex:1;
+padding:10px;
+}
+
+/* Main */
 
 .main{
 grid-template-columns:1fr;
+}
+
+.left,
+.right{
+padding:20px;
+}
+
+/* Section title */
+
+.section-title{
+font-size:24px;
+}
+
+/* Inputs */
+
+.input-box input,
+.input-box select{
+height:60px;
+font-size:16px;
+}
+
+/* Button */
+
+.pay-btn{
+height:60px;
+font-size:18px;
+}
+
+/* Popular plans */
+
+.plans{
+grid-template-columns:1fr;
+}
+
+/* Wallet card */
+
+.wallet-card h1{
+font-size:40px;
 }
 
 }
