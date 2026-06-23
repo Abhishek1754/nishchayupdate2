@@ -73,8 +73,8 @@ def activate_subscription(request):
     user.subscription_amount = plan.price
     user.subscription_date = timezone.now()
 
-    user.wallet_balance += 2
-    user.nishchay_coin += 10
+    user.wallet_balance = 2
+    user.nishchay_coin = 10
 
     user.save()
 
@@ -138,8 +138,8 @@ def payment_success_page(request):
         user.subscription_amount = plan.price
         user.subscription_date = timezone.now()
 
-        user.wallet_balance += 2
-        user.nishchay_coin += 10
+        user.wallet_balance = 2
+        user.nishchay_coin = 10
 
         user.save()
 

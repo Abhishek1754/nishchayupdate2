@@ -19,6 +19,7 @@ from .views import (
     support_page,
     wallet_history_page,
     withdraw_request,
+    mobile_plan_fetch,
 
     # =====================================================
     # APIs
@@ -128,6 +129,12 @@ urlpatterns = [
     'team/',
     team_page,
     name='team_page'
+),
+    
+    path(
+    'api/mobile-plans/',
+    mobile_plan_fetch,
+    name='mobile_plan_fetch'
 ),
 
     # =====================================================

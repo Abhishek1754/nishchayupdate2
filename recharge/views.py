@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.db.models import Sum
 from decimal import Decimal
+import requests
 
 from decimal import Decimal
 import requests
@@ -260,7 +261,7 @@ def recharge_providers(request):
 
         data.append({
 
-            "id": provider.id,
+            "id": provider.operator_code,
             "name": provider.name,
             "operator_code": provider.operator_code,
             "service_type": provider.service_type,
@@ -944,4 +945,46 @@ def my_team(request):
         data
 
     })
+    
+
+
+
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def mobile_plan_fetch(request):
+
+    mobile = request.data.get("mobile")
+    opcode = request.data.get("opcode")
+    circle = request.data.get("circle", "")
+
+    url = "https://api.myfinpaypro.in/api/new-mobile-plans.php"
+
+    payload = {
+
+    "api_key": "b12418e1-7d26-4c68-b968-d2a0a368f082",
+    "mobile": mobile,
+    "opcode": opcode,
+    "circle": circle
+
+}
+
+    try:
+
+        response = requests.post(
+            url,
+            data=payload
+        )
+        
+        print(response.json())
+
+        return Response(response.json())
+
+    except Exception as e:
+
+        return Response({
+            "status": False,
+            "message": str(e)
+        })
      

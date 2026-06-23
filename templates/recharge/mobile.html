@@ -282,13 +282,18 @@ Mobile Recharge
 type="text"
 id="mobile"
 placeholder="Enter Mobile Number"
+maxlength="10"
+onchange="fetchPlans()"
 >
 
 </div>
 
 <div class="input-box">
 
-<select id="provider">
+<select
+id="provider"
+onchange="fetchPlans()"
+>
 
 <option value="">
 Select Operator
@@ -342,63 +347,7 @@ Popular Plans
 
 </h2>
 
-<div class="plans">
-
-<div class="plan">
-
-<h1>₹199</h1>
-
-<p>28 Days</p>
-
-<p>1.5GB/day</p>
-
-<button onclick="selectPlan(199)">
-Select
-</button>
-
-</div>
-
-<div class="plan">
-
-<h1>₹249</h1>
-
-<p>28 Days</p>
-
-<p>2GB/day</p>
-
-<button onclick="selectPlan(249)">
-Select
-</button>
-
-</div>
-
-<div class="plan">
-
-<h1>₹399</h1>
-
-<p>56 Days</p>
-
-<p>2GB/day</p>
-
-<button onclick="selectPlan(399)">
-Select
-</button>
-
-</div>
-
-<div class="plan">
-
-<h1>₹599</h1>
-
-<p>84 Days</p>
-
-<p>2GB/day</p>
-
-<button onclick="selectPlan(599)">
-Select
-</button>
-
-</div>
+<div class="plans" id="plansContainer">
 
 </div>
 
@@ -509,6 +458,129 @@ console.log(error);
 
 }
 
+async function fetchPlans(){
+
+    const mobile =
+    document.getElementById(
+        "mobile"
+    ).value;
+
+    const opcode =
+    document.getElementById(
+        "provider"
+    ).value;
+
+    const circle =
+    document.getElementById(
+        "circle"
+    ).value;
+
+    if(mobile.length != 10 || !opcode){
+
+    return;
+
+}
+
+    try{
+
+        const response =
+        await fetch(
+            "/recharge/api/mobile-plans/",
+            {
+                method:"POST",
+
+                headers:{
+    "Content-Type":"application/json"
+},
+
+                body:JSON.stringify({
+
+                    mobile:mobile,
+                    opcode:opcode,
+                    circle:circle
+
+                })
+
+            }
+        );
+
+        const data =
+await response.json();
+
+console.log(data);
+
+let html = "";
+
+console.log(data);
+
+alert(JSON.stringify(data));
+
+let plans = [];
+
+if(data.data){
+
+    plans = data.data;
+
+}
+else if(data.plans){
+
+    plans = data.plans;
+
+}
+else{
+
+    plans = data;
+
+}
+
+if(!Array.isArray(plans)){
+
+    console.log(plans);
+
+    return;
+
+}
+
+plans.forEach(plan=>{
+
+    html += `
+
+    <div class="plan">
+
+        <h1>₹${plan.amount}</h1>
+
+        <p>${plan.validity}</p>
+
+        <p>${plan.description}</p>
+
+        <button onclick="selectPlan(${plan.amount})">
+
+        Select
+
+        </button>
+
+    </div>
+
+    `;
+
+});
+
+document.getElementById(
+"plansContainer"
+).innerHTML = html;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+
 function selectPlan(amount){
 
 document.getElementById(
@@ -592,6 +664,7 @@ const data =
 await response.json();
 
 console.log(data);
+alert(JSON.stringify(data));
 
 if(response.ok){
 
