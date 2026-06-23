@@ -962,12 +962,10 @@ def mobile_plan_fetch(request):
     url = "https://api.myfinpaypro.in/api/new-mobile-plans.php"
 
     payload = {
-
-    "api_key": "b12418e1-7d26-4c68-b968-d2a0a368f082",
+    "token": "b12418e1-7d26-4c68-b968-d2a0a368f082",
     "mobile": mobile,
     "opcode": opcode,
     "circle": circle
-
 }
 
     try:
