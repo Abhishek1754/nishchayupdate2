@@ -10,6 +10,7 @@ from .views import (
     mobile_recharge,
     recharge_payment,
     recharge_success,
+    payment_success,
     transaction_history,
     refer_earn,
     profile_page,
@@ -20,10 +21,8 @@ from .views import (
     wallet_history_page,
     withdraw_request,
     mobile_plan_fetch,
-
-    # =====================================================
-    # APIs
-    # =====================================================
+    create_cashfree_recharge_order,
+    
 
     recharge_providers,
     do_recharge,
@@ -69,6 +68,12 @@ urlpatterns = [
         recharge_success,
         name='recharge_success'
     ),
+    
+    path(
+    'payment-success/',
+    payment_success,
+    name='payment_success'
+),
 
     path(
         'transactions/',
@@ -135,6 +140,12 @@ urlpatterns = [
     'api/mobile-plans/',
     mobile_plan_fetch,
     name='mobile_plan_fetch'
+),
+    
+    path(
+    'api/create-order/',
+    create_cashfree_recharge_order,
+    name='create_cashfree_recharge_order'
 ),
 
     # =====================================================

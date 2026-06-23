@@ -417,9 +417,12 @@
 
             </div>
 
-           <a href="/recharge/success/" class="pay-btn">
+          <button
+    class="pay-btn"
+    onclick="startPayment()"
+>
     Pay ₹195 Securely
-</a>
+</button>
         </div>
 
     </div>
@@ -448,5 +451,78 @@
 
     </div>
 
+    </div>
+
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+
+<script>
+
+async function startPayment(){
+
+    const response = await fetch(
+
+        "/recharge/api/create-order/",
+
+        {
+
+            method:"POST",
+
+            headers:{
+
+                "Content-Type":"application/json",
+
+                "Authorization":
+                "Bearer " +
+                localStorage.getItem("access")
+
+            },
+
+            body:JSON.stringify({
+
+    amount:
+    localStorage.getItem(
+        "recharge_amount"
+    )
+
+})
+
+        }
+
+    );
+
+    const data = await response.json();
+
+    console.log(data);
+    if(!data.payment_session_id){
+
+    alert(
+        data.message ||
+        "Unable to create payment"
+    );
+
+    return;
+
+}
+
+    const cashfree = Cashfree({
+
+    mode:"production"
+
+});
+
+    cashfree.checkout({
+
+        paymentSessionId:
+        data.payment_session_id,
+
+        redirectTarget:"_self"
+
+    });
+
+}
+
+</script>
+
 </body>
 </html>
+

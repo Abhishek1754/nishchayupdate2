@@ -379,18 +379,13 @@ margin-bottom:8px;
 /* HERO */
 
 .hero{
-
     width:100%;
-
     min-height:100vh;
-
     padding:60px 70px;
 
     display:grid;
-
-   grid-template-columns:1.1fr 1fr 1fr; 
-
-    gap:40px;
+    grid-template-columns:1.2fr 1fr;
+    gap:60px;
 
     align-items:center;
 }
@@ -539,111 +534,56 @@ margin-bottom:8px;
 
 
 
-/* FUTURE NETWORK */
-
 .future-network{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:60px;
+}
 
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-gap:30px;
-
-position:relative;
-
+.future-row{
+    display:grid;
+    grid-template-columns:180px 90px 220px 90px 180px;
+    align-items:center;
+    justify-content:center;
+    gap:0;
 }
 
 .future-box{
-
-width:180px;
-
-height:180px;
-
-background:rgba(8,8,8,.9);
-
-border:1px solid rgba(182,255,0,.25);
-
-border-radius:30px;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-align-items:center;
-
-text-align:center;
-
-backdrop-filter:blur(20px);
-
-transition:.5s;
-
+    width:180px;
+    height:180px;
+    background:rgba(8,8,8,.9);
+    border:1px solid rgba(182,255,0,.25);
+    border-radius:30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    text-decoration:none;
+    color:white;
+    backdrop-filter:blur(20px);
+    transition:.5s;
 }
 
 .future-box:hover{
-
-transform:translateY(-10px);
-
-box-shadow:
-0 0 40px rgba(182,255,0,.5);
-
+    transform:translateY(-10px);
+    box-shadow:0 0 40px rgba(182,255,0,.5);
 }
 
-.future-icon{
-
-font-size:60px;
-
-margin-bottom:20px;
-
+.recharge-box{
+    width:220px;
+    border:2px solid #b6ff00;
 }
 
 .future-box h2{
-
-color:#b6ff00;
-
-margin-bottom:15px;
-
+    color:#b6ff00;
+    margin-bottom:15px;
 }
 
 .future-box p{
-
-color:#aaa;
-
-line-height:1.8;
-
-}
-
-.future-core{
-
-width:170px;
-height:170px;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-border-radius:50%;
-
-background:#050505;
-
-border:2px solid #b6ff00;
-
-box-shadow:
-0 0 25px rgba(182,255,0,.4);
-
-animation:pulseCore 3s infinite;
-
-}
-
-.future-core img{
-
-width:120px;
-
-filter:drop-shadow(0 0 15px #b6ff00);
-
+    color:#aaa;
+    line-height:1.8;
 }
 
 
@@ -714,6 +654,31 @@ box-shadow:
 
 }
 
+}
+.hero-center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.future-core{
+    width:250px;
+    height:250px;
+
+    border-radius:50%;
+    background:rgba(8,8,8,.95);
+
+    border:2px solid #b6ff00;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin:0 auto;
+}
+
+.future-core img{
+    width:150px;
 }
 
 /* PORTAL */
@@ -1878,12 +1843,23 @@ font-size:22px;
 
 }
 
-    .future-network{
-
+.future-row{
+    display:flex;
     flex-direction:column;
+    gap:25px;
+}
 
-    gap:20px;
+.energy-flow{
+    display:none;
+}
 
+.future-core{
+    width:160px;
+    height:160px;
+}
+
+.future-core img{
+    width:100px;
 }
 
 .energy-bar{
@@ -2616,47 +2592,73 @@ transform:translateY(-8px);
     </div>
 <div class="hero-center">
 
-    <div class="future-network">
+<div class="future-network">
 
-    <div class="future-box ecommerce-box">
+    <!-- Recharge -->
+    <a href="/recharge/mobile/" class="future-box recharge-box">
 
-        <div class="future-icon">🛒</div>
+        <div class="future-icon">⚡</div>
 
-        <h2>Ecommerce</h2>
-
-        <p>
-            Shop Smart.<br>
-            Live Better.
-        </p>
-
-    </div>
-
-    <div class="energy-flow"></div>
-
-    <div class="future-core">
-
-        <img src="{% static 'images/logo.png' %}">
-
-    </div>
-
-    <div class="energy-flow"></div>
-
-    <div class="future-box fuddo-box">
-
-        <div class="future-icon">🍔</div>
-
-        <h2>Fuddo</h2>
+        <h2>Recharge</h2>
 
         <p>
-            Delicious Food<br>
-            Delivered Fast.
+            Mobile, DTH &<br>
+            Bill Payments.
         </p>
+
+    </a>
+
+
+    <div class="future-row">
+
+        <!-- Ecommerce -->
+        <a href="{% url 'ecommerce_dashboard' %}" class="future-box ecommerce-box">
+
+            <div class="future-icon">🛒</div>
+
+            <h2>Ecommerce</h2>
+
+            <p>
+                Shop Smart.<br>
+                Live Better.
+            </p>
+
+        </a>
+
+
+        <div class="energy-flow"></div>
+
+
+        <!-- Logo -->
+        <div class="future-core">
+
+            <img src="{% static 'images/logo.png' %}">
+
+        </div>
+
+
+        <div class="energy-flow"></div>
+
+
+        <!-- Fuddo -->
+        <a href="{% url 'fuddo_intro' %}" class="future-box fuddo-box">
+
+            <div class="future-icon">🍔</div>
+
+            <h2>Fuddo</h2>
+
+            <p>
+                Delicious Food<br>
+                Delivered Fast.
+            </p>
+
+        </a>
 
     </div>
 
 </div>
-</div>
 
+</div>
 
 
 

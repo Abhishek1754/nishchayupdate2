@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.db.models import Sum
 from decimal import Decimal
 import requests
+from django.conf import settings
+from django.http import JsonResponse
 
 from decimal import Decimal
 import requests
@@ -962,11 +964,11 @@ def mobile_plan_fetch(request):
     url = "https://api.myfinpaypro.in/api/new-mobile-plans.php"
 
     payload = {
-    "api_key": "810393-d5eb68-51395c-be2fe0-cade53",
-    "mobile": mobile,
-    "opcode": opcode,
-    "circle": circle
-}
+        "api_key": "810393-d5eb68-51395c-be2fe0-cade53",
+        "mobile": mobile,
+        "opcode": opcode,
+        "circle": circle
+    }
 
     try:
 
@@ -974,10 +976,20 @@ def mobile_plan_fetch(request):
             url,
             data=payload
         )
-        
+
         print(response.text)
 
-        return Response(response.json())
+        data = response.json()
+
+        print(data)
+
+        if data.get("status_code") == "200":
+
+            return Response(
+                data.get("data", [])
+            )
+
+        return Response(data)
 
     except Exception as e:
 
@@ -985,4 +997,83 @@ def mobile_plan_fetch(request):
             "status": False,
             "message": str(e)
         })
-     
+        
+        # ============================================
+# CREATE CASHFREE ORDER
+# ============================================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_cashfree_recharge_order(request):
+
+    amount = request.data.get("amount")
+
+    order_id = str(uuid.uuid4())
+
+    payload = {
+
+        "order_id": order_id,
+
+        "order_amount": float(amount),
+
+        "order_currency": "INR",
+
+        "customer_details": {
+
+            "customer_id": str(request.user.id),
+
+            "customer_email": request.user.email,
+
+            "customer_phone": request.user.phone
+
+        },
+
+        "order_meta": {
+
+            "return_url":
+            "https://nishchay.in/recharge/payment-success/?order_id={order_id}"
+
+        }
+
+    }
+
+    headers = {
+
+        "x-client-id":
+        settings.CASHFREE_APP_ID,
+
+        "x-client-secret":
+        settings.CASHFREE_SECRET_KEY,
+
+        "x-api-version":
+        "2023-08-01",
+
+        "Content-Type":
+        "application/json"
+
+    }
+
+    response = requests.post(
+
+        "https://api.cashfree.com/pg/orders",
+
+        json=payload,
+
+        headers=headers
+
+    )
+
+    return JsonResponse(
+        response.json(),
+        safe=False
+    )
+    
+def payment_success(request):
+
+    return render(
+
+        request,
+
+        "recharge/payment_success.html"
+
+    )

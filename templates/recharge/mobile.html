@@ -328,7 +328,7 @@ placeholder="Enter Recharge Amount"
 
 <button
 class="pay-btn"
-onclick="doRecharge()"
+onclick="goToPayment()"
 >
 
 Proceed Recharge →
@@ -589,7 +589,7 @@ document.getElementById(
 
 }
 
-async function doRecharge(){
+function goToPayment(){
 
 const provider =
 document.getElementById(
@@ -630,66 +630,23 @@ return;
 
 }
 
-try{
-
-const response =
-await fetch(
-'/recharge/api/do-recharge/',
-{
-
-method:'POST',
-
-headers:{
-
-'Content-Type':
-'application/json',
-
-'Authorization':
-'Bearer ' + access
-
-},
-
-body:JSON.stringify({
-
-provider_id:provider,
-mobile_number:mobile,
-amount:amount
-
-})
-
-}
+localStorage.setItem(
+'recharge_provider',
+provider
 );
 
-const data =
-await response.json();
-
-console.log(data);
-alert(JSON.stringify(data));
-
-if(response.ok){
-
-alert(
-'Recharge Successful'
+localStorage.setItem(
+'recharge_mobile',
+mobile
 );
 
-window.location.reload();
-
-}else{
-
-alert(
-data.error ||
-data.message
+localStorage.setItem(
+'recharge_amount',
+amount
 );
 
-}
-
-}catch(error){
-
-console.log(error);
-
-alert('Server Error');
-
-}
+window.location.href =
+'/recharge/payment/';
 
 }
 

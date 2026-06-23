@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Payment Successful</title>
+</head>
+<body style="background:black;color:#b7ff00;text-align:center;padding-top:150px;">
+
+<h1>Payment Successful</h1>
+
+<h2>Processing Recharge...</h2>
+
+<script>
+
+async function doRecharge(){
+
+const access =
+localStorage.getItem("access");
+
+const response =
+await fetch(
+
+"/recharge/api/do-recharge/",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json",
+
+"Authorization":
+"Bearer " + access
+
+},
+
+body:JSON.stringify({
+
+provider_id:
+localStorage.getItem(
+"recharge_provider"
+),
+
+mobile_number:
+localStorage.getItem(
+"recharge_mobile"
+),
+
+amount:
+localStorage.getItem(
+"recharge_amount"
+)
+
+})
+
+}
+
+);
+
+const data =
+await response.json();
+
+console.log(data);
+
+if(response.ok){
+
+alert("Recharge Successful");
+
+window.location.href =
+"/recharge/transactions/";
+
+}
+else{
+
+alert(
+
+data.message ||
+"Recharge Failed"
+
+);
+
+}
+
+}
+
+doRecharge();
+
+</script>
+
+</body>
+</html>
