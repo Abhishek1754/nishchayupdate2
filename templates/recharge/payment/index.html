@@ -308,8 +308,8 @@
         </div>
 
         <div class="wallet">
-            Wallet ₹250.00
-        </div>
+    Wallet ₹<span id="walletBalance">0</span>
+</div>
 
     </div>
 
@@ -384,31 +384,18 @@
 
             <div class="summary-box">
 
-                <div class="summary-row">
-                    <span>Recharge Amount</span>
-                    <span>₹199</span>
-                </div>
+    <div class="summary-row">
+        <span>Recharge Amount</span>
+        <span>
+            ₹<span id="rechargeAmount">0</span>
+        </span>
+    </div>
 
-                <div class="summary-row">
-                    <span>Convenience Fee</span>
-                    <span>₹1</span>
-                </div>
+</div>
 
-                <div class="summary-row green">
-                    <span>Offer Discount</span>
-                    <span>- ₹5</span>
-                </div>
-
-            </div>
-
-            <div class="amount">
-                ₹195
-            </div>
-
-            <div class="offer-box">
-                🎉 You save ₹5 on this recharge
-            </div>
-
+<div class="amount">
+    ₹<span id="finalAmount">0</span>
+</div>
             <div class="coupon">
 
                 <label>Apply Coupon</label>
@@ -417,11 +404,12 @@
 
             </div>
 
-          <button
-    class="pay-btn"
-    onclick="startPayment()"
+<button
+class="pay-btn"
+onclick="startPayment()"
+id="payBtn"
 >
-    Pay ₹195 Securely
+    Pay Securely
 </button>
         </div>
 
@@ -457,9 +445,58 @@
 
 <script>
 
+const amount =
+localStorage.getItem(
+    "recharge_amount"
+);
+
+document.getElementById(
+    "rechargeAmount"
+).innerText = amount;
+
+document.getElementById(
+    "finalAmount"
+).innerText = amount;
+
+document.getElementById(
+    "payBtn"
+).innerText =
+"Pay ₹" + amount + " Securely";
+
+
+
+async function loadWallet(){
+
+    const response =
+    await fetch(
+        "/recharge/api/wallet/",
+        {
+            headers:{
+                "Authorization":
+                "Bearer " +
+                localStorage.getItem("access")
+            }
+        }
+    );
+
+    const data =
+    await response.json();
+
+    document.getElementById(
+        "walletBalance"
+    ).innerText =
+    data.balance;
+
+}
+
+loadWallet();
+
+
+
 async function startPayment(){
 
-    const response = await fetch(
+    const response =
+    await fetch(
 
         "/recharge/api/create-order/",
 
@@ -479,36 +516,38 @@ async function startPayment(){
 
             body:JSON.stringify({
 
-    amount:
-    localStorage.getItem(
-        "recharge_amount"
-    )
+                amount:
+                localStorage.getItem(
+                    "recharge_amount"
+                )
 
-})
+            })
 
         }
 
     );
 
-    const data = await response.json();
+    const data =
+    await response.json();
 
     console.log(data);
+
     if(!data.payment_session_id){
 
-    alert(
-        data.message ||
-        "Unable to create payment"
-    );
+        alert(
+            data.message ||
+            "Unable to create payment"
+        );
 
-    return;
+        return;
 
-}
+    }
 
     const cashfree = Cashfree({
 
-    mode:"production"
+        mode:"production"
 
-});
+    });
 
     cashfree.checkout({
 
@@ -522,6 +561,7 @@ async function startPayment(){
 }
 
 </script>
+
 
 </body>
 </html>
