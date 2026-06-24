@@ -945,57 +945,123 @@ def withdraw_request(request):
 @permission_classes([IsAuthenticated])
 def my_team(request):
 
-    level1_users = request.user.team_members.all()
+    user = request.user
 
-    level1 = []
-    level2 = []
-    level3 = []
+    # User himself must have successful recharge
+    if not Recharge.objects.filter(
+        user=user,
+        status='success'
+    ).exists():
 
-    for user1 in level1_users:
+        return Response({
 
-        level1.append({
-            "name": f"{user1.first_name} {user1.last_name}",
-            "phone": user1.phone,
-            "join_date": user1.created_at.strftime("%d-%m-%Y")
+            "level1_count": 0,
+            "level2_count": 0,
+            "level3_count": 0,
+            "total_team": 0,
+
+            "level1_members": [],
+            "level2_members": [],
+            "level3_members": []
+
         })
 
-        for user2 in user1.team_members.all():
+    level1_members = []
+    level2_members = []
+    level3_members = []
 
-            level2.append({
-                "name": f"{user2.first_name} {user2.last_name}",
-                "phone": user2.phone,
-                "join_date": user2.created_at.strftime("%d-%m-%Y")
+
+    # LEVEL 1
+    for user1 in user.team_members.all():
+
+        if Recharge.objects.filter(
+            user=user1,
+            status='success'
+        ).exists():
+
+            level1_members.append({
+
+                "name":
+                f"{user1.first_name} {user1.last_name}",
+
+                "phone":
+                user1.phone,
+
+                "join_date":
+                user1.date_joined.strftime("%d-%m-%Y")
+
             })
 
-            for user3 in user2.team_members.all():
 
-                level3.append({
-                    "name": f"{user3.first_name} {user3.last_name}",
-                    "phone": user3.phone,
-                    "join_date": user3.created_at.strftime("%d-%m-%Y")
-                })
+            # LEVEL 2
+            for user2 in user1.team_members.all():
+
+                if Recharge.objects.filter(
+                    user=user2,
+                    status='success'
+                ).exists():
+
+                    level2_members.append({
+
+                        "name":
+                        f"{user2.first_name} {user2.last_name}",
+
+                        "phone":
+                        user2.phone,
+
+                        "join_date":
+                        user2.date_joined.strftime("%d-%m-%Y")
+
+                    })
+
+
+                    # LEVEL 3
+                    for user3 in user2.team_members.all():
+
+                        if Recharge.objects.filter(
+                            user=user3,
+                            status='success'
+                        ).exists():
+
+                            level3_members.append({
+
+                                "name":
+                                f"{user3.first_name} {user3.last_name}",
+
+                                "phone":
+                                user3.phone,
+
+                                "join_date":
+                                user3.date_joined.strftime("%d-%m-%Y")
+
+                            })
 
     return Response({
 
-        "level1_count": len(level1),
+        "level1_count":
+        len(level1_members),
 
-        "level2_count": len(level2),
+        "level2_count":
+        len(level2_members),
 
-        "level3_count": len(level3),
+        "level3_count":
+        len(level3_members),
 
         "total_team":
-        len(level1) +
-        len(level2) +
-        len(level3),
+        len(level1_members)
+        + len(level2_members)
+        + len(level3_members),
 
-        "level1_members": level1,
+        "level1_members":
+        level1_members,
 
-        "level2_members": level2,
+        "level2_members":
+        level2_members,
 
-        "level3_members": level3
+        "level3_members":
+        level3_members
 
-    })
-    
+    })    
 
 
 

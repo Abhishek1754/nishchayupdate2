@@ -99,27 +99,37 @@ class UserAdmin(admin.ModelAdmin):
 
     list_display = (
 
-        'id',
+    'id',
 
-        'email',
+    'first_name',
 
-        'phone',
+    'last_name',
 
-        'plan',
+    'email',
 
-        'wallet_balance',
+    'phone',
 
-        'nishchay_coin'
+    'plan',
 
-    )
+    'wallet_balance',
+
+    'nishchay_coin'
+
+)
 
     search_fields = (
 
-        'email',
+    'first_name',
 
-        'phone'
+    'last_name',
 
-    )
+    'email',
+
+    'phone',
+
+    'referral_code'
+
+)
 
     list_filter = (
 
