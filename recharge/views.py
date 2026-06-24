@@ -223,6 +223,37 @@ def team_page(request):
         request,
         'recharge/team/index.html'
     )
+    
+def income_page(request):
+
+    return render(
+
+        request,
+
+        'recharge/income/index.html'
+
+    )
+def wallet_page(request):
+
+    return render(
+        request,
+        'recharge/wallet/index.html'
+    )
+    
+def cashback_page(request):
+
+    return render(
+        request,
+        'recharge/cashback/index.html'
+    )
+
+
+def analytics_page(request):
+
+    return render(
+        request,
+        'recharge/analytics/index.html'
+    )
 
 
 # =====================================================
@@ -914,37 +945,54 @@ def withdraw_request(request):
 @permission_classes([IsAuthenticated])
 def my_team(request):
 
-    team = request.user.team_members.all()
+    level1_users = request.user.team_members.all()
 
-    data = []
+    level1 = []
+    level2 = []
+    level3 = []
 
-    for user in team:
+    for user1 in level1_users:
 
-        data.append({
-
-            "name":
-            f"{user.first_name} {user.last_name}",
-
-            "email":
-            user.email,
-
-            "phone":
-            user.phone,
-
-            "join_date":
-            user.created_at.strftime(
-                "%d-%m-%Y"
-            ),
-
+        level1.append({
+            "name": f"{user1.first_name} {user1.last_name}",
+            "phone": user1.phone,
+            "join_date": user1.created_at.strftime("%d-%m-%Y")
         })
+
+        for user2 in user1.team_members.all():
+
+            level2.append({
+                "name": f"{user2.first_name} {user2.last_name}",
+                "phone": user2.phone,
+                "join_date": user2.created_at.strftime("%d-%m-%Y")
+            })
+
+            for user3 in user2.team_members.all():
+
+                level3.append({
+                    "name": f"{user3.first_name} {user3.last_name}",
+                    "phone": user3.phone,
+                    "join_date": user3.created_at.strftime("%d-%m-%Y")
+                })
 
     return Response({
 
-        "direct_team":
-        team.count(),
+        "level1_count": len(level1),
 
-        "members":
-        data
+        "level2_count": len(level2),
+
+        "level3_count": len(level3),
+
+        "total_team":
+        len(level1) +
+        len(level2) +
+        len(level3),
+
+        "level1_members": level1,
+
+        "level2_members": level2,
+
+        "level3_members": level3
 
     })
     
@@ -1077,3 +1125,314 @@ def payment_success(request):
         "recharge/payment_success.html"
 
     )
+    
+    # ============================================
+# INCOME SUMMARY API
+# ============================================
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def income_summary(request):
+
+    level1_income = (
+        RechargeLevelIncome.objects
+        .filter(
+            user=request.user,
+            level=1
+        )
+        .aggregate(total=Sum("amount"))
+        ["total"]
+        or Decimal("0")
+    )
+
+    level2_income = (
+        RechargeLevelIncome.objects
+        .filter(
+            user=request.user,
+            level=2
+        )
+        .aggregate(total=Sum("amount"))
+        ["total"]
+        or Decimal("0")
+    )
+
+    level3_income = (
+        RechargeLevelIncome.objects
+        .filter(
+            user=request.user,
+            level=3
+        )
+        .aggregate(total=Sum("amount"))
+        ["total"]
+        or Decimal("0")
+    )
+
+    today_income = (
+        RechargeLevelIncome.objects
+        .filter(
+            user=request.user,
+            created_at__date=timezone.now().date()
+        )
+        .aggregate(total=Sum("amount"))
+        ["total"]
+        or Decimal("0")
+    )
+
+    total_income = (
+        RechargeLevelIncome.objects
+        .filter(
+            user=request.user
+        )
+        .aggregate(total=Sum("amount"))
+        ["total"]
+        or Decimal("0")
+    )
+
+    recent_income = (
+        RechargeLevelIncome.objects
+        .filter(
+            user=request.user
+        )
+        .order_by("-id")[:20]
+    )
+
+    history = []
+
+    for item in recent_income:
+
+        history.append({
+
+            "from_user":
+            item.from_user.first_name,
+
+            "level":
+            item.level,
+
+            "amount":
+            str(item.amount),
+
+            "date":
+            item.created_at.strftime(
+                "%d-%m-%Y"
+            )
+
+        })
+
+    return Response({
+
+        "level1_income":
+        str(level1_income),
+
+        "level2_income":
+        str(level2_income),
+
+        "level3_income":
+        str(level3_income),
+
+        "today_income":
+        str(today_income),
+
+        "total_income":
+        str(total_income),
+
+        "history":
+        history
+
+    })
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_withdraws(request):
+
+    withdrawals = RechargeWithdrawRequest.objects.filter(
+        user=request.user
+    ).order_by('-id')
+
+    data = []
+
+    for item in withdrawals:
+
+        data.append({
+
+            "amount": str(item.amount),
+
+            "method": item.withdraw_method,
+
+            "account_name": item.account_name,
+
+            "account_details": item.account_details,
+
+            "status": item.status,
+
+            "date": item.created_at.strftime(
+                "%d-%m-%Y %I:%M %p"
+            )
+
+        })
+
+    return Response(data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def cashback_history(request):
+
+    cashback = RechargeCashbackHistory.objects.filter(
+        user=request.user
+    ).order_by('-id')
+
+    total_cashback = cashback.aggregate(
+        total=Sum('cashback_amount')
+    )['total'] or 0
+
+    data = []
+
+    for item in cashback:
+
+        data.append({
+
+            "mobile":
+            item.recharge.mobile_number,
+
+            "amount":
+            str(item.recharge.amount),
+
+            "cashback_percentage":
+            str(item.cashback_percentage),
+
+            "cashback_amount":
+            str(item.cashback_amount),
+
+            "date":
+            item.created_at.strftime(
+                "%d-%m-%Y %I:%M %p"
+            )
+
+        })
+
+    return Response({
+
+        "total_cashback":
+        str(total_cashback),
+
+        "count":
+        len(data),
+
+        "history":
+        data
+
+    })
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def profile_summary(request):
+
+    wallet, created = RechargeWallet.objects.get_or_create(
+        user=request.user
+    )
+
+    total_income = RechargeLevelIncome.objects.filter(
+        user=request.user
+    ).aggregate(
+        total=Sum('amount')
+    )['total'] or 0
+
+    total_transactions = Recharge.objects.filter(
+        user=request.user
+    ).count()
+
+    return Response({
+
+        "first_name":
+        request.user.first_name,
+
+        "last_name":
+        request.user.last_name,
+
+        "email":
+        request.user.email,
+
+        "phone":
+        request.user.phone,
+
+        "referral_code":
+        request.user.referral_code,
+
+        "wallet_balance":
+        str(wallet.balance),
+
+        "total_income":
+        str(total_income),
+
+        "total_transactions":
+        total_transactions,
+
+        "direct_team":
+        request.user.team_members.count()
+
+    })
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def recharge_analytics(request):
+
+    recharges = Recharge.objects.filter(
+        user=request.user
+    )
+
+    total_recharge = recharges.aggregate(
+        total=Sum('amount')
+    )['total'] or 0
+
+    today_recharge = recharges.filter(
+        created_at__date=timezone.now().date()
+    ).aggregate(
+        total=Sum('amount')
+    )['total'] or 0
+
+    success_count = recharges.filter(
+        status='success'
+    ).count()
+
+    failed_count = recharges.filter(
+        status='failed'
+    ).count()
+
+    pending_count = recharges.filter(
+        status='pending'
+    ).count()
+
+    total_count = recharges.count()
+
+    success_rate = 0
+
+    if total_count > 0:
+
+        success_rate = round(
+            (success_count * 100) / total_count,
+            2
+        )
+
+    return Response({
+
+        "total_recharge":
+        str(total_recharge),
+
+        "today_recharge":
+        str(today_recharge),
+
+        "success_count":
+        success_count,
+
+        "failed_count":
+        failed_count,
+
+        "pending_count":
+        pending_count,
+
+        "total_count":
+        total_count,
+
+        "success_rate":
+        success_rate
+
+    })

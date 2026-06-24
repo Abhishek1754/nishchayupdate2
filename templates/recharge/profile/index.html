@@ -1,10 +1,11 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recharge Profile</title>
+
+<title>My Profile</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -23,230 +24,100 @@ color:white;
 }
 
 .container{
-display:flex;
-min-height:100vh;
+width:95%;
+margin:auto;
+padding:30px 0;
 }
 
-.sidebar{
-width:260px;
-background:#050505;
-padding:30px 20px;
-border-right:1px solid #1f1f1f;
-}
-
-.logo{
-font-size:40px;
-font-weight:700;
-color:#b7ff00;
-margin-bottom:40px;
-}
-
-.menu a{
-display:block;
-padding:16px;
-margin-bottom:10px;
-text-decoration:none;
-color:white;
-border-radius:12px;
-transition:.3s;
-}
-
-.menu a:hover,
-.active{
+.back-btn{
+display:inline-block;
+padding:15px 25px;
 background:#b7ff00;
-color:black !important;
-box-shadow:0 0 20px #b7ff00;
+color:black;
+font-weight:700;
+text-decoration:none;
+border-radius:15px;
+margin-bottom:30px;
 }
 
-.main{
-flex:1;
-padding:30px;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-}
-
-.wallet{
-padding:14px 25px;
-border:1px solid #b7ff00;
-border-radius:12px;
+.heading{
+font-size:45px;
 color:#b7ff00;
-font-weight:600;
-background:#111;
+margin-bottom:30px;
 }
 
-.layout{
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:20px;
-}
-
-.card{
+.profile-card{
 background:#050505;
-border:1px solid #1f1f1f;
+border:1px solid rgba(183,255,0,.2);
 border-radius:20px;
-padding:25px;
-margin-bottom:20px;
-}
-
-.profile-top{
-display:flex;
-align-items:center;
-gap:25px;
+padding:40px;
+margin-bottom:30px;
+text-align:center;
 }
 
 .avatar{
-width:140px;
-height:140px;
+
+width:120px;
+height:120px;
 border-radius:50%;
-background:#111;
+background:#b7ff00;
+color:black;
+font-size:50px;
+font-weight:700;
+
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:70px;
-font-weight:700;
-color:#b7ff00;
-border:2px solid #b7ff00;
-box-shadow:0 0 30px #b7ff00;
+
+margin:auto;
+margin-bottom:25px;
+
 }
 
 .name{
-font-size:38px;
-font-weight:700;
+font-size:35px;
+color:#b7ff00;
 margin-bottom:10px;
 }
 
-.verify{
-display:inline-block;
-padding:6px 15px;
-background:#b7ff00;
-color:black;
-font-size:13px;
-font-weight:700;
-border-radius:30px;
+.info{
+
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+
+}
+
+.box{
+
+background:#050505;
+border:1px solid rgba(183,255,0,.2);
+padding:25px;
+border-radius:20px;
+
+}
+
+.box p{
+color:#999;
 margin-bottom:15px;
 }
 
-.info p{
-margin-bottom:10px;
-color:#ccc;
-}
-
-.green{
+.box h2{
 color:#b7ff00;
-font-weight:600;
 }
 
-.summary{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
+@media(max-width:700px){
+
+.info{
+grid-template-columns:1fr;
 }
 
-.summary-card{
-background:#111;
-padding:22px;
-border-radius:15px;
-border:1px solid #1f1f1f;
+.heading{
+font-size:30px;
 }
 
-.summary-card h3{
-color:#b7ff00;
-margin-bottom:10px;
-}
-
-.summary-card h1{
-font-size:35px;
-}
-
-.progress-box{
-text-align:center;
-}
-
-.progress{
-width:180px;
-height:180px;
-border-radius:50%;
-border:12px solid #b7ff00;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:45px;
-font-weight:700;
-margin:20px auto;
-box-shadow:0 0 30px #b7ff00;
-}
-
-.quick{
-display:flex;
-flex-direction:column;
-gap:15px;
-}
-
-.quick a{
-padding:18px;
-background:#111;
-border-radius:15px;
-text-decoration:none;
-color:white;
-border:1px solid #1f1f1f;
-transition:.3s;
-}
-
-.quick a:hover{
-border:1px solid #b7ff00;
-box-shadow:0 0 15px #b7ff00;
-}
-
-.section-title{
+.name{
 font-size:28px;
-font-weight:700;
-color:#b7ff00;
-margin-bottom:20px;
-}
-
-.preferences{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-}
-
-.pref{
-background:#111;
-padding:20px;
-border-radius:15px;
-}
-
-.pref h4{
-color:#b7ff00;
-margin-bottom:10px;
-}
-
-@media(max-width:1000px){
-
-.layout{
-grid-template-columns:1fr;
-}
-
-.container{
-flex-direction:column;
-}
-
-.sidebar{
-width:100%;
-}
-
-.preferences{
-grid-template-columns:1fr;
-}
-
-.profile-top{
-flex-direction:column;
-text-align:center;
 }
 
 }
@@ -259,321 +130,251 @@ text-align:center;
 
 <div class="container">
 
-<div class="sidebar">
+<a
+href="/recharge/"
+class="back-btn"
+>
 
-<div class="logo">
-ReCharge
-</div>
+← Dashboard
 
-<div class="menu">
-
-<a class="active" href="/recharge/profile/">
-Profile
 </a>
 
-<a href="/recharge/transactions/">
-Transactions
-</a>
 
-<a href="/recharge/refer/">
-Refer & Earn
-</a>
+<h1 class="heading">
 
-<a href="/">
-Back Home
-</a>
+My Profile
 
-</div>
-
-</div>
-
-<div class="main">
-
-<div class="topbar">
-
-<h1 class="section-title">
-Profile Overview
 </h1>
 
-<div class="wallet">
-Wallet ₹<span id="walletBalance">0</span>
-</div>
+
+
+<div class="profile-card">
+
+<div
+class="avatar"
+id="avatar"
+>
+
+U
 
 </div>
 
-<div class="layout">
+<div
+class="name"
+id="name"
+>
 
-<div>
+User
 
-<div class="card">
-
-<div class="profile-top">
-
-<div class="avatar" id="avatar">
-A
 </div>
+
+<p id="email">
+
+-
+
+</p>
+
+</div>
+
+
 
 <div class="info">
 
-<div class="name" id="fullName">
-Loading...
-</div>
+<div class="box">
 
-<div class="verify">
-Verified
-</div>
+<p>Phone Number</p>
 
-<p>📞 <span id="phone"></span></p>
+<h2 id="phone">
 
-<p>✉ <span id="email"></span></p>
+-
 
-<p>📅 Member Since : {{ user_obj.created_at|date:"d M Y" }}</p>
-
-<p>🎁 Referral Code : <span id="referralCode"></span></p>
-
-<p class="green">
-● Account Active
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2 class="section-title">
-Personal Information
 </h2>
 
-<div class="preferences">
-
-<div class="pref">
-<h4>Full Name</h4>
-<p id="profileFullName"></p>
 </div>
 
-<div class="pref">
-<h4>Mobile Number</h4>
-<p id="profilePhone"></p>
 
-</div>
+<div class="box">
 
-<div class="pref">
-<h4>Email Address</h4>
-<p id="profileEmail"></p>
+<p>Referral Code</p>
 
-</div>
+<h2 id="referralCode">
 
-<div class="pref">
-<h4>Referral Code</h4>
-<p id="profileReferral"></p>
-</div>
-</div>
+-
 
-</div>
-
-<div class="card">
-
-<h2 class="section-title">
-Preferences
 </h2>
 
-<div class="preferences">
-
-<div class="pref">
-<h4>Preferred Language</h4>
-<p>English</p>
 </div>
 
-<div class="pref">
-<h4>Notifications</h4>
-<p>Email, SMS, Push</p>
-</div>
 
-<div class="pref">
-<h4>Theme</h4>
-<p>Dark</p>
-</div>
+<div class="box">
 
-<div class="pref">
-<h4>Currency</h4>
-<p>INR ₹</p>
-</div>
+<p>Wallet Balance</p>
 
-</div>
+<h2>
 
-</div>
+₹<span id="wallet">
 
-</div>
+0
 
-<div>
+</span>
 
-<div class="summary">
-
-<div class="summary-card">
-<h3>Wallet Balance</h3>
-<h1>₹<span id="walletBalance2">0</span></h1>
-</div>
-
-<div class="summary-card">
-<h3>Cashback</h3>
-<h1>₹{{ wallet.total_cashback }}</h1>
-</div>
-
-<div class="summary-card">
-<h3>Referral</h3>
-<h1>₹{{ total_income }}</h1>
-</div>
-
-<div class="summary-card">
-<h3>Transactions</h3>
-<h1>{{ total_transactions }}</h1>
-</div>
-
-</div>
-
-<div class="card progress-box">
-
-<h2 class="section-title">
-Profile Completion
 </h2>
 
-<div class="progress">
-75%
 </div>
 
-<p>
-Complete your profile and unlock features.
-</p>
 
-</div>
+<div class="box">
 
-<div class="card">
+<p>Total Income</p>
 
-<h2 class="section-title">
-Quick Actions
+<h2>
+
+₹<span id="income">
+
+0
+
+</span>
+
 </h2>
 
-<div class="quick">
+</div>
 
-<a href="#">
-Add Bank Account
-</a>
 
-<a href="#">
-Add UPI ID
-</a>
+<div class="box">
 
-<a href="#">
-Change Password
-</a>
+<p>Total Transactions</p>
 
-<a href="/recharge/refer/">
-Refer & Earn
-</a>
+<h2 id="transactions">
+
+0
+
+</h2>
 
 </div>
+
+
+<div class="box">
+
+<p>Direct Team</p>
+
+<h2 id="team">
+
+0
+
+</h2>
+
+</div>
+
+</div>
+
+</div>
+
 
 
 <script>
 
-async function loadProfile() {
+async function loadProfile(){
 
-    try {
+const response =
+await fetch(
 
-        const token =
-        localStorage.getItem("access");
+"/recharge/api/profile-summary/",
 
-        const response =
-        await fetch(
-            "/api/profile/",
-            {
-                headers:{
-                    Authorization:
-                    `Bearer ${token}`
-                }
-            }
-        );
+{
 
-        const data =
-        await response.json();
+headers:{
 
-        console.log("Profile:", data);
+Authorization:
+"Bearer " +
+localStorage.getItem(
+"access"
+)
 
-        // Wallet
-        document.getElementById(
-            "walletBalance"
-        ).innerText =
-        data.wallet_balance;
+}
 
-        document.getElementById(
-            "walletBalance2"
-        ).innerText =
-        data.wallet_balance;
+}
 
-        // Email
-        document.getElementById(
-            "email"
-        ).innerText =
-        data.email;
+);
 
-        // Phone
-        document.getElementById(
-            "phone"
-        ).innerText =
-        data.phone;
+const data =
+await response.json();
 
-        // Referral Code
-        document.getElementById(
-            "referralCode"
-        ).innerText =
-        data.referral_code;
+console.log(data);
 
-
-        document.getElementById(
-    "profileFullName"
-).innerText =
-data.email.split("@")[0];
 
 document.getElementById(
-    "profilePhone"
+"name"
 ).innerText =
-data.phone;
+
+data.first_name +
+
+" " +
+
+data.last_name;
+
 
 document.getElementById(
-    "profileEmail"
+"avatar"
 ).innerText =
+
+data.first_name.charAt(
+0
+);
+
+
+document.getElementById(
+"email"
+).innerText =
+
 data.email;
 
+
 document.getElementById(
-    "profileReferral"
+"phone"
 ).innerText =
+
+data.phone;
+
+
+document.getElementById(
+"referralCode"
+).innerText =
+
 data.referral_code;
 
-      
-        // Avatar
-        document.getElementById(
-            "avatar"
-        ).innerText =
-        data.email.charAt(0).toUpperCase();
 
-    }
+document.getElementById(
+"wallet"
+).innerText =
 
-    catch(error){
+data.wallet_balance;
 
-        console.log(
-            "Profile Error:",
-            error
-        );
 
-    }
+document.getElementById(
+"income"
+).innerText =
+
+data.total_income;
+
+
+document.getElementById(
+"transactions"
+).innerText =
+
+data.total_transactions;
+
+
+document.getElementById(
+"team"
+).innerText =
+
+data.direct_team;
 
 }
 
 loadProfile();
 
 </script>
+
 </body>
 </html>

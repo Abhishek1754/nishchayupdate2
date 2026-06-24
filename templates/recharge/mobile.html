@@ -144,28 +144,38 @@ outline:none;
 
 }
 
-.plans{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:20px;
-}
-
 .plan{
+background:#050505;
 border:1px solid rgba(183,255,0,.25);
-border-radius:16px;
-padding:20px;
+border-radius:18px;
+padding:25px;
 cursor:pointer;
 transition:.3s;
+text-align:center;
 }
 
 .plan:hover{
 border:2px solid #b7ff00;
+transform:translateY(-5px);
+box-shadow:0 0 20px rgba(183,255,0,.3);
 }
 
 .plan h1{
 font-size:40px;
 margin-bottom:10px;
+color:#b7ff00;
+}
+
+.plan h3{
+font-size:24px;
+color:#b7ff00;
+margin-bottom:10px;
+}
+
+.plan p{
+color:#aaa;
+font-size:15px;
+margin-top:5px;
 }
 
 .plan button{
@@ -356,6 +366,50 @@ User
 Mobile Recharge
 
 </h2>
+
+<div class="plans" style="margin-bottom:30px;">
+
+    <div class="plan" onclick="window.location='/recharge/team/'">
+        <h3>👥 Team</h3>
+        <p>My Network</p>
+    </div>
+
+    <div class="plan" onclick="window.location='/recharge/income/'">
+        <h3>💰 Income</h3>
+        <p>Level Income</p>
+    </div>
+
+    <div class="plan" onclick="window.location='/recharge/wallet/'">
+        <h3>🏦 Wallet</h3>
+        <p>Wallet History</p>
+    </div>
+
+    <div class="plan" onclick="window.location='/recharge/cashback/'">
+        <h3>🎁 Cashback</h3>
+        <p>Cashback Earnings</p>
+    </div>
+
+    <div class="plan" onclick="window.location='/recharge/transactions/'">
+        <h3>📜 Transactions</h3>
+        <p>Recharge History</p>
+    </div>
+
+    <div class="plan" onclick="window.location='/recharge/profile/'">
+        <h3>👤 Profile</h3>
+        <p>User Details</p>
+    </div>
+
+    <div class="plan" onclick="window.location='/recharge/withdraw/'">
+        <h3>💸 Withdraw</h3>
+        <p>Withdraw Request</p>
+    </div>
+
+    <div class="plan" onclick="window.location='/recharge/analytics/'">
+        <h3>📈 Analytics</h3>
+        <p>Recharge Statistics</p>
+    </div>
+
+</div>
 
 <div class="input-box">
 

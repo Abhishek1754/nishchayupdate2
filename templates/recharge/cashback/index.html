@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Transaction Dashboard</title>
+<title>Cashback Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -19,7 +20,7 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:black;
+background:#000;
 color:white;
 }
 
@@ -48,7 +49,7 @@ margin-bottom:30px;
 
 .cards{
 display:grid;
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(2,1fr);
 gap:20px;
 margin-bottom:30px;
 }
@@ -56,22 +57,22 @@ margin-bottom:30px;
 .card{
 background:#050505;
 border:1px solid rgba(183,255,0,.2);
-padding:25px;
 border-radius:20px;
+padding:25px;
 }
 
 .card p{
 color:#999;
-margin-bottom:10px;
+margin-bottom:15px;
 }
 
 .card h1{
-color:#b7ff00;
 font-size:35px;
+color:#b7ff00;
 }
 
 .search-box{
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 .search-box input{
@@ -116,45 +117,18 @@ text-align:center;
 border-bottom:1px solid #222;
 }
 
-.success{
-color:#00ff88;
-font-weight:700;
-}
-
-.failed{
-color:red;
-font-weight:700;
-}
-
-.pending{
-color:orange;
-font-weight:700;
-}
-
 tr:hover{
 background:#111;
 }
 
-@media(max-width:1100px){
-
-.cards{
-grid-template-columns:repeat(2,1fr);
-}
-
-}
-
-@media(max-width:700px){
+@media(max-width:800px){
 
 .cards{
 grid-template-columns:1fr;
 }
 
 .heading{
-font-size:30px;
-}
-
-.card h1{
-font-size:28px;
+font-size:32px;
 }
 
 }
@@ -176,9 +150,10 @@ class="back-btn"
 
 </a>
 
+
 <h1 class="heading">
 
-Transaction Dashboard
+Cashback Dashboard
 
 </h1>
 
@@ -188,62 +163,28 @@ Transaction Dashboard
 
 <div class="card">
 
-<p>Total Transactions</p>
-
-<h1>
-
-<span id="totalTxn">
-
-0
-
-</span>
-
-</h1>
-
-</div>
-
-
-<div class="card">
-
-<p>Successful</p>
-
-<h1>
-
-<span id="successTxn">
-
-0
-
-</span>
-
-</h1>
-
-</div>
-
-
-<div class="card">
-
-<p>Failed</p>
-
-<h1>
-
-<span id="failedTxn">
-
-0
-
-</span>
-
-</h1>
-
-</div>
-
-
-<div class="card">
-
 <p>Total Cashback</p>
 
 <h1>
 
-₹<span id="cashbackTotal">
+₹<span id="totalCashback">
+
+0
+
+</span>
+
+</h1>
+
+</div>
+
+
+<div class="card">
+
+<p>Total Cashback Entries</p>
+
+<h1>
+
+<span id="totalEntries">
 
 0
 
@@ -262,8 +203,8 @@ Transaction Dashboard
 <input
 type="text"
 id="search"
-placeholder="Search Mobile Number / Transaction ID"
-onkeyup="searchTransaction()"
+placeholder="Search Mobile Number"
+onkeyup="searchCashback()"
 >
 
 </div>
@@ -280,19 +221,17 @@ onkeyup="searchTransaction()"
 
 <tr>
 
-<th>Provider</th>
 <th>Mobile</th>
-<th>Amount</th>
-<th>Cashback</th>
-<th>Status</th>
-<th>Txn ID</th>
+<th>Recharge Amount</th>
+<th>Cashback %</th>
+<th>Cashback Earned</th>
 <th>Date</th>
 
 </tr>
 
 </thead>
 
-<tbody id="transactionBody">
+<tbody id="historyBody">
 
 </tbody>
 
@@ -308,12 +247,12 @@ onkeyup="searchTransaction()"
 
 <script>
 
-async function loadTransactions(){
+async function loadCashback(){
 
 const response =
 await fetch(
 
-"/recharge/api/my-recharges/",
+"/recharge/api/cashback-history/",
 
 {
 
@@ -338,80 +277,43 @@ console.log(data);
 
 
 document.getElementById(
-"totalTxn"
+"totalCashback"
 ).innerText =
-data.length;
+data.total_cashback;
 
 
-let successCount = 0;
-let failedCount = 0;
-let totalCashback = 0;
+document.getElementById(
+"totalEntries"
+).innerText =
+data.count;
+
 
 let html = "";
 
-data.forEach(item=>{
-
-if(item.status=="success"){
-
-successCount++;
-
-}
-else{
-
-failedCount++;
-
-}
-
-totalCashback +=
-parseFloat(
-item.cashback
-);
-
+data.history.forEach(item=>{
 
 html += `
 
 <tr>
 
 <td>
-
-${item.provider}
-
+${item.mobile}
 </td>
 
 <td>
-
-${item.mobile_number}
-
-</td>
-
-<td>
-
 ₹${item.amount}
-
 </td>
 
 <td>
-
-₹${item.cashback}
-
-</td>
-
-<td class="${item.status}">
-
-${item.status}
-
+${item.cashback_percentage}%
 </td>
 
 <td>
-
-${item.transaction_id}
-
+₹${item.cashback_amount}
 </td>
 
 <td>
-
-${item.created_at}
-
+${item.date}
 </td>
 
 </tr>
@@ -421,15 +323,15 @@ ${item.created_at}
 });
 
 
-if(data.length==0){
+if(data.history.length==0){
 
 html = `
 
 <tr>
 
-<td colspan="7">
+<td colspan="5">
 
-No Transactions Found
+No Cashback Found
 
 </td>
 
@@ -441,25 +343,7 @@ No Transactions Found
 
 
 document.getElementById(
-"successTxn"
-).innerText =
-successCount;
-
-
-document.getElementById(
-"failedTxn"
-).innerText =
-failedCount;
-
-
-document.getElementById(
-"cashbackTotal"
-).innerText =
-totalCashback.toFixed(2);
-
-
-document.getElementById(
-"transactionBody"
+"historyBody"
 ).innerHTML =
 html;
 
@@ -467,19 +351,16 @@ html;
 
 
 
-function searchTransaction(){
+function searchCashback(){
 
 let value =
-document
-.getElementById(
+document.getElementById(
 "search"
-)
-.value
-.toLowerCase();
+).value.toLowerCase();
 
 document
 .querySelectorAll(
-"#transactionBody tr"
+"#historyBody tr"
 )
 .forEach(row=>{
 
@@ -503,9 +384,10 @@ row.innerText
 
 
 
-loadTransactions();
+loadCashback();
 
 </script>
 
 </body>
 </html>
+

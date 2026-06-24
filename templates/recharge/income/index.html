@@ -1,0 +1,429 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Income Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#000;
+color:white;
+}
+
+.container{
+width:95%;
+margin:auto;
+padding:30px 0;
+}
+
+.heading{
+font-size:40px;
+color:#b7ff00;
+margin-bottom:30px;
+}
+
+.back-btn{
+display:inline-block;
+margin-bottom:30px;
+padding:15px 25px;
+background:#b7ff00;
+color:black;
+text-decoration:none;
+border-radius:15px;
+font-weight:700;
+}
+
+.top-cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:#050505;
+border:1px solid rgba(183,255,0,.2);
+border-radius:20px;
+padding:25px;
+}
+
+.card p{
+color:#999;
+margin-bottom:15px;
+}
+
+.card h1{
+color:#b7ff00;
+font-size:32px;
+}
+
+.history{
+margin-top:30px;
+background:#050505;
+border:1px solid rgba(183,255,0,.2);
+border-radius:20px;
+padding:25px;
+}
+
+.history h2{
+color:#b7ff00;
+margin-bottom:25px;
+}
+
+.table{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#b7ff00;
+color:black;
+padding:15px;
+}
+
+td{
+padding:15px;
+text-align:center;
+border-bottom:1px solid #222;
+}
+
+tr:hover{
+background:#111;
+}
+
+.progress-box{
+margin-top:20px;
+}
+
+.bar{
+height:25px;
+background:#111;
+border-radius:30px;
+overflow:hidden;
+margin-bottom:25px;
+}
+
+.fill{
+height:100%;
+background:#b7ff00;
+color:black;
+font-weight:700;
+display:flex;
+justify-content:center;
+align-items:center;
+width:0%;
+}
+
+@media(max-width:1100px){
+
+.top-cards{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:700px){
+
+.top-cards{
+grid-template-columns:1fr;
+}
+
+.heading{
+font-size:30px;
+}
+
+.card h1{
+font-size:26px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="/recharge/" class="back-btn">
+← Dashboard
+</a>
+
+<h1 class="heading">
+Income Dashboard
+</h1>
+
+
+<div class="top-cards">
+
+<div class="card">
+<p>Total Income</p>
+<h1>₹<span id="totalIncome">0</span></h1>
+</div>
+
+<div class="card">
+<p>Today's Income</p>
+<h1>₹<span id="todayIncome">0</span></h1>
+</div>
+
+<div class="card">
+<p>Level 1 Income</p>
+<h1>₹<span id="level1Income">0</span></h1>
+</div>
+
+<div class="card">
+<p>Level 2 Income</p>
+<h1>₹<span id="level2Income">0</span></h1>
+</div>
+
+<div class="card">
+<p>Level 3 Income</p>
+<h1>₹<span id="level3Income">0</span></h1>
+</div>
+
+<div class="card">
+<p>Direct Team</p>
+<h1><span id="directTeam">0</span></h1>
+</div>
+
+<div class="card">
+<p>Total Entries</p>
+<h1><span id="incomeCount">0</span></h1>
+</div>
+
+</div>
+
+
+<div class="history">
+
+<h2>
+Recent Income History
+</h2>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+<th>User</th>
+<th>Level</th>
+<th>Amount</th>
+<th>Date</th>
+</tr>
+
+</thead>
+
+<tbody id="historyBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+
+<div class="history">
+
+<h2>
+Level Progress
+</h2>
+
+<div class="progress-box">
+
+<p>Level 1</p>
+
+<div class="bar">
+<div class="fill" id="fill1">
+0%
+</div>
+</div>
+
+<p>Level 2</p>
+
+<div class="bar">
+<div class="fill" id="fill2">
+0%
+</div>
+</div>
+
+<p>Level 3</p>
+
+<div class="bar">
+<div class="fill" id="fill3">
+0%
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+async function loadIncome(){
+
+const response =
+await fetch(
+"/recharge/api/income-summary/",
+{
+headers:{
+"Authorization":
+"Bearer " +
+localStorage.getItem("access")
+}
+}
+);
+
+const data =
+await response.json();
+
+
+document.getElementById(
+"totalIncome"
+).innerText =
+data.total_income;
+
+document.getElementById(
+"todayIncome"
+).innerText =
+data.today_income;
+
+document.getElementById(
+"level1Income"
+).innerText =
+data.level1_income;
+
+document.getElementById(
+"level2Income"
+).innerText =
+data.level2_income;
+
+document.getElementById(
+"level3Income"
+).innerText =
+data.level3_income;
+
+document.getElementById(
+"directTeam"
+).innerText =
+data.direct_team;
+
+document.getElementById(
+"incomeCount"
+).innerText =
+data.history.length;
+
+
+
+const total =
+parseFloat(data.total_income);
+
+if(total > 0){
+
+let l1 =
+(parseFloat(data.level1_income)*100)/total;
+
+let l2 =
+(parseFloat(data.level2_income)*100)/total;
+
+let l3 =
+(parseFloat(data.level3_income)*100)/total;
+
+
+document.getElementById(
+"fill1"
+).style.width =
+l1 + "%";
+
+document.getElementById(
+"fill1"
+).innerText =
+Math.round(l1) + "%";
+
+
+document.getElementById(
+"fill2"
+).style.width =
+l2 + "%";
+
+document.getElementById(
+"fill2"
+).innerText =
+Math.round(l2) + "%";
+
+
+document.getElementById(
+"fill3"
+).style.width =
+l3 + "%";
+
+document.getElementById(
+"fill3"
+).innerText =
+Math.round(l3) + "%";
+
+}
+
+
+let html = "";
+
+data.history.forEach(item=>{
+
+html += `
+
+<tr>
+
+<td>${item.from_user}</td>
+
+<td>L${item.level}</td>
+
+<td>₹${item.amount}</td>
+
+<td>${item.date}</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById(
+"historyBody"
+).innerHTML =
+html;
+
+}
+
+loadIncome();
+
+</script>
+
+</body>
+</html>

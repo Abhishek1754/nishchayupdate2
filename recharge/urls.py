@@ -20,6 +20,7 @@ from .views import (
     support_page,
     wallet_history_page,
     withdraw_request,
+    my_withdraws,
     mobile_plan_fetch,
     create_cashfree_recharge_order,
     
@@ -35,7 +36,15 @@ from .views import (
 
     recharge_coupons,
     team_page,
-    my_team
+    my_team,
+    income_summary,
+    income_page,
+    wallet_page,
+    cashback_page,
+    cashback_history,
+    profile_summary,
+    analytics_page,
+    recharge_analytics
 
 )
 
@@ -129,11 +138,43 @@ urlpatterns = [
     withdraw_request,
     name='withdraw_request'
 ),
+    path(
+    'api/my-withdraws/',
+    my_withdraws,
+    name='my_withdraws'
+),
     
     path(
     'team/',
     team_page,
     name='team_page'
+),
+    
+    path(
+    'income/',
+    income_page,
+    name='income_page'
+),
+    
+    path(
+    'wallet/',
+    wallet_page,
+    name='wallet_page'
+),
+    path(
+    'cashback/',
+    cashback_page,
+    name='cashback_page'
+),
+    path(
+    'analytics/',
+    analytics_page,
+    name='analytics_page'
+),
+    path(
+    'api/income-summary/',
+    income_summary,
+    name='income_summary'
 ),
     
     path(
@@ -169,6 +210,18 @@ urlpatterns = [
         my_recharges,
         name='my_recharges'
     ),
+    
+    path(
+    'api/cashback-history/',
+    cashback_history,
+    name='cashback_history'
+    ),
+    
+    path(
+    'api/recharge-analytics/',
+    recharge_analytics,
+    name='recharge_analytics'
+),
 
     # =====================================================
     # WALLET
@@ -210,6 +263,12 @@ urlpatterns = [
     'api/team/',
     my_team,
     name='my_team'
+),
+    
+    path(
+    'api/profile-summary/',
+    profile_summary,
+    name='profile_summary'
 ),
 
 ]
