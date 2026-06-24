@@ -947,7 +947,7 @@ def my_team(request):
 
     user = request.user
 
-    # User himself must have successful recharge
+    # Main user must have at least one successful recharge
     if not Recharge.objects.filter(
         user=user,
         status='success'
@@ -970,8 +970,9 @@ def my_team(request):
     level2_members = []
     level3_members = []
 
-
+    # =========================================
     # LEVEL 1
+    # =========================================
     for user1 in user.team_members.all():
 
         if Recharge.objects.filter(
@@ -992,49 +993,51 @@ def my_team(request):
 
             })
 
+        # =========================================
+        # LEVEL 2
+        # =========================================
+        for user2 in user1.team_members.all():
 
-            # LEVEL 2
-            for user2 in user1.team_members.all():
+            if Recharge.objects.filter(
+                user=user2,
+                status='success'
+            ).exists():
+
+                level2_members.append({
+
+                    "name":
+                    f"{user2.first_name} {user2.last_name}",
+
+                    "phone":
+                    user2.phone,
+
+                    "join_date":
+                    user2.date_joined.strftime("%d-%m-%Y")
+
+                })
+
+            # =========================================
+            # LEVEL 3
+            # =========================================
+            for user3 in user2.team_members.all():
 
                 if Recharge.objects.filter(
-                    user=user2,
+                    user=user3,
                     status='success'
                 ).exists():
 
-                    level2_members.append({
+                    level3_members.append({
 
                         "name":
-                        f"{user2.first_name} {user2.last_name}",
+                        f"{user3.first_name} {user3.last_name}",
 
                         "phone":
-                        user2.phone,
+                        user3.phone,
 
                         "join_date":
-                        user2.date_joined.strftime("%d-%m-%Y")
+                        user3.date_joined.strftime("%d-%m-%Y")
 
                     })
-
-
-                    # LEVEL 3
-                    for user3 in user2.team_members.all():
-
-                        if Recharge.objects.filter(
-                            user=user3,
-                            status='success'
-                        ).exists():
-
-                            level3_members.append({
-
-                                "name":
-                                f"{user3.first_name} {user3.last_name}",
-
-                                "phone":
-                                user3.phone,
-
-                                "join_date":
-                                user3.date_joined.strftime("%d-%m-%Y")
-
-                            })
 
     return Response({
 
