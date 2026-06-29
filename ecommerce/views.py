@@ -4,8 +4,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
+from accounts.models import User
+from .models import Shop
 
 from wallet.utils import create_wallet_transaction
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .utils import (
 
@@ -27,6 +30,16 @@ from .models import (
 
 )
 
+from .serializers import ShopRegistrationSerializer
+
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import authenticate
+from rest_framework import status
+
+from datetime import timedelta
+
+from django.utils import timezone
+
 
 # =====================================================
 # ==================== UI PAGES =======================
@@ -46,7 +59,7 @@ def ecommerce_dashboard(request):
 
     return render(
         request,
-        'eccomerce/dashboard.html',
+        'ecommerce/dashboard.html',
         {
             'categories': categories,
             'products': products
@@ -71,7 +84,7 @@ def product_details(request, id):
 
     return render(
         request,
-        'eccomerce/product_details.html',
+        'ecommerce/product_details.html',
         {
             'product': product,
             'related_products': related_products
@@ -85,17 +98,120 @@ def product_details(request, id):
 
 def cart_page(request):
 
+    if not request.user.is_authenticated:
+
+        return render(
+            request,
+            "ecommerce/cart.html",
+            {
+                "cart": [],
+                "total": 0,
+                "cashback": 0,
+                "grand_total": 0,
+                "notification_count": 0,
+            }
+        )
+
+    cart = Cart.objects.filter(
+        user=request.user
+    )
+
+    total = 0
+    cashback = 0
+
+    for item in cart:
+
+        subtotal = item.product.price * item.quantity
+
+        total += subtotal
+
+        cashback += (
+
+            subtotal *
+
+            item.product.cashback_percentage
+
+        ) / 100
+
+    grand_total = total
+
     return render(
+
         request,
-        'eccomerce/cart.html'
+
+        "ecommerce/cart.html",
+
+        {
+
+            "cart": cart,
+
+            "total": total,
+
+            "cashback": cashback,
+
+            "grand_total": grand_total,
+
+            "notification_count": 0,
+
+        }
+
     )
 
 
 def checkout_page(request):
 
+    if not request.user.is_authenticated:
+
+        return render(
+            request,
+            "ecommerce/checkout.html",
+            {
+                "cart": [],
+                "total": 0,
+                "cashback": 0,
+                "grand_total": 0,
+            }
+        )
+
+    cart = Cart.objects.filter(
+        user=request.user
+    )
+
+    total = 0
+    cashback = 0
+
+    for item in cart:
+
+        subtotal = item.product.price * item.quantity
+
+        total += subtotal
+
+        cashback += (
+
+            subtotal *
+
+            item.product.cashback_percentage
+
+        ) / 100
+
     return render(
+
         request,
-        'eccomerce/checkout.html'
+
+        "ecommerce/checkout.html",
+
+        {
+
+            "cart": cart,
+
+            "total": total,
+
+            "cashback": cashback,
+
+            "grand_total": total,
+
+        }
+
     )
 
 
@@ -103,45 +219,521 @@ def place_order_page(request):
 
     return render(
         request,
-        'eccomerce/place_order.html'
+        'ecommerce/place_order.html'
     )
 
 
 def order_success_page(request):
 
+    order = Order.objects.filter(
+
+        user=request.user
+
+    ).order_by("-id").first()
+
     return render(
+
         request,
-        'eccomerce/order_success.html'
+
+        "ecommerce/order_success.html",
+
+        {
+
+            "order": order
+
+        }
+
     )
 
 
 def order_tracking(request):
 
+    order = Order.objects.filter(
+
+        user=request.user
+
+    ).order_by("-id").first()
+
     return render(
+
         request,
-        'eccomerce/order_tracking.html'
+
+        "ecommerce/order_tracking.html",
+
+        {
+
+            "order": order,
+
+            "courier": "Pending",
+
+            "tracking_id": "Pending",
+
+        }
+
     )
 
 
 def wallet_page(request):
 
+    orders = Order.objects.filter(
+
+        user=request.user
+
+    ).order_by("-id")
+
     return render(
+
         request,
-        'eccomerce/wallet.html'
+
+        "ecommerce/wallet.html",
+
+        {
+
+            "orders": orders
+
+        }
+
     )
 
 
+from accounts.models import User
+from django.db.models import Sum
+from ecommerce.models import ConsumerReferralIncome, ShopChainIncome
+
 def referrals_page(request):
+
+    team = User.objects.filter(
+        referred_by=request.user
+    )
+
+    total_referrals = team.count()
+
+    direct_income = ConsumerReferralIncome.objects.filter(
+        user=request.user,
+        level=1
+    ).aggregate(
+        total=Sum("commission_amount")
+    )["total"] or 0
+
+    level_income = ConsumerReferralIncome.objects.filter(
+        user=request.user
+    ).exclude(
+        level=1
+    ).aggregate(
+        total=Sum("commission_amount")
+    )["total"] or 0
+
+    shop_income = ShopChainIncome.objects.filter(
+        user=request.user
+    ).aggregate(
+        total=Sum("amount")
+    )["total"] or 0
+
+    level_summary = []
+
+    for level in range(1, 6):
+
+        amount = ConsumerReferralIncome.objects.filter(
+            user=request.user,
+            level=level
+        ).aggregate(
+            total=Sum("commission_amount")
+        )["total"] or 0
+
+        level_summary.append({
+            "level": level,
+            "amount": amount
+        })
 
     return render(
         request,
-        'ecommerce/referrals.html'
+        "ecommerce/referrals.html",
+        {
+            "team": team,
+            "total_referrals": total_referrals,
+            "direct_income": direct_income,
+            "level_income": level_income,
+            "shop_income": shop_income,
+            "level_summary": level_summary,
+        }
     )
 
 
 # =====================================================
 # ==================== APIs ===========================
 # =====================================================
+
+
+
+@api_view(["POST"])
+def shop_register(request):
+
+    serializer = ShopRegistrationSerializer(
+        data=request.data
+    )
+
+    if not serializer.is_valid():
+
+        return Response(
+
+            serializer.errors,
+
+            status=400
+
+        )
+
+    data = serializer.validated_data
+
+    # =====================================
+    # REFERRAL USER
+    # =====================================
+
+    referred_by = None
+
+    referral_code = data.get(
+        "referral_code"
+    )
+
+    if referral_code:
+
+        try:
+
+            referred_by = User.objects.get(
+
+                referral_code=referral_code
+
+            )
+
+        except User.DoesNotExist:
+
+            return Response({
+
+                "error":
+                "Invalid Referral Code"
+
+            }, status=400)
+
+    # =====================================
+    # PLAN
+    # =====================================
+
+    subscription = data.get(
+        "subscription_type"
+    )
+
+    if subscription == "premium":
+
+        wallet = 2
+        coins = 10
+        amount = 299
+        active = True
+        plan = "PREMIUM"
+
+    else:
+
+        wallet = 1
+        coins = 2
+        amount = 0
+        active = False
+        plan = "FREE"
+
+    # =====================================
+    # CREATE USER
+    # =====================================
+
+    
+    
+    user = User.objects.create(
+
+    username=data["owner_email"],
+
+    first_name=data["owner_name"],
+
+    email=data["owner_email"],
+
+    phone=data["owner_contact"],
+
+    state=data["state"],
+
+    pincode=data["pincode"],
+
+    role="shop",
+
+    referred_by=referred_by,
+
+    wallet_balance=wallet,
+
+    ecommerce_wallet=wallet,
+
+    nishchay_coin=coins,
+
+    plan=plan,
+
+    subscription_amount=amount,
+
+    is_subscription_active=active,
+
+    subscription_date=timezone.now(),
+
+    password=make_password(
+        data["password"]
+    )
+
+)
+    
+        # =====================================
+    # CREATE SHOP
+    # =====================================
+
+    shop = Shop.objects.create(
+
+        user=user,
+
+        name=data["shop_name"],
+
+        owner_name=data["owner_name"],
+
+        shop_category=data["shop_category"],
+
+        full_address=data["full_address"],
+
+        state=data["state"],
+
+        city=data["city"],
+
+        pincode=data["pincode"],
+
+        latitude=data.get("latitude"),
+
+        longitude=data.get("longitude"),
+
+        shop_contact=data["shop_contact"],
+
+        owner_contact=data["owner_contact"],
+
+        owner_email=data["owner_email"],
+
+        gst_number=data.get("gst_number"),
+
+        pan_number=data.get("pan_number"),
+
+        business_pan=data.get("business_pan"),
+
+        bank_name=data["bank_name"],
+
+        account_holder=data["account_holder"],
+
+        account_number=data["account_number"],
+
+        ifsc_code=data["ifsc_code"],
+
+        referral_code=data.get("referral_code"),
+
+        subscription_type=subscription,
+
+        subscription_amount=amount,
+
+        is_paid=(subscription == "premium"),
+
+        is_verified=False,
+
+        aadhaar_front=data["aadhaar_front"],
+
+        aadhaar_back=data["aadhaar_back"],
+
+        pan_card=data["pan_card"],
+
+        business_pan_file=data.get("business_pan_file"),
+
+        shop_photo=data["shop_photo"],
+
+    )
+
+    # =====================================
+    # GENERATE JWT TOKEN
+    # =====================================
+
+    refresh = RefreshToken.for_user(user)
+
+    access = str(refresh.access_token)
+    
+    refresh_token = str(refresh)
+
+    # =====================================
+    # SUCCESS RESPONSE
+    # =====================================
+
+    return Response(
+
+        {
+
+            "status": True,
+
+            "message": "Shop registered successfully.",
+
+            "shop_id": shop.shop_id,
+
+            "shop_name": shop.name,
+
+            "subscription": shop.subscription_type,
+
+            "wallet_balance": user.wallet_balance,
+
+            "ecommerce_wallet": user.ecommerce_wallet,
+
+            "nishchay_coin": user.nishchay_coin,
+
+            "referral_code": user.referral_code,
+
+            "access": access,
+
+            "refresh": refresh_token,
+
+        },
+
+        status=201
+
+    )
+    
+@api_view(["POST"])
+def shop_login(request):
+
+    username = request.data.get("email")
+    password = request.data.get("password")
+
+    if not username or not password:
+
+        return Response(
+            {
+                "status": False,
+                "message": "Email and Password are required."
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    user = authenticate(
+        username=username,
+        password=password
+    )
+
+    if user is None:
+
+        return Response(
+            {
+                "status": False,
+                "message": "Invalid credentials."
+            },
+            status=status.HTTP_401_UNAUTHORIZED
+        )
+
+    if user.role != "shop":
+
+        return Response(
+            {
+                "status": False,
+                "message": "This account is not a shop account."
+            },
+            status=status.HTTP_403_FORBIDDEN
+        )
+
+    try:
+
+        shop = Shop.objects.get(user=user)
+
+    except Shop.DoesNotExist:
+
+        return Response(
+            {
+                "status": False,
+                "message": "Shop profile not found."
+            },
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    refresh = RefreshToken.for_user(user)
+
+    return Response({
+
+        "status": True,
+
+        "message": "Login Successful",
+
+        "access": str(refresh.access_token),
+
+        "refresh": str(refresh),
+
+        "shop_id": shop.shop_id,
+
+        "shop_name": shop.name,
+
+        "owner_name": shop.owner_name,
+
+        "subscription": shop.subscription_type,
+
+        "kyc_status": shop.kyc_status,
+
+        "wallet_balance": user.wallet_balance,
+
+        "nishchay_coin": user.nishchay_coin,
+
+    })
+    
+    # =====================================================
+# SHOP DASHBOARD PAGE
+# =====================================================
+
+def shop_dashboard(request):
+
+    return render(
+
+        request,
+
+        "ecommerce/shop/dashboard.html"
+
+    )
+    
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+
+def shop_dashboard_api(request):
+
+    user = request.user
+
+    try:
+
+        shop = Shop.objects.get(
+            user=user
+        )
+
+    except Shop.DoesNotExist:
+
+        return Response({
+
+            "status":False,
+
+            "message":"Shop not found"
+
+        })
+
+    return Response({
+
+        "status":True,
+
+        "shop_name":shop.name,
+
+        "owner_name":shop.owner_name,
+
+        "wallet_balance":user.wallet_balance,
+
+        "subscription":shop.subscription_type,
+
+        "kyc_status":shop.kyc_status,
+
+        "coins":user.nishchay_coin,
+
+    })
+
+
 
 
 # =========================
@@ -345,27 +937,6 @@ def checkout(request):
         'address'
     )
 
-    # =========================
-    # SHOP ID
-    # =========================
-
-    shop_id = request.data.get(
-        'shop_id'
-    )
-
-    try:
-
-        shop = Shop.objects.get(
-            id=shop_id
-        )
-
-    except Shop.DoesNotExist:
-
-        return Response({
-
-            "error": "Invalid shop"
-
-        }, status=400)
 
     # =========================
     # USER CART
@@ -525,18 +1096,7 @@ def checkout(request):
 
         product.save()
 
-    # =========================
-    # SHOP DAILY CHAIN ENGINE
-    # =========================
 
-    distribute_shop_chain_cashback(
-
-        user=user,
-        shop=shop,
-        amount=total_amount,
-        order=order
-
-    )
 
     # =========================
     # CONSUMER REFERRAL BONUS

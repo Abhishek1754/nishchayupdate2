@@ -507,9 +507,13 @@
 
                     <p>Order ID</p>
 
-                    <h2>TN123456789</h2>
+                   <h2>{{ order.id }}</h2>
 
-                    <p>Placed on May 12, 2024 at 10:45 AM</p>
+                    <p>
+
+Placed on {{ order.created_at }}
+
+</p>
 
                 </div>
 
@@ -634,20 +638,37 @@
 
                 <div class="info">
 
-                    <p>John Doe</p>
-
                     <p>
-                        123 Green Street,
-                        MG Road
-                    </p>
 
-                    <p>
-                        Bangalore, Karnataka
-                    </p>
+{{ request.user.first_name }}
 
-                    <p>India</p>
+{{ request.user.last_name }}
 
-                    <p>+91 9876543210</p>
+</p>
+
+<p>
+
+{{ order.address }}
+
+</p>
+
+<p>
+
+{{ request.user.state }}
+
+</p>
+
+<p>
+
+India
+
+</p>
+
+<p>
+
+{{ request.user.phone }}
+
+</p>
 
                 </div>
 
@@ -666,14 +687,14 @@
                     <p>
                         Courier Partner :
                         <span class="blue">
-                            BlueDart
+                           {{ courier|default:"Pending" }}
                         </span>
                     </p>
 
                     <p>
                         Tracking ID :
                         <span class="blue">
-                            BD1234567890
+                            {{ tracking_id|default:"Pending" }}
                         </span>
                     </p>
 
@@ -695,99 +716,61 @@
                 Order Items
             </h2>
 
-            <!-- ITEM -->
+        {% for item in order.items.all %}
 
-            <div class="item">
+<div class="item">
 
-                <div class="item-left">
+<div class="item-left">
 
-                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12">
+{% if item.product.images.first %}
 
-                    <div>
+<img src="{{ item.product.images.first.image.url }}">
 
-                        <h3>
-                            Fire-Boltt Ninja Pro
-                        </h3>
+{% endif %}
 
-                        <p>₹2,999</p>
+<div>
 
-                        <p>Qty : 1</p>
+<h3>
 
-                    </div>
+{{ item.product.name }}
 
-                </div>
+</h3>
 
-                <div>
+<p>
 
-                    <p class="shipped">Shipped</p>
+₹ {{ item.price }}
 
-                    <p>May 13</p>
+</p>
 
-                </div>
+<p>
 
-            </div>
+Qty : {{ item.quantity }}
 
-            <!-- ITEM -->
+</p>
 
-            <div class="item">
+</div>
 
-                <div class="item-left">
+</div>
 
-                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90">
+<div>
 
-                    <div>
+<p class="shipped">
 
-                        <h3>boAt Airdopes</h3>
+{{ order.status }}
 
-                        <p>₹1,299</p>
+</p>
 
-                        <p>Qty : 1</p>
+<p>
 
-                    </div>
+{{ order.created_at }}
 
-                </div>
+</p>
 
-                <div>
+</div>
 
-                    <p class="shipped">Shipped</p>
+</div>
 
-                    <p>May 13</p>
-
-                </div>
-
-            </div>
-
-            <!-- ITEM -->
-
-            <div class="item">
-
-                <div class="item-left">
-
-                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
-
-                    <div>
-
-                        <h3>Puma Shoes</h3>
-
-                        <p>₹1,799</p>
-
-                        <p>Qty : 1</p>
-
-                    </div>
-
-                </div>
-
-                <div>
-
-                    <p class="shipped">Shipped</p>
-
-                    <p>May 13</p>
-
-                </div>
-
-            </div>
-
-        </div>
+{% endfor %}
 
         <!-- SUMMARY -->
 
@@ -799,7 +782,7 @@
 
                     <h3>Subtotal</h3>
 
-                    <p>₹6,097</p>
+                    ₹ {{ order.total_amount }}
 
                 </div>
 
@@ -807,7 +790,7 @@
 
                     <h3>Discount</h3>
 
-                    <p>- ₹1,099</p>
+                    ₹ {{ order.cashback_amount }}
 
                 </div>
 
@@ -822,7 +805,7 @@
                 <div>
 
                     <div class="amount">
-                        ₹4,998
+                        ₹ {{ order.total_amount }}
                     </div>
                 </div>
 

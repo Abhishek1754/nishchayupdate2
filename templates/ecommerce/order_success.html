@@ -386,7 +386,7 @@ font-size:30px;
 
 <div class="logo">
 <i class="fa-solid fa-bag-shopping"></i>
-TechNova
+Nishchay
 </div>
 
 <div class="secure">
@@ -413,7 +413,7 @@ Order Placed Successfully!
 
 <p class="success-sub">
 
-Thank you for shopping with TechNova.<br>
+Thank you for shopping with Nishchay..<br>
 Your order has been confirmed.
 
 </p>
@@ -429,11 +429,11 @@ Your order has been confirmed.
 <h3>Order ID</h3>
 
 <div class="order-id">
-TN123456789
+{{ order.id }}
 </div>
 
 <div class="order-time">
-May 12, 2024 • 10:45 AM
+{{ order.created_at }}
 </div>
 
 </div>
@@ -446,7 +446,7 @@ May 12, 2024 • 10:45 AM
 
 <i class="fa-solid fa-envelope"></i>
 
-john.doe@email.com
+{{ request.user.email }}
 
 </div>
 
@@ -454,11 +454,15 @@ john.doe@email.com
 
 <div class="buttons">
 
-<button class="track-btn">
+<button
+class="track-btn"
+onclick="window.location='/ecommerce/order-tracking/'">
 📦 Track Your Order
 </button>
 
-<button class="home-btn">
+<button
+class="home-btn"
+onclick="window.location='/ecommerce/'">
 🏠 Back to Home
 </button>
 
@@ -558,70 +562,52 @@ john.doe@email.com
 
 <h2>ORDER SUMMARY</h2>
 
+{% for item in order.items.all %}
+
 <div class="product">
 
-<img src="https://m.media-amazon.com/images/I/61y2VVWcGBL._SL1500_.jpg">
+{% if item.product.images.first %}
+
+<img src="{{ item.product.images.first.image.url }}">
+
+{% endif %}
 
 <div>
 
-<h4>Fire-Boltt Ninja Pro Max Smart Watch</h4>
+<h4>
 
-<p>Qty: 1</p>
+{{ item.product.name }}
+
+</h4>
+
+<p>
+
+Qty : {{ item.quantity }}
+
+</p>
 
 </div>
 
 <div class="product-price">
-₹2,999
-</div>
 
-</div>
+₹ {{ item.price }}
 
-<div class="product">
-
-<img src="https://m.media-amazon.com/images/I/61KNJav3S9L._SL1500_.jpg">
-
-<div>
-
-<h4>boAt Airdopes 141</h4>
-
-<p>Qty: 1</p>
-
-</div>
-
-<div class="product-price">
-₹1,299
 </div>
 
 </div>
 
-<div class="product">
-
-<img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/377758/01/sv01/fnd/IND/fmt/png">
-
-<div>
-
-<h4>Puma Running Shoes</h4>
-
-<p>Qty: 1</p>
-
-</div>
-
-<div class="product-price">
-₹1,799
-</div>
-
-</div>
+{% endfor %}
 
 <hr style="margin:25px 0;border-color:#1f3b00;">
 
 <div class="summary-row">
 <span>Subtotal (3 Items)</span>
-<span>₹ 6,097</span>
+₹ {{ order.total_amount }}
 </div>
 
 <div class="summary-row">
 <span>Discount</span>
-<span class="green">- ₹ 1,099</span>
+<span class="green">- ₹ {{ order.cashback_amount }}</span>
 </div>
 
 <div class="summary-row">
@@ -633,7 +619,7 @@ john.doe@email.com
 
 <div class="summary-row total">
 <span>Total Amount</span>
-<span class="green">₹ 4,998</span>
+<span class="green">₹ {{ order.total_amount }}</span>
 </div>
 
 </div>

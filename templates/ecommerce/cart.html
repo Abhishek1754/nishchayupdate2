@@ -467,11 +467,11 @@ width:100%;
 <div class="top-icons">
 
 <i class="fa-regular fa-bell">
-<span class="badge">3</span>
+<span class="badge">{{ notification_count|default:"0" }}</span>
 </i>
 
 <i class="fa-solid fa-cart-shopping">
-<span class="badge">4</span>
+<span class="badge">{{ cart|length }}</span>
 </i>
 
 </div>
@@ -488,7 +488,15 @@ width:100%;
 
 <div class="cart-title">
 
-<h2>MY CART (4 Items)</h2>
+<h2>
+
+MY CART (
+
+{{ cart|length }}
+
+Items)
+
+</h2>
 
 <div>Remove All</div>
 
@@ -496,29 +504,48 @@ width:100%;
 
 <!-- ITEM -->
 
+{% for item in cart %}
+
 <div class="cart-item">
 
-<input type="checkbox" class="check" checked>
+<input
+type="checkbox"
+class="check"
+checked>
 
 <div class="product-img">
-<img src="https://m.media-amazon.com/images/I/61y2VVWcGBL._SL1500_.jpg">
+
+{% if item.product.images.first %}
+
+<img src="{{ item.product.images.first.image.url }}">
+
+{% endif %}
+
 </div>
 
 <div class="item-details">
 
-<h3>Fire-Boltt Ninja Pro Max Smart Watch</h3>
+<h3>
+
+{{ item.product.name }}
+
+</h3>
 
 <div class="price">
-₹ 2,999
-<span class="old-price">₹ 4,999</span>
-<span class="off">40% OFF</span>
+
+₹ {{ item.product.price }}
+
 </div>
 
 <div class="qty">
 
 <button>-</button>
 
-<span>1</span>
+<span>
+
+{{ item.quantity }}
+
+</span>
 
 <button>+</button>
 
@@ -527,80 +554,24 @@ width:100%;
 </div>
 
 <div class="delete">
+
 <i class="fa-regular fa-trash-can"></i>
-</div>
-
-</div>
-
-<!-- ITEM -->
-
-<div class="cart-item">
-
-<input type="checkbox" class="check" checked>
-
-<div class="product-img">
-<img src="https://m.media-amazon.com/images/I/61KNJav3S9L._SL1500_.jpg">
-</div>
-
-<div class="item-details">
-
-<h3>boAt Airdopes 141</h3>
-
-<div class="price">
-₹ 1,299
-<span class="old-price">₹ 2,399</span>
-<span class="off">46% OFF</span>
-</div>
-
-<div class="qty">
-
-<button>-</button>
-
-<span>1</span>
-
-<button>+</button>
 
 </div>
 
 </div>
 
-<div class="delete">
-<i class="fa-regular fa-trash-can"></i>
-</div>
+{% empty %}
 
-</div>
+<h2
+style="text-align:center;
+padding:60px;">
 
-<!-- ITEM -->
+Cart is Empty
 
-<div class="cart-item">
+</h2>
 
-<input type="checkbox" class="check" checked>
-
-<div class="product-img">
-<img src="https://rukminim2.flixcart.com/image/850/1000/xif0q/shoe/l/g/r/8-376741-8-puma-black-castlerock-high-risk-red-original-imagqzcxzc8fwjtf.jpeg?q=90&crop=false">
-</div>
-
-<div class="item-details">
-
-<h3>Puma Running Shoes</h3>
-
-<div class="price">
-₹ 1,799
-<span class="old-price">₹ 2,999</span>
-<span class="off">40% OFF</span>
-</div>
-
-<div class="qty">
-
-<button>-</button>
-
-<span>1</span>
-
-<button>+</button>
-
-</div>
-
-</div>
+{% endfor %}
 
 <div class="delete">
 <i class="fa-regular fa-trash-can"></i>
@@ -618,17 +589,29 @@ width:100%;
 
 <div class="summary-row">
 <span>Total MRP</span>
-<span>₹ 70,297</span>
+<span>
+
+₹ {{ total }}
+
+</span>
 </div>
 
 <div class="summary-row">
 <span>Discount</span>
-<span class="green">- ₹ 10,300</span>
+<span class="green">
+
+₹ {{ cashback }}
+
+</span>
 </div>
 
 <div class="summary-row">
 <span>Coupon Discount</span>
-<span class="green">- ₹ 1,000</span>
+<span class="green">
+
+₹ 0
+
+</span>
 </div>
 
 <div class="summary-row">
@@ -640,7 +623,11 @@ width:100%;
 
 <div class="summary-row total">
 <span>Total Amount</span>
-<span class="green">₹ 58,997</span>
+<span class="green">
+
+₹ {{ grand_total }}
+
+</span>
 </div>
 
 <!-- ADDRESS -->
@@ -649,9 +636,25 @@ width:100%;
 
 <h3>Deliver To</h3>
 
-<p>John Doe</p>
-<p>123 Green Street, Bangalore</p>
-<p>+91 9876543210</p>
+<p>
+
+{{ request.user.first_name }}
+
+{{ request.user.last_name }}
+
+</p>
+
+<p>
+
+{{ request.user.state }}
+
+</p>
+
+<p>
+
+{{ request.user.phone }}
+
+</p>
 
 </div>
 
@@ -678,16 +681,21 @@ width:100%;
 
 <div class="pay-option">
 <span>Wallet Balance</span>
-<span>₹ 24,890</span>
+₹ {{ request.user.wallet_balance }}
 </div>
 
 </div>
 
-<button class="checkout-btn">
+<a
+href="/ecommerce/checkout/"
+class="checkout-btn"
+style="display:block;
+text-align:center;
+text-decoration:none;">
 
 PROCEED TO CHECKOUT →
 
-</button>
+</a>
 
 <div class="secure">
 🔒 100% Secure Payment

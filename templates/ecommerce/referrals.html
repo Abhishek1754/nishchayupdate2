@@ -387,7 +387,7 @@ width:100%;
 
 <div class="logo">
 <i class="fa-solid fa-bag-shopping"></i>
-TechNova
+Nishchay
 </div>
 
 <div class="menu">
@@ -466,7 +466,7 @@ Orders
 <h2>USER REFERRAL CODE</h2>
 
 <div class="code-box">
-NEONDOE123
+{{ request.user.referral_code }}
 <i class="fa-regular fa-copy"></i>
 </div>
 
@@ -488,7 +488,7 @@ Share Now
 <h2>SHOP TIE-UP REFERRAL CODE</h2>
 
 <div class="code-box">
-SHOPNEO456
+SHOP-{{ request.user.referral_code }}
 <i class="fa-regular fa-copy"></i>
 </div>
 
@@ -513,25 +513,25 @@ Share Now
 
 <div class="stat-card">
 <i class="fa-solid fa-users fa-2x"></i>
-<h2>32</h2>
+<h2>{{ total_referrals }}</h2>
 <p>Total Referrals</p>
 </div>
 
 <div class="stat-card">
 <i class="fa-solid fa-wallet fa-2x"></i>
-<h2>₹ 6,250</h2>
+<h2>₹ {{ request.user.total_earnings }}</h2>
 <p>Total Earnings</p>
 </div>
 
 <div class="stat-card">
 <i class="fa-solid fa-sitemap fa-2x"></i>
-<h2>₹ 2,100</h2>
+<h2>₹ {{ level_income }}</h2>
 <p>Level Income</p>
 </div>
 
 <div class="stat-card">
 <i class="fa-solid fa-store fa-2x"></i>
-<h2>₹ 4,150</h2>
+<h2>₹ {{ shop_income }}</h2>
 <p>Shop Earnings</p>
 </div>
 
@@ -577,17 +577,17 @@ Share Now
 
 <div class="earn-box">
 <div>Direct Earnings</div>
-<h3>₹ 3,450</h3>
+<h3>₹ {{ direct_income }}</h3>
 </div>
 
 <div class="earn-box">
 <div>Level Income</div>
-<h3>₹ 2,800</h3>
+<h3>₹ {{ level_income }}</h3>
 </div>
 
 <div class="earn-box">
 <div>Shop Commission</div>
-<h3>₹ 4,150</h3>
+<h3>₹ {{ shop_income }}</h3>
 </div>
 
 <button class="share-btn">
@@ -600,34 +600,25 @@ View Level Income
 
 <!-- LEVELS -->
 
-<div class="levels">
+{% for level in level_summary %}
 
 <div class="level">
-<h3>Level 1</h3>
-<p>₹ 500</p>
-</div>
 
-<div class="level">
-<h3>Level 2</h3>
-<p>₹ 600</p>
-</div>
+<h3>
 
-<div class="level">
-<h3>Level 3</h3>
-<p>₹ 750</p>
-</div>
+Level {{ level.level }}
 
-<div class="level">
-<h3>Level 4</h3>
-<p>₹ 150</p>
-</div>
+</h3>
 
-<div class="level">
-<h3>Level 5</h3>
-<p>₹ 100</p>
-</div>
+<p>
+
+₹ {{ level.amount }}
+
+</p>
 
 </div>
+
+{% endfor %}
 
 <!-- TABLE -->
 
@@ -635,34 +626,49 @@ View Level Income
 
 <table>
 
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Orders</th>
-<th>Earnings</th>
-</tr>
+{% for member in team %}
 
 <tr>
-<td>Rahul Sharma</td>
-<td>User</td>
-<td>8 Orders</td>
-<td class="green">₹ 850</td>
+
+<td>
+
+{{ member.first_name }} {{ member.last_name }}
+
+</td>
+
+<td>
+
+User
+
+</td>
+
+<td>
+
+{{ member.order_count|default:"0" }} Orders
+
+</td>
+
+<td class="green">
+
+₹ {{ member.earning|default:"0" }}
+
+</td>
+
 </tr>
+
+{% empty %}
 
 <tr>
-<td>Priya Verma</td>
-<td>User</td>
-<td>5 Orders</td>
-<td class="green">₹ 450</td>
+
+<td colspan="4">
+
+No referrals yet.
+
+</td>
+
 </tr>
 
-<tr>
-<td>Tech World Store</td>
-<td>Shop</td>
-<td>1 Tie-up</td>
-<td class="green">₹ 1250</td>
-</tr>
-
+{% endfor %}
 </table>
 
 </div>

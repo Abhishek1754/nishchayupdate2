@@ -198,16 +198,112 @@ class ProductImage(models.Model):
 # SHOP
 # =========================
 
+
+
 class Shop(models.Model):
+
+    SUBSCRIPTION_CHOICES = (
+        ('free', 'Free'),
+        ('premium', 'Premium'),
+    )
+
+    KYC_STATUS = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
 
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
     )
 
+    # =========================
+    # SHOP BASIC DETAILS
+    # =========================
+
+    shop_id = models.CharField(
+        max_length=20,
+        unique=True,
+        blank=True,
+        null=True
+    )
+
     name = models.CharField(
         max_length=200
     )
+
+    owner_name = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
+    )
+
+    shop_category = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    full_address = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    state = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    city = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    pincode = models.CharField(
+        max_length=10,
+        blank=True,
+        null=True
+    )
+
+    latitude = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+
+    longitude = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+
+    # =========================
+    # CONTACT DETAILS
+    # =========================
+
+    shop_contact = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True
+    )
+
+    owner_contact = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True
+    )
+
+    owner_email = models.EmailField(
+        blank=True,
+        null=True
+    )
+
+    # =========================
+    # GST / PAN
+    # =========================
 
     gst_number = models.CharField(
         max_length=50,
@@ -216,11 +312,102 @@ class Shop(models.Model):
     )
 
     pan_number = models.CharField(
-        max_length=50
+        max_length=50,
+        blank=True,
+        null=True
     )
+
+    business_pan = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+
+    # =========================
+    # BANK DETAILS
+    # =========================
+
+    bank_name = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
+    )
+
+    account_holder = models.CharField(
+        max_length=200,
+        blank=True,
+        null=True
+    )
+
+    account_number = models.CharField(
+        max_length=40,
+        blank=True,
+        null=True
+    )
+
+    ifsc_code = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True
+    )
+
+    # =========================
+    # DOCUMENTS
+    # =========================
+
+    aadhaar_front = models.ImageField(
+        upload_to="shops/aadhaar/",
+        blank=True,
+        null=True
+    )
+
+    aadhaar_back = models.ImageField(
+        upload_to="shops/aadhaar/",
+        blank=True,
+        null=True
+    )
+
+    pan_card = models.ImageField(
+        upload_to="shops/pan/",
+        blank=True,
+        null=True
+    )
+
+    business_pan_file = models.ImageField(
+        upload_to="shops/business_pan/",
+        blank=True,
+        null=True
+    )
+
+    shop_photo = models.ImageField(
+        upload_to="shops/photos/",
+        blank=True,
+        null=True
+    )
+
+    # =========================
+    # REGISTRATION
+    # =========================
 
     referral_code = models.CharField(
         max_length=20,
+        blank=True,
+        null=True
+    )
+
+    subscription_type = models.CharField(
+        max_length=20,
+        choices=SUBSCRIPTION_CHOICES,
+        default="free"
+    )
+
+    subscription_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    subscription_expiry = models.DateField(
         blank=True,
         null=True
     )
@@ -229,17 +416,41 @@ class Shop(models.Model):
         default=False
     )
 
+    is_verified = models.BooleanField(
+        default=False
+    )
+
+    kyc_status = models.CharField(
+        max_length=20,
+        choices=KYC_STATUS,
+        default="pending"
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
 
+    # =========================
+    # AUTO SHOP ID
+    # =========================
+
+    def save(self, *args, **kwargs):
+
+        if not self.shop_id:
+
+            last_shop = Shop.objects.order_by('-id').first()
+
+            if last_shop:
+                next_id = last_shop.id + 1
+            else:
+                next_id = 1
+
+            self.shop_id = f"NSHSHOP{next_id:06d}"
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
-
         return self.name
-
-
-
-
 # =========================
 # SHOP CASHBACK PLAN
 # =========================

@@ -473,30 +473,36 @@ gap:20px;
 <div class="address-box">
 
 <h3>
-John Doe
-<span class="tag">Home</span>
+
+{{ request.user.first_name }}
+
+{{ request.user.last_name }}
+
+<span class="tag">
+
+Default
+
+</span>
+
 </h3>
 
-<p>123 Green Street, Bangalore</p>
+<p>
 
-<p>+91 9876543210</p>
+{{ request.user.state }}
 
-</div>
+</p>
 
-<div class="address-box" style="border:1px solid #1d3900;">
+<p>
 
-<h3>
-John Doe
-<span class="tag">Work</span>
-</h3>
+{{ request.user.phone }}
 
-<p>456 Park Avenue, Bangalore</p>
-
-<p>+91 9123456780</p>
+</p>
 
 </div>
 
-</div>
+
+
+
 
 <!-- SHIPPING -->
 
@@ -577,7 +583,7 @@ UPI
 👛 Wallet Balance
 </div>
 
-<div>₹ 24,890</div>
+₹ {{ request.user.wallet_balance }}
 
 </div>
 
@@ -611,51 +617,57 @@ UPI
 
 <h2>ORDER SUMMARY</h2>
 
-<div class="order-item">
-
-<img src="https://m.media-amazon.com/images/I/61y2VVWcGBL._SL1500_.jpg">
-
-<div>
-
-<h4>Fire-Boltt Ninja Pro</h4>
-
-<p>Qty: 1</p>
-
-</div>
-
-<div style="margin-left:auto;">₹ 2,999</div>
-
-</div>
+{% for item in cart %}
 
 <div class="order-item">
 
-<img src="https://m.media-amazon.com/images/I/61KNJav3S9L._SL1500_.jpg">
+{% if item.product.images.first %}
+
+<img src="{{ item.product.images.first.image.url }}">
+
+{% endif %}
 
 <div>
 
-<h4>boAt Airdopes 141</h4>
+<h4>
 
-<p>Qty: 1</p>
+{{ item.product.name }}
+
+</h4>
+
+<p>
+
+Qty : {{ item.quantity }}
+
+</p>
 
 </div>
 
-<div style="margin-left:auto;">₹ 1,299</div>
+<div style="margin-left:auto;">
+
+₹ {{ item.product.price }}
+
+</div>
+
+</div>
+
+{% endfor %}
 
 </div>
 
 <div class="summary-row">
 <span>Total MRP</span>
-<span>₹ 70,297</span>
+₹ {{ total }}
 </div>
 
 <div class="summary-row">
 <span>Discount</span>
-<span class="green">- ₹ 10,300</span>
+₹ {{ cashback }}
 </div>
 
 <div class="summary-row">
 <span>Coupon Discount</span>
-<span class="green">- ₹ 1,000</span>
+<span class="green">- ₹ 0</span>
 </div>
 
 <div class="summary-row">
@@ -667,10 +679,12 @@ UPI
 
 <div class="summary-row total">
 <span>Total Amount</span>
-<span class="green">₹ 58,997</span>
+₹ {{ grand_total }}
 </div>
 
-<button class="place-order">
+<button
+class="place-order"
+onclick="placeOrder()">
 
 ⚡ PLACE ORDER
 
@@ -713,6 +727,57 @@ UPI
 </div>
 
 </div>
+
+<script>
+
+async function placeOrder(){
+
+const token = localStorage.getItem("access");
+
+const response = await fetch(
+
+"/ecommerce/api/checkout/",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json",
+
+"Authorization":"Bearer "+token
+
+},
+
+body:JSON.stringify({
+
+payment_method:"wallet",
+
+address:"{{ request.user.state }}"
+
+})
+
+}
+
+);
+
+const data = await response.json();
+
+if(data.order_id){
+
+window.location.href="/ecommerce/order-success/";
+
+}
+else{
+
+alert(data.error || data.msg);
+
+}
+
+}
+
+</script>
 
 </body>
 </html>

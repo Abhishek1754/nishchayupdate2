@@ -14,6 +14,12 @@ from .views import (
     wallet_page,
     referrals_page,
     my_orders,
+    
+    # SHOP APIs
+    shop_dashboard,
+    shop_register,
+    shop_login,
+    shop_dashboard_api,
 
     # APIs
 
@@ -35,6 +41,12 @@ urlpatterns = [
         ecommerce_dashboard,
         name='ecommerce_dashboard'
     ),
+    
+    path(
+    'shop-dashboard/',
+    shop_dashboard,
+    name='shop_dashboard'
+),
 
     path(
     'product-details/<int:id>/',
@@ -87,6 +99,24 @@ urlpatterns = [
     # =====================================================
     # ======================= APIs ========================
     # =====================================================
+    
+    path(
+    'api/shop-register/',
+    shop_register,
+    name='shop_register'
+),
+
+path(
+    'api/shop-login/',
+    shop_login,
+    name='shop_login'
+),
+
+path(
+    'api/shop-dashboard/',
+    shop_dashboard_api,
+    name='shop_dashboard_api'
+),
 
     path(
         'api/products/',

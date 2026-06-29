@@ -498,9 +498,9 @@ grid-template-columns:1fr;
 
 <div class="left-top">
 
-<div class="back">
+<a href="/ecommerce/" class="back">
 <i class="fa-solid fa-arrow-left"></i>
-</div>
+</a>
 
 <h1>PRODUCT DETAILS</h1>
 
@@ -513,7 +513,11 @@ grid-template-columns:1fr;
 <i class="fa-regular fa-heart"></i>
 
 <i class="fa-solid fa-cart-shopping">
-<span class="badge">3</span>
+<span class="badge">
+
+{{ cart_count|default:"0" }}
+
+</span>
 </i>
 
 </div>
@@ -565,7 +569,13 @@ grid-template-columns:1fr;
 
 <div class="rating">
 <i class="fa-solid fa-star"></i>
-4.5 (128 reviews)
+{% if product.quantity > 0 %}
+<i class="fa-solid fa-circle-check"></i>
+In Stock
+{% else %}
+<i class="fa-solid fa-circle-xmark"></i>
+Out Of Stock
+{% endif %}
 </div>
 
 <div class="price">
@@ -585,8 +595,8 @@ grid-template-columns:1fr;
 <i class="fa-solid fa-shield"></i>
 
 <div>
-<h3>1 Year Warranty</h3>
-<p>100% Original Product</p>
+<h3>Original Nishchay Product</h3>
+<p>Quality Checked</p>
 </div>
 
 </div>
@@ -602,27 +612,6 @@ grid-template-columns:1fr;
 
 </div>
 
-<div class="highlights">
-
-<h2>Highlights</h2>
-
-<ul>
-
-<li><i class="fa-solid fa-mobile-screen"></i> 1.69" Full Touch Display</li>
-
-<li><i class="fa-brands fa-bluetooth"></i> Bluetooth Calling</li>
-
-<li><i class="fa-solid fa-person-running"></i> 100+ Sports Modes</li>
-
-<li><i class="fa-solid fa-heart-pulse"></i> Heart Rate Monitoring</li>
-
-<li><i class="fa-solid fa-droplet"></i> SpO2 Monitoring</li>
-
-<li><i class="fa-solid fa-shield"></i> IP68 Water Resistant</li>
-
-</ul>
-
-</div>
 
 </div>
 
@@ -682,14 +671,20 @@ grid-template-columns:1fr;
 
 <div class="actions">
 
-<button class="btn cart-btn">
+<a
+href="/ecommerce/api/add-to-cart/?product={{ product.id }}"
+class="btn cart-btn"
+style="text-decoration:none;">
 <i class="fa-solid fa-cart-shopping"></i>
 ADD TO CART
-</button>
+</a>
 
-<button class="btn buy-btn">
+<a
+href="/ecommerce/checkout/?product={{ product.id }}"
+class="btn buy-btn"
+style="text-decoration:none;">
 ⚡ BUY NOW
-</button>
+</a>
 
 </div>
 
@@ -723,7 +718,7 @@ Category :
 <h3>
 
 Sub Category :
-{{ product.sub_category.name }}
+{{ product.subcategory.name }}
 
 </h3>
 
@@ -797,30 +792,9 @@ View More ↓
 
 <div class="frequent-left">
 
-<img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
-
-<div>
-
-    <div class="frequently">
-
-<h2>
-
-Frequently Bought Together
-
-</h2>
-
-<div class="frequent-grid">
-
-{% for p in related_products %}
-<!-- FREQUENTLY -->
-
 <div class="frequently">
 
-<h2>
-
-Frequently Bought Together
-
-</h2>
+<h2>Related Products</h2>
 
 <div class="frequent-grid">
 
@@ -831,24 +805,14 @@ Frequently Bought Together
 <div class="frequent-left">
 
 {% if p.images.first %}
-
 <img src="{{ p.images.first.image.url }}">
-
 {% endif %}
 
 <div>
 
-<h3>
+<h3>{{ p.name }}</h3>
 
-{{ p.name }}
-
-</h3>
-
-<p>
-
-₹ {{ p.price }}
-
-</p>
+<p>₹ {{ p.price }}</p>
 
 </div>
 
@@ -865,6 +829,12 @@ class="add">
 </div>
 
 {% endfor %}
+
+</div>
+
+</div>
+
+
 
 </div>
 

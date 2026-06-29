@@ -542,8 +542,10 @@
                             <h2>TOTAL WALLET BALANCE</h2>
 
                             <div class="amount">
-                                ₹ 24,890.75
-                            </div>
+
+₹ {{ request.user.wallet_balance }}
+
+</div>
 
                         </div>
 
@@ -561,7 +563,11 @@
 
                             <h4>CASHBACK BALANCE</h4>
 
-                            <h2>₹ 2,345</h2>
+                            <h2>
+
+₹ {{ request.user.ecommerce_wallet }}
+
+</h2>
 
                         </div>
 
@@ -571,7 +577,13 @@
 
                             <h4>REWARDS</h4>
 
-                            <h2>₹ 1,250</h2>
+                            <h2>
+
+{{ request.user.nishchay_coin }}
+
+Coins
+
+</h2>
 
                         </div>
 
@@ -581,7 +593,11 @@
 
                             <h4>REFERRAL</h4>
 
-                            <h2>₹ 6,250</h2>
+                            <h2>
+
+₹ {{ request.user.total_earnings }}
+
+</h2>
 
                         </div>
 
@@ -591,7 +607,11 @@
 
                             <h4>PENDING</h4>
 
-                            <h2>₹ 1,500</h2>
+                            <h2>
+
+₹ 0
+
+</h2>
 
                         </div>
 
@@ -661,173 +681,65 @@
 
                     </div>
 
-                    <!-- TRANSACTION -->
+                  {% for order in orders %}
 
-                    <div class="transaction">
+<div class="transaction">
 
-                        <div class="transaction-left">
+<div class="transaction-left">
 
-                            <div class="transaction-icon">
-                                <i class="fa-solid fa-money-bill"></i>
-                            </div>
+<div class="transaction-icon">
 
-                            <div>
+<i class="fa-solid fa-cart-shopping"></i>
 
-                                <h3>Cashback Received</h3>
+</div>
 
-                                <p>Order #ORD12345</p>
+<div>
 
-                            </div>
+<h3>
 
-                        </div>
+Order Payment
 
-                        <div class="transaction-right">
+</h3>
 
-                            <h2 class="green">
-                                + ₹250
-                            </h2>
+<p>
 
-                            <p>May 13</p>
+Order #{{ order.id }}
 
-                        </div>
+</p>
 
-                    </div>
+</div>
 
-                    <!-- TRANSACTION -->
+</div>
 
-                    <div class="transaction">
+<div class="transaction-right">
 
-                        <div class="transaction-left">
+<h2 class="red">
 
-                            <div class="transaction-icon">
-                                <i class="fa-solid fa-users"></i>
-                            </div>
+- ₹ {{ order.total_amount }}
 
-                            <div>
+</h2>
 
-                                <h3>Referral Earnings</h3>
+<p>
 
-                                <p>Referral ID #REF123</p>
+{{ order.created_at }}
 
-                            </div>
+</p>
 
-                        </div>
+</div>
 
-                        <div class="transaction-right">
+</div>
 
-                            <h2 class="green">
-                                + ₹500
-                            </h2>
+{% empty %}
 
-                            <p>May 12</p>
+<div
+style="padding:30px;text-align:center;">
 
-                        </div>
+No Transactions Found
 
-                    </div>
+</div>
 
-                    <!-- TRANSACTION -->
+{% endfor %}
 
-                    <div class="transaction">
-
-                        <div class="transaction-left">
-
-                            <div class="transaction-icon">
-                                <i class="fa-solid fa-plus"></i>
-                            </div>
-
-                            <div>
-
-                                <h3>Added Money</h3>
-
-                                <p>UPI Transaction</p>
-
-                            </div>
-
-                        </div>
-
-                        <div class="transaction-right">
-
-                            <h2 class="green">
-                                + ₹1,000
-                            </h2>
-
-                            <p>May 11</p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- TRANSACTION -->
-
-                    <div class="transaction">
-
-                        <div class="transaction-left">
-
-                            <div class="transaction-icon">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </div>
-
-                            <div>
-
-                                <h3>Order Payment</h3>
-
-                                <p>Order #ORD12344</p>
-
-                            </div>
-
-                        </div>
-
-                        <div class="transaction-right">
-
-                            <h2 class="red">
-                                - ₹1,299
-                            </h2>
-
-                            <p>May 10</p>
-
-                        </div>
-
-                    </div>
-
-                    <!-- TRANSACTION -->
-
-                    <div class="transaction">
-
-                        <div class="transaction-left">
-
-                            <div class="transaction-icon">
-                                <i class="fa-solid fa-arrow-up"></i>
-                            </div>
-
-                            <div>
-
-                                <h3>Withdrawal</h3>
-
-                                <p>To HDFC Bank</p>
-
-                            </div>
-
-                        </div>
-
-                        <div class="transaction-right">
-
-                            <h2 class="red">
-                                - ₹2,000
-                            </h2>
-
-                            <p>May 09</p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- RIGHT -->
-
-            <div>
 
                 <!-- SUMMARY -->
 
@@ -837,22 +749,22 @@
 
                     <div class="summary-row">
                         <span>Total Earnings</span>
-                        <span>₹ 24,890</span>
+                        ₹ {{ request.user.total_earnings }}
                     </div>
 
                     <div class="summary-row">
                         <span>Total Withdrawn</span>
-                        <span>₹ 18,240</span>
+                        ₹ {{ request.user.total_withdraw }}
                     </div>
 
                     <div class="summary-row">
                         <span>Total Added</span>
-                        <span>₹ 5,000</span>
+                        ₹ {{ request.user.wallet_balance }}
                     </div>
 
                     <div class="summary-row">
                         <span>This Month</span>
-                        <span>₹ 3,450</span>
+                        ₹ {{ request.user.roi_wallet }}
                     </div>
 
                     <button>
@@ -885,7 +797,7 @@
 
                     <p>Available to Withdraw</p>
 
-                    <h1>₹ 22,390</h1>
+                    ₹ {{ request.user.wallet_balance }}
 
                     <button>
                         Withdraw Now
