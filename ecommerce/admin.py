@@ -40,6 +40,7 @@ from .models import (
 
     Order,
     OrderItem,
+    Address,
 
 )
 
@@ -976,3 +977,51 @@ class OrderAdmin(admin.ModelAdmin):
         OrderItemInline,
 
     ]
+    
+    # =====================================
+# CUSTOMER ADDRESS
+# =====================================
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        "id",
+        "user",
+        "full_name",
+        "mobile_number",
+        "city",
+        "state",
+        "pincode",
+        "address_type",
+        "is_default",
+
+    )
+
+    list_filter = (
+
+        "state",
+        "city",
+        "address_type",
+        "is_default",
+
+    )
+
+    search_fields = (
+
+        "full_name",
+        "mobile_number",
+        "city",
+        "state",
+        "pincode",
+        "user__email",
+        "user__phone",
+
+    )
+
+    ordering = (
+
+        "-id",
+
+    )

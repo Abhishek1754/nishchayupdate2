@@ -1488,12 +1488,33 @@ class Order(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
+    payment_status = models.CharField(
+    max_length=20,
+    default="pending"
+)
 
-    def __str__(self):
+cashfree_order_id = models.CharField(
+    max_length=100,
+    blank=True,
+    null=True
+)
+
+cashfree_payment_id = models.CharField(
+    max_length=100,
+    blank=True,
+    null=True
+)
+
+payment_completed_at = models.DateTimeField(
+    blank=True,
+    null=True
+)
+
+def __str__(self):
 
         return f"Order {self.id}"
 
-    def save(self, *args, **kwargs):
+def save(self, *args, **kwargs):
 
         is_new = self.pk is None
 
@@ -1557,3 +1578,81 @@ class OrderItem(models.Model):
     def __str__(self):
 
         return f"{self.product.name} ({self.quantity})"
+    
+    # =========================
+# CUSTOMER ADDRESS
+# =========================
+
+class Address(models.Model):
+
+    ADDRESS_TYPES = (
+
+        ('home', 'Home'),
+        ('office', 'Office'),
+        ('other', 'Other'),
+
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='addresses'
+    )
+
+    full_name = models.CharField(
+        max_length=200
+    )
+
+    mobile_number = models.CharField(
+        max_length=15
+    )
+
+    alternate_mobile = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True
+    )
+
+    house_no = models.CharField(
+        max_length=255
+    )
+
+    area = models.CharField(
+        max_length=255
+    )
+
+    landmark = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True
+    )
+
+    city = models.CharField(
+        max_length=100
+    )
+
+    state = models.CharField(
+        max_length=100
+    )
+
+    pincode = models.CharField(
+        max_length=10
+    )
+
+    address_type = models.CharField(
+        max_length=20,
+        choices=ADDRESS_TYPES,
+        default='home'
+    )
+
+    is_default = models.BooleanField(
+        default=False
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.full_name} ({self.address_type})"

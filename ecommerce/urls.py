@@ -11,9 +11,15 @@ from .views import (
     place_order_page,
     order_success_page,
     order_tracking,
-    wallet_page,
-    referrals_page,
-    my_orders,
+   wallet_page,
+   address_page,
+   add_address,
+   edit_address,
+   delete_address,
+   set_default_address,
+   referrals_page,
+   my_orders_page,     # <-- ADD THIS
+    
     
     # SHOP APIs
     shop_dashboard,
@@ -27,6 +33,10 @@ from .views import (
     add_to_cart,
     my_cart,
     checkout,
+    my_orders,
+    create_cashfree_order,
+    cashfree_verify_payment,
+    
 
 )
 
@@ -89,12 +99,48 @@ urlpatterns = [
         wallet_page,
         name='wallet_page'
     ),
+    
+    path(
+    'address/',
+    address_page,
+    name='address_page'
+),
+
+path(
+    'add-address/',
+    add_address,
+    name='add_address'
+),
+
+path(
+    'edit-address/<int:address_id>/',
+    edit_address,
+    name='edit_address'
+),
+
+path(
+    'delete-address/<int:address_id>/',
+    delete_address,
+    name='delete_address'
+),
+
+path(
+    'set-default-address/<int:address_id>/',
+    set_default_address,
+    name='set_default_address'
+),
 
     path(
         'referrals/',
         referrals_page,
         name='referrals_page'
     ),
+    
+    path(
+    'my-orders/',
+    my_orders_page,
+    name='my_orders_page'
+),
 
     # =====================================================
     # ======================= APIs ========================
@@ -142,11 +188,25 @@ path(
         name='checkout'
     ),
     
+    path(
+    'api/create-cashfree-order/',
+    create_cashfree_order,
+    name='create_cashfree_order'
+),
+    
+    path(
+    'api/cashfree-verify/',
+    cashfree_verify_payment,
+    name='cashfree_verify_payment'
+),
+
+
     
     path(
     'api/my-orders/',
     my_orders,
     name='my_orders'
 ),
+    
 
 ]

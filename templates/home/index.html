@@ -2413,7 +2413,7 @@ transform:translateY(-8px);
 
 </style>
 
-
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 
 </head>
 
@@ -2520,12 +2520,29 @@ transform:translateY(-8px);
 
         </div>
 
-        <button
-            onclick="logoutUser()"
-            class="btn"
-        >
-            Logout
-        </button>
+        <div style="display:flex;gap:10px;align-items:center;">
+
+    <button
+        onclick="upgradeMembership()"
+        class="btn active"
+        style="
+            background:#b6ff00;
+            color:#000;
+            font-weight:bold;
+            white-space:nowrap;
+        "
+    >
+        Upgrade ₹199
+    </button>
+
+    <button
+        onclick="logoutUser()"
+        class="btn"
+    >
+        Logout
+    </button>
+
+</div>
 
     </div>
 
@@ -3044,6 +3061,53 @@ function shareReferral(){
         );
 
         alert("Referral link copied!");
+
+    }
+
+}
+
+async function upgradeMembership() {
+
+    try {
+
+        const response = await fetch(
+            "/api/subscription/create-order/",
+            {
+                method: "POST"
+            }
+        );
+
+        const data = await response.json();
+
+        console.log(data);
+
+        if (!data.payment_session_id) {
+
+            alert("Unable to create payment.");
+
+            return;
+
+        }
+
+        const cashfree = Cashfree({
+            mode: "production"
+        });
+
+        cashfree.checkout({
+
+            paymentSessionId: data.payment_session_id,
+
+            redirectTarget: "_self"
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+
+        alert("Payment Failed");
 
     }
 

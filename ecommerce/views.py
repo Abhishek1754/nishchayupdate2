@@ -1,4 +1,6 @@
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -9,6 +11,9 @@ from .models import Shop
 
 from wallet.utils import create_wallet_transaction
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import Count
+from django.shortcuts import redirect
+from django.contrib import messages
 
 from .utils import (
 
@@ -25,6 +30,7 @@ from .models import (
 
     Order,
     OrderItem,
+    Address,
 
     Shop,
 
@@ -49,21 +55,66 @@ from .models import Category, Product
 
 from .models import Category, Product
 
+from django.db.models import Count
+
+
 def ecommerce_dashboard(request):
 
-    categories = Category.objects.all()
+    # ==========================
+    # CATEGORY FILTER
+    # ==========================
+
+    category_id = request.GET.get("category")
+
+    categories = Category.objects.annotate(
+        total_products=Count("product")
+    )
 
     products = Product.objects.filter(
         is_active=True
     )
 
+    if category_id:
+
+        products = products.filter(
+            category_id=category_id
+        )
+
+    # ==========================
+    # USER DATA
+    # ==========================
+
+    cart_count = 0
+    notification_count = 0
+
+    if request.user.is_authenticated:
+
+        cart_count = Cart.objects.filter(
+            user=request.user
+        ).count()
+
+    # ==========================
+    # HOME PAGE
+    # ==========================
+
     return render(
+
         request,
-        'ecommerce/dashboard.html',
+
+        "ecommerce/dashboard.html",
+
         {
-            'categories': categories,
-            'products': products
+
+            "categories": categories,
+
+            "products": products,
+
+            "cart_count": cart_count,
+
+            "notification_count": notification_count,
+
         }
+
     )
     
     
@@ -193,10 +244,19 @@ def checkout_page(request):
             item.product.cashback_percentage
 
         ) / 100
-
+        
+    addresses = Address.objects.filter(
+        user=request.user).order_by(
+             "-is_default",
+             "-id"
+        )
+        
+        
+        
+        
     return render(
 
-        request,
+    request,
 
         "ecommerce/checkout.html",
 
@@ -209,6 +269,8 @@ def checkout_page(request):
             "cashback": cashback,
 
             "grand_total": total,
+            
+            "addresses": addresses,
 
         }
 
@@ -275,24 +337,231 @@ def order_tracking(request):
 
 def wallet_page(request):
 
-    orders = Order.objects.filter(
+    return render(
 
+        request,
+
+        "ecommerce/wallet.html"
+
+    )
+    
+# =====================================================
+# ADDRESS PAGE
+# =====================================================
+
+# =====================================================
+# ADDRESS PAGE
+# =====================================================
+
+@login_required(login_url="user_login_page")
+def address_page(request):
+
+    addresses = Address.objects.filter(
         user=request.user
-
-    ).order_by("-id")
+    ).order_by(
+        "-is_default",
+        "-id"
+    )
 
     return render(
 
         request,
 
-        "ecommerce/wallet.html",
+        "ecommerce/address.html",
 
         {
 
-            "orders": orders
+            "addresses": addresses
 
         }
 
+    )
+
+
+# =====================================================
+# ADD ADDRESS
+# =====================================================
+
+@login_required(login_url="user_login_page")
+def add_address(request):
+
+    if request.method == "POST":
+
+        is_default = request.POST.get("is_default")
+
+        if is_default:
+
+            Address.objects.filter(
+                user=request.user
+            ).update(
+                is_default=False
+            )
+
+        Address.objects.create(
+
+            user=request.user,
+
+            full_name=request.POST.get("full_name"),
+
+            mobile_number=request.POST.get("mobile_number"),
+
+            alternate_mobile=request.POST.get(
+                "alternate_mobile"
+            ),
+
+            house_no=request.POST.get(
+                "house_no"
+            ),
+
+            area=request.POST.get(
+                "area"
+            ),
+
+            landmark=request.POST.get(
+                "landmark"
+            ),
+
+            city=request.POST.get(
+                "city"
+            ),
+
+            state=request.POST.get(
+                "state"
+            ),
+
+            pincode=request.POST.get(
+                "pincode"
+            ),
+
+            address_type=request.POST.get(
+                "address_type"
+            ),
+
+            is_default=True if is_default else False
+
+        )
+
+        messages.success(
+
+            request,
+
+            "Address Added Successfully."
+
+        )
+
+        return redirect(
+            "address_page"
+        )
+
+    return redirect(
+        "address_page"
+    )
+    
+    # =====================================================
+# EDIT ADDRESS
+# =====================================================
+
+@login_required(login_url="user_login_page")
+def edit_address(request, address_id):
+
+    address = get_object_or_404(
+        Address,
+        id=address_id,
+        user=request.user
+    )
+
+    if request.method == "POST":
+
+        address.full_name = request.POST.get("full_name")
+        address.mobile_number = request.POST.get("mobile_number")
+        address.alternate_mobile = request.POST.get("alternate_mobile")
+        address.house_no = request.POST.get("house_no")
+        address.area = request.POST.get("area")
+        address.landmark = request.POST.get("landmark")
+        address.city = request.POST.get("city")
+        address.state = request.POST.get("state")
+        address.pincode = request.POST.get("pincode")
+        address.address_type = request.POST.get("address_type")
+
+        address.save()
+
+        messages.success(
+            request,
+            "Address updated successfully."
+        )
+
+        return redirect("address_page")
+
+    return redirect("address_page")
+
+# =====================================================
+# DELETE ADDRESS
+# =====================================================
+
+@login_required(login_url="user_login_page")
+def delete_address(request, address_id):
+
+    address = get_object_or_404(
+
+        Address,
+
+        id=address_id,
+
+        user=request.user
+
+    )
+
+    address.delete()
+
+    messages.success(
+
+        request,
+
+        "Address deleted successfully."
+
+    )
+
+    return redirect(
+        "address_page"
+    )
+    
+    # =====================================================
+# DEFAULT ADDRESS
+# =====================================================
+
+@login_required(login_url="user_login_page")
+def set_default_address(request, address_id):
+
+    Address.objects.filter(
+        user=request.user
+    ).update(
+        is_default=False
+    )
+
+    address = get_object_or_404(
+
+        Address,
+
+        id=address_id,
+
+        user=request.user
+
+    )
+
+    address.is_default = True
+
+    address.save()
+
+    messages.success(
+
+        request,
+
+        "Default address updated."
+
+    )
+
+    return redirect(
+        "address_page"
     )
 
 
@@ -356,6 +625,20 @@ def referrals_page(request):
             "shop_income": shop_income,
             "level_summary": level_summary,
         }
+    )
+    
+    # =====================================================
+# MY ORDERS PAGE
+# =====================================================
+
+def my_orders_page(request):
+
+    return render(
+
+        request,
+
+        "ecommerce/my_orders.html"
+
     )
 
 
@@ -1049,24 +1332,46 @@ def checkout(request):
             remark='Product Cashback'
 
         )
-
-    # =========================
-    # CREATE ORDER
-    # =========================
-
+        
+    default_address = Address.objects.filter(
+        user=user,
+        is_default=True
+        ).first()
+    if default_address:
+        order_address = (
+             f"{default_address.full_name}, "
+             f"{default_address.house_no}, "
+             f"{default_address.area}, "
+             f"{default_address.city}, "
+             f"{default_address.state}, "
+             f"{default_address.pincode}, "
+             f"Mobile: {default_address.mobile_number}"
+              )
+        
+    else:
+        return Response(
+            {
+                "error": "Please add a default address first."
+                },
+            status=400
+            )
     order = Order.objects.create(
 
-        user=user,
+    user=user,
 
-        total_amount=total_amount,
+    total_amount=total_amount,
 
-        cashback_amount=cashback_amount,
+    cashback_amount=cashback_amount,
 
-        payment_method=payment_method,
+    payment_method=payment_method,
 
-        address=address,
+    address=order_address,
 
-    )
+)
+
+    
+
+
 
     # =========================
     # CREATE ORDER ITEMS
@@ -1183,3 +1488,168 @@ def my_orders(request):
         })
 
     return Response(data)
+# =====================================================
+# CASHFREE CREATE ORDER
+# =====================================================
+
+import uuid
+import requests
+from django.conf import settings
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def create_cashfree_order(request):
+
+    user = request.user
+
+    cart = Cart.objects.filter(user=user)
+
+    if not cart.exists():
+
+        return Response(
+            {
+                "error": "Cart is empty"
+            },
+            status=400
+        )
+
+    total = 0
+
+    for item in cart:
+
+        total += item.product.price * item.quantity
+
+    payload = {
+
+        "order_id": str(uuid.uuid4()).replace("-", "")[:20],
+
+        "order_amount": float(total),
+
+        "order_currency": "INR",
+
+        "customer_details": {
+
+            "customer_id": str(user.id),
+
+            "customer_name": user.first_name,
+
+            "customer_email": user.email,
+
+            "customer_phone": user.phone,
+
+        },
+
+        "order_meta": {
+
+            "return_url":
+
+            settings.SITE_URL +
+
+            "/ecommerce/cashfree-success/?order_id={order_id}"
+
+        }
+
+    }
+
+    headers = {
+
+        "x-client-id": settings.CASHFREE_APP_ID,
+
+        "x-client-secret": settings.CASHFREE_SECRET_KEY,
+
+        "x-api-version": "2023-08-01",
+
+        "Content-Type": "application/json"
+
+    }
+
+    response = requests.post(
+
+        settings.CASHFREE_ORDER_URL,
+
+        json=payload,
+
+        headers=headers
+
+    )
+
+    data = response.json()
+
+    if response.status_code != 200:
+
+        return Response(data, status=400)
+
+    return Response({
+
+    "payment_session_id": data.get("payment_session_id"),
+
+    "order_id": data.get("order_id")
+
+})
+    
+    # =====================================================
+# CASHFREE VERIFY PAYMENT
+# =====================================================
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+
+def cashfree_verify_payment(request):
+
+    order_id = request.GET.get("order_id")
+
+    if not order_id:
+
+        return Response(
+            {
+                "error": "Order ID missing."
+            },
+            status=400
+        )
+
+    headers = {
+
+        "x-client-id": settings.CASHFREE_APP_ID,
+
+        "x-client-secret": settings.CASHFREE_SECRET_KEY,
+
+        "x-api-version": "2023-08-01"
+
+    }
+
+    response = requests.get(
+
+        f"{settings.CASHFREE_ORDER_URL}/{order_id}",
+
+        headers=headers
+
+    )
+
+    data = response.json()
+
+    if response.status_code != 200:
+
+        return Response(data, status=400)
+
+    if data.get("order_status") == "PAID":
+
+        return Response({
+
+            "status": True,
+
+            "message": "Payment Successful",
+
+            "cashfree": data
+
+        })
+
+    return Response({
+
+        "status": False,
+
+        "message": "Payment Pending",
+
+        "cashfree": data
+
+    })

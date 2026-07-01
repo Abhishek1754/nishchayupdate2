@@ -1,0 +1,622 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>My Addresses</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+
+background:#000;
+color:#fff;
+
+}
+
+.container{
+
+max-width:1400px;
+margin:auto;
+padding:25px;
+
+}
+
+.topbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+flex-wrap:wrap;
+gap:20px;
+
+}
+
+.title{
+
+font-size:38px;
+font-weight:bold;
+color:#c6ff00;
+
+}
+
+.back-btn{
+
+padding:12px 22px;
+background:#111;
+border:1px solid #c6ff00;
+border-radius:12px;
+color:#c6ff00;
+text-decoration:none;
+
+}
+
+.back-btn:hover{
+
+background:#c6ff00;
+color:#000;
+
+}
+
+.success{
+
+background:#0b2d00;
+padding:15px;
+border-radius:12px;
+margin-bottom:20px;
+color:#c6ff00;
+
+}
+
+.grid{
+
+display:grid;
+grid-template-columns:1.3fr .9fr;
+gap:25px;
+
+}
+
+.left-box,
+.right-box{
+
+background:#070707;
+border:1px solid #2b2b2b;
+border-radius:20px;
+padding:25px;
+
+}
+
+.heading{
+
+font-size:28px;
+margin-bottom:25px;
+color:#c6ff00;
+
+}
+
+.address-card{
+
+background:#111;
+border:1px solid #2c2c2c;
+border-radius:16px;
+padding:20px;
+margin-bottom:20px;
+
+}
+
+.default{
+
+border:2px solid #c6ff00;
+
+}
+
+.name{
+
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+
+}
+
+.badge{
+
+background:#c6ff00;
+color:#000;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+margin-left:10px;
+
+}
+
+.line{
+
+margin-top:6px;
+color:#ccc;
+
+}
+
+.actions{
+
+display:flex;
+gap:12px;
+margin-top:20px;
+flex-wrap:wrap;
+
+}
+
+.btn{
+
+padding:10px 18px;
+border-radius:10px;
+text-decoration:none;
+font-weight:bold;
+
+}
+
+.default-btn{
+
+background:#c6ff00;
+color:#000;
+
+}
+
+.edit-btn{
+
+background:#005eff;
+color:#fff;
+
+}
+
+.delete-btn{
+
+background:#ff2e2e;
+color:#fff;
+
+}
+
+input,
+textarea,
+select{
+
+width:100%;
+padding:15px;
+margin-bottom:15px;
+background:#000;
+border:1px solid #333;
+border-radius:10px;
+color:#fff;
+font-size:15px;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+outline:none;
+border-color:#c6ff00;
+
+}
+
+.save-btn{
+
+width:100%;
+padding:16px;
+background:#c6ff00;
+color:#000;
+font-weight:bold;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:18px;
+
+}
+
+.save-btn:hover{
+
+opacity:.9;
+
+}
+
+@media(max-width:992px){
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="topbar">
+
+<div class="title">
+
+My Saved Addresses
+
+</div>
+
+<a href="/ecommerce/" class="back-btn">
+
+<i class="fa fa-arrow-left"></i>
+
+Back To Shop
+
+</a>
+
+</div>
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="success">
+
+{{ message }}
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+<div class="grid">
+
+<div class="left-box">
+
+<div class="heading">
+
+Saved Addresses
+
+</div>
+
+{% for address in addresses %}
+
+<div class="address-card {% if address.is_default %}default{% endif %}">
+
+<div class="name">
+
+{{ address.full_name }}
+
+{% if address.is_default %}
+
+<span class="badge">
+
+DEFAULT
+
+</span>
+
+{% endif %}
+
+</div>
+
+<div class="line">
+
+<strong>{{ address.address_type|title }}</strong>
+
+</div>
+
+<div class="line">
+
+{{ address.house_no }}
+
+</div>
+
+<div class="line">
+
+{{ address.area }}
+
+</div>
+
+{% if address.landmark %}
+
+<div class="line">
+
+{{ address.landmark }}
+
+</div>
+
+{% endif %}
+
+<div class="line">
+
+{{ address.city }},
+{{ address.state }}
+
+</div>
+
+<div class="line">
+
+{{ address.pincode }}
+
+</div>
+
+<div class="line">
+
+Mobile :
+
+{{ address.mobile_number }}
+
+</div>
+
+{% if address.alternate_mobile %}
+
+<div class="line">
+
+Alt :
+
+{{ address.alternate_mobile }}
+
+</div>
+
+{% endif %}
+
+<div class="actions">
+
+{% if not address.is_default %}
+
+<a href="{% url 'set_default_address' address.id %}"
+
+class="btn default-btn">
+
+Default
+
+</a>
+
+{% endif %}
+
+<a href="{% url 'edit_address' address.id %}"
+
+class="btn edit-btn">
+
+Edit
+
+</a>
+
+<a href="{% url 'delete_address' address.id %}"
+
+class="btn delete-btn"
+
+onclick="return confirm('Delete this address?')">
+
+Delete
+
+</a>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<h3 style="color:#888;">
+
+No Address Added Yet
+
+</h3>
+
+{% endfor %}
+
+</div>
+
+<!-- RIGHT SIDE -->
+
+<div class="right-box">
+
+<div class="heading">
+
+Add New Address
+
+</div>
+
+<form method="POST"
+      action="{% url 'add_address' %}">
+
+{% csrf_token %}
+
+<label>Full Name</label>
+
+<input
+type="text"
+name="full_name"
+required>
+
+<label>Mobile Number</label>
+
+<input
+type="text"
+name="mobile_number"
+maxlength="10"
+required>
+
+<label>Alternate Mobile</label>
+
+<input
+type="text"
+name="alternate_mobile"
+maxlength="10">
+
+<label>House / Flat / Building</label>
+
+<input
+type="text"
+name="house_no"
+required>
+
+<label>Area / Street / Locality</label>
+
+<input
+type="text"
+name="area"
+required>
+
+<label>Landmark</label>
+
+<input
+type="text"
+name="landmark">
+
+<label>City</label>
+
+<input
+type="text"
+name="city"
+required>
+
+<label>State</label>
+
+<input
+type="text"
+name="state"
+required>
+
+<label>Pincode</label>
+
+<input
+type="text"
+name="pincode"
+maxlength="6"
+required>
+
+<label>Address Type</label>
+
+<select name="address_type">
+
+<option value="home">
+
+Home
+
+</option>
+
+<option value="office">
+
+Office
+
+</option>
+
+<option value="other">
+
+Other
+
+</option>
+
+</select>
+
+<div style="margin-bottom:20px;">
+
+<label
+style="display:flex;
+align-items:center;
+gap:10px;
+cursor:pointer;">
+
+<input
+type="checkbox"
+name="is_default"
+style="width:18px;
+height:18px;">
+
+Make this my default address
+
+</label>
+
+</div>
+
+<button
+type="submit"
+class="save-btn">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Save Address
+
+</button>
+
+</form>
+
+<hr
+style="margin:35px 0;
+border-color:#222;">
+
+<div
+style="background:#101010;
+padding:20px;
+border-radius:15px;">
+
+<h3
+style="color:#c6ff00;
+margin-bottom:15px;">
+
+Delivery Information
+
+</h3>
+
+<p
+style="color:#aaa;
+line-height:30px;">
+
+• Default address will automatically appear during checkout.
+
+</p>
+
+<p
+style="color:#aaa;
+line-height:30px;">
+
+• You can save multiple addresses.
+
+</p>
+
+<p
+style="color:#aaa;
+line-height:30px;">
+
+• Home, Office and Other addresses are supported.
+
+</p>
+
+<p
+style="color:#aaa;
+line-height:30px;">
+
+• Orders will always be delivered to the selected address during checkout.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

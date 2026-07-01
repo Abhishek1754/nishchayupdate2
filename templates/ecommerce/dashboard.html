@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Neon Shop</title>
+<title>NISHCHAY
+</title>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
@@ -501,71 +502,71 @@ grid-template-columns:repeat(2,1fr);
 
 <div class="logo">
 <i class="fa-solid fa-cart-shopping"></i>
-<h2>NEON SHOP</h2>
-<p>Live Smart. Shop Neon</p>
+<h2>NISHCHAY</h2>
+<p>One Platform • Multiple Opportunities</p>
 </div>
 
 <div class="menu">
 
-<a href="#">
-<i class="fa-solid fa-house"></i>
-Dashboard
+<a href="/ecommerce/">
+    <i class="fa-solid fa-house"></i>
+    Home
 </a>
 
-<a href="#" class="active">
-<i class="fa-solid fa-cart-shopping"></i>
-Shop
+<a href="/ecommerce/" class="active">
+    <i class="fa-solid fa-cart-shopping"></i>
+    Shop
 </a>
 
-<a href="#">
-<i class="fa-solid fa-layer-group"></i>
-Categories
+<a href="#categories">
+    <i class="fa-solid fa-layer-group"></i>
+    Categories
 </a>
 
-<a href="#">
-<i class="fa-solid fa-box"></i>
-My Orders
+<a href="/ecommerce/my-orders/">
+    <i class="fa-solid fa-box"></i>
+    My Orders
 </a>
 
-<a href="#">
-<i class="fa-solid fa-wallet"></i>
-Wallet
+<a href="/ecommerce/wallet/">
+    <i class="fa-solid fa-wallet"></i>
+    Wallet
 </a>
 
-<a href="#">
-<i class="fa-solid fa-users"></i>
-Referrals
+<a href="/ecommerce/referrals/">
+    <i class="fa-solid fa-users"></i>
+    Refer & Earn
 </a>
 
-<a href="#">
-<i class="fa-solid fa-chart-line"></i>
-Earnings
+<a href="/ecommerce/address/">
+    <i class="fa-solid fa-location-dot"></i>
+    My Address
 </a>
 
-<a href="#">
-<i class="fa-solid fa-location-dot"></i>
-Address
+<a href="/ecommerce/support/">
+    <i class="fa-solid fa-headset"></i>
+    Help & Support
 </a>
 
-<a href="#">
-<i class="fa-solid fa-headset"></i>
-Support
+<a href="/ecommerce/profile/">
+    <i class="fa-solid fa-user"></i>
+    My Account
 </a>
-
-<a href="#">
-<i class="fa-solid fa-gear"></i>
-Settings
-</a>
-
 </div>
 
 <div class="invite">
 
 <h2>Invite & Earn</h2>
 
-<img src="https://cdn-icons-png.flaticon.com/512/1040/1040230.png">
+<p>Referral Code</p>
 
-<button>Invite Now →</button>
+<h3>{{ request.user.referral_code }}</h3>
+
+<button onclick="copyReferralCode()">
+
+Copy Referral Code
+
+</button>
 
 </div>
 
@@ -583,7 +584,15 @@ Settings
 
 <i class="fa-solid fa-magnifying-glass"></i>
 
-<input type="text" placeholder="Search for products...">
+<form method="GET">
+
+<input
+type="text"
+name="search"
+value="{{ request.GET.search }}"
+placeholder="Search Products">
+
+</form>
 
 <i class="fa-solid fa-sliders"></i>
 
@@ -592,11 +601,11 @@ Settings
 <div class="icons">
 
 <i class="fa-regular fa-bell">
-<span class="badge">3</span>
+<span class="badge">{{ notification_count }}</span>
 </i>
 
 <i class="fa-solid fa-cart-shopping">
-<span class="badge">2</span>
+<span class="badge">{{ cart_count }}</span>
 </i>
 
 </div>
@@ -609,21 +618,25 @@ Settings
 
 <div class="banner-text">
 
-<h3>MEGA SALE</h3>
+<h3>{{ banner.title }}</h3>
 
-<h1>Up to 50% OFF<br>on Electronics</h1>
+<h1>{{ banner.heading }}</h1>
+
+<p>{{ banner.description }}</p>
 
 <button>Shop Now →</button>
 
 </div>
 
-<img src="https://cdn-icons-png.flaticon.com/512/743/743007.png">
+{% if banner.image %}
+<img src="{{ banner.image.url }}">
+{% endif %}
 
 </div>
 
 <!-- CATEGORY -->
 
-<div class="category-row">
+<div class="category-row" id="categories">
 
 
 
@@ -644,7 +657,7 @@ Settings
 {% endfor %}
 
 </div>
-</div>
+
 
 <!-- FLASH DEAL -->
 
@@ -700,13 +713,11 @@ Stock :
 
 </p>
 
-<div class="cart">
-
-<a href="/ecommerce/api/add-to-cart/?product={{ product.id }}" style="color:black;">
+<div
+class="cart"
+onclick="event.stopPropagation();addToCart({{ product.id }})">
 
 <i class="fa-solid fa-cart-shopping"></i>
-
-</a>
 
 </div>
 
@@ -772,77 +783,108 @@ Stock :
 
 <div class="top-categories">
 
-<div class="top-card">
+{% for category in categories %}
 
-<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e">
-
-<div class="top-info">
-<h2>Electronics</h2>
-<p>Up to 50% OFF</p>
-</div>
-
-</div>
+<a href="?category={{ category.id }}"
+style="text-decoration:none;color:white;">
 
 <div class="top-card">
 
-<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
+{% if category.image %}
+<img src="{{ category.image.url }}">
+{% endif %}
 
 <div class="top-info">
-<h2>Fashion</h2>
-<p>Up to 40% OFF</p>
-</div>
 
-</div>
+<h2>{{ category.name }}</h2>
 
-<div class="top-card">
-
-<img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85">
-
-<div class="top-info">
-<h2>Home & Living</h2>
-<p>Up to 35% OFF</p>
-</div>
-
-</div>
-
-<div class="top-card">
-
-<img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348">
-
-<div class="top-info">
-<h2>Beauty</h2>
-<p>Up to 30% OFF</p>
-</div>
+<p>{{ category.product_set.count }} Products</p>
 
 </div>
 
 </div>
 
-</div>
+</a>
+
+{% endfor %}
 
 </div>
 
 </div>
+
+
 
 <!-- BOTTOM NAV -->
 
+
+
 <div class="bottom">
 
-<a href="#">🏠 Home</a>
+<a href="/ecommerce/">
+🏠 Home
+</a>
 
-<a href="#">🛒 Shop</a>
+<a href="/ecommerce/">
+🛒 Shop
+</a>
 
 <a href="#" class="center-btn">
 ⚡
 </a>
 
-<a href="#">🧺 Cart</a>
+<a href="/ecommerce/cart/">
+🧺 Cart
+</a>
 
-<a href="#">📦 Orders</a>
+<a href="/ecommerce/my-orders/">
+📦 Orders
+</a>
 
-<a href="#">👤 Profile</a>
+<a href="/ecommerce/profile/">
+👤 Profile
+</a>
 
 </div>
+
+</div>
+
+<script>
+
+async function addToCart(productId){
+
+const token = localStorage.getItem("access");
+
+const response = await fetch(
+"/ecommerce/api/add-to-cart/",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "+token
+},
+body:JSON.stringify({
+product_id:productId,
+quantity:1
+})
+}
+);
+
+const data = await response.json();
+
+if(response.ok){
+
+alert("Product Added");
+
+}
+else{
+
+alert(data.error || data.msg);
+
+}
+
+}
+
+</script>
 
 </body>
 </html>

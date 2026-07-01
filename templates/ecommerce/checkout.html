@@ -466,17 +466,27 @@ gap:20px;
 
 <h2>DELIVERY ADDRESS</h2>
 
-<button class="add-btn">+ Add New Address</button>
+
 
 </div>
 
-<div class="address-box">
+<a href="{% url 'address_page' %}" class="add-btn">
+
++ Add New Address
+
+</a>
+
+</div>
+
+{% for address in addresses %}
+
+<div class="address-box {% if address.is_default %}selected{% endif %}">
 
 <h3>
 
-{{ request.user.first_name }}
+{{ address.full_name }}
 
-{{ request.user.last_name }}
+{% if address.is_default %}
 
 <span class="tag">
 
@@ -484,19 +494,61 @@ Default
 
 </span>
 
+{% endif %}
+
 </h3>
 
 <p>
 
-{{ request.user.state }}
+{{ address.house_no }},
+
+{{ address.area }}
+
+</p>
+
+{% if address.landmark %}
+
+<p>
+
+{{ address.landmark }}
+
+</p>
+
+{% endif %}
+
+<p>
+
+{{ address.city }},
+
+{{ address.state }}
+
+-
+
+{{ address.pincode }}
 
 </p>
 
 <p>
 
-{{ request.user.phone }}
+{{ address.mobile_number }}
 
 </p>
+
+</div>
+
+{% empty %}
+
+<div class="address-box">
+
+<p>
+
+No address added.
+
+</p>
+
+
+
+{% endfor %}
 
 </div>
 
@@ -542,50 +594,52 @@ Default
 
 <div class="section">
 
+<div class="section">
+
 <div class="section-title">
 
 <h2>PAYMENT METHOD</h2>
 
 </div>
 
-<div class="payment-option selected">
+<label class="payment-option selected">
+
+<input
+type="radio"
+name="payment_method"
+value="wallet"
+checked>
 
 <div>
-<i class="fa-brands fa-google-pay"></i>
-UPI
-</div>
 
-<div class="green">Recommended</div>
-
-</div>
-
-<div class="payment-option">
-
-<div>
-💳 Credit / Debit Card
-</div>
-
-<div>VISA • RuPay</div>
-
-</div>
-
-<div class="payment-option">
-
-<div>
-🏦 Net Banking
-</div>
-
-</div>
-
-<div class="payment-option">
-
-<div>
 👛 Wallet Balance
-</div>
+
+<br>
 
 ₹ {{ request.user.wallet_balance }}
 
 </div>
+
+</label>
+
+<label class="payment-option">
+
+<input
+type="radio"
+name="payment_method"
+value="cashfree">
+
+<div>
+
+💳 Pay Online
+
+<br>
+
+UPI / Card / Net Banking
+
+</div>
+
+</label>
 
 </div>
 
@@ -732,7 +786,13 @@ onclick="placeOrder()">
 
 async function placeOrder(){
 
+const paymentMethod = document.querySelector(
+'input[name="payment_method"]:checked'
+).value;
+
 const token = localStorage.getItem("access");
+
+if(paymentMethod=="wallet"){
 
 const response = await fetch(
 
@@ -752,9 +812,7 @@ headers:{
 
 body:JSON.stringify({
 
-payment_method:"wallet",
-
-address:"{{ request.user.state }}"
+payment_method:"wallet"
 
 })
 
@@ -768,11 +826,57 @@ if(data.order_id){
 
 window.location.href="/ecommerce/order-success/";
 
-}
-else{
+}else{
 
 alert(data.error || data.msg);
 
+}
+
+}
+
+else{
+
+const response = await fetch(
+
+"/ecommerce/api/create-cashfree-order/",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json",
+
+"Authorization":"Bearer "+token
+
+}
+
+}
+
+);
+
+const data = await response.json();
+
+if(data.payment_session_id){
+
+const cashfree = Cashfree({
+    mode: "sandbox"
+});
+
+cashfree.checkout({
+
+    paymentSessionId: data.payment_session_id,
+
+    redirectTarget: "_self"
+
+});
+
+}else{
+
+alert(data.error || "Unable to start payment");
+
+}
 }
 
 }
