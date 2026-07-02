@@ -2528,7 +2528,14 @@ transform:translateY(-8px);
 
         </div>
 
-        <div style="display:flex;gap:10px;align-items:center;">
+<div
+    style="
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        align-items:flex-end;
+    "
+>
 
     <button
         onclick="upgradeMembership()"
@@ -2543,9 +2550,21 @@ transform:translateY(-8px);
         Upgrade ₹199
     </button>
 
+    <a
+        href="/genealogy/"
+        class="btn"
+        style="
+            width:100%;
+            text-align:center;
+        "
+    >
+        🌳 Genealogy
+    </a>
+
     <button
         onclick="logoutUser()"
         class="btn"
+        style="width:100%;"
     >
         Logout
     </button>
