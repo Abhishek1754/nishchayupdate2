@@ -410,14 +410,18 @@ FREE
 
 
 <label
+id="premiumCard"
 style="
 flex:1;
 padding:15px;
-border:1px solid #b6ff00;
+border:2px solid #ff9800;
 border-radius:10px;
-color:white;
+background:#1b1200;
+color:#ffb74d;
 cursor:pointer;
 text-align:center;
+transition:.3s;
+box-shadow:0 0 15px rgba(255,152,0,.25);
 ">
 
 <input
@@ -432,10 +436,8 @@ PREMIUM
 
 <br><br>
 
-<small>
-
+<small style="color:#ffcc80;">
 365 Days Validity
-
 </small>
 
 </label>
@@ -447,25 +449,63 @@ PREMIUM
 
         
 
-        <div class="input-box">
+        <div
+class="input-box"
+style="position:relative;"
+>
 
-            <input
-                type="password"
-                id="password"
-                placeholder="Password"
-                required
-            >
+<input
+type="password"
+id="password"
+placeholder="Password"
+required
+style="padding-right:50px;"
+>
 
-        </div>
+<span
+onclick="togglePassword('password',this)"
+style="
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:20px;
+color:#b6ff00;
+"
+>
+👁
+</span>
 
-        <div class="input-box">
+</div>
 
-    <input
-        type="password"
-        id="confirm_password"
-        placeholder="Confirm Password"
-        required
-    >
+        <div
+class="input-box"
+style="position:relative;"
+>
+
+<input
+type="password"
+id="confirm_password"
+placeholder="Confirm Password"
+required
+style="padding-right:50px;"
+>
+
+<span
+onclick="togglePassword('confirm_password',this)"
+style="
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:20px;
+color:#b6ff00;
+"
+>
+👁
+</span>
 
 </div>
 
@@ -640,6 +680,26 @@ confirm_password:confirm_password
         console.log(error);
 
         alert('Server Error');
+
+    }
+
+}
+
+function togglePassword(id, icon){
+
+    const input = document.getElementById(id);
+
+    if(input.type==="password"){
+
+        input.type="text";
+
+        icon.innerHTML="🙈";
+
+    }else{
+
+        input.type="password";
+
+        icon.innerHTML="👁";
 
     }
 
