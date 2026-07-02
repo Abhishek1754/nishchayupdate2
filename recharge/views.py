@@ -294,7 +294,7 @@ def recharge_providers(request):
 
         data.append({
 
-            "id": provider.operator_code,
+            "id": provider.id,
             "name": provider.name,
             "operator_code": provider.operator_code,
             "service_type": provider.service_type,
@@ -464,8 +464,8 @@ def do_recharge(request):
             }, status=400)
 
         provider = RechargeProvider.objects.get(
-            id=provider_id
-        )
+    id=provider_id
+)
 
         cashback_amount = Decimal("0")
 
