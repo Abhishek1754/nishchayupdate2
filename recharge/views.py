@@ -534,30 +534,47 @@ def do_recharge(request):
 
         recharge_url = (
 
-            f"https://ultra.myfinpaypro.co.in/api/Service/Recharge2?"
-            f"ApiToken={API_TOKEN}"
-            f"&MobileNo={mobile_number}"
-            f"&Amount={amount}"
-            f"&OpId={provider.operator_code}"
-            f"&RefTxnId={transaction_id}"
+    f"https://ultra.myfinpaypro.co.in/api/Service/Recharge2?"
+    f"ApiToken={API_TOKEN}"
+    f"&MobileNo={mobile_number}"
+    f"&Amount={amount}"
+    f"&OpId={provider.operator_code}"
+    f"&RefTxnId={transaction_id}"
 
-        )
-
+)
         response = requests.get(
             recharge_url,
             timeout=30
         )
-
-        api_data = response.json()
-
+        
+        print("====================================")
+        print("Recharge URL :", recharge_url)
+        print("Status Code  :", response.status_code)
+        print("Response Text:")
+        print(response.text)
+        print("====================================")
+        
+        try:
+            api_data = response.json()
+        except Exception:
+             return Response({
+                 "status": False,
+        "message": "Recharge API did not return JSON",
+        "response": response.text
+    }, status=500)
         api_status = str(
-            api_data.get('STATUS')
-        )
-
+            api_data.get("STATUS")
+            )
         api_message = api_data.get(
-            'MESSAGE',
-            'Recharge Failed'
-        )
+            "MESSAGE",
+            "Recharge Failed"
+            )
+             
+
+        
+        
+
+        
 
         # =====================================================
         # SUCCESS

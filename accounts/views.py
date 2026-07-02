@@ -250,7 +250,7 @@ def profile(request):
 
         "referral_code": request.user.referral_code,
 
-        "subscription": request.user.is_subscribed,
+        "subscription": request.user.is_subscription_active,
 
     })
 
