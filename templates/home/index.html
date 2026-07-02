@@ -2456,6 +2456,14 @@ transform:translateY(-8px);
 <a href="#">BLOG</a>
 <a href="#contact">CONTACT</a>
 <a href="/team/">OUR TEAM</a>
+<a
+    href="/genealogy/"
+    id="genealogyMenu"
+    style="display:none;"
+>
+    GENEALOGY
+</a>
+
 
 </div>
 
@@ -3003,6 +3011,10 @@ if(userEmail){
    document.getElementById(
     'userSection'
 ).style.display = 'flex';
+
+document.getElementById(
+    "genealogyMenu"
+).style.display = "block";
 
 document.getElementById(
     'welcomeUser'

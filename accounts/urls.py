@@ -21,6 +21,8 @@ from .views import (
     send_reset_otp,
     verify_reset_otp,
     reset_password,
+    genealogy_page,
+    my_team,
 
 )
 
@@ -130,6 +132,22 @@ path(
 
     name='reset_password'
 
+),
+
+# =====================================================
+# GENEALOGY
+# =====================================================
+
+path(
+    'genealogy/',
+    genealogy_page,
+    name='genealogy'
+),
+
+path(
+    'api/my-team/',
+    my_team,
+    name='my_team'
 ),
 
 

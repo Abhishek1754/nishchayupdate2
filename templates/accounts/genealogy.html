@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>My Team</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#000;
+color:white;
+}
+
+.container{
+max-width:1400px;
+margin:auto;
+padding:30px;
+}
+
+.title{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+
+}
+
+.title h1{
+
+font-size:36px;
+color:#c6ff00;
+
+}
+
+.summary{
+
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:20px;
+margin-bottom:30px;
+
+}
+
+.card{
+
+background:#0a0a0a;
+border:1px solid #222;
+border-radius:18px;
+padding:25px;
+text-align:center;
+
+}
+
+.card h2{
+
+color:#c6ff00;
+margin-bottom:10px;
+
+}
+
+.search{
+
+margin-bottom:25px;
+
+}
+
+.search input{
+
+width:100%;
+padding:15px;
+border-radius:12px;
+border:1px solid #c6ff00;
+background:#111;
+color:white;
+font-size:16px;
+
+}
+
+.filters{
+
+display:flex;
+gap:10px;
+margin-bottom:30px;
+flex-wrap:wrap;
+
+}
+
+.filters button{
+
+padding:12px 20px;
+border:none;
+background:#111;
+color:white;
+border-radius:10px;
+cursor:pointer;
+
+}
+
+.filters button.active{
+
+background:#c6ff00;
+color:black;
+
+}
+
+.table{
+
+background:#080808;
+border-radius:20px;
+overflow:auto;
+
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+
+}
+
+th{
+
+padding:18px;
+background:#111;
+color:#c6ff00;
+text-align:left;
+
+}
+
+td{
+
+padding:18px;
+border-bottom:1px solid #222;
+
+}
+
+.plan{
+
+padding:6px 14px;
+border-radius:20px;
+background:#c6ff00;
+color:black;
+font-weight:bold;
+
+}
+
+.status{
+
+color:#00ff88;
+
+}
+
+@media(max-width:900px){
+
+.summary{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="title">
+
+<h1>
+
+<i class="fa-solid fa-users"></i>
+
+Genealogy
+
+</h1>
+
+</div>
+
+<div class="summary">
+
+<div class="card">
+
+<h2 id="totalTeam">0</h2>
+
+Total Team
+
+</div>
+
+<div class="card">
+
+<h2 id="l1">0</h2>
+
+Level 1
+
+</div>
+
+<div class="card">
+
+<h2 id="l2">0</h2>
+
+Level 2
+
+</div>
+
+<div class="card">
+
+<h2 id="l3">0</h2>
+
+Level 3
+
+</div>
+
+<div class="card">
+
+<h2 id="l4">0</h2>
+
+Level 4
+
+</div>
+
+</div>
+
+<div class="search">
+
+<input
+type="text"
+id="search"
+placeholder="Search by Name">
+
+</div>
+
+<div class="filters">
+
+<button class="active" onclick="loadTeam(0)">All</button>
+
+<button onclick="loadTeam(1)">L1</button>
+
+<button onclick="loadTeam(2)">L2</button>
+
+<button onclick="loadTeam(3)">L3</button>
+
+<button onclick="loadTeam(4)">L4</button>
+
+</div>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+
+<th>User ID</th>
+
+<th>Joined</th>
+
+<th>Plan</th>
+
+<th>Status</th>
+
+<th>Level</th>
+
+</tr>
+
+</thead>
+
+<tbody id="teamBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+let team=[];
+
+async function fetchTeam(){
+
+const token=localStorage.getItem("access");
+
+const res=await fetch("/api/my-team/",{
+
+headers:{
+
+Authorization:"Bearer "+token
+
+}
+
+});
+
+const data=await res.json();
+
+document.getElementById("totalTeam").innerHTML=data.summary.total_team;
+
+document.getElementById("l1").innerHTML=data.summary.level1;
+
+document.getElementById("l2").innerHTML=data.summary.level2;
+
+document.getElementById("l3").innerHTML=data.summary.level3;
+
+document.getElementById("l4").innerHTML=data.summary.level4;
+
+team=data.members;
+
+loadTeam(0);
+
+}
+
+function loadTeam(level){
+
+let html="";
+
+let keyword=document.getElementById("search").value.toLowerCase();
+
+team.forEach(member=>{
+
+if(level!=0 && member.level!=level){
+
+return;
+
+}
+
+if(!member.name.toLowerCase().includes(keyword)){
+
+return;
+
+}
+
+html+=`
+
+<tr>
+
+<td>${member.name}</td>
+
+<td>${member.referral_code}</td>
+
+<td>${member.joined}</td>
+
+<td>
+
+<span class="plan">
+
+${member.plan}
+
+</span>
+
+</td>
+
+<td>
+
+<span class="status">
+
+${member.status}
+
+</span>
+
+</td>
+
+<td>L${member.level}</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("teamBody").innerHTML=html;
+
+}
+
+document.getElementById("search").addEventListener(
+
+"keyup",
+
+()=>loadTeam(0)
+
+);
+
+fetchTeam();
+
+</script>
+
+</body>
+</html>

@@ -919,5 +919,149 @@ def reset_password(request):
 
         }
 
+    
     )
+    
+    # =====================================================
+# GENEALOGY PAGE
+# =====================================================
+
+def genealogy_page(request):
+
+    return render(
+
+        request,
+
+        "accounts/genealogy.html"
+
+    )
+
+
+# =====================================================
+# MY TEAM API
+# =====================================================
+
+@api_view(["GET"])
+def my_team(request):
+
+    if not request.user.is_authenticated:
+
+        return Response(
+
+            {
+
+                "error": "Login Required"
+
+            },
+
+            status=401
+
+        )
+
+    def get_level(users):
+
+        ids = []
+
+        next_users = []
+
+        members = []
+
+        for u in users:
+
+            team = User.objects.filter(
+
+                referred_by=u
+
+            )
+
+            for m in team:
+
+                ids.append(m.id)
+
+                next_users.append(m)
+
+                members.append(m)
+
+        return members, next_users
+
+
+    level1, users1 = get_level([request.user])
+
+    level2, users2 = get_level(users1)
+
+    level3, users3 = get_level(users2)
+
+    level4, users4 = get_level(users3)
+
+
+    team = []
+
+
+    def add_members(members, level):
+
+        for m in members:
+
+            team.append({
+
+                "id": m.id,
+
+                "name":
+
+                    f"{m.first_name} {m.last_name}",
+
+                "email": m.email,
+
+                "referral_code": m.referral_code,
+
+                "plan": m.plan,
+
+                "status":
+
+                    "Active"
+
+                    if m.is_active
+
+                    else "Inactive",
+
+                "joined":
+
+                    m.date_joined.strftime(
+
+                        "%d-%b-%Y"
+
+                    ),
+
+                "level": level
+
+            })
+
+
+    add_members(level1, 1)
+
+    add_members(level2, 2)
+
+    add_members(level3, 3)
+
+    add_members(level4, 4)
+
+
+    return Response({
+
+        "summary": {
+
+            "total_team": len(team),
+
+            "level1": len(level1),
+
+            "level2": len(level2),
+
+            "level3": len(level3),
+
+            "level4": len(level4)
+
+        },
+
+        "members": team
+
+    })
     
