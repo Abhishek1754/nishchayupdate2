@@ -29,7 +29,8 @@ from .models import (
     AddMoneyRequest,
     RechargeCoupon,
     RechargePaymentGateway,
-    RechargeWithdrawRequest
+    RechargeWithdrawRequest,
+    RechargePayment
 
 )
 
@@ -1143,6 +1144,24 @@ def create_cashfree_recharge_order(request):
     amount = request.data.get("amount")
 
     order_id = str(uuid.uuid4())
+    
+    RechargePayment.objects.create(
+
+    user=request.user,
+
+    order_id=order_id,
+
+    amount=Decimal(amount),
+
+    payment_status="PENDING"
+
+)
+    
+    provider_id = request.data.get("provider_id")
+    mobile_number = request.data.get("mobile_number")
+    coupon_code = request.data.get("coupon_code")
+    
+    
 
     payload = {
 
@@ -1165,7 +1184,7 @@ def create_cashfree_recharge_order(request):
         "order_meta": {
 
             "return_url":
-            "https://nishchay.in/recharge/payment-success/?order_id={order_id}"
+            "https://nishchay.in/recharge/payment-success/?order_id={order_id}&amount=" + str(amount)
 
         }
 
@@ -1203,6 +1222,81 @@ def create_cashfree_recharge_order(request):
     )
     
 def payment_success(request):
+
+    order_id = request.GET.get("order_id")
+
+    if not order_id:
+
+        return render(
+            request,
+            "recharge/payment_failed.html"
+        )
+
+    headers = {
+
+        "x-client-id": settings.CASHFREE_APP_ID,
+
+        "x-client-secret": settings.CASHFREE_SECRET_KEY,
+
+        "x-api-version": "2023-08-01"
+
+    }
+
+    response = requests.get(
+
+        f"https://api.cashfree.com/pg/orders/{order_id}",
+
+        headers=headers
+
+    )
+
+    data = response.json()
+
+    payment = RechargePayment.objects.get(
+        order_id=order_id
+    )
+
+    if (
+
+        data.get("order_status") == "PAID"
+
+        and
+
+        payment.wallet_credited is False
+
+    ):
+
+        wallet, created = RechargeWallet.objects.get_or_create(
+
+            user=payment.user
+
+        )
+
+        wallet.balance += payment.amount
+
+        wallet.total_added += payment.amount
+
+        wallet.save()
+
+        RechargeWalletHistory.objects.create(
+
+            user=payment.user,
+
+            amount=payment.amount,
+
+            transaction_type="credit",
+
+            message="Cashfree Wallet Recharge"
+
+        )
+
+        payment.wallet_credited = True
+
+        payment.payment_status = "SUCCESS"
+
+        payment.cf_payment_id = data.get("cf_order_id")
+
+        payment.save()
 
     return render(
 

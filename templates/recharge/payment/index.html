@@ -516,12 +516,27 @@ async function startPayment(){
 
             body:JSON.stringify({
 
-                amount:
-                localStorage.getItem(
-                    "recharge_amount"
-                )
+    amount:
+    localStorage.getItem(
+        "recharge_amount"
+    ),
 
-            })
+    provider_id:
+    localStorage.getItem(
+        "recharge_provider"
+    ),
+
+    mobile_number:
+    localStorage.getItem(
+        "recharge_mobile"
+    ),
+
+    coupon_code:
+    localStorage.getItem(
+        "recharge_coupon"
+    ) || ""
+
+})
 
         }
 
@@ -551,12 +566,15 @@ async function startPayment(){
 
     cashfree.checkout({
 
-        paymentSessionId:
-        data.payment_session_id,
+    paymentSessionId:
+    data.payment_session_id,
 
-        redirectTarget:"_self"
+    redirectTarget:"_self",
 
-    });
+    redirect:
+    true
+
+});
 
 }
 

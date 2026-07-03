@@ -1,17 +1,99 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <title>Payment Successful</title>
+
+<style>
+
+body{
+
+background:#000;
+
+color:#c6ff00;
+
+font-family:Arial;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+flex-direction:column;
+
+}
+
+.loader{
+
+width:70px;
+
+height:70px;
+
+border:6px solid #222;
+
+border-top:6px solid #c6ff00;
+
+border-radius:50%;
+
+animation:spin 1s linear infinite;
+
+margin-bottom:30px;
+
+}
+
+@keyframes spin{
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+h1{
+
+margin-bottom:15px;
+
+}
+
+p{
+
+color:white;
+
+}
+
+</style>
+
 </head>
-<body style="background:black;color:#b7ff00;text-align:center;padding-top:150px;">
 
-<h1>Payment Successful</h1>
+<body>
 
-<h2>Processing Recharge...</h2>
+<div class="loader"></div>
+
+<h1>
+
+Payment Successful
+
+</h1>
+
+<p>
+
+Please wait...
+
+Your recharge is being processed.
+
+</p>
 
 <script>
 
 async function doRecharge(){
+
+try{
 
 const access =
 localStorage.getItem("access");
@@ -29,27 +111,23 @@ headers:{
 
 "Content-Type":"application/json",
 
-"Authorization":
-"Bearer " + access
+"Authorization":"Bearer "+access
 
 },
 
-body:JSON.stringify({
+body: JSON.stringify({
 
-provider_id:
-localStorage.getItem(
-"recharge_provider"
-),
+    provider_id:
+    localStorage.getItem("recharge_provider"),
 
-mobile_number:
-localStorage.getItem(
-"recharge_mobile"
-),
+    mobile_number:
+    localStorage.getItem("recharge_mobile"),
 
-amount:
-localStorage.getItem(
-"recharge_amount"
-)
+    amount:
+    localStorage.getItem("recharge_amount"),
+
+    coupon_code:
+    localStorage.getItem("recharge_coupon") || ""
 
 })
 
@@ -60,24 +138,27 @@ localStorage.getItem(
 const data =
 await response.json();
 
-console.log(data);
-
 if(response.ok){
 
-alert("Recharge Successful");
-
-window.location.href =
+window.location.href=
 "/recharge/transactions/";
 
 }
 else{
 
-alert(
+alert(data.message);
 
-data.message ||
-"Recharge Failed"
+window.location.href=
+"/recharge/mobile/";
 
-);
+}
+
+}catch(e){
+
+alert("Server Error");
+
+window.location.href=
+"/recharge/mobile/";
 
 }
 
@@ -88,4 +169,5 @@ doRecharge();
 </script>
 
 </body>
+
 </html>
