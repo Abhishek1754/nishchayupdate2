@@ -1,3 +1,4 @@
+import traceback
 from django.shortcuts import render
 from django.utils import timezone
 from django.db.models import Sum
@@ -790,15 +791,14 @@ def do_recharge(request):
 
     except Exception as e:
 
-        print(str(e))
+     traceback.print_exc()
 
-        return Response({
+    print("ERROR =", str(e))
 
-            "status": False,
-            "message": str(e)
-
-        }, status=500)
-
+    return Response({
+        "status": False,
+        "message": str(e)
+    }, status=500)
 
 # =====================================================
 # MY RECHARGES
