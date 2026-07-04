@@ -115,19 +115,15 @@ headers:{
 
 },
 
-body: JSON.stringify({
+body:JSON.stringify({
 
-    provider_id:
-    localStorage.getItem("recharge_provider"),
+    provider_id:"{{ provider_id }}",
 
-    mobile_number:
-    localStorage.getItem("recharge_mobile"),
+    mobile_number:"{{ mobile_number }}",
 
-    amount:
-    localStorage.getItem("recharge_amount"),
+    amount:"{{ amount }}",
 
-    coupon_code:
-    localStorage.getItem("recharge_coupon") || ""
+    coupon_code:"{{ coupon_code }}"
 
 })
 

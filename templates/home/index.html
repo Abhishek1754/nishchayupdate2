@@ -2410,6 +2410,302 @@ transform:translateY(-8px);
 }
 
 }
+/* =====================================================
+   PREMIUM MOBILE USER CARD
+===================================================== */
+
+.mobile-user-card{
+
+    width:100%;
+    max-width:100%;
+    margin:0 auto;
+
+    background:linear-gradient(
+        145deg,
+        rgba(20,20,20,.95),
+        rgba(8,8,8,.98)
+    );
+
+    border:1px solid #b6ff00;
+
+    border-radius:24px;
+
+    padding:18px;
+
+    box-shadow:0 0 25px rgba(182,255,0,.18);
+
+    backdrop-filter:blur(15px);
+
+    animation:cardFloat 4s ease-in-out infinite;
+
+}
+
+.user-top{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    margin-bottom:18px;
+
+}
+
+.user-avatar{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #b6ff00,
+        #7fff00
+    );
+
+    color:#000;
+
+    font-size:34px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    box-shadow:
+        0 0 20px rgba(182,255,0,.45);
+
+}
+
+.user-details{
+
+    flex:1;
+
+}
+
+.welcome-text{
+
+    color:#bbb;
+
+    font-size:13px;
+
+}
+
+.username{
+
+    color:#b6ff00;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    margin-top:4px;
+
+}
+
+.wallet-row{
+
+    display:flex;
+
+    gap:12px;
+
+    margin:18px 0;
+
+}
+
+.wallet-box,
+.coin-box{
+
+    flex:1;
+
+    background:#111;
+
+    border:1px solid rgba(182,255,0,.25);
+
+    border-radius:18px;
+
+    padding:14px;
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+
+}
+
+.wallet-icon{
+
+    font-size:26px;
+
+}
+
+.wallet-title{
+
+    color:#999;
+
+    font-size:12px;
+
+}
+
+.wallet-value{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-top:3px;
+
+}
+
+.action-row{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:20px;
+
+}
+
+.dashboard-btn{
+
+    flex:1;
+
+    border:none;
+
+    border-radius:16px;
+
+    padding:14px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+.dashboard-btn:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.upgrade-btn{
+
+    background:#b6ff00;
+
+    color:#000;
+
+}
+
+.genealogy-btn{
+
+    background:#151515;
+
+    color:#b6ff00;
+
+    border:1px solid #b6ff00;
+
+    text-decoration:none;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.logout-btn{
+
+    background:#fff;
+
+    color:#000;
+
+}
+
+@keyframes cardFloat{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-5px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.mobile-user-card{
+
+    max-width:100%;
+
+}
+.user-avatar{
+
+    width:60px;
+
+    height:60px;
+
+    font-size:28px;
+
+}
+
+.username{
+
+    font-size:20px;
+
+}
+
+.wallet-row{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+
+}
+
+.action-row{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:8px;
+
+}
+
+.dashboard-btn{
+
+    width:100%;
+
+}
+
+}
 
 </style>
 
@@ -2494,82 +2790,103 @@ transform:translateY(-8px);
 </div>
 
     <div
-        id="userSection"
-        style="display:none; align-items:center; gap:15px;"
-    >
+       
+    id="userSection"
+    style="display:none;"
+>
 
-        <div
-            style="
-                display:flex;
-                flex-direction:column;
-                gap:4px;
-            "
-        >
+    <div class="mobile-user-card">
 
-            <span
-                id="welcomeUser"
-                style="
-                    color:#b6ff00;
-                    font-weight:bold;
-                    font-size:16px;
-                "
-            >
-            </span>
+        <div class="user-top">
 
-            <div
-                id="walletInfo"
-                style="
-                    color:white;
-                    font-size:13px;
-                    line-height:1.7;
-                "
-            >
+            <div class="user-avatar">
+                👤
+            </div>
+
+            <div class="user-details">
+
+                <div class="welcome-text">
+                    Welcome Back
+                </div>
+
+                <div
+                    id="welcomeUser"
+                    class="username"
+                >
+                </div>
+
             </div>
 
         </div>
 
-<div
-    style="
-        display:flex;
-        flex-direction:column;
-        gap:10px;
-        align-items:flex-end;
-    "
->
+        <div class="wallet-row">
 
-    <button
-        onclick="upgradeMembership()"
-        class="btn active"
-        style="
-            background:#b6ff00;
-            color:#000;
-            font-weight:bold;
-            white-space:nowrap;
-        "
-    >
-        Upgrade ₹199
-    </button>
+            <div class="wallet-box">
 
-    <a
-        href="/genealogy/"
-        class="btn"
-        style="
-            width:100%;
-            text-align:center;
-        "
-    >
-        🌳 Genealogy
-    </a>
+                <div class="wallet-icon">💰</div>
 
-    <button
-        onclick="logoutUser()"
-        class="btn"
-        style="width:100%;"
-    >
-        Logout
-    </button>
+                <div>
 
-</div>
+                    <div class="wallet-title">
+                        Wallet
+                    </div>
+
+                    <div
+                        id="walletInfo"
+                        class="wallet-value"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="coin-box">
+
+                <div class="wallet-icon">🪙</div>
+
+                <div>
+
+                    <div class="wallet-title">
+                        Nishchay Coins
+                    </div>
+
+                    <div
+                        id="coinInfo"
+                        class="wallet-value"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="action-row">
+
+            <button
+                onclick="upgradeMembership()"
+                class="dashboard-btn upgrade-btn"
+            >
+                ⬆ Upgrade
+            </button>
+
+            <a
+                href="/genealogy/"
+                class="dashboard-btn genealogy-btn"
+            >
+                🌳 Team
+            </a>
+
+            <button
+                onclick="logoutUser()"
+                class="dashboard-btn logout-btn"
+            >
+                🚪 Logout
+            </button>
+
+        </div>
 
     </div>
 
@@ -3035,17 +3352,13 @@ document.getElementById(
     "genealogyMenu"
 ).style.display = "block";
 
-document.getElementById(
-    'welcomeUser'
-).innerHTML =
-    "Welcome " + username;
+document.getElementById("welcomeUser").innerHTML = username;
 
-        document.getElementById(
-            'walletInfo'
-          ).innerHTML =
+document.getElementById("walletInfo").innerHTML =
+    "₹" + wallet;
 
-   "Wallet ₹" + wallet +
-" | Coins " + coins;
+document.getElementById("coinInfo").innerHTML =
+    coins;
 
 }
 
@@ -3154,11 +3467,11 @@ function logoutUser(){
 
     localStorage.removeItem('email');
 
-    localStorage.removeItem('wallet_balance');
-
-    localStorage.removeItem('referral_code');
-
-    localStorage.removeItem('nishchay_coin');
+localStorage.removeItem('wallet_balance');
+localStorage.removeItem('nishchay_coin');
+localStorage.removeItem('referral_code');
+localStorage.removeItem('username');
+localStorage.removeItem('email');
 
     alert('Logout Successful');
 

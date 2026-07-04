@@ -655,6 +655,28 @@ class RechargePayment(models.Model):
         max_digits=12,
         decimal_places=2
     )
+    
+    provider = models.ForeignKey(
+    RechargeProvider,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+)
+    
+    mobile_number = models.CharField(
+    max_length=20,
+    blank=True,
+    null=True
+)
+    
+    coupon = models.ForeignKey(
+    RechargeCoupon,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True
+)
+    
+    
 
     payment_status = models.CharField(
         max_length=20,

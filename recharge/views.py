@@ -1140,11 +1140,22 @@ def mobile_plan_fetch(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_cashfree_recharge_order(request):
-
-    amount = request.data.get("amount")
-
-    order_id = str(uuid.uuid4())
     
+    amount = request.data.get("amount")
+    provider_id = request.data.get("provider_id")
+    mobile_number = request.data.get("mobile_number")
+    coupon_code = request.data.get("coupon_code")
+    order_id = str(uuid.uuid4())
+    provider = RechargeProvider.objects.get(id=provider_id)
+    coupon = None
+    if coupon_code:
+        try:
+            coupon = RechargeCoupon.objects.get(
+                code=coupon_code
+                )
+        except RechargeCoupon.DoesNotExist:
+            pass
+        
     RechargePayment.objects.create(
 
     user=request.user,
@@ -1153,13 +1164,15 @@ def create_cashfree_recharge_order(request):
 
     amount=Decimal(amount),
 
+    provider=provider,
+
+    mobile_number=mobile_number,
+
+    coupon=coupon,
+
     payment_status="PENDING"
 
 )
-    
-    provider_id = request.data.get("provider_id")
-    mobile_number = request.data.get("mobile_number")
-    coupon_code = request.data.get("coupon_code")
     
     
 
@@ -1235,9 +1248,7 @@ def payment_success(request):
     headers = {
 
         "x-client-id": settings.CASHFREE_APP_ID,
-
         "x-client-secret": settings.CASHFREE_SECRET_KEY,
-
         "x-api-version": "2023-08-01"
 
     }
@@ -1257,44 +1268,16 @@ def payment_success(request):
     )
 
     if (
-
         data.get("order_status") == "PAID"
-
         and
-
-        payment.wallet_credited is False
-
+        payment.payment_status != "SUCCESS"
     ):
-
-        wallet, created = RechargeWallet.objects.get_or_create(
-
-            user=payment.user
-
-        )
-
-        wallet.balance += payment.amount
-
-        wallet.total_added += payment.amount
-
-        wallet.save()
-
-        RechargeWalletHistory.objects.create(
-
-            user=payment.user,
-
-            amount=payment.amount,
-
-            transaction_type="credit",
-
-            message="Cashfree Wallet Recharge"
-
-        )
-
-        payment.wallet_credited = True
 
         payment.payment_status = "SUCCESS"
 
-        payment.cf_payment_id = data.get("cf_order_id")
+        payment.cf_payment_id = data.get(
+            "cf_order_id"
+        )
 
         payment.save()
 
@@ -1302,7 +1285,19 @@ def payment_success(request):
 
         request,
 
-        "recharge/payment_success.html"
+        "recharge/payment_success.html",
+
+        {
+
+            "provider_id": payment.provider.id,
+
+            "mobile_number": payment.mobile_number,
+
+            "amount": str(payment.amount),
+
+            "coupon_code": payment.coupon.code if payment.coupon else ""
+
+        }
 
     )
     
