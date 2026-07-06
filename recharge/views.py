@@ -568,10 +568,18 @@ def do_recharge(request):
     f"&RefTxnId={transaction_id}"
 
 )
+        headers = {
+    "User-Agent": "curl/8.5.0",
+    "Accept": "*/*"
+}
+
         response = requests.get(
-            recharge_url,
-            timeout=30
-        )
+    recharge_url,
+    headers=headers,
+    timeout=30
+)
+       
+        
         
         print("====================================")
         print("Recharge URL :", recharge_url)
