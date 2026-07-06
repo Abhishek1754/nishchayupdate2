@@ -437,6 +437,9 @@ def do_recharge(request):
         coupon_code = request.data.get(
             'coupon_code'
         )
+        order_id = request.data.get(
+        "order_id"
+        )
 
         if not provider_id:
 
@@ -473,26 +476,47 @@ def do_recharge(request):
 
         coupon_instance = None
 
-        # =====================================================
-        # USER WALLET
-        # =====================================================
+# =====================================================
+# USER WALLET / CASHFREE PAYMENT
+# =====================================================
 
         wallet = None
 
-        if request.user.is_authenticated:
-
+        if order_id:
+            try:
+                
+                payment = RechargePayment.objects.get(
+                    order_id=order_id,
+                    payment_status="SUCCESS"
+                )
+            except RechargePayment.DoesNotExist:
+                return Response({
+                    "status": False,
+                    "message": "Payment not verified"
+                    }, status=400)
+                
+        elif request.user.is_authenticated:
             wallet, created = RechargeWallet.objects.get_or_create(
-                user=request.user
-            )
-
+                    user=request.user
+                )
+            
             if wallet.balance < Decimal(amount):
 
-                return Response({
+             return Response({
 
-                    "status": False,
-                    "message": "Insufficient wallet balance"
+            "status": False,
 
-                }, status=400)
+            "message": "Insufficient wallet balance"
+
+        }, status=400)
+                
+                
+
+                
+                
+
+            
+           
 
         # =====================================================
         # COUPON
@@ -1292,6 +1316,8 @@ def payment_success(request):
         "recharge/payment_success.html",
 
         {
+            
+            "order_id": order_id,
 
             "provider_id": payment.provider.id,
 
