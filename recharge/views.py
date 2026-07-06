@@ -606,7 +606,13 @@ def do_recharge(request):
         # SUCCESS
         # =====================================================
 
-        if api_status == "1":
+        if api_status in ["1", "2"]:
+            recharge_status = (
+                "success"
+                if api_status == "1"
+                else "pending"
+            )
+         
 
             recharge = Recharge.objects.create(
 
@@ -624,7 +630,7 @@ def do_recharge(request):
 
                 coupon=coupon_instance,
 
-                status='success',
+                status=recharge_status,
 
                 transaction_id=transaction_id,
 
