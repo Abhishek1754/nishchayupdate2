@@ -1331,7 +1331,7 @@ def payment_success(request):
 
         {
             
-            "order_id": order_id,
+            "order_id": payment.order_id,
 
             "provider_id": payment.provider.id,
 

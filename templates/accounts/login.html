@@ -467,9 +467,38 @@ async function loginUser(event){
             data.nishchay_coin
             );
 
-            alert('Login Successful');
+            // Speak Welcome Message
+const username = data.username || "User";
 
-            window.location.href='/';
+const speech = new SpeechSynthesisUtterance(
+    `Welcome back ${username}. Welcome to Nishchay Multiverse. We are happy to see you again.`
+);;
+
+speech.lang = "en-IN";
+speech.rate = 0.95;
+speech.pitch = 1;
+speech.volume = 1;
+
+// Stop any previous speech
+window.speechSynthesis.cancel();
+
+// Speak
+window.speechSynthesis.speak(speech);
+
+// Show success message
+alert("Login Successful");
+
+// After speaking, redirect
+speech.onend = function () {
+    window.location.href = "/";
+};
+
+// Fallback redirect after 5 seconds
+setTimeout(function () {
+    window.location.href = "/";
+}, 5000);
+
+            
 
         }
 
