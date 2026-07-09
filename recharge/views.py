@@ -601,9 +601,7 @@ def do_recharge(request):
 # GET WALLET
 # =====================================================
 
-            wallet, created = RechargeWallet.objects.get_or_create(
-           user=request.user
-           )
+            
        
          
 
