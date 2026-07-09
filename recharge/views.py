@@ -509,6 +509,13 @@ def do_recharge(request):
             "message": "Insufficient wallet balance"
 
         }, status=400)
+             
+            cashback_amount = (
+                 Decimal(amount)
+                 * provider.cashback_percentage
+                 ) / Decimal("100")
+             
+    
                 
                 
 
@@ -518,37 +525,7 @@ def do_recharge(request):
             
            
 
-        # =====================================================
-        # COUPON
-        # =====================================================
-
-        if coupon_code:
-
-            try:
-
-                coupon_instance = RechargeCoupon.objects.get(
-
-                    code=coupon_code,
-                    is_active=True
-
-                )
-
-                cashback_amount = (
-
-                    Decimal(amount)
-                    *
-                    coupon_instance.cashback_percentage
-                ) / Decimal("100")
-
-                if cashback_amount > coupon_instance.max_cashback:
-
-                    cashback_amount = (
-                        coupon_instance.max_cashback
-                    )
-
-            except:
-
-                pass
+       
 
         # =====================================================
         # TXN ID
@@ -620,6 +597,14 @@ def do_recharge(request):
                 if api_status == "1"
                 else "pending"
             )
+# =====================================================
+# GET WALLET
+# =====================================================
+
+            wallet, created = RechargeWallet.objects.get_or_create(
+           user=request.user
+           )
+       
          
 
             recharge = Recharge.objects.create(
