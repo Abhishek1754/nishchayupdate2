@@ -467,14 +467,19 @@ def do_recharge(request):
                 "message": "Amount required"
 
             }, status=400)
-
+            
         provider = RechargeProvider.objects.get(
-    id=provider_id
-)
-
-        cashback_amount = Decimal("0")
-
+                id=provider_id
+            )
+        cashback_amount = (
+            Decimal(amount)
+            * provider.cashback_percentage
+            ) / Decimal("100")
+        
         coupon_instance = None
+   
+
+       
 
 # =====================================================
 # USER WALLET / CASHFREE PAYMENT
@@ -510,23 +515,6 @@ def do_recharge(request):
 
         }, status=400)
              
-            cashback_amount = (
-                 Decimal(amount)
-                 * provider.cashback_percentage
-                 ) / Decimal("100")
-             
-    
-                
-                
-
-                
-                
-
-            
-           
-
-       
-
         # =====================================================
         # TXN ID
         # =====================================================
@@ -636,20 +624,32 @@ def do_recharge(request):
             # =====================================================
             # WALLET DEDUCT
             # =====================================================
+            
+            if request.user.is_authenticated:
+                wallet, created = RechargeWallet.objects.get_or_create(
+                    user=request.user
+                )
+                # Deduct only if wallet payment
+                if not order_id:
+                    wallet.balance -= Decimal(amount)
+                    wallet.total_spent += Decimal(amount)
+                    # Cashback for both wallet & Cashfree
+                    wallet.balance += cashback_amount
+                    wallet.total_cashback += cashback_amount
+                    
+                    wallet.save()
+                    
+                    if cashback_amount > 0:
+                        RechargeCashbackHistory.objects.create(
+                            user=request.user,
+                            recharge=recharge,
+                            cashback_percentage=provider.cashback_percentage,
+                            cashback_amount=cashback_amount
+                        )
 
             
             
-            if wallet:
-
-                wallet.balance -= Decimal(amount)
-
-                wallet.total_spent += Decimal(amount)
-
-                wallet.balance += cashback_amount
-
-                wallet.total_cashback += cashback_amount
-
-                wallet.save()
+           
 
                 RechargeWalletHistory.objects.create(
 
