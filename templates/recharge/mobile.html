@@ -24,6 +24,7 @@ body{
 background:#000;
 font-family:'Poppins',sans-serif;
 color:white;
+padding-bottom:100px;
 }
 
 .container{
@@ -219,6 +220,639 @@ margin-top:30px;
 background:#d0ff4b;
 }
 
+/* ================= NEW HEADER ================= */
+
+.app-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.menu-btn,
+.notify-btn{
+width:50px;
+height:50px;
+background:#111;
+border:1px solid #2a2a2a;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:24px;
+color:#b7ff00;
+cursor:pointer;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.brand-logo{
+width:55px;
+height:55px;
+border-radius:50%;
+background:#b7ff00;
+color:#000;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+font-weight:bold;
+}
+
+.brand h2{
+margin:0;
+color:#b7ff00;
+font-size:26px;
+}
+
+.brand p{
+margin:0;
+font-size:12px;
+color:#888;
+}
+
+/* ================= WALLET ================= */
+
+.wallet-box{
+
+margin-top:25px;
+
+background:linear-gradient(135deg,#111,#181818);
+
+border:1px solid rgba(183,255,0,.25);
+
+border-radius:28px;
+
+padding:30px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:0 0 35px rgba(183,255,0,.08);
+
+}
+
+.wallet-box p{
+
+color:#cfcfcf;
+
+font-size:18px;
+
+margin-bottom:10px;
+
+}
+
+.wallet-box h1{
+
+font-size:52px;
+
+color:#b7ff00;
+
+margin-bottom:20px;
+
+}
+
+.wallet-btn{
+
+display:inline-block;
+
+padding:15px 28px;
+
+background:#b7ff00;
+
+color:#000;
+
+font-weight:bold;
+
+border-radius:14px;
+
+text-decoration:none;
+
+transition:.3s;
+
+}
+
+.wallet-btn:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 0 20px rgba(183,255,0,.4);
+
+}
+
+.wallet-image{
+
+font-size:95px;
+
+filter:drop-shadow(0 0 25px rgba(183,255,0,.5));
+
+}
+
+/* ================= MINI CARDS ================= */
+
+.mini-wallets{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:20px;
+
+margin-top:25px;
+
+margin-bottom:35px;
+
+}
+
+.mini-card{
+
+background:#101010;
+
+border:1px solid rgba(183,255,0,.18);
+
+border-radius:22px;
+
+padding:25px;
+
+transition:.3s;
+
+}
+
+.mini-card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 0 20px rgba(183,255,0,.18);
+
+}
+
+.mini-card p{
+
+color:#999;
+
+margin-bottom:10px;
+
+}
+
+.mini-card h3{
+
+font-size:34px;
+
+color:#b7ff00;
+
+}
+
+/* ================= SERVICES ================= */
+
+.section-heading{
+
+font-size:34px;
+
+color:#b7ff00;
+
+margin-bottom:25px;
+
+}
+
+.service-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+
+gap:20px;
+
+}
+
+.service-item{
+
+background:#111;
+
+border:1px solid rgba(183,255,0,.15);
+
+border-radius:22px;
+
+padding:30px 10px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+cursor:pointer;
+
+transition:.35s;
+
+min-height:140px;
+
+}
+
+.service-item:hover{
+
+transform:translateY(-6px);
+
+border-color:#b7ff00;
+
+box-shadow:0 0 20px rgba(183,255,0,.3);
+
+}
+
+.service-item i,
+.service-item img,
+.service-item svg{
+
+font-size:34px;
+
+width:34px;
+
+height:34px;
+
+margin-bottom:18px;
+
+}
+
+.service-item span{
+
+font-size:15px;
+
+color:#fff;
+
+font-weight:500;
+
+text-align:center;
+
+}
+
+/* ================= OFFER ================= */
+
+.offer-banner{
+
+background:linear-gradient(135deg,#b7ff00,#d7ff54);
+
+border-radius:22px;
+
+padding:25px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin:35px 0;
+
+color:#000;
+
+}
+
+.offer-banner h3{
+
+font-size:30px;
+
+margin-bottom:8px;
+
+}
+
+.offer-banner p{
+
+font-size:15px;
+
+}
+
+.offer-banner button{
+
+background:#000;
+
+color:#b7ff00;
+
+padding:14px 22px;
+
+border:none;
+
+border-radius:14px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.side-menu{
+
+position:fixed;
+
+left:-280px;
+
+top:0;
+
+width:260px;
+
+height:100vh;
+
+background:#111;
+
+padding:25px;
+
+transition:.35s;
+
+z-index:999;
+
+}
+
+.side-menu.show{
+
+left:0;
+
+}
+
+.overlay{
+
+display:none;
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.6);
+
+z-index:998;
+
+}
+
+.overlay.show{
+
+display:block;
+
+}
+
+/* ================= PLANS ================= */
+
+.plans-section{
+
+margin-top:45px;
+
+}
+
+.plans-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:18px;
+
+}
+
+.plan{
+
+background:#111;
+
+border-radius:22px;
+
+padding:25px;
+
+border:1px solid rgba(183,255,0,.18);
+
+transition:.3s;
+
+}
+
+.plan:hover{
+
+transform:translateY(-6px);
+
+box-shadow:0 0 20px rgba(183,255,0,.3);
+
+border-color:#b7ff00;
+
+}
+
+.plan h1{
+
+font-size:38px;
+
+color:#b7ff00;
+
+}
+
+.plan button{
+
+margin-top:20px;
+
+background:#b7ff00;
+
+color:#000;
+
+width:100%;
+
+height:55px;
+
+border:none;
+
+border-radius:12px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+/* ================= RECHARGE CARD ================= */
+
+.recharge-card{
+
+background:#111;
+
+border:1px solid rgba(183,255,0,.18);
+
+border-radius:25px;
+
+padding:30px;
+
+margin-top:35px;
+
+box-shadow:0 0 25px rgba(183,255,0,.08);
+
+}
+
+.recharge-title{
+
+color:#b7ff00;
+
+margin-bottom:25px;
+
+font-size:30px;
+
+}
+
+.field{
+
+margin-bottom:22px;
+
+}
+
+.field label{
+
+display:block;
+
+margin-bottom:8px;
+
+font-size:15px;
+
+color:#bbb;
+
+}
+
+.field input,
+.field select{
+
+width:100%;
+
+height:60px;
+
+background:#050505;
+
+border:1px solid rgba(183,255,0,.20);
+
+border-radius:14px;
+
+padding:0 18px;
+
+font-size:17px;
+
+color:#fff;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+.field input:focus,
+.field select:focus{
+
+border-color:#b7ff00;
+
+box-shadow:0 0 15px rgba(183,255,0,.25);
+
+}
+
+.pay-btn{
+
+margin-top:10px;
+
+width:100%;
+
+height:65px;
+
+background:#b7ff00;
+
+color:#000;
+
+font-size:20px;
+
+font-weight:700;
+
+border:none;
+
+border-radius:16px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.pay-btn:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 0 25px rgba(183,255,0,.35);
+
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+
+position:fixed;
+
+left:0;
+
+bottom:0;
+
+width:100%;
+
+height:80px;
+
+background:#111;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+border-top:1px solid rgba(183,255,0,.18);
+
+z-index:999;
+
+}
+
+.bottom-nav a{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+text-decoration:none;
+
+color:#888;
+
+font-size:13px;
+
+transition:.3s;
+
+}
+
+.bottom-nav a div{
+
+font-size:24px;
+
+margin-bottom:5px;
+
+}
+
+.bottom-nav a.active{
+
+color:#b7ff00;
+
+}
+
+.bottom-nav a:hover{
+
+color:#b7ff00;
+
+}
+
 @media(max-width:768px){
 
 .container{
@@ -314,52 +948,338 @@ font-size:40px;
 
 <body>
 
+<!-- BACKGROUND -->
+
+<div class="bg-glow bg1"></div>
+<div class="bg-glow bg2"></div>
+
+<!-- LEFT MENU -->
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="side-menu" id="sideMenu">
+
+<div class="menu-header">
+
+<h2>NISHCHAY</h2>
+
+<span onclick="closeMenu()">✕</span>
+
+</div>
+
+<a href="/recharge/profile/">👤 Profile</a>
+
+<a href="/recharge/team/">👥 Team</a>
+
+<a href="/recharge/income/">💰 Income</a>
+
+<a href="/recharge/wallet/">🏦 Wallet</a>
+
+<a href="/recharge/cashback/">🎁 Cashback</a>
+
+<a href="/recharge/transactions/">📜 Transactions</a>
+
+<a href="/recharge/withdraw/">💸 Withdraw</a>
+
+<a href="/recharge/analytics/">📈 Analytics</a>
+
+<a href="/logout/">🚪 Logout</a>
+
+</div>
+
 <div class="container">
 
-<div class="navbar">
+<!-- HEADER -->
 
-<div class="logo">
+<div class="app-header">
 
-<div class="logo-circle">⚡</div>
+<div class="menu-btn" onclick="openMenu()">
 
-<h1>Re<span>Charge</span></h1>
-
-</div>
-
-<div class="right-nav">
-
-<div class="wallet">
-
-₹<span id="walletBalance">0</span>
+☰
 
 </div>
 
-<div class="profile">
+<div class="brand">
 
-<div class="avatar" id="avatarLetter">
-U
+<div class="brand-logo">
+
+⚡
+
 </div>
 
 <div>
 
-Hi,
-<span id="username">
-User
+<h2>NISHCHAY</h2>
+
+<p>Recharge</p>
+
+</div>
+
+</div>
+
+<div class="notify-btn">
+
+🔔
+
+</div>
+
+</div>
+
+<!-- WALLET -->
+
+<div class="wallet-box">
+
+<div>
+
+<p>
+
+Total Wallet Balance
+
+</p>
+
+<h1>
+
+₹ <span id="walletBalance">0</span>
+
+</h1>
+
+<a href="/recharge/wallet/" class="wallet-btn">
+
++ Add Money
+
+</a>
+
+</div>
+
+<div class="wallet-image">
+
+📱⚡
+
+</div>
+
+</div>
+
+<!-- MINI WALLET -->
+
+<div class="mini-wallets">
+
+<div class="mini-card">
+
+<p>
+
+Nishchay Coins
+
+</p>
+
+<h3 id="coinBalance">
+
+0
+
+</h3>
+
+</div>
+
+<div class="mini-card">
+
+<p>
+
+Value Grow Wallet
+
+</p>
+
+<h3>
+
+₹ <span id="growWallet">
+
+0
+
+</span>
+
+</h3>
+
+</div>
+
+</div>
+
+<h2 class="section-heading">
+
+Recharge & Pay Bills
+
+</h2>
+
+<div class="service-grid">
+
+<div class="service-item">
+
+📱
+
+<span>
+
+Mobile
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+📺
+
+<span>
+
+DTH
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+⚡
+
+<span>
+
+Electricity
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+🚗
+
+<span>
+
+FASTag
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+🔥
+
+<span>
+
+Gas
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+💧
+
+<span>
+
+Water
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+🌐
+
+<span>
+
+Broadband
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+☎
+
+<span>
+
+Landline
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+▶
+
+<span>
+
+Google Play
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+🛡
+
+<span>
+
+Insurance
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+💳
+
+<span>
+
+Loan EMI
+
+</span>
+
+</div>
+
+<div class="service-item">
+
+📺
+
+<span>
+
+Cable TV
+
 </span>
 
 </div>
 
 </div>
 
-</div>
+<div class="offer-banner">
+
+<div>
+
+<h3>
+
+🎁 One Deal, Five Times
+
+</h3>
+
+<p>
+
+Recharge More. Save More.
+
+</p>
 
 </div>
 
-<div class="main">
+<button>
 
-<!-- LEFT -->
+Explore Offers →
 
-<div class="left">
+</button>
+
+</div>
 
 <h2 class="section-title">
 
@@ -367,78 +1287,62 @@ Mobile Recharge
 
 </h2>
 
-<div class="plans" style="margin-bottom:30px;">
 
-    <div class="plan" onclick="window.location='/recharge/team/'">
-        <h3>👥 Team</h3>
-        <p>My Network</p>
-    </div>
+<div class="recharge-card">
 
-    <div class="plan" onclick="window.location='/recharge/income/'">
-        <h3>💰 Income</h3>
-        <p>Level Income</p>
-    </div>
+<h2 class="recharge-title">
 
-    <div class="plan" onclick="window.location='/recharge/wallet/'">
-        <h3>🏦 Wallet</h3>
-        <p>Wallet History</p>
-    </div>
+📱 Mobile Recharge
 
-    <div class="plan" onclick="window.location='/recharge/cashback/'">
-        <h3>🎁 Cashback</h3>
-        <p>Cashback Earnings</p>
-    </div>
+</h2>
 
-    <div class="plan" onclick="window.location='/recharge/transactions/'">
-        <h3>📜 Transactions</h3>
-        <p>Recharge History</p>
-    </div>
+<div class="field">
 
-    <div class="plan" onclick="window.location='/recharge/profile/'">
-        <h3>👤 Profile</h3>
-        <p>User Details</p>
-    </div>
+<label>
 
-    <div class="plan" onclick="window.location='/recharge/withdraw/'">
-        <h3>💸 Withdraw</h3>
-        <p>Withdraw Request</p>
-    </div>
+Mobile Number
 
-    <div class="plan" onclick="window.location='/recharge/analytics/'">
-        <h3>📈 Analytics</h3>
-        <p>Recharge Statistics</p>
-    </div>
-
-</div>
-
-<div class="input-box">
+</label>
 
 <input
 type="text"
 id="mobile"
-placeholder="Enter Mobile Number"
 maxlength="10"
+placeholder="Enter 10 digit mobile number"
 onchange="fetchPlans()"
 >
 
 </div>
 
-<div class="input-box">
+<div class="field">
+
+<label>
+
+Operator
+
+</label>
 
 <select
 id="provider"
-onchange="fetchPlans()"
->
+onchange="fetchPlans()">
 
 <option value="">
+
 Select Operator
+
 </option>
 
 </select>
 
 </div>
 
-<div class="input-box">
+<div class="field">
+
+<label>
+
+Circle
+
+</label>
 
 <select id="circle">
 
@@ -472,71 +1376,56 @@ Select Operator
 <option>UP West</option>
 <option>Uttarakhand</option>
 <option>West Bengal</option>
-
-<!-- Union Territories -->
-<option>Andaman and Nicobar Islands</option>
-<option>Chandigarh</option>
-<option>Dadra and Nagar Haveli and Daman and Diu</option>
 <option>Delhi</option>
-<option>Jammu and Kashmir</option>
-<option>Ladakh</option>
-<option>Lakshadweep</option>
-<option>Puducherry</option>
 
 </select>
 
 </div>
 
-<div class="input-box">
+<div class="field">
+
+<label>
+
+Recharge Amount
+
+</label>
 
 <input
 type="number"
 id="amount"
-placeholder="Enter Recharge Amount"
+placeholder="Enter amount"
 >
 
 </div>
 
 <button
 class="pay-btn"
-onclick="goToPayment()"
->
+onclick="goToPayment()">
 
-Proceed Recharge →
+⚡ Proceed Recharge
 
 </button>
 
 </div>
+<section class="plans-section">
 
-<!-- RIGHT -->
-
-<div class="right">
-
-<h2 class="section-title">
+<h2 class="section-heading">
 
 Popular Plans
 
 </h2>
 
-<div class="plans" id="plansContainer">
+<div
+id="plansContainer"
+class="plans-grid">
 
 </div>
 
-<div class="wallet-card">
-
-<p>Wallet Balance</p>
-
-<h1>
-
-₹<span id="walletBalance2">
-0
-</span>
-
-</h1>
+</section>
 
 </div>
 
-</div>
+
 
 </div>
 
@@ -751,7 +1640,6 @@ document.getElementById(
 }
 
 
-
 function selectPlan(amount){
 
 document.getElementById(
@@ -825,8 +1713,71 @@ loadUser();
 
 loadProviders();
 
+function openMenu(){
+
+document.getElementById("sideMenu").classList.add("show");
+
+document.getElementById("overlay").classList.add("show");
+
+}
+
+function closeMenu(){
+
+document.getElementById("sideMenu").classList.remove("show");
+
+document.getElementById("overlay").classList.remove("show");
+
+}
+
 </script>
+
+<!-- ================= BOTTOM NAVIGATION ================= -->
+
+<div class="bottom-nav">
+
+<a href="/recharge/mobile/" class="active">
+
+<div>🏠</div>
+
+<span>Home</span>
+
+</a>
+
+<a href="/recharge/transactions/">
+
+<div>📄</div>
+
+<span>History</span>
+
+</a>
+
+<a href="/recharge/wallet/">
+
+<div>💰</div>
+
+<span>Wallet</span>
+
+</a>
+
+<a href="/recharge/team/">
+
+<div>👥</div>
+
+<span>Team</span>
+
+</a>
+
+<a href="/recharge/profile/">
+
+<div>👤</div>
+
+<span>Profile</span>
+
+</a>
+
+</div>
 
 </body>
 
 </html>
+
