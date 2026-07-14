@@ -112,14 +112,21 @@ gap:20px;
 }
 
 .thumb{
-background:#070707;
-border:1px solid #193600;
-border-radius:18px;
-padding:10px;
-height:130px;
+background:#0b0b0b;
+border:1px solid rgba(183,255,0,.15);
+border-radius:20px;
+padding:12px;
+height:120px;
+cursor:pointer;
+transition:.3s;
 display:flex;
 justify-content:center;
 align-items:center;
+}
+
+.thumb:hover{
+border-color:#b7ff00;
+transform:translateY(-5px);
 }
 
 .thumb img{
@@ -136,23 +143,45 @@ box-shadow:0 0 15px #b7ff00;
 /* MAIN IMAGE */
 
 .main-image{
-background:#070707;
-border-radius:25px;
+background:linear-gradient(180deg,#111,#050505);
+border-radius:30px;
 display:flex;
 justify-content:center;
 align-items:center;
-padding:40px;
+padding:60px;
 position:relative;
 overflow:hidden;
+border:1px solid rgba(183,255,0,.15);
+box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.main-image::before{
+content:"";
+position:absolute;
+width:320px;
+height:320px;
+background:#b7ff00;
+opacity:.05;
+border-radius:50%;
 }
 
 .main-image img{
 width:100%;
-max-width:550px;
-filter:drop-shadow(0 0 25px #b7ff00);
+max-width:500px;
+transition:.35s;
+filter:drop-shadow(0 20px 40px rgba(183,255,0,.35));
+}
+
+.main-image:hover img{
+transform:scale(1.06);
 }
 
 /* DETAILS */
+
+.details{
+position:sticky;
+top:20px;
+}
 
 .details h1{
 font-size:52px;
@@ -170,10 +199,14 @@ color:#b7ff00;
 }
 
 .price{
-font-size:60px;
+font-size:56px;
 font-weight:bold;
 color:#b7ff00;
-margin-bottom:20px;
+margin:25px 0;
+display:flex;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
 }
 
 .old{
@@ -276,13 +309,20 @@ margin-bottom:25px;
 }
 
 .feature{
-background:#050505;
-border:1px solid #193600;
-padding:25px;
-border-radius:20px;
+background:linear-gradient(180deg,#111,#080808);
+border:1px solid rgba(183,255,0,.15);
+padding:28px;
+border-radius:22px;
 display:flex;
 align-items:center;
-gap:15px;
+gap:18px;
+transition:.35s;
+}
+
+.feature:hover{
+transform:translateY(-6px);
+border-color:#b7ff00;
+box-shadow:0 15px 35px rgba(183,255,0,.15);
 }
 
 .feature i{
@@ -293,34 +333,45 @@ color:#b7ff00;
 /* BUY SECTION */
 
 .buy-box{
-background:#050505;
-border:1px solid #193600;
-padding:25px;
+background:linear-gradient(180deg,#101010,#050505);
+border:1px solid rgba(183,255,0,.15);
+padding:28px;
 border-radius:25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
+margin:35px 0;
+box-shadow:0 15px 35px rgba(0,0,0,.35);
 }
 
 .quantity{
 display:flex;
 align-items:center;
-gap:20px;
-font-size:28px;
+gap:15px;
+background:#111;
+padding:12px 20px;
+border-radius:18px;
+border:1px solid rgba(183,255,0,.15);
 }
 
 .qty-btn{
-width:50px;
-height:50px;
-border-radius:12px;
-background:#101700;
-border:1px solid #2d5a00;
+width:45px;
+height:45px;
+border-radius:14px;
+background:#1b1b1b;
+border:1px solid rgba(183,255,0,.2);
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:26px;
+font-size:22px;
+cursor:pointer;
 color:#b7ff00;
+transition:.3s;
+}
+
+.qty-btn:hover{
+background:#b7ff00;
+color:black;
 }
 
 .actions{
@@ -329,23 +380,38 @@ gap:20px;
 }
 
 .btn{
-padding:20px 45px;
+padding:18px 38px;
 border-radius:18px;
-font-size:24px;
+font-size:20px;
 font-weight:bold;
 border:none;
 cursor:pointer;
+transition:.35s;
+}
+
+.btn:hover{
+transform:translateY(-4px);
 }
 
 .cart-btn{
 background:#111;
-border:1px solid #b7ff00;
+border:2px solid #b7ff00;
 color:white;
+}
+
+.cart-btn:hover{
+background:#b7ff00;
+color:black;
 }
 
 .buy-btn{
 background:#b7ff00;
 color:black;
+box-shadow:0 10px 30px rgba(183,255,0,.35);
+}
+
+.buy-btn:hover{
+transform:translateY(-4px) scale(1.03);
 }
 
 /* DESCRIPTION */
@@ -359,10 +425,11 @@ margin-bottom:25px;
 
 .description,
 .specs{
-background:#050505;
-border:1px solid #193600;
-padding:30px;
-border-radius:25px;
+background:linear-gradient(180deg,#111,#070707);
+border:1px solid rgba(183,255,0,.15);
+padding:35px;
+border-radius:28px;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 .description h2,
@@ -396,11 +463,17 @@ gap:20px;
 
 .spec{
 display:flex;
-gap:15px;
+gap:18px;
 align-items:center;
-background:#070707;
-padding:18px;
-border-radius:15px;
+background:#101010;
+padding:22px;
+border-radius:18px;
+transition:.3s;
+}
+
+.spec:hover{
+background:#151515;
+transform:translateY(-4px);
 }
 
 .spec i{
@@ -429,13 +502,21 @@ gap:20px;
 }
 
 .frequent-card{
-background:#070707;
-border:1px solid #193600;
+background:linear-gradient(180deg,#111,#070707);
+border:1px solid rgba(183,255,0,.15);
 padding:20px;
-border-radius:20px;
+border-radius:22px;
 display:flex;
 align-items:center;
 justify-content:space-between;
+transition:.35s;
+cursor:pointer;
+}
+
+.frequent-card:hover{
+transform:translateY(-6px);
+border-color:#b7ff00;
+box-shadow:0 15px 35px rgba(183,255,0,.15);
 }
 
 .frequent-left{
@@ -445,21 +526,30 @@ gap:15px;
 }
 
 .frequent-left img{
-width:90px;
-height:90px;
+width:95px;
+height:95px;
 object-fit:contain;
+background:#111;
+padding:10px;
+border-radius:15px;
 }
 
 .add{
-width:50px;
-height:50px;
-border-radius:12px;
+width:55px;
+height:55px;
+border-radius:16px;
 background:#b7ff00;
 display:flex;
 justify-content:center;
 align-items:center;
 color:black;
-font-size:24px;
+font-size:22px;
+text-decoration:none;
+transition:.3s;
+}
+
+.add:hover{
+transform:scale(1.1);
 }
 
 /* RESPONSIVE */
@@ -480,6 +570,98 @@ grid-template-columns:repeat(2,1fr);
 
 .frequent-grid{
 grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:768px){
+
+body{
+padding:10px;
+}
+
+.topbar{
+padding:15px;
+}
+
+.topbar h1{
+font-size:22px;
+}
+
+.left-top{
+gap:12px;
+}
+
+.back{
+width:45px;
+height:45px;
+font-size:18px;
+}
+
+.product-section{
+padding:15px;
+}
+
+.thumbs{
+flex-direction:row;
+overflow:auto;
+}
+
+.thumb{
+min-width:90px;
+height:90px;
+}
+
+.main-image{
+padding:20px;
+}
+
+.main-image img{
+max-width:260px;
+}
+
+.details h1{
+font-size:48px;
+line-height:1.25;
+margin-bottom:18px;
+font-weight:800;
+}
+
+.price{
+font-size:36px;
+}
+
+.features{
+grid-template-columns:1fr;
+}
+
+.buy-box{
+flex-direction:column;
+gap:20px;
+}
+
+.actions{
+width:100%;
+flex-direction:column;
+}
+
+.btn{
+width:100%;
+text-align:center;
+}
+
+.spec-grid{
+grid-template-columns:1fr;
+}
+
+.description,
+.specs,
+.frequently{
+padding:18px;
+}
+
+.description p{
+font-size:16px;
 }
 
 }
@@ -568,35 +750,59 @@ grid-template-columns:1fr;
 </h1>
 
 <div class="rating">
+
 <i class="fa-solid fa-star"></i>
+
+<span style="color:#FFD700;font-weight:bold;">
+4.8
+</span>
+
+|
+
 {% if product.quantity > 0 %}
+
+<span style="
+background:#143000;
+padding:8px 15px;
+border-radius:30px;
+color:#7dff7d;
+font-size:15px;">
+
 <i class="fa-solid fa-circle-check"></i>
+
 In Stock
-{% else %}
-<i class="fa-solid fa-circle-xmark"></i>
-Out Of Stock
-{% endif %}
-</div>
-
-<div class="price">
-
-₹ {{ product.price }}
-
-<span class="offer">
-
-{{ product.cashback_percentage }}% Cashback
 
 </span>
 
+{% else %}
+
+<span style="
+background:#300000;
+padding:8px 15px;
+border-radius:30px;
+color:#ff8080;
+font-size:15px;">
+
+Out of Stock
+
+</span>
+
+{% endif %}
+
 </div>
 
-<div class="warranty">
+ <div class="warranty">
 
-<i class="fa-solid fa-shield"></i>
+<i class="fa-solid fa-shield-halved"></i>
 
 <div>
-<h3>Original Nishchay Product</h3>
-<p>Quality Checked</p>
+
+<h3>100% Original Nishchay Product</h3>
+
+<p>
+Quality Checked • Secure Packaging • Warranty Support
+</p>
+
 </div>
 
 </div>
@@ -780,17 +986,7 @@ View More ↓
 </div>
 
 
-<!-- FREQUENTLY -->
-
-<div class="frequently">
-
-<h2>Frequently Bought Together</h2>
-
-<div class="frequent-grid">
-
-<div class="frequent-card">
-
-<div class="frequent-left">
+<!-- RELATED PRODUCTS -->
 
 <div class="frequently">
 
@@ -800,7 +996,9 @@ View More ↓
 
 {% for p in related_products %}
 
-<div class="frequent-card">
+<div
+class="frequent-card"
+onclick="window.location='/ecommerce/product-details/{{ p.id }}/'">
 
 <div class="frequent-left">
 
@@ -812,7 +1010,9 @@ View More ↓
 
 <h3>{{ p.name }}</h3>
 
-<p>₹ {{ p.price }}</p>
+<p style="margin-top:8px;color:#b7ff00;">
+₹ {{ p.price }}
+</p>
 
 </div>
 
@@ -822,19 +1022,27 @@ View More ↓
 href="/ecommerce/product-details/{{ p.id }}/"
 class="add">
 
-+
+<i class="fa-solid fa-arrow-right"></i>
 
 </a>
+
+</div>
+
+{% empty %}
+
+<div style="
+grid-column:1/-1;
+text-align:center;
+padding:50px;
+color:#888;">
+
+No related products available.
 
 </div>
 
 {% endfor %}
 
 </div>
-
-</div>
-
-
 
 </div>
 
