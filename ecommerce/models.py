@@ -13,16 +13,37 @@ from channels.layers import get_channel_layer
 
 class Category(models.Model):
 
-    name = models.CharField(
-        max_length=100
+    name = models.CharField(max_length=100)
+
+    image = models.ImageField(
+        upload_to="categories/",
+        blank=True,
+        null=True
+    )
+
+    icon = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Example: fa-mobile-alt"
+    )
+
+    display_order = models.PositiveIntegerField(
+        default=0
+    )
+
+    is_active = models.BooleanField(
+        default=True
     )
 
     created_at = models.DateTimeField(
         auto_now_add=True
     )
 
-    def __str__(self):
+    class Meta:
+        ordering = ["display_order", "name"]
 
+    def __str__(self):
         return self.name
 
 
@@ -35,19 +56,35 @@ class SubCategory(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
-        related_name='subcategories'
+        related_name="subcategories"
     )
 
     name = models.CharField(
         max_length=100
     )
 
+    image = models.ImageField(
+        upload_to="subcategories/",
+        blank=True,
+        null=True
+    )
+
+    display_order = models.PositiveIntegerField(
+        default=0
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
 
-    def __str__(self):
+    class Meta:
+        ordering = ["display_order", "name"]
 
+    def __str__(self):
         return f"{self.category.name} - {self.name}"
 
 
@@ -58,35 +95,43 @@ class SubCategory(models.Model):
 class ChildCategory(models.Model):
 
     category = models.ForeignKey(
-
         Category,
-
         on_delete=models.CASCADE,
-
-        related_name='child_categories'
-
+        related_name="child_categories"
     )
 
     subcategory = models.ForeignKey(
-
         SubCategory,
-
         on_delete=models.CASCADE,
-
-        related_name='child_categories'
-
+        related_name="child_categories"
     )
 
     name = models.CharField(
         max_length=100
     )
 
+    image = models.ImageField(
+        upload_to="childcategories/",
+        blank=True,
+        null=True
+    )
+
+    display_order = models.PositiveIntegerField(
+        default=0
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
 
-    def __str__(self):
+    class Meta:
+        ordering = ["display_order", "name"]
 
+    def __str__(self):
         return f"{self.category.name} - {self.subcategory.name} - {self.name}"
 
 
@@ -111,24 +156,31 @@ class Product(models.Model):
     )
 
     child_category = models.ForeignKey(
-
         ChildCategory,
-
         on_delete=models.SET_NULL,
-
         null=True,
-
         blank=True
-
     )
 
     name = models.CharField(
         max_length=200
     )
 
+    slug = models.SlugField(
+        unique=True,
+        blank=True,
+        null=True
+    )
+
     sku = models.CharField(
         max_length=100,
         unique=True
+    )
+
+    brand = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
     )
 
     description = models.TextField()
@@ -138,11 +190,43 @@ class Product(models.Model):
         decimal_places=2
     )
 
+    mrp = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
     quantity = models.IntegerField()
+
+    weight = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
 
     cashback_percentage = models.DecimalField(
         max_digits=5,
         decimal_places=2,
+        default=0
+    )
+
+    is_featured = models.BooleanField(
+        default=False
+    )
+
+    is_trending = models.BooleanField(
+        default=False
+    )
+
+    is_flash_deal = models.BooleanField(
+        default=False
+    )
+
+    is_best_seller = models.BooleanField(
+        default=False
+    )
+
+    display_order = models.PositiveIntegerField(
         default=0
     )
 
@@ -154,8 +238,10 @@ class Product(models.Model):
         auto_now_add=True
     )
 
-    def __str__(self):
+    class Meta:
+        ordering = ["display_order", "-created_at"]
 
+    def __str__(self):
         return self.name
 
 
@@ -178,6 +264,9 @@ class ProductImage(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
+    
+    class Meta:
+       ordering = ["id"]
 
     def __str__(self):
 
@@ -1396,6 +1485,49 @@ class MonthlyCouponUser(models.Model):
     def __str__(self):
 
         return f"{self.user.email} - {self.campaign.name}"
+    
+# =========================
+# HOME BANNER
+# =========================
+
+class Banner(models.Model):
+
+    title = models.CharField(
+        max_length=100
+    )
+
+    heading = models.CharField(
+        max_length=200
+    )
+
+    description = models.TextField()
+
+    button_text = models.CharField(
+        max_length=50,
+        default="Shop Now"
+    )
+
+    image = models.ImageField(
+        upload_to="banners/"
+    )
+
+    display_order = models.PositiveIntegerField(
+        default=0
+    )
+
+    is_active = models.BooleanField(
+        default=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        ordering = ["display_order"]
+
+    def __str__(self):
+        return self.title
 
 
 
@@ -1435,21 +1567,17 @@ class Cart(models.Model):
 class Order(models.Model):
 
     STATUS_CHOICES = (
-
-        ('pending', 'Pending'),
-        ('processing', 'Processing'),
-        ('shipped', 'Shipped'),
-        ('delivered', 'Delivered'),
-        ('cancelled', 'Cancelled'),
-
+        ("pending", "Pending"),
+        ("processing", "Processing"),
+        ("shipped", "Shipped"),
+        ("delivered", "Delivered"),
+        ("cancelled", "Cancelled"),
     )
 
     PAYMENT_CHOICES = (
-
-        ('wallet', 'Wallet'),
-        ('online', 'Online'),
-        ('cod', 'Cash On Delivery'),
-
+        ("wallet", "Wallet"),
+        ("online", "Online"),
+        ("cod", "Cash On Delivery"),
     )
 
     user = models.ForeignKey(
@@ -1471,13 +1599,18 @@ class Order(models.Model):
     payment_method = models.CharField(
         max_length=20,
         choices=PAYMENT_CHOICES,
-        default='wallet'
+        default="wallet"
+    )
+
+    payment_status = models.CharField(
+        max_length=20,
+        default="pending"
     )
 
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default='pending'
+        default="pending"
     )
 
     address = models.TextField(
@@ -1485,69 +1618,49 @@ class Order(models.Model):
         null=True
     )
 
+    cashfree_order_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    cashfree_payment_id = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True
+    )
+
+    payment_completed_at = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True
     )
-    payment_status = models.CharField(
-    max_length=20,
-    default="pending"
-)
 
-cashfree_order_id = models.CharField(
-    max_length=100,
-    blank=True,
-    null=True
-)
+    def __str__(self):
+        return f"Order #{self.id}"
 
-cashfree_payment_id = models.CharField(
-    max_length=100,
-    blank=True,
-    null=True
-)
-
-payment_completed_at = models.DateTimeField(
-    blank=True,
-    null=True
-)
-
-def __str__(self):
-
-        return f"Order {self.id}"
-
-def save(self, *args, **kwargs):
-
+    def save(self, *args, **kwargs):
         is_new = self.pk is None
 
         super().save(*args, **kwargs)
 
         if is_new:
-
             channel_layer = get_channel_layer()
 
-            async_to_sync(
-                channel_layer.group_send
-            )(
-
+            async_to_sync(channel_layer.group_send)(
                 "dashboard",
-
                 {
-
                     "type": "send_dashboard_update",
-
                     "data": {
-
                         "type": "new_order",
-
                         "order_id": self.id,
-
                         "user": self.user.email,
-
-                        "amount": str(self.total_amount)
-
-                    }
-
-                }
-
+                        "amount": str(self.total_amount),
+                    },
+                },
             )
 
 

@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from .models import Category, Product, Banner
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -14,7 +15,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Count
 from django.shortcuts import redirect
 from django.contrib import messages
-
+from django.db.models import Sum
 from .utils import (
 
     distribute_smart_share_income,
@@ -51,9 +52,9 @@ from django.utils import timezone
 # ==================== UI PAGES =======================
 # =====================================================
 
-from .models import Category, Product
 
-from .models import Category, Product
+
+
 
 from django.db.models import Count
 
@@ -66,13 +67,61 @@ def ecommerce_dashboard(request):
 
     category_id = request.GET.get("category")
 
-    categories = Category.objects.annotate(
-        total_products=Count("product")
+    categories = (
+    Category.objects
+    .filter(is_active=True)
+    .order_by("display_order")
+)
+    
+    banner = Banner.objects.filter(
+    is_active=True
+).first()
+    
+    featured_products = (
+    Product.objects
+    .filter(
+        is_active=True,
+        is_featured=True
     )
+    .select_related(
+        "category",
+        "subcategory",
+        "child_category"
+    )
+    .prefetch_related("images")
+)
+    
+    flash_products = (
+    Product.objects
+    .filter(
+        is_active=True,
+        is_flash_deal=True
+    )
+    .prefetch_related("images")
+)
+    
+    trending_products = (
+    Product.objects
+    .filter(
+        is_active=True,
+        is_trending=True
+    )
+    .prefetch_related("images")
+)
+    
+    products = (
+    Product.objects
+    .filter(is_active=True)
+    .select_related(
+        "category",
+        "subcategory",
+        "child_category"
+    )
+    .prefetch_related("images")
+)
+    
 
-    products = Product.objects.filter(
-        is_active=True
-    )
+    
 
     if category_id:
 
@@ -89,9 +138,11 @@ def ecommerce_dashboard(request):
 
     if request.user.is_authenticated:
 
-        cart_count = Cart.objects.filter(
-            user=request.user
-        ).count()
+        cart_count = (
+    Cart.objects
+    .filter(user=request.user)
+    .aggregate(total=Sum("quantity"))["total"] or 0
+)
 
     # ==========================
     # HOME PAGE
@@ -104,16 +155,23 @@ def ecommerce_dashboard(request):
         "ecommerce/dashboard.html",
 
         {
+            
+    "banner": banner,
 
-            "categories": categories,
+    "categories": categories,
 
-            "products": products,
+    "products": products,
 
-            "cart_count": cart_count,
+    "featured_products": featured_products,
 
-            "notification_count": notification_count,
+    "flash_products": flash_products,
 
-        }
+    "trending_products": trending_products,
+
+    "cart_count": cart_count,
+
+    "notification_count": notification_count,
+}
 
     )
     
@@ -122,16 +180,21 @@ def ecommerce_dashboard(request):
 
 def product_details(request, id):
 
-    product = Product.objects.get(
-        id=id
-    )
+    product = get_object_or_404(
+    Product.objects.prefetch_related("images"),
+    id=id,
+    is_active=True
+)
 
-    related_products = Product.objects.filter(
+    related_products = (
+    Product.objects
+    .filter(
         category=product.category,
         is_active=True
-    ).exclude(
-        id=product.id
-    )[:3]
+    )
+    .exclude(id=product.id)
+    .prefetch_related("images")[:4]
+)
 
     return render(
         request,
@@ -1394,12 +1457,18 @@ def checkout(request):
         # =========================
         # REDUCE STOCK
         # =========================
-
+        
         product = item.product
+        
+        if product.quantity < item.quantity:
+         return Response(
+        { "error": f"{product.name} is out of stock."
+         },
+        status=400
+        )
+    product.quantity -= item.quantity
+    product.save()
 
-        product.quantity -= item.quantity
-
-        product.save()
 
 
 

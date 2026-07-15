@@ -2,6 +2,8 @@ from django.contrib import admin
 
 from accounts.admin import admin_site
 
+from django.utils.html import format_html
+
 from .models import (
 
     Category,
@@ -35,6 +37,7 @@ from .models import (
     MonthlyCouponCampaign,
     MonthlyCouponEligibility,
     MonthlyCouponUser,
+    Banner,
 
     Cart,
 
@@ -53,7 +56,7 @@ class ProductImageInline(admin.TabularInline):
 
     model = ProductImage
 
-    extra = 1
+    extra = 0
 
     max_num = 4
 
@@ -67,11 +70,17 @@ class CategoryAdmin(admin.ModelAdmin):
 
     list_display = (
 
-        'id',
-        'name',
-        'created_at',
+    "id",
 
-    )
+    "name",
+
+    "display_order",
+
+    "is_active",
+
+    "created_at",
+
+)
 
     search_fields = (
 
@@ -89,12 +98,19 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
     list_display = (
 
-        'id',
-        'name',
-        'category',
-        'created_at',
+    "id",
 
-    )
+    "name",
+
+    "category",
+
+    "display_order",
+
+    "is_active",
+
+    "created_at",
+
+)
 
     search_fields = (
 
@@ -104,9 +120,17 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
     list_filter = (
 
-        'category',
+    "category",
 
-    )
+    "is_active",
+
+)
+    
+    ordering = (
+
+    "display_order",
+
+)
 
 
 # =========================
@@ -118,26 +142,55 @@ class ChildCategoryAdmin(admin.ModelAdmin):
 
     list_display = (
 
-        'id',
-        'name',
-        'category',
-        'subcategory',
-        'created_at',
+    "id",
 
-    )
+    "name",
+
+    "category",
+
+    "subcategory",
+
+    "display_order",
+
+    "is_active",
+
+    "created_at",
+
+)
 
     search_fields = (
 
         'name',
 
     )
+    
+    list_filter = (
+
+        "is_active",
+
+    )
+
+    ordering = (
+
+        "display_order",
+
+    )
 
     list_filter = (
 
-        'category',
-        'subcategory',
+    "category",
 
-    )
+    "subcategory",
+
+    "is_active",
+
+)
+    
+    ordering = (
+
+    "display_order",
+
+)
 
 
 # =========================
@@ -149,39 +202,97 @@ class ProductAdmin(admin.ModelAdmin):
 
     list_display = (
 
-        'id',
-        'name',
-        'category',
-        'subcategory',
-        'child_category',
-        'price',
-        'quantity',
-        'cashback_percentage',
-        'is_active',
+    "id",
 
-    )
+    "preview",
+
+    "name",
+
+    "category",
+
+    "subcategory",
+
+    "child_category",
+
+    "price",
+
+    "quantity",
+
+    "is_featured",
+
+    "is_flash_deal",
+
+    "is_trending",
+
+    "is_best_seller",
+
+    "is_active",
+
+)
 
     search_fields = (
 
-        'name',
-        'sku',
+    "name",
 
-    )
+    "sku",
+
+    "brand",
+
+)
+    
+    ordering = (
+
+    "display_order",
+
+    "-id",
+
+)
+    
 
     list_filter = (
 
-        'category',
-        'subcategory',
-        'child_category',
-        'is_active',
+    "category",
 
-    )
+    "subcategory",
+
+    "child_category",
+
+    "is_featured",
+
+    "is_flash_deal",
+
+    "is_trending",
+
+    "is_best_seller",
+
+    "is_active",
+
+)
 
     inlines = [
 
         ProductImageInline,
 
     ]
+    
+    def preview(self, obj):
+
+        image = obj.images.first()
+
+        if image:
+
+            return format_html(
+                '<img src="{}" width="55" height="55" style="border-radius:10px;">',
+                image.image.url
+            )
+
+        return "-"
+
+    preview.short_description = "Image"
+    
+    
+    
+
 
 
 # =========================
@@ -901,6 +1012,42 @@ class MonthlyCouponUserAdmin(admin.ModelAdmin):
         'year',
 
     )
+    
+# =========================
+# HOME BANNER ADMIN
+# =========================
+
+@admin.register(Banner, site=admin_site)
+class BannerAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        "id",
+        "title",
+        "display_order",
+        "is_active",
+        "created_at",
+
+    )
+
+    list_filter = (
+
+        "is_active",
+
+    )
+
+    search_fields = (
+
+        "title",
+        "heading",
+
+    )
+
+    ordering = (
+
+        "display_order",
+
+    )    
     
     
 

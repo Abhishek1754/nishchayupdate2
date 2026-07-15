@@ -1003,13 +1003,24 @@ Copy Referral Code
 
 <i class="fa-solid fa-magnifying-glass"></i>
 
-<form method="GET">
+<form
+method="GET"
+style="
+display:flex;
+align-items:center;
+width:100%;">
 
 <input
 type="text"
 name="search"
 value="{{ request.GET.search }}"
 placeholder="Search Products">
+
+<button
+type="submit"
+style="
+display:none;">
+</button>
 
 </form>
 
@@ -1230,19 +1241,36 @@ View All
 
 
 
-{% for product in products %}
+{% for product in flash_products %}
 
 <div class="product" onclick="window.location='/ecommerce/product-details/{{ product.id }}/'" style="cursor:pointer;">
 
 <div class="discount">
 
+{% if product.cashback_percentage > 0 %}
+
 {{ product.cashback_percentage }}% Cashback
+
+{% else %}
+
+NEW
+
+{% endif %}
 
 </div>
 
 {% if product.images.first %}
 <img src="{{ product.images.first.image.url }}">
 {% endif %}
+
+<div style="
+color:#888;
+font-size:13px;
+margin-bottom:8px;">
+
+{{ product.brand }}
+
+</div>
 
 <h3>
 
@@ -1254,10 +1282,14 @@ View All
 
 ₹ {{ product.price }}
 
-{% if product.cashback_percentage > 0 %}
+{% if product.mrp %}
+
 <span class="old">
-{{ product.cashback_percentage }}% Cashback
+
+₹ {{ product.mrp }}
+
 </span>
+
 {% endif %}
 
 </div>
@@ -1290,8 +1322,89 @@ onclick="event.stopPropagation();addToCart({{ product.id }})">
 
 </div>
 
+<!-- FEATURED PRODUCTS -->
 
+<div class="section">
 
+<div class="section-head">
+
+<h2>⭐ Featured Products</h2>
+
+<p>View All</p>
+
+</div>
+
+<div class="products">
+
+{% for product in featured_products %}
+
+<div class="product"
+onclick="window.location='/ecommerce/product-details/{{ product.id }}/'">
+
+<div class="discount">
+
+Featured
+
+</div>
+
+{% if product.images.first %}
+<img src="{{ product.images.first.image.url }}">
+{% endif %}
+
+<div style="
+color:#888;
+font-size:13px;
+margin-bottom:8px;">
+
+{{ product.brand }}
+
+</div>
+
+<h3>
+
+{{ product.name }}
+
+</h3>
+
+<div class="price">
+
+₹ {{ product.price }}
+
+{% if product.mrp %}
+<span class="old">
+
+₹ {{ product.mrp }}
+
+</span>
+{% endif %}
+
+</div>
+
+<div class="buy">
+
+<p>
+
+Stock {{ product.quantity }}
+
+</p>
+
+<div
+class="cart"
+onclick="event.stopPropagation();addToCart({{ product.id }})">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
 
 
 
