@@ -44,7 +44,8 @@ from .views import (
     cashback_history,
     profile_summary,
     analytics_page,
-    recharge_analytics
+    recharge_analytics,
+    recharge_callback
 
 )
 
@@ -221,6 +222,12 @@ urlpatterns = [
     'api/recharge-analytics/',
     recharge_analytics,
     name='recharge_analytics'
+),
+    
+    path(
+    'api/callback/',
+    recharge_callback,
+    name='recharge_callback'
 ),
 
     # =====================================================

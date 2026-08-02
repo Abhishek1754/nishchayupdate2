@@ -1610,3 +1610,123 @@ def recharge_analytics(request):
         success_rate
 
     })
+    
+    
+    # =====================================================
+# UNIVERSAL RECHARGE CALLBACK
+# =====================================================
+
+from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
+@api_view(["POST", "GET"])
+@permission_classes([AllowAny])
+def recharge_callback(request):
+
+    try:
+
+        if request.method == "POST":
+
+            callback = request.data
+
+        else:
+
+            callback = request.GET.dict()
+
+        print("=================================")
+        print("RECHARGE CALLBACK RECEIVED")
+        print(callback)
+        print("=================================")
+
+        transaction_id = (
+
+            callback.get("client_ref")
+            or callback.get("TransactionId")
+            or callback.get("RefTxnId")
+            or callback.get("txnid")
+            or callback.get("txnid")
+            or callback.get("transaction_id")
+
+        )
+
+        if not transaction_id:
+
+            return Response({
+
+                "status": False,
+                "message": "Transaction ID Missing"
+
+            })
+
+        recharge = Recharge.objects.filter(
+
+            transaction_id=transaction_id
+
+        ).first()
+
+        if not recharge:
+
+            return Response({
+
+                "status": False,
+                "message": "Recharge Not Found"
+
+            })
+
+        recharge.api_response = json.dumps(callback)
+
+        status = str(
+
+            callback.get("status")
+            or callback.get("STATUS")
+            or callback.get("Status")
+            or callback.get("statuscode")
+            or ""
+
+        ).lower()
+
+        if status in [
+
+            "success",
+            "successful",
+            "1",
+            "txs"
+
+        ]:
+
+            recharge.status = "success"
+
+        elif status in [
+
+            "pending",
+            "processing",
+            "2",
+            "txn"
+
+        ]:
+
+            recharge.status = "pending"
+
+        else:
+
+            recharge.status = "failed"
+
+        recharge.save()
+
+        return Response({
+
+            "status": True
+
+        })
+
+    except Exception as e:
+
+        traceback.print_exc()
+
+        return Response({
+
+            "status": False,
+            "message": str(e)
+
+        })
