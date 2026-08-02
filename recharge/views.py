@@ -37,12 +37,10 @@ from .models import (
 
 from accounts.models import User
 
+from recharge.services.gateway import RechargeGateway
 
-# =====================================================
-# API TOKEN
-# =====================================================
 
-API_TOKEN = "b12418e1-7d26-4c68-b968-d2a0a368f082"
+
 
 
 # =====================================================
@@ -518,52 +516,26 @@ def do_recharge(request):
         # =====================================================
         # TXN ID
         # =====================================================
-
+        
         transaction_id = str(
             uuid.uuid4()
-        ).replace('-', '')[:15]
-
-        recharge_url = (
-
-    f"https://ultra.myfinpaypro.co.in/api/Service/Recharge2?"
-    f"ApiToken={API_TOKEN}"
-    f"&MobileNo={mobile_number}"
-    f"&Amount={amount}"
-    f"&OpId={provider.operator_code}"
-    f"&RefTxnId={transaction_id}"
-
-)
-        headers = {
-    "User-Agent": "curl/8.5.0",
-    "Accept": "*/*"
-}
-
-        response = requests.get(
-    recharge_url,
-    headers=headers,
-    timeout=30
+            ).replace("-", "")[:15]
+        api_data = RechargeGateway.process_recharge(
+            provider=provider,
+            
+            mobile_number=mobile_number,
+            amount=amount,
+            transaction_id=transaction_id
+            )
+        
+        
+        api_status = str(
+    api_data.get(
+        "STATUS",
+        ""
+    )
 )
        
-        
-        
-        print("====================================")
-        print("Recharge URL :", recharge_url)
-        print("Status Code  :", response.status_code)
-        print("Response Text:")
-        print(response.text)
-        print("====================================")
-        
-        try:
-            api_data = response.json()
-        except Exception:
-             return Response({
-                 "status": False,
-        "message": "Recharge API did not return JSON",
-        "response": response.text
-    }, status=500)
-        api_status = str(
-            api_data.get("STATUS")
-            )
         api_message = api_data.get(
             "MESSAGE",
             "Recharge Failed"

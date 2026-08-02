@@ -20,6 +20,8 @@ from .models import (
     RechargePaymentGateway,
     
     RechargeWithdrawRequest,
+    
+    RechargeAPIConfiguration,
 
 )
 
@@ -37,6 +39,7 @@ class RechargeProviderAdmin(admin.ModelAdmin):
         'name',
         'service_type',
         'operator_code',
+        'fastpay_operator_code',
         'cashback_percentage',
         'is_active',
         'created_at',
@@ -46,6 +49,8 @@ class RechargeProviderAdmin(admin.ModelAdmin):
     search_fields = (
 
         'name',
+        'operator_code',
+        'fastpay_operator_code',
 
     )
 
@@ -55,6 +60,18 @@ class RechargeProviderAdmin(admin.ModelAdmin):
         'is_active',
 
     )
+    
+    fields = (
+
+    'name',
+    'service_type',
+    'operator_code',
+    'fastpay_operator_code',
+    'cashback_percentage',
+    'image',
+    'is_active',
+
+)
 
 
 # =====================================================
@@ -373,4 +390,73 @@ class RechargeWithdrawRequestAdmin(admin.ModelAdmin):
 
     approve_withdrawals.short_description = (
         "Approve selected withdrawals"
+    )
+    
+    
+    # =====================================================
+# RECHARGE API CONFIGURATION ADMIN
+# =====================================================
+
+@admin.register(RechargeAPIConfiguration, site=admin_site)
+class RechargeAPIConfigurationAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        "mobile_api",
+        "dth_api",
+        "auto_failover",
+        "updated_at",
+
+    )
+
+    fieldsets = (
+
+        (
+
+            "Mobile Recharge API",
+
+            {
+
+                "fields": (
+
+                    "mobile_api",
+
+                )
+
+            }
+
+        ),
+
+        (
+
+            "DTH Recharge API",
+
+            {
+
+                "fields": (
+
+                    "dth_api",
+
+                )
+
+            }
+
+        ),
+
+        (
+
+            "Advanced Settings",
+
+            {
+
+                "fields": (
+
+                    "auto_failover",
+
+                )
+
+            }
+
+        ),
+
     )

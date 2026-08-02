@@ -53,18 +53,28 @@ class RechargeProvider(models.Model):
         max_length=30,
         choices=SERVICE_TYPES
     )
-
+    
     operator_code = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True
-    )
+    max_length=50,
+    blank=True,
+    null=True,
+    help_text="FinPay Operator Code"
+)
+
+    fastpay_operator_code = models.CharField(
+    max_length=50,
+    blank=True,
+    null=True,
+    help_text="FastPay Operator Code"
+)
 
     cashback_percentage = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        default=0
-    )
+    max_digits=5,
+    decimal_places=2,
+    default=0
+)
+
+    
 
     image = models.ImageField(
         upload_to='recharge/providers/',
@@ -699,4 +709,54 @@ class RechargePayment(models.Model):
     def __str__(self):
 
         return self.order_id
+    
+    
+    # =====================================================
+# RECHARGE API CONFIGURATION
+# =====================================================
+
+class RechargeAPIConfiguration(models.Model):
+
+    MOBILE_API_CHOICES = (
+
+        ("FASTPAY", "FastPay"),
+        ("FINPAY", "FinPay"),
+
+    )
+
+    DTH_API_CHOICES = (
+
+        ("EPAY", "EPay"),
+
+    )
+
+    mobile_api = models.CharField(
+        max_length=20,
+        choices=MOBILE_API_CHOICES,
+        default="FASTPAY"
+    )
+
+    dth_api = models.CharField(
+        max_length=20,
+        choices=DTH_API_CHOICES,
+        default="EPAY"
+    )
+
+    auto_failover = models.BooleanField(
+        default=False
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        verbose_name = "Recharge API Configuration"
+        verbose_name_plural = "Recharge API Configuration"
+
+    def __str__(self):
+        return "Recharge API Configuration"
+    
+    
+    
 
