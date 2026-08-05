@@ -51,16 +51,51 @@ class RechargeGateway:
                     transaction_id
 
                 )
+                
+        elif config.mobile_api == "EPAY":
+
+           return EPayGateway.recharge(
+
+        provider.epay_operator_code,
+        mobile_number,
+        amount,
+        transaction_id
+
+              )
 
         elif service_type == "dth":
 
-            return EPayGateway.recharge(
+          if config.dth_api == "FASTPAY":
 
-                provider.operator_code,
-                mobile_number,
-                amount,
-                transaction_id
+           return FastPayGateway.recharge(
 
-            )
+            provider.fastpay_operator_code,
+            mobile_number,
+            amount,
+            transaction_id
+
+        )
+
+        elif config.dth_api == "FINPAY":
+
+         return FinPayGateway.recharge(
+
+            provider.operator_code,
+            mobile_number,
+            amount,
+            transaction_id
+
+        )
+
+        elif config.dth_api == "EPAY":
+
+         return EPayGateway.recharge(
+
+            provider.epay_operator_code,
+            mobile_number,
+            amount,
+            transaction_id
+
+        )
 
         raise Exception("Unsupported recharge type.")

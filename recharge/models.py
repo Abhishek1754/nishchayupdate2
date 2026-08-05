@@ -67,6 +67,13 @@ class RechargeProvider(models.Model):
     null=True,
     help_text="FastPay Operator Code"
 )
+    
+    epay_operator_code = models.CharField(
+    max_length=50,
+    blank=True,
+    null=True,
+    help_text="EPay Operator Code"
+)
 
     cashback_percentage = models.DecimalField(
     max_digits=5,
@@ -721,14 +728,17 @@ class RechargeAPIConfiguration(models.Model):
 
         ("FASTPAY", "FastPay"),
         ("FINPAY", "FinPay"),
+        ("EPAY", "EPay"),
 
     )
 
     DTH_API_CHOICES = (
 
-        ("EPAY", "EPay"),
+    ("FASTPAY", "FastPay"),
+    ("FINPAY", "FinPay"),
+    ("EPAY", "EPay"),
 
-    )
+)
 
     mobile_api = models.CharField(
         max_length=20,

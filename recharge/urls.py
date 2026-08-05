@@ -8,6 +8,7 @@ from .views import (
 
     recharge_home,
     mobile_recharge,
+    dth_recharge,
     recharge_payment,
     recharge_success,
     payment_success,
@@ -66,6 +67,12 @@ urlpatterns = [
         mobile_recharge,
         name='mobile_recharge'
     ),
+    
+    path(
+    'dth/',
+    dth_recharge,
+    name='dth_recharge'
+   ),
 
     path(
         'payment/',

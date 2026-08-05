@@ -445,9 +445,14 @@ id="payBtn"
 
 <script>
 
-const amount =
+const provider =
 localStorage.getItem(
-    "recharge_amount"
+    "recharge_provider"
+);
+
+const customer =
+localStorage.getItem(
+    "recharge_mobile"
 );
 
 document.getElementById(
@@ -533,7 +538,7 @@ async function startPayment(){
 
     coupon_code:
     localStorage.getItem(
-        "recharge_coupon"
+        "coupon_code"
     ) || ""
 
 })

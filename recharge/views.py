@@ -80,6 +80,13 @@ def mobile_recharge(request):
     return render(request, 'recharge/mobile.html')
 
 
+def dth_recharge(request):
+    return render(
+        request,
+        'recharge/dth.html'
+    )
+
+
 def recharge_payment(request):
     return render(request, 'recharge/payment/index.html')
 
@@ -284,9 +291,16 @@ def wallet_details(request):
 @permission_classes([AllowAny])
 def recharge_providers(request):
 
+    service_type = request.GET.get(
+        "service_type"
+    )
     providers = RechargeProvider.objects.filter(
         is_active=True
     )
+    if service_type:
+        providers = providers.filter(
+            service_type=service_type
+        )
 
     data = []
 
@@ -419,14 +433,27 @@ def add_money_request(request):
 def do_recharge(request):
 
     try:
+        
+        service_type = request.data.get(
+        "service_type",
+        "mobile"
+    )
+        
+        mobile_number = (
 
-        mobile_number = request.data.get(
-            'mobile_number'
+        request.data.get("mobile_number")
+        
+        or
+
+        request.data.get("customer_id")
+        
         )
-
+        
         amount = request.data.get(
-            'amount'
+        "amount"
         )
+
+       
 
         provider_id = request.data.get(
             'provider_id'
@@ -451,11 +478,11 @@ def do_recharge(request):
         if not mobile_number:
 
             return Response({
-
                 "status": False,
-                "message": "Mobile number required"
-
-            }, status=400)
+                "message":
+        "Customer ID / Mobile Number required"
+        
+        }, status=400)
 
         if not amount:
 
@@ -520,13 +547,21 @@ def do_recharge(request):
         transaction_id = str(
             uuid.uuid4()
             ).replace("-", "")[:15]
+        
         api_data = RechargeGateway.process_recharge(
-            provider=provider,
-            
-            mobile_number=mobile_number,
-            amount=amount,
-            transaction_id=transaction_id
-            )
+
+    
+
+    provider=provider,
+
+    mobile_number=mobile_number,
+
+    amount=amount,
+
+    transaction_id=transaction_id
+
+)
+        
         
         
         api_status = str(

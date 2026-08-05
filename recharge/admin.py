@@ -51,6 +51,7 @@ class RechargeProviderAdmin(admin.ModelAdmin):
         'name',
         'operator_code',
         'fastpay_operator_code',
+        'epay_operator_code',
 
     )
 
@@ -61,14 +62,22 @@ class RechargeProviderAdmin(admin.ModelAdmin):
 
     )
     
-    fields = (
+fields = (
 
     'name',
+
     'service_type',
-    'operator_code',
-    'fastpay_operator_code',
+
+    'operator_code',          # FinPay
+
+    'fastpay_operator_code',  # FastPay
+
+    'epay_operator_code',     # EPay
+
     'cashback_percentage',
+
     'image',
+
     'is_active',
 
 )

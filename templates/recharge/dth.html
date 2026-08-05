@@ -1,0 +1,896 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DTH Recharge | Nishchay</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+background:#050505;
+color:#fff;
+
+}
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+.container{
+
+width:100%;
+max-width:500px;
+margin:auto;
+padding-bottom:120px;
+
+}
+
+
+
+
+
+
+/*=============================
+HEADER
+=============================*/
+
+.header{
+
+padding:20px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.back-btn{
+
+width:45px;
+height:45px;
+
+border-radius:50%;
+
+background:#161616;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:22px;
+
+color:#b6ff00;
+
+}
+
+.page-title{
+
+font-size:24px;
+
+font-weight:700;
+
+color:#b6ff00;
+
+}
+
+
+
+
+
+
+/*============================
+Wallet Card
+============================*/
+
+.wallet-card{
+
+margin:20px;
+
+background:#131313;
+
+border:1px solid #b6ff00;
+
+border-radius:18px;
+
+padding:18px;
+
+box-shadow:0 0 18px rgba(182,255,0,.25);
+
+}
+
+.wallet-title{
+
+font-size:14px;
+
+color:#bbb;
+
+}
+
+.wallet-balance{
+
+font-size:34px;
+
+font-weight:700;
+
+margin-top:8px;
+
+color:#b6ff00;
+
+}
+
+
+
+
+
+
+/*==========================
+Card
+==========================*/
+
+.form-card{
+
+background:#121212;
+
+margin:20px;
+
+padding:20px;
+
+border-radius:18px;
+
+border:1px solid rgba(182,255,0,.25);
+
+}
+
+.form-title{
+
+font-size:20px;
+
+font-weight:700;
+
+margin-bottom:18px;
+
+color:#b6ff00;
+
+}
+
+label{
+
+display:block;
+
+margin-top:15px;
+
+margin-bottom:8px;
+
+font-size:14px;
+
+color:#ddd;
+
+}
+
+select,
+
+input{
+
+width:100%;
+
+height:55px;
+
+background:#1b1b1b;
+
+border:1px solid #2d2d2d;
+
+border-radius:12px;
+
+padding:15px;
+
+color:#fff;
+
+font-size:16px;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+select:focus,
+
+input:focus{
+
+border-color:#b6ff00;
+
+box-shadow:0 0 10px rgba(182,255,0,.3);
+
+}
+
+
+
+
+
+
+/*==========================
+Continue Button
+==========================*/
+
+.continue-btn{
+
+width:100%;
+
+height:58px;
+
+margin-top:28px;
+
+background:#b6ff00;
+
+color:#000;
+
+font-size:18px;
+
+font-weight:700;
+
+border:none;
+
+border-radius:14px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.continue-btn:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 0 25px #b6ff00;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+
+
+<div class="header">
+
+<a href="/recharge/">
+
+<div class="back-btn">
+
+←
+
+</div>
+
+</a>
+
+<div class="page-title">
+
+DTH Recharge
+
+</div>
+
+<div style="width:45px;"></div>
+
+</div>
+
+
+
+
+
+
+<div class="wallet-card">
+
+<div class="wallet-title">
+
+Wallet Balance
+
+</div>
+
+<div class="wallet-balance">
+
+₹ <span id="walletBalance">0.00</span>
+
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="form-card">
+
+<div class="form-title">
+
+Recharge Details
+
+</div>
+
+<label>
+
+Select DTH Operator
+
+</label>
+
+<select id="provider">
+
+<option value="">Loading Operators...</option>
+
+</select>
+
+
+
+
+
+<label>
+
+VC Number / Customer ID
+
+</label>
+
+<input
+
+type="text"
+
+id="customer"
+
+placeholder="Enter VC Number"
+
+>
+
+
+
+
+
+<label>
+
+Recharge Amount
+
+</label>
+
+<input
+
+type="number"
+
+id="amount"
+
+placeholder="Enter Amount"
+
+>
+
+
+
+
+
+<button
+
+class="continue-btn"
+
+onclick="loadPlans()"
+
+>
+
+Continue
+
+</button>
+
+</div>
+
+<!-- ==========================================
+Recommended Plans
+========================================== -->
+
+<div class="form-card">
+
+    <div class="form-title">
+        Recommended Plans
+    </div>
+
+    <div id="plansContainer">
+
+        <div class="plan-card">
+
+            <div>
+
+                <div class="plan-price">
+                    ₹199
+                </div>
+
+                <div class="plan-desc">
+                    28 Days • All Unlimited • 2GB/Day
+                </div>
+
+            </div>
+
+            <button
+                class="select-plan"
+                onclick="selectPlan(199)"
+            >
+                Select
+            </button>
+
+        </div>
+
+        <div class="plan-card">
+
+            <div>
+
+                <div class="plan-price">
+                    ₹299
+                </div>
+
+                <div class="plan-desc">
+                    56 Days • All Unlimited
+                </div>
+
+            </div>
+
+            <button
+                class="select-plan"
+                onclick="selectPlan(299)"
+            >
+                Select
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!-- ==========================================
+Coupon Section
+========================================== -->
+
+<div class="form-card">
+
+    <div class="form-title">
+        Apply Coupon
+    </div>
+
+    <input
+        type="text"
+        id="couponCode"
+        placeholder="Enter Coupon Code"
+    >
+
+    <button
+        class="continue-btn"
+        style="margin-top:15px;"
+        onclick="applyCoupon()"
+    >
+        Apply Coupon
+    </button>
+
+</div>
+
+
+
+
+
+<!-- ==========================================
+Cashback Card
+========================================== -->
+
+<div class="wallet-card">
+
+    <div class="wallet-title">
+
+        Cashback
+
+    </div>
+
+    <div class="wallet-balance">
+
+        ₹ <span id="cashbackAmount">
+
+            0
+
+        </span>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!-- ==========================================
+Recharge Button
+========================================== -->
+
+<div style="padding:20px;">
+
+<button
+
+class="continue-btn"
+
+onclick="submitRecharge()"
+
+>
+
+Recharge Now
+
+</button>
+
+</div>
+
+
+
+
+
+<!-- ==========================================
+Bottom Navigation
+========================================== -->
+
+<div class="bottom-nav">
+
+<a href="/recharge/">
+
+🏠
+
+<br>
+
+Home
+
+</a>
+
+<a href="/recharge/transactions/">
+
+📄
+
+<br>
+
+History
+
+</a>
+
+<a href="/recharge/wallet/">
+
+💰
+
+<br>
+
+Wallet
+
+</a>
+
+<a href="/recharge/team/">
+
+👥
+
+<br>
+
+Team
+
+</a>
+
+<a href="/recharge/profile/">
+
+👤
+
+<br>
+
+Profile
+
+</a>
+
+</div>
+
+
+
+
+
+
+<style>
+
+.plan-card{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:16px;
+
+margin-top:15px;
+
+border-radius:14px;
+
+background:#181818;
+
+border:1px solid rgba(182,255,0,.2);
+
+}
+
+.plan-price{
+
+font-size:22px;
+
+font-weight:700;
+
+color:#b6ff00;
+
+}
+
+.plan-desc{
+
+margin-top:6px;
+
+font-size:13px;
+
+color:#bbb;
+
+}
+
+.select-plan{
+
+background:#b6ff00;
+
+color:#000;
+
+border:none;
+
+padding:12px 22px;
+
+border-radius:10px;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+.bottom-nav{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+width:100%;
+
+height:70px;
+
+background:#111;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+border-top:1px solid #333;
+
+}
+
+.bottom-nav a{
+
+text-align:center;
+
+color:#b6ff00;
+
+font-size:14px;
+
+}
+
+</style>
+
+
+
+
+
+<script>
+
+   async function loadProviders(){
+
+try{
+
+const response=await fetch(
+"/recharge/api/providers/"
+);
+
+const data=await response.json();
+
+let html='<option value="">Choose Operator</option>';
+
+data.forEach(function(item){
+
+if(item.service_type=="dth"){
+
+html+=`
+
+<option value="${item.id}">
+
+${item.name}
+
+</option>
+
+`;
+
+}
+
+});
+
+document.getElementById("provider").innerHTML=html;
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+const access =
+localStorage.getItem("access");
+
+async function loadWallet(){
+
+    try{
+
+        const response = await fetch(
+    "/recharge/api/profile-summary/",
+            {
+                headers:{
+                    "Authorization":"Bearer " + access
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        document.getElementById(
+            "walletBalance"
+        ).innerText = data.wallet_balance;
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+window.onload = function(){
+
+    loadProviders();
+
+    loadWallet();
+
+};
+
+function selectPlan(amount){
+
+    document.getElementById(
+        "amount"
+    ).value = amount;
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+function loadPlans(){
+
+    alert("DTH Plans API will be integrated soon.");
+
+}
+
+function applyCoupon(){
+
+    alert("Coupon feature coming soon.");
+
+}
+
+
+
+
+
+function submitRecharge(){
+
+const provider =
+document.getElementById("provider").value;
+
+const customer =
+document.getElementById("customer").value;
+
+const amount =
+document.getElementById("amount").value;
+
+const coupon =
+document.getElementById("couponCode").value;
+
+if(!provider){
+
+alert("Select DTH Operator");
+
+return;
+
+}
+
+if(!customer){
+
+alert("Enter Customer ID");
+
+return;
+
+}
+
+if(!amount){
+
+alert("Enter Amount");
+
+return;
+
+}
+
+localStorage.setItem(
+"recharge_provider",
+provider
+);
+
+localStorage.setItem(
+"recharge_mobile",
+customer
+);
+
+localStorage.setItem(
+"recharge_amount",
+amount
+);
+
+localStorage.setItem(
+"coupon_code",
+coupon
+);
+
+window.location.href=
+"/recharge/payment/";
+
+}
+
+</script>
+
+</body>
+
+</html>
