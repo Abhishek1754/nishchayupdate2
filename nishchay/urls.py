@@ -66,23 +66,17 @@ from subscription.views import get_plan
 
 def homepage(request):
 
-    demo_video = DemoVideo.objects.filter(
-        active=True
-    ).first()
+ demo_videos = DemoVideo.objects.filter(
+    active=True
+).order_by("-created_at")
 
-    return render(
-
-        request,
-
-        "home/index.html",
-
-        {
-
-            "demo_video": demo_video
-
-        }
-
-    )
+ return render(
+    request,
+    "home/index.html",
+    {
+        "demo_videos": demo_videos
+    }
+)
     
 def team_page(request):
 

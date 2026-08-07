@@ -3241,35 +3241,70 @@ color:#aaa;
         background:#000;
     ">
 
-        {% if demo_video %}
+       <div style="
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+gap:30px;
+padding:30px;
+">
 
-        <video
-            width="100%"
-            controls
-            controlsList="nodownload"
-            poster="{{ demo_video.thumbnail.url }}"
-            preload="metadata">
+{% for video in demo_videos %}
 
-            <source
-                src="{{ demo_video.video.url }}"
-                type="video/mp4">
+<div style="
+background:#111;
+border:1px solid #b6ff00;
+border-radius:25px;
+overflow:hidden;
+box-shadow:0 0 20px rgba(182,255,0,.15);
+">
 
-        </video>
+    <video
+        width="100%"
+        controls
+        controlsList="nodownload"
+        poster="{{ video.thumbnail.url }}"
+        preload="metadata">
 
-        {% else %}
+        <source
+            src="{{ video.video.url }}"
+            type="video/mp4">
 
-        <div style="
-            padding:120px;
-            text-align:center;
+    </video>
+
+    <div style="padding:20px;">
+
+        <h3 style="color:#b6ff00;">
+            {{ video.title }}
+        </h3>
+
+        <p style="
+        color:#999;
+        margin-top:10px;
         ">
+            {{ video.description }}
+        </p>
 
-            <h2 style="color:#b6ff00;">
-                Demo Video Coming Soon
-            </h2>
+    </div>
 
-        </div>
+</div>
 
-        {% endif %}
+{% empty %}
+
+<div style="
+padding:100px;
+text-align:center;
+width:100%;
+">
+
+<h2 style="color:#b6ff00;">
+No Demo Videos Available
+</h2>
+
+</div>
+
+{% endfor %}
+
+</div>
 
     </div>
 
