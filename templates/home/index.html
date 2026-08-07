@@ -2920,8 +2920,8 @@ transform:translateY(-8px);
                 Explore Universe →
             </a>
 
-            <a href="#" class="hero-btn secondary">
-                Watch Demo
+           <a href="#watch-demo" class="hero-btn secondary">
+               ▶ Watch Demo
             </a>
 
         </div>
@@ -3206,6 +3206,72 @@ color:#aaa;
 </p>
 
 </div>
+
+</section>
+<!-- ========================================= -->
+<!-- WATCH DEMO -->
+<!-- ========================================= -->
+
+<section id="watch-demo" class="apps">
+
+    <div class="section-title">
+
+        <h2>
+            WATCH
+            <span> DEMO</span>
+        </h2>
+
+        <p style="
+            color:#999;
+            margin-top:20px;
+            font-size:18px;
+        ">
+            Watch how Nishchay Multiverse works.
+        </p>
+
+    </div>
+
+    <div style="
+        max-width:1100px;
+        margin:auto;
+        border:2px solid #b6ff00;
+        border-radius:30px;
+        overflow:hidden;
+        box-shadow:0 0 40px rgba(182,255,0,.25);
+        background:#000;
+    ">
+
+        {% if demo_video %}
+
+        <video
+            width="100%"
+            controls
+            controlsList="nodownload"
+            poster="{{ demo_video.thumbnail.url }}"
+            preload="metadata">
+
+            <source
+                src="{{ demo_video.video.url }}"
+                type="video/mp4">
+
+        </video>
+
+        {% else %}
+
+        <div style="
+            padding:120px;
+            text-align:center;
+        ">
+
+            <h2 style="color:#b6ff00;">
+                Demo Video Coming Soon
+            </h2>
+
+        </div>
+
+        {% endif %}
+
+    </div>
 
 </section>
 <footer>

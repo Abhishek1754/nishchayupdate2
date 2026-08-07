@@ -7,7 +7,7 @@ from datetime import timedelta
 from django.utils import timezone
 import json
 
-from .models import User
+from .models import User, DemoVideo
 from ecommerce.models import Product
 from roi.models import ROIPlan, Investment
 
@@ -142,5 +142,34 @@ class UserAdmin(admin.ModelAdmin):
         'is_blocked',
 
         'is_subscription_active'
+
+    )
+    
+    
+
+
+
+@admin.register(DemoVideo, site=admin_site)
+class DemoVideoAdmin(admin.ModelAdmin):
+
+    list_display = (
+
+        "title",
+
+        "active",
+
+        "created_at"
+
+    )
+
+    list_filter = (
+
+        "active",
+
+    )
+
+    search_fields = (
+
+        "title",
 
     )

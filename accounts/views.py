@@ -35,6 +35,8 @@ from django.conf import settings
 
 from django.utils import timezone
 
+from .models import User, DemoVideo
+
 
 # =========================
 # REGISTER API
@@ -579,9 +581,22 @@ def ai_karma_dashboard(request):
 
 def home(request):
 
+    demo_video = DemoVideo.objects.filter(
+        active=True
+    ).first()
+
     return render(
+
         request,
-        'home/index.html'
+
+        "home/index.html",
+
+        {
+
+            "demo_video": demo_video
+
+        }
+
     )
 
 
@@ -1064,4 +1079,6 @@ def my_team(request):
         "members": team
 
     })
+    
+
     

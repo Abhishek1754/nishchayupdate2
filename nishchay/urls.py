@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 from django.conf import settings
 from django.conf.urls.static import static
+from accounts.models import DemoVideo
 
 from ecommerce.views import (
     ecommerce_dashboard,
@@ -65,9 +66,22 @@ from subscription.views import get_plan
 
 def homepage(request):
 
+    demo_video = DemoVideo.objects.filter(
+        active=True
+    ).first()
+
     return render(
+
         request,
-        'home/index.html'
+
+        "home/index.html",
+
+        {
+
+            "demo_video": demo_video
+
+        }
+
     )
     
 def team_page(request):
