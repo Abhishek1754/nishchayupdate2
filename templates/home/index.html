@@ -2656,57 +2656,69 @@ transform:translateY(-8px);
 
 }
 
+/* ===========================================
+   WATCH DEMO MOBILE FIX
+=========================================== */
+
+.demo-video-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+
+    gap:30px;
+
+}
+
+.demo-video-card{
+
+    overflow:hidden;
+
+    border-radius:25px;
+
+}
+
+.demo-video-card video{
+
+    width:100%;
+
+    aspect-ratio:16/9;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
 /* Mobile */
 
 @media(max-width:768px){
 
-.mobile-user-card{
+.demo-video-grid{
 
-    max-width:100%;
+    grid-template-columns:1fr !important;
 
-}
-.user-avatar{
+    padding:15px !important;
 
-    width:60px;
-
-    height:60px;
-
-    font-size:28px;
+    gap:20px !important;
 
 }
 
-.username{
-
-    font-size:20px;
-
-}
-
-.wallet-row{
-
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-
-}
-
-.action-row{
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:8px;
-
-}
-
-.dashboard-btn{
+.demo-video-card{
 
     width:100%;
 
 }
 
+.demo-video-card video{
+
+    height:auto !important;
+
+    aspect-ratio:16/9;
+
 }
 
+}
 </style>
 
 <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
@@ -3241,16 +3253,20 @@ color:#aaa;
         background:#000;
     ">
 
-       <div style="
+<div
+class="demo-video-grid"
+style="
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
 gap:30px;
 padding:30px;
 ">
 
 {% for video in demo_videos %}
 
-<div style="
+<div
+class="demo-video-card"
+style="
 background:#111;
 border:1px solid #b6ff00;
 border-radius:25px;
@@ -3259,11 +3275,18 @@ box-shadow:0 0 20px rgba(182,255,0,.15);
 ">
 
     <video
-        width="100%"
-        controls
-        controlsList="nodownload"
-        poster="{{ video.thumbnail.url }}"
-        preload="metadata">
+    width="100%"
+    controls
+    controlsList="nodownload"
+    poster="{{ video.thumbnail.url }}"
+    preload="metadata"
+    style="
+        width:100%;
+        aspect-ratio:16/9;
+        object-fit:cover;
+        display:block;
+        background:#000;
+    ">
 
         <source
             src="{{ video.video.url }}"
